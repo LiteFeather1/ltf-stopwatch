@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck0u55igveb4s"]
+
+[ext_resource type="FontVariation" uid="uid://d3ddb5qhwgva6" path="res://resources/font/font_time.tres" id="1_nka5i"]
+
+[node name="stopwatch" type="VBoxContainer"]
+modulate = Color(0.807843, 0.807843, 0.807843, 1)
+offset_right = 410.0
+offset_bottom = 106.0
+theme_override_constants/separation = -16
+alignment = 1
+
+[node name="l_time" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_nka5i")
+theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
+text = "00:00:00.[font_size=48]00[/font_size]"
+fit_content = true
+scroll_active = false
+
+[node name="hbc_hr_min_sec" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HSeparator" type="VSeparator" parent="hbc_hr_min_sec"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="l_hr" type="Label" parent="hbc_hr_min_sec"]
+layout_mode = 2
+text = "hr"
+
+[node name="HSeparator2" type="VSeparator" parent="hbc_hr_min_sec"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="l_min" type="Label" parent="hbc_hr_min_sec"]
+layout_mode = 2
+text = "min"
+
+[node name="HSeparator3" type="VSeparator" parent="hbc_hr_min_sec"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="l_sec" type="Label" parent="hbc_hr_min_sec"]
+layout_mode = 2
+text = "sec"
