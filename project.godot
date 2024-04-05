@@ -10,11 +10,22 @@ config_version=5
 
 [application]
 
-config/name="stopwatch"
+config/name="Stopwatch"
+config/description="A simple Stopwatch in godot"
+config/version="v0.1"
+run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+boot_splash/bg_color=Color(0.117647, 0.117647, 0.117647, 1)
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=512
+window/size/viewport_height=512
+window/size/borderless=true
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.117647, 0.117647, 0.117647, 1)
