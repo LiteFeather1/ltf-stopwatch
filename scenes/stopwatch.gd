@@ -2,7 +2,7 @@ class_name StopWatch
 extends VBoxContainer
 
 
-@export var _time_text_template := "%02d:%02d:%02d.[font_size=48]%d[/font_size]"
+@export_multiline var _time_text_template := "[center]%02d:%02d:%02d.[font_size=48]%d[/font_size][/center]"
 
 @export var ticking_colour := Color("f7f7f7")
 @export var paused_colour := Color("cecece")
