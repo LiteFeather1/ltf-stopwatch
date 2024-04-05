@@ -12,6 +12,53 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fm7if")
 
+[node name="c_border" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0.247059)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="cr_top" type="ColorRect" parent="c_border"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 2.0
+grow_horizontal = 2
+
+[node name="cr_bot" type="ColorRect" parent="c_border"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="cr_left" type="ColorRect" parent="c_border"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 2.0
+grow_vertical = 2
+
+[node name="cr_right" type="ColorRect" parent="c_border"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+grow_horizontal = 0
+grow_vertical = 2
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -28,14 +75,14 @@ layout_mode = 2
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 96.0
+offset_bottom = 75.0
 grow_horizontal = 2
 alignment = 2
 
 [node name="b_close_window" type="Button" parent="hbc_chrome"]
-custom_minimum_size = Vector2(128, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "x"
 
 [connection signal="pressed" from="hbc_chrome/b_close_window" to="." method="close_window"]

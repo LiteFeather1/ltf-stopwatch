@@ -12,7 +12,6 @@ grow_horizontal = 2
 theme_override_constants/separation = -16
 alignment = 1
 script = ExtResource("1_s5has")
-_time_text_template = "[center]%02d:%02d:%02d.[font_size=48]%d[/font_size][/center]"
 
 [node name="l_time" type="RichTextLabel" parent="."]
 unique_name_in_owner = true

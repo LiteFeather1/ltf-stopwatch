@@ -26,6 +26,7 @@ func _process(delta: float) -> void:
 			(fmod(elapsed_time, 1) * 100.0)
 	]
 
+
 func set_state(state: bool) -> void:
 	set_process(state)
 	modulate = ticking_colour if state else paused_colour
