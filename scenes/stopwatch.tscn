@@ -1,13 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://ck0u55igveb4s"]
+[gd_scene load_steps=3 format=3 uid="uid://ck0u55igveb4s"]
 
 [ext_resource type="FontVariation" uid="uid://d3ddb5qhwgva6" path="res://resources/font/font_time.tres" id="1_nka5i"]
+[ext_resource type="Script" path="res://scenes/stopwatch.gd" id="1_s5has"]
 
 [node name="stopwatch" type="VBoxContainer"]
 modulate = Color(0.807843, 0.807843, 0.807843, 1)
-offset_right = 410.0
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 106.0
+grow_horizontal = 2
 theme_override_constants/separation = -16
 alignment = 1
+script = ExtResource("1_s5has")
 
 [node name="l_time" type="RichTextLabel" parent="."]
 unique_name_in_owner = true

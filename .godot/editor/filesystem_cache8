@@ -1,10 +1,11 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1712320240
+::res://::1712323456
 icon.svg::CompressedTexture2D::2731104050017035352::1712311815::1712311820::1::::<><>::
-main.tscn::PackedScene::893561728183749693::1712316309::0::1::::<><>::
+main.tscn::PackedScene::893561728183749693::1712321275::0::1::::<><>::
 README.md::TextFile::-1::1712311905::0::1::::<><>::
 ::res://resources/::1712320212
-::res://resources/font/::1712320337
-font_time.tres::FontVariation::9130928343743676003::1712320772::0::1::::<><>::
-::res://scenes/::1712320337
-timer.tscn::PackedScene::5527608749650271136::1712320772::0::1::::<><>::uid://d3ddb5qhwgva6::::res://resources/font/font_time.tres
+::res://resources/font/::1712323451
+font_time.tres::FontVariation::9130928343743676003::1712323451::0::1::::<><>::
+::res://scenes/::1712323295
+stopwatch.gd::GDScript::-1::1712323441::0::1::::StopWatch<>VBoxContainer<>::
+stopwatch.tscn::PackedScene::5527608749650271136::1712323295::0::1::::<><>::uid://d3ddb5qhwgva6::::res://resources/font/font_time.tres<>res://scenes/stopwatch.gd
