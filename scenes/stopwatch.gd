@@ -10,11 +10,11 @@ var elapsed_time := 0.0
 
 
 func _process(delta: float) -> void:
-    elapsed_time += delta
+	elapsed_time += delta
 
-    _l_time.text = _time_text_template % [
-            (elapsed_time / 3600.0),
-            (fmod(elapsed_time, 3600.0) / 60.0),
-            (fmod(elapsed_time, 60.0)),
-            (fmod(elapsed_time, 1) * 100.0)
-    ]
+	_l_time.text = _time_text_template % [
+			(elapsed_time / 3600.0),
+			(fmod(elapsed_time, 3600.0) / 60.0),
+			(fmod(elapsed_time, 60.0)),
+			(fmod(elapsed_time, 1) * 100.0)
+	]
