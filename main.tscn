@@ -11,6 +11,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fm7if")
+min_window_size = null
+max_window_size = null
 
 [node name="c_border" type="Control" parent="."]
 modulate = Color(1, 1, 1, 0.247059)
@@ -75,14 +77,24 @@ layout_mode = 2
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 75.0
+offset_bottom = 53.0
 grow_horizontal = 2
 alignment = 2
 
 [node name="b_close_window" type="Button" parent="hbc_chrome"]
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 32
 text = "x"
 
+[node name="ColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 455.0
+offset_top = 270.0
+offset_right = 495.0
+offset_bottom = 310.0
+
+[connection signal="gui_input" from="hbc_chrome" to="." method="_on_hbc_chrome_gui_input"]
 [connection signal="pressed" from="hbc_chrome/b_close_window" to="." method="close_window"]
+[connection signal="gui_input" from="ColorRect" to="." method="_on_color_rect_gui_input"]
