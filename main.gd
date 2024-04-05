@@ -9,3 +9,7 @@ extends Control
 func _ready() -> void:
 	DisplayServer.window_set_min_size(min_window_size)
 	DisplayServer.window_set_max_size(max_window_size)
+
+
+func close_window() -> void:
+	get_tree().quit()

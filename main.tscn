@@ -25,3 +25,19 @@ offset_right = 352.0
 offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="hbc_chrome" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 96.0
+grow_horizontal = 2
+alignment = 2
+
+[node name="b_close_window" type="Button" parent="hbc_chrome"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "x"
+
+[connection signal="pressed" from="hbc_chrome/b_close_window" to="." method="close_window"]
