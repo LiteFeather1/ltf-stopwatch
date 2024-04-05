@@ -4,9 +4,16 @@ extends VBoxContainer
 
 @export var _time_text_template := "%02d:%02d:%02d.[font_size=48]%d[/font_size]"
 
+@export var ticking_colour := Color("f7f7f7")
+@export var paused_colour := Color("cecece")
+
 var elapsed_time := 0.0
 
 @onready var _l_time: RichTextLabel = %l_time
+
+
+func _ready() -> void:
+	set_state(false)
 
 
 func _process(delta: float) -> void:
@@ -18,3 +25,7 @@ func _process(delta: float) -> void:
 			(fmod(elapsed_time, 60.0)),
 			(fmod(elapsed_time, 1) * 100.0)
 	]
+
+func set_state(state: bool) -> void:
+	set_process(state)
+	modulate = ticking_colour if state else paused_colour
