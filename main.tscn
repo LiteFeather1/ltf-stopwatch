@@ -83,6 +83,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_8hl64")
 theme_override_font_sizes/font_size = 66
+toggle_mode = true
 text = "S"
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
@@ -95,6 +96,17 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("3_8hl64")
 theme_override_font_sizes/font_size = 66
 text = "R"
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="b_clip_board" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_8hl64")
+theme_override_font_sizes/font_size = 66
+text = "C"
 
 [node name="hbc_chrome" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -116,6 +128,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "X"
 
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/b_start" to="VBoxContainer/stopwatch" method="set_state"]
 [connection signal="gui_input" from="hbc_chrome" to="." method="_on_hbc_chrome_gui_input"]
 [connection signal="pressed" from="hbc_chrome/b_minimize_window" to="." method="_minimize_window"]
 [connection signal="pressed" from="hbc_chrome/b_close_window" to="." method="_close_window"]
