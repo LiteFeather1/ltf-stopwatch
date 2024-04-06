@@ -1,10 +1,15 @@
 class_name Main
 extends Control
 
+
 @export_category("Window")
 @export var min_window_size := Vector2i(128, 128)
 @export var max_window_size := Vector2i(512, 512)
 @export var move_window_smoothing_factor := .99
+
+@export_category("Buttons")
+@export var b_start: Button
+@export var b_reset: Button
 
 var dragging_window: bool
 var drag_start_pos: Vector2
@@ -16,6 +21,8 @@ var smoothed_mouse_pos: Vector2
 func _ready() -> void:
 	window.min_size = min_window_size
 	window.max_size = max_window_size
+
+	b_reset.pressed.connect(_reset_pressed)
 
 
 func _process(_delta: float) -> void:
@@ -39,3 +46,12 @@ func _close_window() -> void:
 
 func _minimize_window() -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)
+
+
+func _stopwatch_started() -> void:
+	b_reset.disabled = false
+
+
+func _reset_pressed() -> void:
+	b_reset.disabled = true
+	b_start.button_pressed = false

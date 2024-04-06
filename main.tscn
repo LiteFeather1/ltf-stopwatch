@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://main.gd" id="1_fm7if"]
 [ext_resource type="FontVariation" uid="uid://d3ddb5qhwgva6" path="res://resources/font/font_time.tres" id="3_8hl64"]
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" node_paths=PackedStringArray("b_start", "b_reset")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +12,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fm7if")
+b_start = NodePath("VBoxContainer/HBoxContainer/b_start")
+b_reset = NodePath("VBoxContainer/HBoxContainer/b_reset")
 
 [node name="c_border" type="Control" parent="."]
 modulate = Color(1, 1, 1, 0.247059)
@@ -95,6 +97,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_8hl64")
 theme_override_font_sizes/font_size = 66
+disabled = true
 text = "R"
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
@@ -128,6 +131,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "X"
 
+[connection signal="started" from="VBoxContainer/stopwatch" to="." method="_stopwatch_started"]
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/b_start" to="VBoxContainer/stopwatch" method="set_state"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/b_reset" to="VBoxContainer/stopwatch" method="reset"]
 [connection signal="gui_input" from="hbc_chrome" to="." method="_on_hbc_chrome_gui_input"]
