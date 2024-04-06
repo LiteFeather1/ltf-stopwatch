@@ -25,8 +25,8 @@ func _process(_delta: float) -> void:
 
 
 func _on_hbc_chrome_gui_input(event: InputEvent) -> void:
-	var mouse_button_event := event as InputEventMouseButton
-	if mouse_button_event and mouse_button_event.button_index == 1: # Left mouse click
+	var mb_event := event as InputEventMouseButton
+	if mb_event and mb_event.button_index == 1: # Left mouse click
 		dragging_window = not dragging_window
 		var m_pos := window.get_mouse_position()
 		drag_start_pos = m_pos
