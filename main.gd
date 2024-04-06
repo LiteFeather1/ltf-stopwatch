@@ -14,8 +14,8 @@ var smoothed_mouse_pos: Vector2
 
 
 func _ready() -> void:
-	DisplayServer.window_set_min_size(min_window_size)
-	DisplayServer.window_set_max_size(max_window_size)
+	window.min_size = min_window_size
+	window.max_size = max_window_size
 
 
 func _process(_delta: float) -> void:
@@ -24,14 +24,18 @@ func _process(_delta: float) -> void:
 		window.position += Vector2i(smoothed_mouse_pos - drag_start_pos)
 
 
-func close_window() -> void:
-	get_tree().quit()
-
-
 func _on_hbc_chrome_gui_input(event: InputEvent) -> void:
 	var mouse_button_event := event as InputEventMouseButton
 	if mouse_button_event and mouse_button_event.button_index == 1: # Left mouse click
-		dragging_window = !dragging_window
+		dragging_window = not dragging_window
 		var m_pos := window.get_mouse_position()
 		drag_start_pos = m_pos
 		smoothed_mouse_pos = m_pos
+
+
+func _close_window() -> void:
+	get_tree().quit()
+
+
+func _minimize_window() -> void:
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)
