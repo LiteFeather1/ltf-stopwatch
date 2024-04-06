@@ -88,14 +88,5 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "x"
 
-[node name="ColorRect" type="ColorRect" parent="."]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 455.0
-offset_top = 270.0
-offset_right = 495.0
-offset_bottom = 310.0
-
 [connection signal="gui_input" from="hbc_chrome" to="." method="_on_hbc_chrome_gui_input"]
 [connection signal="pressed" from="hbc_chrome/b_close_window" to="." method="close_window"]
-[connection signal="gui_input" from="ColorRect" to="." method="_on_color_rect_gui_input"]
