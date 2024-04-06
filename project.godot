@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Stopwatch"
+config/name="LTF Stopwatch"
 config/description="A simple Stopwatch in godot"
 config/version="v0.1"
 run/main_scene="res://main.tscn"
