@@ -129,6 +129,7 @@ theme_override_font_sizes/font_size = 32
 text = "X"
 
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/b_start" to="VBoxContainer/stopwatch" method="set_state"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/b_reset" to="VBoxContainer/stopwatch" method="reset"]
 [connection signal="gui_input" from="hbc_chrome" to="." method="_on_hbc_chrome_gui_input"]
 [connection signal="pressed" from="hbc_chrome/b_minimize_window" to="." method="_minimize_window"]
 [connection signal="pressed" from="hbc_chrome/b_close_window" to="." method="_close_window"]
