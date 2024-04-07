@@ -37,10 +37,18 @@ func reset() -> void:
 	_set_time()
 
 
+func get_time_short() -> String:
+	return "%02d:%02d:%02d" % [
+		_elapsed_time / 3600.0,
+		fmod(_elapsed_time, 3600.0) / 60.0,
+		fmod(_elapsed_time, 60.0)
+	]
+
+
 func _set_time() -> void:
 	_l_time.text = _time_text_template % [
-			(_elapsed_time / 3600.0),
-			(fmod(_elapsed_time, 3600.0) / 60.0),
-			(fmod(_elapsed_time, 60.0)),
-			(fmod(_elapsed_time, 1) * 100.0)
+			_elapsed_time / 3600.0,
+			fmod(_elapsed_time, 3600.0) / 60.0,
+			fmod(_elapsed_time, 60.0),
+			fmod(_elapsed_time, 1) * 100.0
 	]
