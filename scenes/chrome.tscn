@@ -13,12 +13,14 @@ script = ExtResource("1_8lk40")
 [node name="b_minimise_window" type="Button" parent="."]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
+focus_mode = 0
 theme_override_font_sizes/font_size = 32
 text = "—"
 
 [node name="b_close_window" type="Button" parent="."]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
+focus_mode = 0
 theme_override_font_sizes/font_size = 32
 text = "X"
 
