@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5al7x880yw8t"]
+
+[ext_resource type="Script" path="res://scenes/chrome.gd" id="1_8lk40"]
+
+[node name="hbc_chrome" type="HBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 53.0
+grow_horizontal = 2
+alignment = 2
+script = ExtResource("1_8lk40")
+
+[node name="b_minimise_window" type="Button" parent="."]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "—"
+
+[node name="b_close_window" type="Button" parent="."]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "X"
+
+[connection signal="gui_input" from="." to="." method="_on_chrome_gui_input"]
+[connection signal="pressed" from="b_minimise_window" to="." method="_minimise_window"]
+[connection signal="pressed" from="b_close_window" to="." method="_close_window"]
