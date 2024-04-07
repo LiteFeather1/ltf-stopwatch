@@ -25,7 +25,7 @@ window/size/viewport_height=1024
 window/size/borderless=true
 window/size/window_width_override=512
 window/size/window_height_override=512
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
 [filesystem]

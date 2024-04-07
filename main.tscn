@@ -73,6 +73,7 @@ offset_right = 347.0
 offset_bottom = 175.5
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(347, 175)
 
 [node name="chrome" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1
