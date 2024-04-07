@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://my33i1beqcn2"]
+[gd_scene load_steps=4 format=3 uid="uid://my33i1beqcn2"]
 
-[ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="1_aasts"]
 [ext_resource type="Script" path="res://main.gd" id="1_fm7if"]
-[ext_resource type="FontVariation" uid="uid://d3ddb5qhwgva6" path="res://resources/font/font_time.tres" id="3_8hl64"]
+[ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/stopwatch_ui.tscn" id="2_cujrr"]
 [ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/chrome.tscn" id="4_uv45h"]
 
-[node name="Main" type="Control" node_paths=PackedStringArray("b_start", "b_reset")]
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,8 +12,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fm7if")
-b_start = NodePath("VBoxContainer/HBoxContainer/b_start")
-b_reset = NodePath("VBoxContainer/HBoxContainer/b_reset")
 
 [node name="c_border" type="Control" parent="."]
 modulate = Color(1, 1, 1, 0.247059)
@@ -63,58 +60,19 @@ offset_left = -2.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="stopwatch_ui" parent="." instance=ExtResource("2_cujrr")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -347.0
+offset_top = -175.5
+offset_right = 347.0
+offset_bottom = 175.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 32
-alignment = 1
 
-[node name="stopwatch" parent="VBoxContainer" instance=ExtResource("1_aasts")]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-alignment = 1
-
-[node name="b_start" type="Button" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_8hl64")
-theme_override_font_sizes/font_size = 66
-toggle_mode = true
-text = "S"
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 48
-
-[node name="b_reset" type="Button" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_8hl64")
-theme_override_font_sizes/font_size = 66
-disabled = true
-text = "R"
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 48
-
-[node name="b_clip_board" type="Button" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_8hl64")
-theme_override_font_sizes/font_size = 66
-text = "C"
-
-[node name="hbc_chrome" parent="." instance=ExtResource("4_uv45h")]
+[node name="chrome" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1
-
-[connection signal="started" from="VBoxContainer/stopwatch" to="." method="_stopwatch_started"]
-[connection signal="toggled" from="VBoxContainer/HBoxContainer/b_start" to="VBoxContainer/stopwatch" method="set_state"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/b_reset" to="VBoxContainer/stopwatch" method="reset"]

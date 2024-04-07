@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4glodl21jgi2"]
+
+[ext_resource type="Script" path="res://scenes/stopwatch_ui.gd" id="1_t7xu2"]
+[ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="1_w2muv"]
+[ext_resource type="FontVariation" uid="uid://d3ddb5qhwgva6" path="res://resources/font/font_time.tres" id="2_u8cm0"]
+
+[node name="stopwatch_ui" type="VBoxContainer"]
+offset_right = 694.0
+offset_bottom = 351.0
+theme_override_constants/separation = 32
+alignment = 1
+script = ExtResource("1_t7xu2")
+
+[node name="stopwatch" parent="." instance=ExtResource("1_w2muv")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+alignment = 1
+
+[node name="b_start" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_u8cm0")
+theme_override_font_sizes/font_size = 66
+toggle_mode = true
+text = "S"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="b_reset" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_u8cm0")
+theme_override_font_sizes/font_size = 66
+disabled = true
+text = "R"
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="b_clip_board" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_u8cm0")
+theme_override_font_sizes/font_size = 66
+text = "C"
+
+[connection signal="toggled" from="HBoxContainer/b_start" to="stopwatch" method="set_state"]
+[connection signal="pressed" from="HBoxContainer/b_reset" to="stopwatch" method="reset"]
