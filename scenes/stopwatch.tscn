@@ -5,10 +5,8 @@
 
 [node name="stopwatch" type="VBoxContainer"]
 modulate = Color(0.807843, 0.807843, 0.807843, 1)
-anchors_preset = 10
-anchor_right = 1.0
+offset_right = 694.0
 offset_bottom = 220.0
-grow_horizontal = 2
 theme_override_constants/separation = -16
 alignment = 1
 script = ExtResource("1_s5has")
@@ -23,42 +21,7 @@ text = "[center]00:00:00.[font_size=48]00[/font_size][/center]"
 fit_content = true
 scroll_active = false
 
-[node name="hbc_hr_min_sec" type="HBoxContainer" parent="."]
-visible = false
-layout_mode = 2
-alignment = 1
-
-[node name="HSeparator" type="VSeparator" parent="hbc_hr_min_sec"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_constants/separation = -8
-
-[node name="l_hr" type="Label" parent="hbc_hr_min_sec"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "hr"
-
-[node name="HSeparator2" type="VSeparator" parent="hbc_hr_min_sec"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_constants/separation = 168
-
-[node name="l_min" type="Label" parent="hbc_hr_min_sec"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "min"
-
-[node name="HSeparator3" type="VSeparator" parent="hbc_hr_min_sec"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_constants/separation = 152
-
-[node name="l_sec" type="Label" parent="hbc_hr_min_sec"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "sec"
-
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = "                                  hr                        min                       sec"
+text = "          hr                        min                       sec"

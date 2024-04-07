@@ -1,5 +1,4 @@
-class_name StopWatch
-extends VBoxContainer
+class_name Stopwatch extends VBoxContainer
 
 
 signal started()
