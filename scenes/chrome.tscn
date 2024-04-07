@@ -2,13 +2,23 @@
 
 [ext_resource type="Script" path="res://scenes/chrome.gd" id="1_8lk40"]
 
-[node name="chrome" type="HBoxContainer"]
+[node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("b_pin")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 53.0
 grow_horizontal = 2
 alignment = 2
 script = ExtResource("1_8lk40")
+b_pin = NodePath("b_pin")
+move_window_smoothing_factor = 0.95
+
+[node name="b_pin" type="Button" parent="."]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+text = "P"
 
 [node name="b_minimise_window" type="Button" parent="."]
 custom_minimum_size = Vector2(64, 0)
@@ -25,5 +35,6 @@ theme_override_font_sizes/font_size = 32
 text = "X"
 
 [connection signal="gui_input" from="." to="." method="_on_chrome_gui_input"]
+[connection signal="toggled" from="b_pin" to="." method="_toggle_always_on_top"]
 [connection signal="pressed" from="b_minimise_window" to="." method="_minimise_window"]
 [connection signal="pressed" from="b_close_window" to="." method="_close_window"]

@@ -1,5 +1,6 @@
 class_name Chrome extends HBoxContainer
 
+@export var b_pin: Button
 
 @export var move_window_smoothing_factor := .99
 
@@ -35,3 +36,8 @@ func _close_window() -> void:
 
 func _minimise_window() -> void:
 	window.mode = Window.MODE_MINIMIZED
+
+
+func _toggle_always_on_top(state: bool) -> void:
+	b_pin.text = "nP" if state else "P"
+	window.always_on_top = state
