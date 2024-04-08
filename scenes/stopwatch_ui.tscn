@@ -21,6 +21,7 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_constants/separation = 48
 alignment = 1
 
 [node name="b_start" type="Button" parent="HBoxContainer"]
@@ -31,10 +32,6 @@ focus_mode = 0
 toggle_mode = true
 text = "S"
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 48
-
 [node name="b_reset" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
@@ -42,10 +39,6 @@ layout_mode = 2
 focus_mode = 0
 disabled = true
 text = "R"
-
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 48
 
 [node name="b_clipboard" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true

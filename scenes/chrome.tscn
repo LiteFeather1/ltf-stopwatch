@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=3 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/chrome.gd" id="1_8lk40"]
+[ext_resource type="Texture2D" uid="uid://be575cxvyxn1y" path="res://icon.svg" id="2_041hg"]
 
 [node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("b_close", "b_pin")]
 anchors_preset = 10
@@ -9,10 +10,34 @@ offset_bottom = 32.0
 grow_horizontal = 2
 alignment = 2
 script = ExtResource("1_8lk40")
-b_close = NodePath("b_close_window")
-b_pin = NodePath("b_pin")
+b_close = NodePath("hbc_buttons/b_close_window")
+b_pin = NodePath("hbc_buttons/b_pin")
 
-[node name="b_pin" type="Button" parent="."]
+[node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="hbc_tittle" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="tr_icon" type="TextureRect" parent="hbc_tittle"]
+layout_mode = 2
+texture = ExtResource("2_041hg")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="l_name" type="Label" parent="hbc_tittle"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "LTF Stopwatch"
+
+[node name="hbc_buttons" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="b_pin" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
@@ -20,14 +45,14 @@ theme_override_font_sizes/font_size = 16
 toggle_mode = true
 text = "P"
 
-[node name="b_minimise_window" type="Button" parent="."]
+[node name="b_minimise_window" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 16
 text = "—"
 
-[node name="b_close_window" type="Button" parent="."]
+[node name="b_close_window" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
@@ -35,6 +60,6 @@ theme_override_font_sizes/font_size = 16
 text = "X"
 
 [connection signal="gui_input" from="." to="." method="_on_chrome_gui_input"]
-[connection signal="toggled" from="b_pin" to="." method="_toggle_always_on_top"]
-[connection signal="pressed" from="b_minimise_window" to="." method="_minimise_window"]
-[connection signal="pressed" from="b_close_window" to="." method="_close_window"]
+[connection signal="toggled" from="hbc_buttons/b_pin" to="." method="_toggle_always_on_top"]
+[connection signal="pressed" from="hbc_buttons/b_minimise_window" to="." method="_minimise_window"]
+[connection signal="pressed" from="hbc_buttons/b_close_window" to="." method="_close_window"]
