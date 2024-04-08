@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://b828x2tbifvm2"]
 
-[ext_resource type="Script" path="res://scenes/button_pop_up.gd" id="1_ooyal"]
+[ext_resource type="Script" path="res://scenes/pop_up.gd" id="1_vgt4r"]
 
-[node name="button_pop_up" type="ColorRect" node_paths=PackedStringArray("l_text", "dent")]
+[node name="pop_up" type="ColorRect" node_paths=PackedStringArray("l_text", "dent")]
 visible = false
 z_index = 1000
 anchors_preset = 5
@@ -15,7 +15,7 @@ grow_horizontal = 2
 pivot_offset = Vector2(64, 16)
 size_flags_horizontal = 3
 color = Color(0, 0, 0, 1)
-script = ExtResource("1_ooyal")
+script = ExtResource("1_vgt4r")
 l_text = NodePath("Label")
 dent = NodePath("ColorRect")
 

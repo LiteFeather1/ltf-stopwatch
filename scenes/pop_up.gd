@@ -22,7 +22,6 @@ func pop_up(c: Control, text: String) -> void:
 	if tween:
 		tween.kill()
 	
-	
 	tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
 	tween.tween_property(self, "scale", Vector2(1.0, 1.0), .5)
 

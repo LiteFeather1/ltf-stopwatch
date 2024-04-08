@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AL_ButtonPopUp="*res://scenes/button_pop_up.tscn"
+AL_PopUp="*res://scenes/pop_up.tscn"
 
 [display]
 
