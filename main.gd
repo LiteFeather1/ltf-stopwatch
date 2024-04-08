@@ -10,3 +10,4 @@ func _ready() -> void:
 	var window := get_window()
 	window.min_size = min_window_size
 	window.max_size = max_window_size
+	

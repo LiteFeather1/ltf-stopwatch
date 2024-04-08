@@ -29,6 +29,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 1.0
 grow_horizontal = 2
+mouse_default_cursor_shape = 9
 
 [node name="cr_bot" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(0, 1)
@@ -39,6 +40,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 9
 
 [node name="cr_left" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(1, 0)
@@ -46,6 +48,7 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2
+mouse_default_cursor_shape = 12
 
 [node name="cr_right" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(1, 0)
@@ -56,6 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_default_cursor_shape = 12
 
 [node name="chrome" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1

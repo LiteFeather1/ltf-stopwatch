@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://b828x2tbifvm2"]
+
+[ext_resource type="Script" path="res://scenes/button_pop_up.gd" id="1_ooyal"]
+
+[node name="button_pop_up" type="ColorRect" node_paths=PackedStringArray("l_text", "dent")]
+visible = false
+z_index = 1000
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_right = 64.0
+offset_bottom = 32.0
+grow_horizontal = 2
+pivot_offset = Vector2(64, 16)
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_ooyal")
+l_text = NodePath("Label")
+dent = NodePath("ColorRect")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -8.0
+offset_right = 0.5
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "aaaaa"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 4.0
+grow_horizontal = 2
+rotation = 0.785398
+pivot_offset = Vector2(4, 4)
+color = Color(0, 0, 0, 1)

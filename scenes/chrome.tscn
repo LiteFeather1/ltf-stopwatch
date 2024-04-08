@@ -11,6 +11,7 @@ offset_top = 1.0
 offset_right = -1.0
 offset_bottom = 33.0
 grow_horizontal = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0.498039)
 
 [node name="hbc_chrome" type="HBoxContainer" parent="." node_paths=PackedStringArray("b_close", "b_pin", "l_title")]
@@ -23,6 +24,7 @@ offset_top = -12.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 theme_override_constants/separation = 0
 script = ExtResource("1_8lk40")
 b_close = NodePath("hbc_buttons/b_close_window")
