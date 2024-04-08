@@ -77,3 +77,5 @@ pivot_offset = Vector2(347, 175)
 
 [node name="chrome" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1
+move_window_smoothing_factor = null
+window_margin = null

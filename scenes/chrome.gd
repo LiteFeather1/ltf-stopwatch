@@ -1,9 +1,12 @@
 class_name Chrome extends HBoxContainer
 
+@export_category("Buttons")
 @export var b_close: Button
 @export var b_pin: Button
 
-@export var move_window_smoothing_factor := .99
+@export_category("Win settings")
+@export var move_window_smoothing_factor := .95
+@export var window_margin := Vector2i(-64, 64)
 
 var dragging: bool
 var start_drag_pos: Vector2
@@ -46,11 +49,13 @@ func _toggle_always_on_top(pinning: bool) -> void:
 
 		previous_window_size = window.size
 		window.size = window.min_size
+
 		var win_id := window.current_screen
 		var right := DisplayServer.screen_get_position(win_id).x\
 				+ DisplayServer.screen_get_size(win_id).x\
-				- window.size.x
-		var top := 0
+				- window.size.x\
+				+ window_margin.x
+		var top := window_margin.y
 		window.position = Vector2i(right, top)
 	else:
 		b_pin.text = "P"
