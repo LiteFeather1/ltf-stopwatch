@@ -4,12 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="2_m0v6e"]
 
 [node name="stopwatch_ui" type="VBoxContainer"]
-custom_minimum_size = Vector2(512, 202)
+custom_minimum_size = Vector2(512, 224)
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 202.0
+offset_bottom = 224.0
 grow_horizontal = 2
-pivot_offset = Vector2(256, 101)
+pivot_offset = Vector2(256, 112)
 theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("1_t7xu2")
