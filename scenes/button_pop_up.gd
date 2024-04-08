@@ -10,8 +10,10 @@ func _ready() -> void:
 
 
 func show_pop_up() -> void:
-	AL_PopUp.pop_up(self, pop_up_name)
+	if not disabled:
+		AL_PopUp.pop_up(self, pop_up_name)
 
 
 func hide_pop_up() -> void:
-	AL_PopUp.un_pop()
+	if not disabled:
+		AL_PopUp.un_pop()
