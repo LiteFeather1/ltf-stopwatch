@@ -43,10 +43,18 @@ func _minimise_window() -> void:
 func _toggle_always_on_top(pinning: bool) -> void:
 	if pinning:
 		b_pin.text = "nP"
+
 		previous_window_size = window.size
 		window.size = window.min_size
-	else: 
+		var win_id := window.current_screen
+		var right := DisplayServer.screen_get_position(win_id).x\
+				+ DisplayServer.screen_get_size(win_id).x\
+				- window.size.x
+		var top := 0
+		window.position = Vector2i(right, top)
+	else:
 		b_pin.text = "P"
+
 		window.size = previous_window_size
 	
 	b_close.visible = not pinning
