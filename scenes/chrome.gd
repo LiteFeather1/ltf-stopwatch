@@ -16,6 +16,10 @@ var previous_window_position: Vector2i
 @onready var window: Window = get_window()
 
 
+func _ready() -> void:
+	%l_name.text = ProjectSettings.get_setting("application/config/name")
+
+
 func _process(_delta: float) -> void:
 	if not dragging:
 		return
