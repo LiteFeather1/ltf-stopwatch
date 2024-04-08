@@ -5,8 +5,10 @@
 
 [node name="stopwatch" type="VBoxContainer"]
 modulate = Color(0.807843, 0.807843, 0.807843, 1)
-offset_right = 694.0
-offset_bottom = 220.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 122.0
+grow_horizontal = 2
 theme_override_constants/separation = -16
 alignment = 1
 script = ExtResource("1_s5has")
@@ -15,7 +17,7 @@ script = ExtResource("1_s5has")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_nka5i")
-theme_override_font_sizes/normal_font_size = 144
+theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
 text = "[center]00:00:00.[font_size=48]00[/font_size][/center]"
 fit_content = true
@@ -24,4 +26,4 @@ scroll_active = false
 [node name="l_hr_min_sec" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = "          hr                        min                       sec"
+text = "             hr          min        sec"
