@@ -14,6 +14,8 @@ var _tween: Tween
 
 
 func _ready() -> void:
+	_delay_to_appear.timeout.connect(_pop_up_animation)
+
 	font = l_text.get_theme_font("font")
 	font_size = l_text.get_theme_font_size("font_size")
 
@@ -31,15 +33,6 @@ func pop_up(c: Control, text: String) -> void:
 	
 	_delay_to_appear.paused = false
 	_delay_to_appear.start(_delay_to_appear.wait_time)
-	await _delay_to_appear.timeout
-
-	visible = true
-	scale = Vector2(.75, .75)
-	if _tween:
-		_tween.kill()
-	
-	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_tween.tween_property(self, "scale", Vector2(1.0, 1.0), _animation_duration)
 
 
 func un_pop() -> void:
@@ -55,3 +48,13 @@ func un_pop() -> void:
 	await _tween.finished
 
 	visible = false
+
+
+func _pop_up_animation() -> void:
+	visible = true
+	scale = Vector2(.75, .75)
+	if _tween:
+		_tween.kill()
+	
+	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	_tween.tween_property(self, "scale", Vector2(1.0, 1.0), _animation_duration)
