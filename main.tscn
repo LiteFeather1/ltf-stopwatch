@@ -14,7 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_fm7if")
 
 [node name="c_border" type="Control" parent="."]
-modulate = Color(1, 1, 1, 0.247059)
+modulate = Color(1, 1, 1, 0.121569)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
