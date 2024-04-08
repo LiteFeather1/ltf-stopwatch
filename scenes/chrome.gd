@@ -74,4 +74,5 @@ func _toggle_always_on_top(pinning: bool) -> void:
 
 
 func window_size_changed() -> void:
-	l_title.visible = b_pin.global_position.x - l_title.global_position.x - l_title.size.x > 0.0
+	await get_tree().process_frame
+	l_title.visible = b_pin.global_position.x - l_title.global_position.x - l_title.size.x > 2.0
