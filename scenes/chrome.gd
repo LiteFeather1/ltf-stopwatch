@@ -1,13 +1,10 @@
 class_name Chrome extends Control
 
 @export_category("Buttons")
-@export var hbc_buttons: HBoxContainer
 @export var b_close: Button
 @export var b_pin: Button
 
 @export_category("Title")
-@export var hbc_title: HBoxContainer
-@export var v_separator: VSeparator
 @export var l_title: Label
 
 @export_category("Win settings")
@@ -77,5 +74,4 @@ func _toggle_always_on_top(pinning: bool) -> void:
 
 
 func window_size_changed() -> void:
-	var win_x := window.size.x
-	l_title.visible = win_x - hbc_buttons.size.x > win_x - hbc_title.size.x - v_separator.size.x
+	l_title.visible = b_pin.global_position.x - l_title.global_position.x - l_title.size.x > 0.0

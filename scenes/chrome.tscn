@@ -3,18 +3,15 @@
 [ext_resource type="Script" path="res://scenes/chrome.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://be575cxvyxn1y" path="res://icon.svg" id="2_041hg"]
 
-[node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("hbc_buttons", "b_close", "b_pin", "hbc_title", "v_separator", "l_title")]
+[node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("b_close", "b_pin", "l_title")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 22.0
 grow_horizontal = 2
 theme_override_constants/separation = 0
 script = ExtResource("1_8lk40")
-hbc_buttons = NodePath("hbc_buttons")
 b_close = NodePath("hbc_buttons/b_close_window")
 b_pin = NodePath("hbc_buttons/b_pin")
-hbc_title = NodePath("hbc_title")
-v_separator = NodePath("VSeparator")
 l_title = NodePath("hbc_title/l_title")
 
 [node name="VSeparator" type="VSeparator" parent="."]
@@ -45,7 +42,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 16
 toggle_mode = true
 text = "P"
 
@@ -53,14 +50,14 @@ text = "P"
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 16
 text = "—"
 
 [node name="b_close_window" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 16
 text = "X"
 
 [connection signal="gui_input" from="." to="." method="_on_chrome_gui_input"]
