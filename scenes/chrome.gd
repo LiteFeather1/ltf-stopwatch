@@ -6,13 +6,14 @@ class_name Chrome extends HBoxContainer
 
 @export_category("Win settings")
 @export var move_window_smoothing_factor := .95
-@export var window_margin := Vector2i(-64, 64)
+@export var window_margin := Vector2i(-32, 32)
 
 var dragging: bool
 var start_drag_pos: Vector2
 var smoothed_mouse_pos: Vector2
 
-var previous_window_size: Vector2
+var previous_window_size: Vector2i
+var previous_window_position: Vector2i
 
 @onready var window: Window = get_window()
 
@@ -47,6 +48,8 @@ func _toggle_always_on_top(pinning: bool) -> void:
 	if pinning:
 		b_pin.text = "nP"
 
+		previous_window_position = window.position
+
 		previous_window_size = window.size
 		window.size = window.min_size
 
@@ -61,6 +64,7 @@ func _toggle_always_on_top(pinning: bool) -> void:
 		b_pin.text = "P"
 
 		window.size = previous_window_size
+		window.position = previous_window_position
 	
 	b_close.visible = not pinning
 	window.always_on_top = pinning
