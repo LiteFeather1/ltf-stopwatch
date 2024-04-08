@@ -48,12 +48,20 @@ theme_override_font_sizes/font_size = 11
 toggle_mode = true
 text = "P"
 
+[node name="VSeparator" type="VSeparator" parent="hbc_buttons"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
 [node name="b_minimise_window" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 11
 text = "—"
+
+[node name="VSeparator2" type="VSeparator" parent="hbc_buttons"]
+layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="b_close_window" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(32, 0)
@@ -62,9 +70,9 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 11
 text = "X"
 
-[node name="VSeparator" type="VSeparator" parent="hbc_buttons"]
+[node name="VSeparator3" type="VSeparator" parent="hbc_buttons"]
 layout_mode = 2
-theme_override_constants/separation = -2
+theme_override_constants/separation = 1
 
 [connection signal="gui_input" from="." to="." method="_on_chrome_gui_input"]
 [connection signal="toggled" from="hbc_buttons/b_pin" to="." method="_toggle_always_on_top"]
