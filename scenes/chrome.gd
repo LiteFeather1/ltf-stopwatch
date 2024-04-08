@@ -9,6 +9,7 @@ var dragging: bool
 var start_drag_pos: Vector2
 var smoothed_mouse_pos: Vector2
 
+var previous_window_size: Vector2
 
 @onready var window: Window = get_window()
 
@@ -42,10 +43,11 @@ func _minimise_window() -> void:
 func _toggle_always_on_top(pinning: bool) -> void:
 	if pinning:
 		b_pin.text = "nP"
+		previous_window_size = window.size
 		window.size = window.min_size
 	else: 
 		b_pin.text = "P"
-		window.size = window.max_size
+		window.size = previous_window_size
 	
 	b_close.visible = not pinning
 	window.always_on_top = pinning
