@@ -1,4 +1,4 @@
-class_name ButtonPopUp extends ColorRect
+class_name PopUp extends ColorRect
 
 
 @export var l_text: Label
@@ -26,7 +26,7 @@ func pop_up(c: Control, text: String) -> void:
 	tween.tween_property(self, "scale", Vector2(1.0, 1.0), .5)
 
 
-func unpop() -> void:
+func un_pop() -> void:
 	if tween:
 		tween.kill()
 	
