@@ -4,7 +4,8 @@ class_name PopUp extends ColorRect
 @export var l_text: Label
 @export var label_padding := Vector2(12.0, 8.0)
 @export var dent: Control
-@export var _animation_duration := .25
+@export var _animation_duration := .15
+@export var _delay_to_appear: Timer
 
 var font: Font
 var font_size : int
@@ -26,22 +27,30 @@ func pop_up(c: Control, text: String) -> void:
 
 	global_position = Vector2(
 		c.global_position.x + (c.size.x - size.x) * .5,
-		c.global_position.y + c.size.y + dent.size.y + label_padding.y)
+		c.global_position.y + c.size.y + dent.size.y + label_padding.y * .5)
 	
+	_delay_to_appear.paused = false
+	_delay_to_appear.start(_delay_to_appear.wait_time)
+	await _delay_to_appear.timeout
+
 	visible = true
 	scale = Vector2(.75, .75)
 	if _tween:
 		_tween.kill()
 	
-	_tween = create_tween().set_ease(_tween.EASE_IN).set_trans(_tween.TRANS_ELASTIC)
+	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	_tween.tween_property(self, "scale", Vector2(1.0, 1.0), _animation_duration)
 
 
 func un_pop() -> void:
+	if not visible:
+		_delay_to_appear.paused = true
+		return
+	
 	if _tween:
 		_tween.kill()
 	
-	_tween = create_tween().set_ease(_tween.EASE_OUT).set_trans(_tween.TRANS_ELASTIC)
+	_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	_tween.tween_property(self, "scale", Vector2(.5, .5), _animation_duration)
 	await _tween.finished
 
