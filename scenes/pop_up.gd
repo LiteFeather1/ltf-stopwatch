@@ -21,6 +21,10 @@ func _ready() -> void:
 
 
 func pop_up(c: Control, text: String) -> void:
+	if _tween:
+		_tween.kill()
+		visible = false
+	
 	l_text.text = text
 	var s: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
 
@@ -53,8 +57,6 @@ func un_pop() -> void:
 func _pop_up_animation() -> void:
 	visible = true
 	scale = Vector2(.75, .75)
-	if _tween:
-		_tween.kill()
 	
 	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	_tween.tween_property(self, "scale", Vector2(1.0, 1.0), _animation_duration)
