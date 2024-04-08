@@ -41,7 +41,7 @@ focus_mode = 0
 disabled = true
 text = "R"
 script = ExtResource("3_wkdtx")
-pop_up_name = "Reset"
+pop_up_name = "reset"
 
 [node name="b_clipboard" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
