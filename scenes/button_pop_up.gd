@@ -1,7 +1,7 @@
 class_name ButtonPopUp extends Button
 
 
-@export var pop_up_name: String
+@export var pop_up_name: String = "name"
 
 
 func _ready() -> void:
