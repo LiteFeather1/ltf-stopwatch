@@ -39,7 +39,13 @@ func _minimise_window() -> void:
 	window.mode = Window.MODE_MINIMIZED
 
 
-func _toggle_always_on_top(state: bool) -> void:
-	b_pin.text = "nP" if state else "P"
-	b_close.visible = not state
-	window.always_on_top = state
+func _toggle_always_on_top(pinning: bool) -> void:
+	if pinning:
+		b_pin.text = "nP"
+		window.size = window.min_size
+	else: 
+		b_pin.text = "P"
+		window.size = window.max_size
+	
+	b_close.visible = not pinning
+	window.always_on_top = pinning
