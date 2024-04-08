@@ -5,12 +5,10 @@ class_name Chrome extends HBoxContainer
 @export var b_pin: Button
 
 @export_category("Win settings")
-@export var move_window_smoothing_factor := .95
 @export var window_margin := Vector2i(-32, 32)
 
 var dragging: bool
 var start_drag_pos: Vector2
-var smoothed_mouse_pos: Vector2
 
 var previous_window_size: Vector2i
 var previous_window_position: Vector2i
@@ -22,18 +20,14 @@ func _process(_delta: float) -> void:
 	if not dragging:
 		return
 	
-	smoothed_mouse_pos = smoothed_mouse_pos.lerp(
-			window.get_mouse_position(), move_window_smoothing_factor)
-	window.position += Vector2i(smoothed_mouse_pos - start_drag_pos)
+	window.position += Vector2i(get_global_mouse_position() - start_drag_pos)
 
 
 func _on_chrome_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
 	if mb_event and mb_event.button_index == 1: # Left mouse click
 		dragging = not dragging
-		var m_pos := window.get_mouse_position()
-		start_drag_pos = m_pos
-		smoothed_mouse_pos = m_pos
+		start_drag_pos = get_global_mouse_position()
 
 
 func _close_window() -> void:
