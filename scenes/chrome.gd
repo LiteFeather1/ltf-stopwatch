@@ -1,8 +1,14 @@
-class_name Chrome extends HBoxContainer
+class_name Chrome extends Control
 
 @export_category("Buttons")
+@export var hbc_buttons: HBoxContainer
 @export var b_close: Button
 @export var b_pin: Button
+
+@export_category("Title")
+@export var hbc_title: HBoxContainer
+@export var v_separator: VSeparator
+@export var l_title: Label
 
 @export_category("Win settings")
 @export var window_margin := Vector2i(-32, 32)
@@ -17,7 +23,9 @@ var previous_window_position: Vector2i
 
 
 func _ready() -> void:
-	%l_name.text = ProjectSettings.get_setting("application/config/name")
+	l_title.text = ProjectSettings.get_setting("application/config/name")
+
+	window.size_changed.connect(window_size_changed)
 
 
 func _process(_delta: float) -> void:
@@ -66,3 +74,8 @@ func _toggle_always_on_top(pinning: bool) -> void:
 	
 	b_close.visible = not pinning
 	window.always_on_top = pinning
+
+
+func window_size_changed() -> void:
+	var win_x := window.size.x
+	l_title.visible = win_x - hbc_buttons.size.x > win_x - hbc_title.size.x - v_separator.size.x
