@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" path="res://scenes/chrome.gd" id="1_8lk40"]
 
-[node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("b_pin")]
+[node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("b_close", "b_pin")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 53.0
 grow_horizontal = 2
 alignment = 2
 script = ExtResource("1_8lk40")
+b_close = NodePath("b_close_window")
 b_pin = NodePath("b_pin")
 move_window_smoothing_factor = 0.95
 
