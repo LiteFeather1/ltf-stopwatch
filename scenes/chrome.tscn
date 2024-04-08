@@ -6,7 +6,8 @@
 [node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("b_close", "b_pin", "l_title")]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 22.0
+offset_top = 1.0
+offset_bottom = 25.0
 grow_horizontal = 2
 theme_override_constants/separation = 0
 script = ExtResource("1_8lk40")
@@ -37,12 +38,13 @@ text = "LTF Stopwatch"
 
 [node name="hbc_buttons" type="HBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="b_pin" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 11
 toggle_mode = true
 text = "P"
 
@@ -50,15 +52,19 @@ text = "P"
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 11
 text = "—"
 
 [node name="b_close_window" type="Button" parent="hbc_buttons"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 11
 text = "X"
+
+[node name="VSeparator" type="VSeparator" parent="hbc_buttons"]
+layout_mode = 2
+theme_override_constants/separation = -2
 
 [connection signal="gui_input" from="." to="." method="_on_chrome_gui_input"]
 [connection signal="toggled" from="hbc_buttons/b_pin" to="." method="_toggle_always_on_top"]

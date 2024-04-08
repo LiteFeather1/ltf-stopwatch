@@ -23,40 +23,37 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="cr_top" type="ColorRect" parent="c_border"]
-custom_minimum_size = Vector2(0, 2)
+custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 2.0
+offset_bottom = 1.0
 grow_horizontal = 2
 
 [node name="cr_bot" type="ColorRect" parent="c_border"]
-custom_minimum_size = Vector2(0, 2)
+custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -2.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="cr_left" type="ColorRect" parent="c_border"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(1, 0)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_right = 2.0
 grow_vertical = 2
 
 [node name="cr_right" type="ColorRect" parent="c_border"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(1, 0)
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -2.0
 grow_horizontal = 0
 grow_vertical = 2
 
