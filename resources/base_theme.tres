@@ -3,4 +3,5 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
 [resource]
+Button/font_sizes/font_size = 32
 VSeparator/styles/separator = SubResource("StyleBoxEmpty_h5osr")

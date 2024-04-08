@@ -5,7 +5,7 @@
 [node name="chrome" type="HBoxContainer" node_paths=PackedStringArray("b_close", "b_pin")]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 53.0
+offset_bottom = 32.0
 grow_horizontal = 2
 alignment = 2
 script = ExtResource("1_8lk40")
@@ -13,25 +13,25 @@ b_close = NodePath("b_close_window")
 b_pin = NodePath("b_pin")
 
 [node name="b_pin" type="Button" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 16
 toggle_mode = true
 text = "P"
 
 [node name="b_minimise_window" type="Button" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 16
 text = "—"
 
 [node name="b_close_window" type="Button" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 16
 text = "X"
 
 [connection signal="gui_input" from="." to="." method="_on_chrome_gui_input"]

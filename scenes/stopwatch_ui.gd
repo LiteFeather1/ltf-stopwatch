@@ -7,6 +7,8 @@ class_name StopwatchUi extends VBoxContainer
 @onready var b_reset: Button = %b_reset
 @onready var b_clipboard: Button = %b_clipboard
 
+@onready var window: Window = get_window()
+
 
 func _ready() -> void:
 	stopwatch.started.connect(_stopwatch_started)
@@ -14,6 +16,8 @@ func _ready() -> void:
 	b_start.toggled.connect(_start_toggled)
 	b_reset.pressed.connect(_reset_pressed)
 	b_clipboard.pressed.connect(_copy_to_clip_board_pressed)
+
+	window.size_changed.connect(_resize)
 
 
 func _stopwatch_started() -> void:
@@ -33,3 +37,8 @@ func _reset_pressed() -> void:
 
 func _copy_to_clip_board_pressed() -> void:
 	DisplayServer.clipboard_set(stopwatch.get_time_short())
+
+
+func _resize() -> void:
+	var s := window.size.x / float(window.max_size.x)
+	scale = Vector2(s, s)
