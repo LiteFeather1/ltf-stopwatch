@@ -4,8 +4,9 @@ class_name PopUp extends ColorRect
 @export var l_text: Label
 @export var label_padding := Vector2(10.0, 5.0)
 @export var dent: Control
+@export var _animation_duration := .25
 
-var tween: Tween
+var _tween: Tween
 
 func pop_up(c: Control, text: String) -> void:
 	l_text.text = text
@@ -19,19 +20,19 @@ func pop_up(c: Control, text: String) -> void:
 	
 	visible = true
 	scale = Vector2(.75, .75)
-	if tween:
-		tween.kill()
+	if _tween:
+		_tween.kill()
 	
-	tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
-	tween.tween_property(self, "scale", Vector2(1.0, 1.0), .5)
+	_tween = create_tween().set_ease(_tween.EASE_IN).set_trans(_tween.TRANS_ELASTIC)
+	_tween.tween_property(self, "scale", Vector2(1.0, 1.0), _animation_duration)
 
 
 func un_pop() -> void:
-	if tween:
-		tween.kill()
+	if _tween:
+		_tween.kill()
 	
-	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	tween.tween_property(self, "scale", Vector2(.5, .5), .5)
-	await tween.finished
+	_tween = create_tween().set_ease(_tween.EASE_OUT).set_trans(_tween.TRANS_ELASTIC)
+	_tween.tween_property(self, "scale", Vector2(.5, .5), _animation_duration)
+	await _tween.finished
 
 	visible = false
