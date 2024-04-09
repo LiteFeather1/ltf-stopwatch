@@ -64,5 +64,6 @@ mouse_default_cursor_shape = 12
 [node name="chrome" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1
 
-[node name="stopwatch_ui" parent="." instance=ExtResource("2_cujrr")]
+[node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_chrome") instance=ExtResource("2_cujrr")]
 layout_mode = 1
+_chrome = NodePath("../chrome")

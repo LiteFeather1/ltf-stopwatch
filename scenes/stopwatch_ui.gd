@@ -1,6 +1,8 @@
 class_name StopwatchUi extends VBoxContainer
 
 
+@export var _chrome: Control
+
 @onready var _stopwatch: Stopwatch = %stopwatch
 
 @onready var _b_start: ButtonPopUp = %b_start
@@ -51,10 +53,8 @@ func _copy_to_clip_board_pressed() -> void:
 
 
 func _resize() -> void:
-	# TODO take actual chrome size
-	var chrome_size_y := 56.0
 	var s_x := _window.size.x / float(_window.max_size.x)
-	var s_y := _window.size.y / float(size.y + chrome_size_y)
+	var s_y := _window.size.y / float(size.y + _chrome.size.y * 2)
 	var s := minf(s_x, s_y)
 	scale = Vector2(s, s)
 
