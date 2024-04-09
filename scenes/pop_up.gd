@@ -1,16 +1,17 @@
 class_name PopUp extends ColorRect
 
 
-@export var _l_text: Label
 @export var _label_padding := Vector2(12.0, 8.0)
-@export var _dent: Control
 @export var _animation_duration := .15
-@export var _delay_to_appear: Timer
 
 var _font: Font
 var _font_size : int
 
 var _tween: Tween
+
+@onready var _l_text: Label = %l_text
+@onready var _dent: Control = %dent
+@onready var _delay_to_appear: Timer = %delay_to_appear
 
 
 func _ready() -> void:
