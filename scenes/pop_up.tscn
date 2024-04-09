@@ -51,5 +51,5 @@ pivot_offset = Vector2(4, 4)
 color = Color(0, 0, 0, 1)
 
 [node name="delay_to_appear" type="Timer" parent="."]
-wait_time = 0.33
+wait_time = 0.5
 one_shot = true

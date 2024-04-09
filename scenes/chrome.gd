@@ -51,7 +51,7 @@ func _minimise_window() -> void:
 func _toggle_always_on_top(pinning: bool) -> void:
 	if pinning:
 		b_pin.text = "nP"
-		b_pin.set_pop_up_name("un pin")
+		b_pin.set_pop_up_name("unpin")
 
 		previous_window_position = window.position
 
