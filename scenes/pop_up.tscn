@@ -16,11 +16,11 @@ pivot_offset = Vector2(64, 16)
 size_flags_horizontal = 3
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_vgt4r")
-l_text = NodePath("Label")
-dent = NodePath("ColorRect")
+l_text = NodePath("l_text")
+dent = NodePath("dent")
 _delay_to_appear = NodePath("delay_to_appear")
 
-[node name="Label" type="Label" parent="."]
+[node name="l_text" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -37,7 +37,7 @@ theme_override_font_sizes/font_size = 11
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="dent" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
