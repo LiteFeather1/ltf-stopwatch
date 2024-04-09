@@ -1,7 +1,12 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b2u5b2xehfur0"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b2u5b2xehfur0"]
+
+[ext_resource type="FontFile" uid="uid://hrmfuoadomq0" path="res://assets/fonts/space_mono/SpaceMono-Regular.ttf" id="1_u3pcg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
 [resource]
 Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_u3pcg")
+Label/fonts/font = ExtResource("1_u3pcg")
+RichTextLabel/fonts/normal_font = ExtResource("1_u3pcg")
 VSeparator/styles/separator = SubResource("StyleBoxEmpty_h5osr")
