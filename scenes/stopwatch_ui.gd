@@ -51,9 +51,15 @@ func _copy_to_clip_board_pressed() -> void:
 
 
 func _resize() -> void:
-	var chrome_size_y := 32.0
+	# TODO take actual chrome size
+	var chrome_size_y := 56.0
 	var s_x := _window.size.x / float(_window.max_size.x)
 	var s_y := _window.size.y / float(size.y + chrome_size_y)
 	var s := minf(s_x, s_y)
-
 	scale = Vector2(s, s)
+
+	var b_s := maxf(1.0, 1.75 - s)
+	var b_scale = Vector2(b_s, b_s)
+	_b_start.scale = b_scale
+	_b_reset.scale = b_scale
+	_b_clipboard.scale = b_scale
