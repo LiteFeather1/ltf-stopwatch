@@ -29,10 +29,10 @@ func _start_toggled(state: bool) -> void:
 
 	if state:
 		b_start.text = "P"
-		b_start.set_pop_up_name("Pause")
+		b_start.set_pop_up_name("pause")
 	else:
 		b_start.text = "C"
-		b_start.set_pop_up_name("Continue")
+		b_start.set_pop_up_name("continue")
 
 
 func _reset_pressed() -> void:
@@ -43,6 +43,7 @@ func _reset_pressed() -> void:
 
 	b_start.button_pressed = false
 	b_start.text = "S"
+	b_start.set_pop_up_name("start")
 
 
 func _copy_to_clip_board_pressed() -> void:
