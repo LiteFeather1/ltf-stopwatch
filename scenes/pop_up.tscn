@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/pop_up.gd" id="1_vgt4r"]
 
-[node name="pop_up" type="ColorRect" node_paths=PackedStringArray("l_text", "dent", "_delay_to_appear")]
+[node name="pop_up" type="ColorRect" node_paths=PackedStringArray("_l_text", "_dent", "_delay_to_appear")]
 visible = false
 z_index = 1000
 anchors_preset = 5
@@ -16,8 +16,8 @@ pivot_offset = Vector2(64, 16)
 size_flags_horizontal = 3
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_vgt4r")
-l_text = NodePath("l_text")
-dent = NodePath("dent")
+_l_text = NodePath("l_text")
+_dent = NodePath("dent")
 _delay_to_appear = NodePath("delay_to_appear")
 
 [node name="l_text" type="Label" parent="."]

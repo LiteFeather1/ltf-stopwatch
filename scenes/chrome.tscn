@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://be575cxvyxn1y" path="res://icon.svg" id="2_041hg"]
 [ext_resource type="Script" path="res://scenes/button_pop_up.gd" id="3_whgq5"]
 
-[node name="chrome" type="ColorRect" node_paths=PackedStringArray("b_close", "b_pin", "l_title")]
+[node name="chrome" type="ColorRect" node_paths=PackedStringArray("_b_close", "_b_pin", "_l_title")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1.0
@@ -15,9 +15,9 @@ grow_horizontal = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.498039)
 script = ExtResource("1_8lk40")
-b_close = NodePath("hbc_chrome/hbc_buttons/b_close_window")
-b_pin = NodePath("hbc_chrome/hbc_buttons/b_pin")
-l_title = NodePath("hbc_chrome/hbc_title/l_title")
+_b_close = NodePath("hbc_chrome/hbc_buttons/b_close_window")
+_b_pin = NodePath("hbc_chrome/hbc_buttons/b_pin")
+_l_title = NodePath("hbc_chrome/hbc_title/l_title")
 
 [node name="hbc_chrome" type="HBoxContainer" parent="."]
 layout_mode = 1
