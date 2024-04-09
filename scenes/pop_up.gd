@@ -36,15 +36,21 @@ func pop_up(c: Control, text: String) -> void:
 
 	var c_scale := c.get_global_transform().get_scale()
 	var new_x := c.global_position.x + (c.size.x * c_scale.x - size.x) * .5
-	var out := 0.0
-	if window.size.x <= new_x + size.x:
-		out = window.size.x - new_x - size.x - _label_padding.x
-		new_x += out
+	var right := new_x + size.x
+	var out_x := 0.0
+	# This is only checking right checking left wouldn't be to difficult but it's unnecessary due to the current layout
+	if window.size.x <= right:
+		out_x = window.size.x - right - _label_padding.x
+		new_x += out_x
 
-	global_position = Vector2(new_x,
-		c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + _label_padding.y)
+	var new_y := c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + _label_padding.y
+	var bot := new_y + size.y
+	if window.size.y <= bot:
+		new_y += window.size.y - bot - _label_padding.y
+	
+	global_position = Vector2(new_x, new_y)
 
-	_dent.position.x = pivot_offset.x - _dent.pivot_offset.x - out
+	_dent.position.x = pivot_offset.x - _dent.pivot_offset.x - out_x
 
 	_delay_to_appear.paused = false
 	_delay_to_appear.start(_delay_to_appear.wait_time)
