@@ -1,59 +1,59 @@
 class_name StopwatchUi extends VBoxContainer
 
 
-@onready var stopwatch: Stopwatch = %stopwatch
+@onready var _stopwatch: Stopwatch = %stopwatch
 
-@onready var b_start: ButtonPopUp = %b_start
-@onready var b_reset: ButtonPopUp = %b_reset
-@onready var b_clipboard: ButtonPopUp = %b_clipboard
+@onready var _b_start: ButtonPopUp = %b_start
+@onready var _b_reset: ButtonPopUp = %b_reset
+@onready var _b_clipboard: ButtonPopUp = %b_clipboard
 
-@onready var window: Window = get_window()
+@onready var _window: Window = get_window()
 
 
 func _ready() -> void:
-	stopwatch.started.connect(_stopwatch_started)
+	_stopwatch.started.connect(_stopwatch_started)
 	
-	b_start.toggled.connect(_start_toggled)
-	b_reset.pressed.connect(_reset_pressed)
-	b_clipboard.pressed.connect(_copy_to_clip_board_pressed)
+	_b_start.toggled.connect(_start_toggled)
+	_b_reset.pressed.connect(_reset_pressed)
+	_b_clipboard.pressed.connect(_copy_to_clip_board_pressed)
 
-	window.size_changed.connect(_resize)
+	_window.size_changed.connect(_resize)
 
 
 func _stopwatch_started() -> void:
-	b_reset.disabled = false
+	_b_reset.disabled = false
 
 
 func _start_toggled(state: bool) -> void:
-	stopwatch.set_state(state)
+	_stopwatch.set_state(state)
 
 	if state:
-		b_start.text = "P"
-		b_start.set_pop_up_name("pause")
+		_b_start.text = "P"
+		_b_start.set_pop_up_name("pause")
 	else:
-		b_start.text = "C"
-		b_start.set_pop_up_name("continue")
+		_b_start.text = "C"
+		_b_start.set_pop_up_name("continue")
 
 
 func _reset_pressed() -> void:
-	b_reset.disabled = true
-	b_reset.hide_pop_up()
+	_b_reset.disabled = true
+	_b_reset.hide_pop_up()
 
-	stopwatch.reset()
+	_stopwatch.reset()
 
-	b_start.button_pressed = false
-	b_start.text = "S"
-	b_start.set_pop_up_name("start")
+	_b_start.button_pressed = false
+	_b_start.text = "S"
+	_b_start.set_pop_up_name("start")
 
 
 func _copy_to_clip_board_pressed() -> void:
-	DisplayServer.clipboard_set(stopwatch.get_time_short())
+	DisplayServer.clipboard_set(_stopwatch.get_time_short())
 
 
 func _resize() -> void:
 	var chrome_size_y := 32.0
-	var s_x := window.size.x / float(window.max_size.x)
-	var s_y := window.size.y / float(size.y + chrome_size_y)
+	var s_x := _window.size.x / float(_window.max_size.x)
+	var s_y := _window.size.y / float(size.y + chrome_size_y)
 	var s := minf(s_x, s_y)
 
 	scale = Vector2(s, s)
