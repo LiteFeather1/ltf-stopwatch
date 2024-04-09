@@ -1,7 +1,7 @@
-class_name PopUp extends ColorRect
+class_name PopUp extends Panel
 
 
-@export var _label_padding := Vector2(8.0, 4.0)
+@export var _label_padding := Vector2(10.0, 4.0)
 @export var _animation_duration := .15
 
 var _font: Font
@@ -43,7 +43,7 @@ func pop_up(c: Control, text: String) -> void:
 		out_x = window.size.x - right - _label_padding.x
 		new_x += out_x
 
-	var new_y := c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + _label_padding.y
+	var new_y := c.global_position.y + c.size.y * c_scale.y + _label_padding.y - _dent.position.y
 	var bot := new_y + size.y
 	if window.size.y <= bot:
 		new_y += window.size.y - bot - _label_padding.y
