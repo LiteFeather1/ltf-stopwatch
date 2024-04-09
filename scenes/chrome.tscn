@@ -12,7 +12,6 @@ offset_top = 1.0
 offset_right = -1.0
 offset_bottom = 33.0
 grow_horizontal = 2
-mouse_filter = 2
 color = Color(0, 0, 0, 0.498039)
 script = ExtResource("1_8lk40")
 _b_close = NodePath("hbc_chrome/hbc_buttons/b_close_window")
@@ -29,7 +28,7 @@ offset_top = -12.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="VSeparator" type="VSeparator" parent="hbc_chrome"]
