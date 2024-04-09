@@ -63,6 +63,7 @@ theme_override_font_sizes/font_size = 11
 toggle_mode = true
 text = "P"
 script = ExtResource("3_whgq5")
+_pop_up_name = "pin"
 
 [node name="VSeparator" type="VSeparator" parent="hbc_chrome/hbc_buttons"]
 layout_mode = 2
@@ -76,6 +77,7 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 11
 text = "—"
 script = ExtResource("3_whgq5")
+_pop_up_name = "minimise"
 
 [node name="VSeparator2" type="VSeparator" parent="hbc_chrome/hbc_buttons"]
 layout_mode = 2
@@ -89,6 +91,7 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 11
 text = "X"
 script = ExtResource("3_whgq5")
+_pop_up_name = "close"
 
 [node name="VSeparator3" type="VSeparator" parent="hbc_chrome/hbc_buttons"]
 layout_mode = 2
