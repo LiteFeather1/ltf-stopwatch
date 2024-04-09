@@ -36,12 +36,15 @@ func pop_up(c: Control, text: String) -> void:
 
 	var c_scale := c.get_global_transform().get_scale()
 	var new_x := c.global_position.x + (c.size.x * c_scale.x - size.x) * .5
-	if new_x + size.x >= window.size.x:
-		var out = window.size.x - new_x - size.x - _label_padding.x
+	var out := 0.0
+	if window.size.x <= new_x + size.x:
+		out = window.size.x - new_x - size.x - _label_padding.x
 		new_x += out
 
 	global_position = Vector2(new_x,
-		c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + _label_padding.y * .5)
+		c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + _label_padding.y)
+
+	_dent.position.x = pivot_offset.x - _dent.pivot_offset.x - out
 
 	_delay_to_appear.paused = false
 	_delay_to_appear.start(_delay_to_appear.wait_time)
