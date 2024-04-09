@@ -1,8 +1,9 @@
 class_name Chrome extends Control
 
+
 @export_category("Buttons")
-@export var b_close: Button
-@export var b_pin: Button
+@export var b_close: ButtonPopUp
+@export var b_pin: ButtonPopUp
 
 @export_category("Title")
 @export var l_title: Label
@@ -50,6 +51,7 @@ func _minimise_window() -> void:
 func _toggle_always_on_top(pinning: bool) -> void:
 	if pinning:
 		b_pin.text = "nP"
+		b_pin.set_pop_up_name("un pin")
 
 		previous_window_position = window.position
 
@@ -65,6 +67,7 @@ func _toggle_always_on_top(pinning: bool) -> void:
 		window.position = Vector2i(right, top)
 	else:
 		b_pin.text = "P"
+		b_pin.set_pop_up_name("pin")
 
 		window.size = previous_window_size
 		window.position = previous_window_position
