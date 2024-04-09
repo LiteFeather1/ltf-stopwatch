@@ -1,6 +1,5 @@
-[gd_scene load_steps=3 format=3 uid="uid://ck0u55igveb4s"]
+[gd_scene load_steps=2 format=3 uid="uid://ck0u55igveb4s"]
 
-[ext_resource type="FontVariation" uid="uid://d3ddb5qhwgva6" path="res://resources/font/font_time.tres" id="1_nka5i"]
 [ext_resource type="Script" path="res://scenes/stopwatch.gd" id="1_s5has"]
 
 [node name="stopwatch" type="VBoxContainer"]
@@ -16,8 +15,7 @@ script = ExtResource("1_s5has")
 [node name="l_time" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("1_nka5i")
-theme_override_font_sizes/normal_font_size = 88
+theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
 text = "[center]00:00:00.[font_size=48]00[/font_size][/center]"
 fit_content = true
@@ -25,5 +23,5 @@ scroll_active = false
 
 [node name="l_hr_min_sec" type="Label" parent="."]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "          hr            min            sec"
+theme_override_font_sizes/font_size = 24
+text = "    hr      min      sec"
