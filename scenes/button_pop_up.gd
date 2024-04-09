@@ -15,5 +15,4 @@ func show_pop_up() -> void:
 
 
 func hide_pop_up() -> void:
-	if not disabled:
-		AL_PopUp.un_pop()
+	AL_PopUp.un_pop()

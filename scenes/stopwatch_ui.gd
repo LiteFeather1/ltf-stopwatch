@@ -25,10 +25,14 @@ func _stopwatch_started() -> void:
 
 
 func _start_toggled(state: bool) -> void:
+	stopwatch.set_state(state)
+
 	b_start.text = "P" if state else "C"
 
 
 func _reset_pressed() -> void:
+	stopwatch.reset()
+
 	b_start.button_pressed = false
 	b_start.text = "S"
 
