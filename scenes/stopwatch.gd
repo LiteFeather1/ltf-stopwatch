@@ -6,8 +6,8 @@ signal started()
 
 @export_multiline var _time_text_template := "[center]%02d:%02d:%02d.[font_size=48]%02d[/font_size][/center]"
 
-@export var ticking_colour := Color("f7f7f7")
-@export var paused_colour := Color("cecece")
+@export var _ticking_colour := Color("f7f7f7")
+@export var _paused_colour := Color("cecece")
 
 var _elapsed_time := 0.0
 
@@ -28,11 +28,11 @@ func set_state(state: bool) -> void:
 		started.emit()
 	
 	set_process(state)
-	modulate = ticking_colour if state else paused_colour
+	modulate = _ticking_colour if state else _paused_colour
 
 
 func reset() -> void:
-	modulate = paused_colour
+	modulate = _paused_colour
 	_elapsed_time = 0.0
 	_set_time()
 
