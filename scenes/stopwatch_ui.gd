@@ -3,7 +3,7 @@ class_name StopwatchUi extends VBoxContainer
 
 @onready var stopwatch: Stopwatch = %stopwatch
 
-@onready var b_start: Button = %b_start
+@onready var b_start: ButtonPopUp = %b_start
 @onready var b_reset: ButtonPopUp = %b_reset
 @onready var b_clipboard: ButtonPopUp = %b_clipboard
 
@@ -27,7 +27,12 @@ func _stopwatch_started() -> void:
 func _start_toggled(state: bool) -> void:
 	stopwatch.set_state(state)
 
-	b_start.text = "P" if state else "C"
+	if state:
+		b_start.text = "P"
+		b_start.set_pop_up_name("Pause")
+	else:
+		b_start.text = "C"
+		b_start.set_pop_up_name("Continue")
 
 
 func _reset_pressed() -> void:

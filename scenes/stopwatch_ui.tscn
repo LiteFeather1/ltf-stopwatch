@@ -32,6 +32,8 @@ layout_mode = 2
 focus_mode = 0
 toggle_mode = true
 text = "S"
+script = ExtResource("3_wkdtx")
+_pop_up_name = "start"
 
 [node name="b_reset" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
