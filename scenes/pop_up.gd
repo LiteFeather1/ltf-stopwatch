@@ -1,7 +1,7 @@
 class_name PopUp extends ColorRect
 
 
-@export var _label_padding := Vector2(12.0, 8.0)
+@export var _label_padding := Vector2(8.0, 4.0)
 @export var _animation_duration := .15
 
 var _font: Font
@@ -32,9 +32,10 @@ func pop_up(c: Control, text: String) -> void:
 	size = s + _label_padding
 	pivot_offset = s * .5
 
+	var c_scale := c.get_global_transform().get_scale()
 	global_position = Vector2(
-		c.global_position.x + (c.size.x - size.x) * .5,
-		c.global_position.y + c.size.y + _dent.size.y + _label_padding.y * .5)
+		c.global_position.x + ((c.size.x * c_scale.x) - size.x) * .5,
+		c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + _label_padding.y * .5)
 	
 	_delay_to_appear.paused = false
 	_delay_to_appear.start(_delay_to_appear.wait_time)
