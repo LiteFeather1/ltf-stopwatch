@@ -4,8 +4,8 @@ class_name StopwatchUi extends VBoxContainer
 @onready var stopwatch: Stopwatch = %stopwatch
 
 @onready var b_start: Button = %b_start
-@onready var b_reset: Button = %b_reset
-@onready var b_clipboard: Button = %b_clipboard
+@onready var b_reset: ButtonPopUp = %b_reset
+@onready var b_clipboard: ButtonPopUp = %b_clipboard
 
 @onready var window: Window = get_window()
 
@@ -31,12 +31,13 @@ func _start_toggled(state: bool) -> void:
 
 
 func _reset_pressed() -> void:
+	b_reset.disabled = true
+	b_reset.hide_pop_up()
+
 	stopwatch.reset()
 
 	b_start.button_pressed = false
 	b_start.text = "S"
-
-	b_reset.disabled = true
 
 
 func _copy_to_clip_board_pressed() -> void:
