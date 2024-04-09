@@ -13,6 +13,8 @@ var _tween: Tween
 @onready var _dent: Control = %dent
 @onready var _delay_to_appear: Timer = %delay_to_appear
 
+@onready var window := get_window()
+
 
 func _ready() -> void:
 	_delay_to_appear.timeout.connect(_pop_up_animation)
@@ -27,16 +29,20 @@ func pop_up(c: Control, text: String) -> void:
 		visible = false
 	
 	_l_text.text = text
-	var s: Vector2 = _font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, _font_size)
 
+	var s := _font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, _font_size)
 	size = s + _label_padding
-	pivot_offset = s * .5
+	pivot_offset = size * .5
 
 	var c_scale := c.get_global_transform().get_scale()
-	global_position = Vector2(
-		c.global_position.x + ((c.size.x * c_scale.x) - size.x) * .5,
+	var new_x := c.global_position.x + (c.size.x * c_scale.x - size.x) * .5
+	if new_x + size.x >= window.size.x:
+		var out = window.size.x - new_x - size.x - _label_padding.x
+		new_x += out
+
+	global_position = Vector2(new_x,
 		c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + _label_padding.y * .5)
-	
+
 	_delay_to_appear.paused = false
 	_delay_to_appear.start(_delay_to_appear.wait_time)
 

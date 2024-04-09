@@ -3,17 +3,10 @@
 [ext_resource type="Script" path="res://scenes/pop_up.gd" id="1_vgt4r"]
 
 [node name="pop_up" type="ColorRect"]
-visible = false
 z_index = 1000
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -64.0
-offset_right = 64.0
+offset_right = 128.0
 offset_bottom = 32.0
-grow_horizontal = 2
-pivot_offset = Vector2(64, 16)
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_vgt4r")
 
@@ -42,8 +35,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -4.0
-offset_top = -8.0
+offset_top = -9.0
 offset_right = 4.0
+offset_bottom = -1.0
 grow_horizontal = 2
 rotation = 0.785398
 pivot_offset = Vector2(4, 4)
