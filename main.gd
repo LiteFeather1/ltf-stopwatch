@@ -23,7 +23,7 @@ func _shortcut_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("reset_stopwatch"):
 		_stopwatch_ui.try_reset_stopwatch()
 	elif event.is_action_pressed("copy_to_clipboard"):
-		_stopwatch_ui.copy_to_clipboard()
+		_stopwatch_ui.try_copy_to_clipboard()
 	elif event.is_action_pressed("restore_last_elapsed_time"):
 		_stopwatch_ui.restore_last_elapsed_time()
 	# Window Events
