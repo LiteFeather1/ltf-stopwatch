@@ -36,6 +36,10 @@ func _process(_delta: float) -> void:
 	_window.position += Vector2i(get_global_mouse_position() - _start_drag_pos)
 
 
+func toggle_pin_input() -> void:
+	_b_pin.button_pressed = not _b_pin.button_pressed
+
+
 func _on_chrome_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
 	if mb_event and mb_event.button_index == 1: # Left mouse click
@@ -66,8 +70,8 @@ func _toggle_pin_window(pinning: bool) -> void:
 				+ DisplayServer.screen_get_size(win_id).x\
 				- _window.size.x\
 				+ _window_margin.x
-		var top := _window_margin.y
-		_window.position = Vector2i(right, top)
+		
+		_window.position = Vector2i(right, _window_margin.y)
 	else:
 		_b_pin.text = "P"
 		_b_pin.set_pop_up_name("pin")
@@ -80,5 +84,4 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 
 func _window_size_changed() -> void:
-	await get_tree().process_frame
-	_l_title.visible = _b_pin.global_position.x - _l_title.global_position.x - _l_title.size.x > 2.0
+	_l_title.visible = _l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x < 0.0
