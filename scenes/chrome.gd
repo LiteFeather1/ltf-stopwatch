@@ -22,7 +22,7 @@ func _ready() -> void:
 
 	_b_close.pressed.connect(_close_window)
 	_b_pin.toggled.connect(_toggle_pin_window)
-	%b_minimise_window.pressed.connect(_minimise_window)
+	%b_minimise_window.pressed.connect(minimise_window)
 
 	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
@@ -40,6 +40,10 @@ func toggle_pin_input() -> void:
 	_b_pin.button_pressed = not _b_pin.button_pressed
 
 
+func minimise_window() -> void:
+	_window.mode = Window.MODE_MINIMIZED
+
+
 func _on_chrome_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
 	if mb_event and mb_event.button_index == 1: # Left mouse click
@@ -49,10 +53,6 @@ func _on_chrome_gui_input(event: InputEvent) -> void:
 
 func _close_window() -> void:
 	get_tree().quit()
-
-
-func _minimise_window() -> void:
-	_window.mode = Window.MODE_MINIMIZED
 
 
 func _toggle_pin_window(pinning: bool) -> void:

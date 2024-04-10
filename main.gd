@@ -21,3 +21,5 @@ func _shortcut_input(event: InputEvent) -> void:
 		_stopwatch_ui.restore_last_elapsed_time()
 	elif event.is_action_pressed("toggle_pin_window"):
 		_chrome.toggle_pin_input()
+	elif event.is_action_pressed("minimise_window"):
+		_chrome.minimise_window()

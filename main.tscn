@@ -12,6 +12,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fm7if")
+_min_window_size = null
+_max_window_size = null
 _stopwatch_ui = NodePath("stopwatch_ui")
 _chrome = NodePath("chrome")
 
