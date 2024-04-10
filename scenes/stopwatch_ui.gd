@@ -17,7 +17,7 @@ func _ready() -> void:
 	
 	_b_start.toggled.connect(_start_toggled)
 	_b_reset.pressed.connect(_reset_pressed)
-	_b_clipboard.pressed.connect(_copy_to_clip_board_pressed)
+	_b_clipboard.pressed.connect(copy_to_clipboard)
 
 	_window.size_changed.connect(_resize)
 
@@ -41,6 +41,10 @@ func _stopwatch_started() -> void:
 	_b_reset.disabled = false
 
 
+func copy_to_clipboard() -> void:
+	DisplayServer.clipboard_set(_stopwatch.get_time_short())
+
+
 func _start_toggled(state: bool) -> void:
 	_stopwatch.set_state(state)
 
@@ -61,10 +65,6 @@ func _reset_pressed() -> void:
 	_b_start.button_pressed = false
 	_b_start.text = "S"
 	_b_start.set_pop_up_name("start")
-
-
-func _copy_to_clip_board_pressed() -> void:
-	DisplayServer.clipboard_set(_stopwatch.get_time_short())
 
 
 func _resize() -> void:
