@@ -24,6 +24,7 @@ func _ready() -> void:
 
 func restore_last_elapsed_time() -> void:
 	_b_start.button_pressed = false
+	_b_reset.disabled = false
 	_stopwatch.restore_last_elapsed_time()
 
 
