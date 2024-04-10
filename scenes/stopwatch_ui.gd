@@ -26,6 +26,11 @@ func toggle_stopwatch() -> void:
 	_b_start.button_pressed = not _b_start.button_pressed
 
 
+func try_reset_stopwatch() -> void:
+	if not _b_reset.disabled:
+		_reset_pressed()
+
+
 func restore_last_elapsed_time() -> void:
 	_b_start.button_pressed = false
 	_b_reset.disabled = false
@@ -63,11 +68,13 @@ func _copy_to_clip_board_pressed() -> void:
 
 
 func _resize() -> void:
+	# Scale text to fit size
 	var s_x := _window.size.x / float(_window.max_size.x)
 	var s_y := _window.size.y / float(size.y + _chrome.size.y * 2)
 	var s := minf(s_x, s_y)
 	scale = Vector2(s, s)
 
+	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)
 	var b_scale = Vector2(b_s, b_s)
 	_b_start.scale = b_scale
