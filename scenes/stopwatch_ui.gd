@@ -22,8 +22,8 @@ func _ready() -> void:
 	_window.size_changed.connect(_resize)
 
 
-func toggle_start() -> void:
-	_b_start.button_presed = not _b_start.button_pressed
+func toggle_stopwatch() -> void:
+	_b_start.button_pressed = not _b_start.button_pressed
 
 
 func restore_last_elapsed_time() -> void:

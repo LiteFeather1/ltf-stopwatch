@@ -17,8 +17,12 @@ func _ready() -> void:
 
 
 func _shortcut_input(event: InputEvent) -> void:
-	if event.is_action_pressed("restore_last_elapsed_time"):
+	# Stopwatch UI Events
+	if event.is_action_pressed("toggle_stopwatch"):
+		_stopwatch_ui.toggle_stopwatch()
+	elif event.is_action_pressed("restore_last_elapsed_time"):
 		_stopwatch_ui.restore_last_elapsed_time()
+	# Window Events
 	elif event.is_action_pressed("toggle_pin_window"):
 		_chrome.toggle_pin_input()
 	elif event.is_action_pressed("minimise_window"):
