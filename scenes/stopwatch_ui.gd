@@ -13,7 +13,7 @@ class_name StopwatchUI extends VBoxContainer
 
 
 func _ready() -> void:
-	_stopwatch.started.connect(_stopwatch_started)
+	_stopwatch.started.connect(_enable_buttons)
 	
 	_b_start.toggled.connect(_start_toggled)
 	_b_reset.pressed.connect(_reset_pressed)
@@ -33,12 +33,13 @@ func try_reset_stopwatch() -> void:
 
 func restore_last_elapsed_time() -> void:
 	_b_start.button_pressed = false
-	_b_reset.disabled = false
+	_enable_buttons()
 	_stopwatch.restore_last_elapsed_time()
 
 
-func _stopwatch_started() -> void:
+func _enable_buttons() -> void:
 	_b_reset.disabled = false
+	_b_clipboard.disabled = false
 
 
 func copy_to_clipboard() -> void:
@@ -58,6 +59,7 @@ func _start_toggled(state: bool) -> void:
 
 func _reset_pressed() -> void:
 	_b_reset.disabled = true
+	_b_clipboard.disabled = true
 	_b_reset.hide_pop_up()
 
 	_stopwatch.reset()
