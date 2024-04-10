@@ -20,6 +20,8 @@ func _shortcut_input(event: InputEvent) -> void:
 	# Stopwatch UI Events
 	if event.is_action_pressed("toggle_stopwatch"):
 		_stopwatch_ui.toggle_stopwatch()
+	elif event.is_action_pressed("reset_stopwatch"):
+		_stopwatch_ui.try_reset_stopwatch()
 	elif event.is_action_pressed("restore_last_elapsed_time"):
 		_stopwatch_ui.restore_last_elapsed_time()
 	# Window Events
