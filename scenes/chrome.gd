@@ -1,4 +1,4 @@
-class_name Chrome extends Control
+class_name ChromeUI extends Control
 
 
 @export var _window_margin := Vector2i(-32, 32)
@@ -84,4 +84,5 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 
 func _window_size_changed() -> void:
+	await get_tree().process_frame
 	_l_title.visible = _l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x < 0.0

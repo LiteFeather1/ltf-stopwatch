@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/stopwatch_ui.tscn" id="2_cujrr"]
 [ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/chrome.tscn" id="4_uv45h"]
 
-[node name="Main" type="Control" node_paths=PackedStringArray("_stopwatch_ui")]
+[node name="Main" type="Control" node_paths=PackedStringArray("_stopwatch_ui", "_chrome")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fm7if")
 _stopwatch_ui = NodePath("stopwatch_ui")
+_chrome = NodePath("chrome")
 
 [node name="c_border" type="Control" parent="."]
 modulate = Color(1, 1, 1, 0.121569)

@@ -1,4 +1,4 @@
-class_name StopwatchUi extends VBoxContainer
+class_name StopwatchUI extends VBoxContainer
 
 
 @export var _chrome: Control
