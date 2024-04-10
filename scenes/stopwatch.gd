@@ -10,6 +10,7 @@ signal started()
 @export var _paused_colour := Color("cecece")
 
 var _elapsed_time := 0.0
+var _last_elapsed_time := 0.0
 
 @onready var _l_time: RichTextLabel = %l_time
 
@@ -32,8 +33,13 @@ func set_state(state: bool) -> void:
 
 
 func reset() -> void:
-	modulate = _paused_colour
+	_last_elapsed_time = _elapsed_time
 	_elapsed_time = 0.0
+	_set_time()
+
+
+func restore_last_elapsed_time() -> void:
+	_elapsed_time = _last_elapsed_time
 	_set_time()
 
 

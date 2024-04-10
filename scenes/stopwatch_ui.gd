@@ -22,6 +22,11 @@ func _ready() -> void:
 	_window.size_changed.connect(_resize)
 
 
+func restore_last_elapsed_time() -> void:
+	_b_start.button_pressed = false
+	_stopwatch.restore_last_elapsed_time()
+
+
 func _stopwatch_started() -> void:
 	_b_reset.disabled = false
 
