@@ -1,7 +1,6 @@
 class_name ResizeHandler extends Control
 
 
-@export var _vertical: bool = true
 @export var _move_window: bool = false
 
 var _resizing: bool
@@ -15,7 +14,9 @@ var _window_size: Vector2i
 
 func _ready() -> void:
 	gui_input.connect(_on_gui_input)
-	if _vertical:
+
+	# Check if it's vertical
+	if mouse_default_cursor_shape == CURSOR_VSIZE:
 		if _move_window:
 			_distance_to_edge = int(global_position.y)
 		else:
@@ -32,7 +33,8 @@ func _process(_delta: float) -> void:
 		return
 
 	var mouse_pos: Vector2i = get_global_mouse_position()
-	if _vertical:
+	# Check if it's vertical
+	if mouse_default_cursor_shape == CURSOR_VSIZE:
 		if _move_window:
 			var delta := mouse_pos.y - _mouse_offset.y - _distance_to_edge
 			if (_window.size.y == _window.max_size.y and delta <= 0.0)\
