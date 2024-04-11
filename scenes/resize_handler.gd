@@ -1,7 +1,7 @@
 class_name ResizeHandler extends Control
 
 
-@export var _move_window: bool = false
+var _move_window: bool = false
 
 var _resizing: bool
 var _distance_to_edge: int
@@ -17,11 +17,13 @@ func _ready() -> void:
 
 	# Check if it's vertical
 	if mouse_default_cursor_shape == CURSOR_VSIZE:
+		_move_window = global_position.y < _window.size.y / 2.0
 		if _move_window:
 			_distance_to_edge = int(global_position.y)
 		else:
 			_distance_to_edge = _window.size.y - int(global_position.y)
 	else:
+		_move_window = global_position.x < _window.size.x / 2.0
 		if _move_window:
 			_distance_to_edge = int(global_position.x)
 		else:
