@@ -35,8 +35,10 @@ func _process(_delta: float) -> void:
 	if _vertical:
 		if _move_window:
 			var delta := mouse_pos.y - _mouse_offset.y - _distance_to_edge
-			if _window.size.y == _window.max_size.y and delta <= 0.0:
+			if (_window.size.y == _window.max_size.y and delta <= 0.0)\
+					or (_window.size.y == _window.min_size.y and delta >= 0.0):
 				return
+			
 			_window.position.y += delta
 			_window.size.y = _window_size.y + _window_position.y - _window.position.y
 		else:
@@ -47,6 +49,7 @@ func _process(_delta: float) -> void:
 			if (_window.size.x == _window.max_size.x and delta <= 0.0)\
 					or (_window.size.x == _window.min_size.x and delta >= 0.0):
 				return
+			
 			_window.position.x += delta
 			_window.size.x = _window_size.x + _window_position.x - _window.position.x
 		else:
