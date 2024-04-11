@@ -1,4 +1,4 @@
-class_name Main extends Control
+class_name Main extends Panel
 
 
 @export_category("Window")
