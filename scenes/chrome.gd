@@ -18,7 +18,7 @@ var _previous_window_position: Vector2i
 
 
 func _ready() -> void:
-	gui_input.connect(_on_chrome_gui_input)
+	gui_input.connect(_on_gui_input)
 
 	_b_close.pressed.connect(_close_window)
 	_b_pin.toggled.connect(_toggle_pin_window)
@@ -44,11 +44,11 @@ func minimise_window() -> void:
 	_window.mode = Window.MODE_MINIMIZED
 
 
-func _on_chrome_gui_input(event: InputEvent) -> void:
+func _on_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
-	if mb_event and mb_event.button_index == 1: # Left mouse click
+	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
 		_dragging = not _dragging
-		_start_drag_pos = get_global_mouse_position()
+		_start_drag_pos = get_local_mouse_position()
 
 
 func _close_window() -> void:

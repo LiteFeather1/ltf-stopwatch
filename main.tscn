@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://my33i1beqcn2"]
+[gd_scene load_steps=5 format=3 uid="uid://my33i1beqcn2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_fm7if"]
+[ext_resource type="Script" path="res://scenes/resize_handler.gd" id="2_3yg2l"]
 [ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/stopwatch_ui.tscn" id="2_cujrr"]
 [ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/chrome.tscn" id="4_uv45h"]
 
@@ -25,6 +26,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="cr_top" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(0, 1)
@@ -33,7 +35,8 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 1.0
 grow_horizontal = 2
-mouse_default_cursor_shape = 9
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="cr_bot" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(0, 1)
@@ -44,7 +47,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_default_cursor_shape = 9
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="cr_left" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(1, 0)
@@ -52,7 +56,8 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2
-mouse_default_cursor_shape = 12
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="cr_right" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(1, 0)
@@ -63,7 +68,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 2
-mouse_default_cursor_shape = 12
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="chrome" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1
@@ -71,3 +77,118 @@ layout_mode = 1
 [node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_chrome") instance=ExtResource("2_cujrr")]
 layout_mode = 1
 _chrome = NodePath("../chrome")
+
+[node name="c_resize_handler" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="handler_left" type="Control" parent="c_resize_handler"]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = -4.0
+grow_vertical = 2
+mouse_default_cursor_shape = 10
+script = ExtResource("2_3yg2l")
+
+[node name="handler_right" type="Control" parent="c_resize_handler"]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 10
+script = ExtResource("2_3yg2l")
+
+[node name="handler_top" type="Control" parent="c_resize_handler"]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 4.0
+offset_right = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 9
+script = ExtResource("2_3yg2l")
+
+[node name="handler_bot" type="Control" parent="c_resize_handler"]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -4.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 9
+script = ExtResource("2_3yg2l")
+
+[node name="handler_left_top" type="Control" parent="c_resize_handler"]
+modulate = Color(0.521569, 0.533333, 1, 1)
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 0
+offset_right = 4.0
+offset_bottom = 4.0
+mouse_default_cursor_shape = 12
+script = ExtResource("2_3yg2l")
+
+[node name="handler_right_top" type="Control" parent="c_resize_handler"]
+modulate = Color(0.521569, 0.533333, 1, 1)
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -4.0
+offset_bottom = 4.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 11
+script = ExtResource("2_3yg2l")
+
+[node name="handler_left_bot" type="Control" parent="c_resize_handler"]
+modulate = Color(0.521569, 0.533333, 1, 1)
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -4.0
+offset_right = 4.0
+grow_vertical = 0
+mouse_default_cursor_shape = 11
+script = ExtResource("2_3yg2l")
+
+[node name="handler_right_bot" type="Control" parent="c_resize_handler"]
+modulate = Color(0.521569, 0.533333, 1, 1)
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 12
+script = ExtResource("2_3yg2l")
