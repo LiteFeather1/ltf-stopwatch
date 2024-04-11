@@ -6,15 +6,21 @@
 [ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/chrome.tscn" id="4_uv45h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmrt0"]
-bg_color = Color(1, 1, 1, 0.121569)
-draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
+bg_color = Color(0.117647, 0.117647, 0.117647, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color(1, 1, 1, 0.121569)
+border_blend = true
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 20
 
 [node name="Main" type="Panel" node_paths=PackedStringArray("_stopwatch_ui", "_chrome")]
+clip_contents = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
