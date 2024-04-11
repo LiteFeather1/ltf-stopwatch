@@ -26,8 +26,9 @@ func _process(_delta: float) -> void:
 	if not _resizing:
 		return
 
+	var is_diag := mouse_default_cursor_shape == CURSOR_BDIAGSIZE or mouse_default_cursor_shape == CURSOR_FDIAGSIZE
 	var mouse_delta: Vector2i = get_global_mouse_position() - _mouse_start_pos
-	if mouse_default_cursor_shape == CURSOR_HSIZE:
+	if mouse_default_cursor_shape == CURSOR_HSIZE or is_diag:
 		if global_position.x < _window.size.x / 2.0\
 				and ((_window.size.x != _window.max_size.x or mouse_delta.x > 0)\
 						and (_window.size.x != _window.max_size.x or mouse_delta.x < 0)):
@@ -35,7 +36,8 @@ func _process(_delta: float) -> void:
 			_window.size.x = _window_start_size.x + _window_start_pos.x - _window.position.x
 		else:
 			_window.size.x = mouse_delta.x + _distance_to_edge.x
-	else:
+	
+	if mouse_default_cursor_shape == CURSOR_VSIZE or is_diag:
 		if global_position.y < _window.size.y / 2.0\
 				and ((_window.size.y != _window.max_size.y or mouse_delta.y > 0)\
 					and (_window.size.y != _window.min_size.y or mouse_delta.y < 0)):
