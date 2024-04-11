@@ -1,7 +1,7 @@
-class_name ChromeUI extends Control
+class_name ChromeUI extends Panel
 
 
-@export var _window_margin := Vector2i(-32, 32)
+@export var _window_margin_when_pinning := Vector2i(-32, 32)
 
 var _dragging: bool
 var _start_drag_pos: Vector2
@@ -24,9 +24,9 @@ func _ready() -> void:
 	_b_pin.toggled.connect(_toggle_pin_window)
 	%b_minimise_window.pressed.connect(minimise_window)
 
-	_l_title.text = ProjectSettings.get_setting("application/config/name")
-
 	_window.size_changed.connect(_window_size_changed)
+
+	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
 
 func _process(_delta: float) -> void:
@@ -69,9 +69,9 @@ func _toggle_pin_window(pinning: bool) -> void:
 		var right := DisplayServer.screen_get_position(win_id).x\
 				+ DisplayServer.screen_get_size(win_id).x\
 				- _window.size.x\
-				+ _window_margin.x
+				+ _window_margin_when_pinning.x
 		
-		_window.position = Vector2i(right, _window_margin.y)
+		_window.position = Vector2i(right, _window_margin_when_pinning.y)
 	else:
 		_b_pin.text = "P"
 		_b_pin.set_pop_up_name("pin")
