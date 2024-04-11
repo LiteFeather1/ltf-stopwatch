@@ -2,7 +2,7 @@ class_name ResizeHandler extends Control
 
 
 @export var _vertical: bool = true
-@export var _left: bool = false
+@export var _move_window: bool = false
 
 var _resizing: bool
 var _distance_to_edge: int
@@ -16,9 +16,12 @@ var _window_size: Vector2i
 func _ready() -> void:
 	gui_input.connect(_on_gui_input)
 	if _vertical:
-		_distance_to_edge = _window.size.y - int(global_position.y)
+		if _move_window:
+			_distance_to_edge = int(global_position.y)
+		else:
+			_distance_to_edge = _window.size.y - int(global_position.y)
 	else:
-		if _left:
+		if _move_window:
 			_distance_to_edge = int(global_position.x)
 		else:
 			_distance_to_edge = _window.size.x - int(global_position.x)
@@ -30,9 +33,16 @@ func _process(_delta: float) -> void:
 
 	var mouse_pos: Vector2i = get_global_mouse_position()
 	if _vertical:
-		_window.size.y = mouse_pos.y + _distance_to_edge - _mouse_offset.y
+		if _move_window:
+			var delta := mouse_pos.y - _mouse_offset.y - _distance_to_edge
+			if _window.size.y == _window.max_size.y and delta <= 0.0:
+				return
+			_window.position.y += delta
+			_window.size.y = _window_size.y + _window_position.y - _window.position.y
+		else:
+			_window.size.y = mouse_pos.y + _distance_to_edge - _mouse_offset.y
 	else:
-		if _left:
+		if _move_window:
 			var delta := mouse_pos.x - _mouse_offset.x - _distance_to_edge
 			if _window.size.x == _window.max_size.x and delta <= 0.0:
 				return

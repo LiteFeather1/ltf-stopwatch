@@ -95,6 +95,7 @@ anchor_right = 1.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 9
 script = ExtResource("2_3yg2l")
+_move_window = true
 
 [node name="ColorRect" type="ColorRect" parent="c_resize_border/c_top"]
 layout_mode = 1
@@ -135,7 +136,7 @@ grow_vertical = 2
 mouse_default_cursor_shape = 10
 script = ExtResource("2_3yg2l")
 _vertical = false
-_left = true
+_move_window = true
 
 [node name="ColorRect" type="ColorRect" parent="c_resize_border/c_left"]
 layout_mode = 1
