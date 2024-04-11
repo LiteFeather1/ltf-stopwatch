@@ -33,11 +33,11 @@ func _process(_delta: float) -> void:
 		_window.size.y = mouse_pos.y + _distance_to_edge - _mouse_offset.y
 		position.y = _window.size.y - _distance_to_edge
 	else:
-		if _window.size.x == _window.max_size.x:
-			pass
-		
 		if _left:
-			_window.position.x += mouse_pos.x - _mouse_offset.x - _distance_to_edge
+			var delta := mouse_pos.x - _mouse_offset.x - _distance_to_edge
+			if _window.size.x == _window.max_size.x and delta <= 0.0:
+				return
+			_window.position.x += delta
 			_window.size.x = _window_size.x + _window_position.x - _window.position.x
 		else:
 			_window.size.x = mouse_pos.x + _distance_to_edge - _mouse_offset.x
