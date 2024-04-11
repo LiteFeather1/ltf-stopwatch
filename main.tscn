@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://my33i1beqcn2"]
+[gd_scene load_steps=5 format=3 uid="uid://my33i1beqcn2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_fm7if"]
+[ext_resource type="Script" path="res://scenes/resize_handler.gd" id="2_3yg2l"]
 [ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/stopwatch_ui.tscn" id="2_cujrr"]
 [ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/chrome.tscn" id="4_uv45h"]
 
@@ -70,6 +71,13 @@ grow_vertical = 2
 mouse_filter = 2
 mouse_force_pass_scroll_events = false
 
+[node name="chrome" parent="." instance=ExtResource("4_uv45h")]
+layout_mode = 1
+
+[node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_chrome") instance=ExtResource("2_cujrr")]
+layout_mode = 1
+_chrome = NodePath("../chrome")
+
 [node name="c_resize_border" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -77,25 +85,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="c_top" type="Control" parent="c_resize_border"]
 custom_minimum_size = Vector2(0, 8)
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-grow_horizontal = 2
+anchors_preset = 0
+offset_right = 512.0
+offset_bottom = 8.0
 mouse_default_cursor_shape = 9
+script = ExtResource("2_3yg2l")
 
-[node name="c_bot" type="Control" parent="c_resize_border"]
-custom_minimum_size = Vector2(0, 8)
+[node name="ColorRect" type="ColorRect" parent="c_resize_border/c_top"]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="c_bot" type="Control" parent="c_resize_border"]
+custom_minimum_size = Vector2(0, 8)
+anchors_preset = 0
+offset_top = 504.0
+offset_right = 512.0
+offset_bottom = 512.0
 mouse_default_cursor_shape = 9
+script = ExtResource("2_3yg2l")
+
+[node name="ColorRect" type="ColorRect" parent="c_resize_border/c_bot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="c_left" type="Control" parent="c_resize_border"]
 custom_minimum_size = Vector2(8, 0)
@@ -115,10 +140,3 @@ anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_default_cursor_shape = 10
-
-[node name="chrome" parent="." instance=ExtResource("4_uv45h")]
-layout_mode = 1
-
-[node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_chrome") instance=ExtResource("2_cujrr")]
-layout_mode = 1
-_chrome = NodePath("../chrome")
