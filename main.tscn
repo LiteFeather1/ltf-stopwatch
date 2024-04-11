@@ -25,6 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="cr_top" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(0, 1)
@@ -33,7 +34,8 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 1.0
 grow_horizontal = 2
-mouse_default_cursor_shape = 9
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="cr_bot" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(0, 1)
@@ -44,7 +46,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_default_cursor_shape = 9
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="cr_left" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(1, 0)
@@ -52,7 +55,8 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2
-mouse_default_cursor_shape = 12
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="cr_right" type="ColorRect" parent="c_border"]
 custom_minimum_size = Vector2(1, 0)
@@ -63,7 +67,54 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 2
-mouse_default_cursor_shape = 12
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+
+[node name="c_resize_border" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="c_top" type="Control" parent="c_resize_border"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 9
+
+[node name="c_bot" type="Control" parent="c_resize_border"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 9
+
+[node name="c_left" type="Control" parent="c_resize_border"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+mouse_default_cursor_shape = 10
+
+[node name="c_right" type="Control" parent="c_resize_border"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 10
 
 [node name="chrome" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1
