@@ -1,7 +1,6 @@
 class_name ResizeHandler extends Control
 
 
-var _resizing: bool
 var _distance_to_edge: Vector2i
 
 var _mouse_start_pos: Vector2
@@ -12,6 +11,8 @@ var _window_start_size: Vector2i
 
 
 func _ready() -> void:
+	set_process(false)
+
 	gui_input.connect(_on_gui_input)
 
 	_distance_to_edge = Vector2i(
@@ -23,9 +24,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if not _resizing:
-		return
-
 	var is_diag := mouse_default_cursor_shape == CURSOR_BDIAGSIZE or mouse_default_cursor_shape == CURSOR_FDIAGSIZE
 	var mouse_delta: Vector2i = get_global_mouse_position() - _mouse_start_pos
 	if mouse_default_cursor_shape == CURSOR_HSIZE or is_diag:
@@ -51,7 +49,7 @@ func _process(_delta: float) -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
 	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
-		_resizing = not _resizing
+		set_process(not is_processing())
 		_mouse_start_pos = get_local_mouse_position()
 		_window_start_pos = _window.position
 		_window_start_size = _window.size
