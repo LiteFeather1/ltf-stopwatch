@@ -39,8 +39,9 @@ func reset() -> void:
 
 
 func restore_last_elapsed_time() -> void:
-	# TODO Should restore only happen if the timer is paused?
+	var temp := _elapsed_time
 	_elapsed_time = _last_elapsed_time
+	_last_elapsed_time = temp
 	_set_time()
 
 
