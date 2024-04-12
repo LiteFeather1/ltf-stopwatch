@@ -10,10 +10,18 @@ class_name Main extends Panel
 @export var _stopwatch_ui: StopwatchUI
 @export var _chrome: ChromeUI
 
+
 func _ready() -> void:
 	var window := get_window()
 	window.min_size = _min_window_size
 	window.max_size = _max_window_size
+
+	window.focus_entered.connect(func() -> void:
+		get_tree().paused = false
+	)
+	window.focus_exited.connect(func() -> void:
+		get_tree().paused = true
+	)
 
 
 func _shortcut_input(event: InputEvent) -> void:
