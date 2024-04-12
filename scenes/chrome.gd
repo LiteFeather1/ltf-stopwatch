@@ -3,7 +3,6 @@ class_name ChromeUI extends Panel
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
-var _dragging: bool
 var _start_drag_pos: Vector2
 
 var _previous_window_size: Vector2i
@@ -18,6 +17,8 @@ var _previous_window_position: Vector2i
 
 
 func _ready() -> void:
+	set_process(false)
+
 	gui_input.connect(_on_gui_input)
 
 	_b_close.pressed.connect(_close_window)
@@ -30,9 +31,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if not _dragging:
-		return
-	
 	_window.position += Vector2i(get_global_mouse_position() - _start_drag_pos)
 
 
@@ -47,7 +45,7 @@ func minimise_window() -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
 	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
-		_dragging = not _dragging
+		set_process(not is_processing())
 		_start_drag_pos = get_local_mouse_position()
 
 
