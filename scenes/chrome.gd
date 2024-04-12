@@ -27,6 +27,8 @@ func _ready() -> void:
 
 	_window.size_changed.connect(_window_size_changed)
 
+	_previous_window_size = _window.min_size
+
 	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
 
@@ -60,9 +62,6 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 		_previous_window_position = _window.position
 
-		_previous_window_size = _window.size
-		_window.size = _window.min_size
-
 		var win_id := _window.current_screen
 		var right := DisplayServer.screen_get_position(win_id).x\
 				+ DisplayServer.screen_get_size(win_id).x\
@@ -74,9 +73,12 @@ func _toggle_pin_window(pinning: bool) -> void:
 		_b_pin.text = "P"
 		_b_pin.set_pop_up_name("pin")
 
-		_window.size = _previous_window_size
 		_window.position = _previous_window_position
 	
+	var prev_size := _window.size
+	_window.size = _previous_window_size
+	_previous_window_size = prev_size
+
 	_b_close.visible = not pinning
 	_window.always_on_top = pinning
 
