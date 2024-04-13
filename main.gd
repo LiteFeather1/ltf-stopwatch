@@ -1,6 +1,8 @@
 class_name Main extends Panel
 
 
+const SAVE_PATH := &"user://ltf_stopwatch.json"
+
 @export_category("Window")
 @export var _min_window_size := Vector2i(192, 192)
 @export var _max_window_size := Vector2i(512, 512)
@@ -44,4 +46,11 @@ func _shortcut_input(event: InputEvent) -> void:
 
 
 func _quit_app() -> void:
+	var save_data := {
+		"version": ProjectSettings.get_setting("Application/config/name")
+	}
+
+	FileAccess.open(SAVE_PATH, FileAccess.WRITE)\
+			.store_string(JSON.stringify(save_data))
+
 	get_tree().quit()
