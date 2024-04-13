@@ -4,6 +4,9 @@ class_name Stopwatch extends VBoxContainer
 signal started()
 
 
+const ELAPSED_TIME := &"elapsed_time"
+const LAST_ELAPSED_TIME := &"last_elapsed_time"
+
 @export_multiline var _time_text_template := "[center]%02d:%02d:%02d.[font_size=48]%02d[/font_size][/center]"
 
 @export var _ticking_colour := Color("f7f7f7")
@@ -13,6 +16,10 @@ var _elapsed_time := 0.0
 var _last_elapsed_time := 0.0
 
 @onready var _l_time: RichTextLabel = %l_time
+
+
+func _enter_tree() -> void:
+	add_to_group(Main.SAVEABLE)
 
 
 func _ready() -> void:
@@ -43,6 +50,20 @@ func restore_last_elapsed_time() -> void:
 	_elapsed_time = _last_elapsed_time
 	_last_elapsed_time = temp
 	_set_time()
+
+
+func save(save_data: Dictionary) -> void:
+	save_data[ELAPSED_TIME] = _elapsed_time
+	save_data[LAST_ELAPSED_TIME] = _last_elapsed_time
+
+
+func load(save_data: Dictionary) -> void:
+	if save_data.has(ELAPSED_TIME):
+		_elapsed_time = save_data[ELAPSED_TIME]
+		_set_time()
+	
+	if save_data.has(LAST_ELAPSED_TIME):
+		_last_elapsed_time = save_data[LAST_ELAPSED_TIME]
 
 
 func get_time_short() -> String:

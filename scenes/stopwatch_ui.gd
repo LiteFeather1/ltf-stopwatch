@@ -19,7 +19,10 @@ func _ready() -> void:
 	_b_reset.pressed.connect(_reset_pressed)
 	_b_clipboard.pressed.connect(_copy_to_clipboard)
 
-	_window.size_changed.connect(_resize)
+	_window.size_changed.connect(_on_window_size_changed)
+
+	await get_tree().process_frame
+	_on_window_size_changed()
 
 
 func toggle_stopwatch() -> void:
@@ -74,7 +77,7 @@ func _copy_to_clipboard() -> void:
 	DisplayServer.clipboard_set(_stopwatch.get_time_short())
 
 
-func _resize() -> void:
+func _on_window_size_changed() -> void:
 	# Scale text to fit size
 	var s_x := _window.size.x / float(_window.max_size.x)
 	var s_y := _window.size.y / float(size.y + _chrome.size.y * 2)
