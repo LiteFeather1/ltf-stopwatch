@@ -22,6 +22,7 @@ func _ready() -> void:
 	window.max_size = _max_window_size
 
 	var tree := get_tree()
+	tree.auto_accept_quit = false
 	window.focus_entered.connect(func() -> void:
 		tree.paused = false
 	)
@@ -62,6 +63,11 @@ func _shortcut_input(event: InputEvent) -> void:
 		_chrome.toggle_pin_input()
 	elif event.is_action_pressed("minimise_window"):
 		_chrome.minimise_window()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_quit_app()
 
 
 func _quit_app() -> void:
