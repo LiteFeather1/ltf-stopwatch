@@ -13,7 +13,7 @@ const WINDOW_POSITION := &"window_position"
 var _start_drag_pos: Vector2
 
 var _previous_window_size: Vector2i
-var _previous_window_pinned_size: Vector2
+var _previous_window_pinned_size: Vector2i
 var _previous_window_position: Vector2i
 
 @onready var _b_close: ButtonPopUp = %b_close_window
@@ -60,7 +60,8 @@ func save(save_data: Dictionary) -> void:
 		save_data[WINDOW_PINNED_SIZE] = var_to_str(_window.size)
 	else:
 		save_data[WINDOW_SIZE] = var_to_str(_window.size)
-		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
+		save_data[WINDOW_PINNED_SIZE] = var_to_str(
+				_previous_window_pinned_size if _previous_window_pinned_size != Vector2i.ZERO else _window.min_size)
 	
 	save_data[WINDOW_POSITION] = var_to_str(
 		_previous_window_position if _b_pin.button_pressed else _window.position)
