@@ -12,6 +12,8 @@ class_name Main extends Panel
 
 
 func _ready() -> void:
+	_chrome.close_pressed.connect(_quit_app)
+
 	var window := get_window()
 	window.min_size = _min_window_size
 	window.max_size = _max_window_size
@@ -39,3 +41,7 @@ func _shortcut_input(event: InputEvent) -> void:
 		_chrome.toggle_pin_input()
 	elif event.is_action_pressed("minimise_window"):
 		_chrome.minimise_window()
+
+
+func _quit_app() -> void:
+	get_tree().quit()

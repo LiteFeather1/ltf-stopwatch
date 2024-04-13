@@ -1,6 +1,8 @@
 class_name ChromeUI extends Panel
 
 
+signal close_pressed()
+
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
 var _start_drag_pos: Vector2
@@ -52,7 +54,7 @@ func _on_gui_input(event: InputEvent) -> void:
 
 
 func _close_window() -> void:
-	get_tree().quit()
+	close_pressed.emit()
 
 
 func _toggle_pin_window(pinning: bool) -> void:
