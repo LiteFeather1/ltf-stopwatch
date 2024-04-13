@@ -3,11 +3,13 @@ class_name ChromeUI extends Panel
 
 signal close_pressed()
 
+
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
 var _start_drag_pos: Vector2
 
 var _previous_window_size: Vector2i
+var _previous_window_pinned_size: Vector2
 var _previous_window_position: Vector2i
 
 @onready var _b_close: ButtonPopUp = %b_close_window
@@ -64,6 +66,9 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 		_previous_window_position = _window.position
 
+		_previous_window_size = _window.size
+		_window.size = _previous_window_pinned_size
+
 		var win_id := _window.current_screen
 		var right := DisplayServer.screen_get_position(win_id).x\
 				+ DisplayServer.screen_get_size(win_id).x\
@@ -71,16 +76,16 @@ func _toggle_pin_window(pinning: bool) -> void:
 				+ _window_margin_when_pinning.x
 		
 		_window.position = Vector2i(right, _window_margin_when_pinning.y)
+
 	else:
 		_b_pin.text = "P"
 		_b_pin.set_pop_up_name("pin")
 
+		_previous_window_pinned_size = _window.size
+		_window.size = _previous_window_size
+
 		_window.position = _previous_window_position
 	
-	var prev_size := _window.size
-	_window.size = _previous_window_size
-	_previous_window_size = prev_size
-
 	_b_close.visible = not pinning
 	_window.always_on_top = pinning
 
