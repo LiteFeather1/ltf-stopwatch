@@ -27,6 +27,15 @@ func _ready() -> void:
 		get_tree().paused = true
 	)
 
+	if not FileAccess.file_exists(SAVE_PATH):
+		print("Couldn't load %s" % SAVE_PATH)
+		return
+	
+	var save_data: Dictionary = JSON.parse_string(\
+			FileAccess.open(SAVE_PATH, FileAccess.READ).get_as_text())
+	
+	print("Loaded %s version: %s" % [SAVE_PATH, save_data["version"]])
+
 
 func _shortcut_input(event: InputEvent) -> void:
 	# Stopwatch UI Events
@@ -47,7 +56,7 @@ func _shortcut_input(event: InputEvent) -> void:
 
 func _quit_app() -> void:
 	var save_data := {
-		"version": ProjectSettings.get_setting("Application/config/name")
+		"version": ProjectSettings.get_setting("application/config/version"),
 	}
 
 	FileAccess.open(SAVE_PATH, FileAccess.WRITE)\
