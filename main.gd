@@ -2,6 +2,7 @@ class_name Main extends Panel
 
 
 const SAVE_PATH := &"user://ltf_stopwatch.json"
+const SAVEABLE := &"user://ltf_stopwatch.json"
 
 @export_category("Window")
 @export var _min_window_size := Vector2i(192, 192)
@@ -20,11 +21,12 @@ func _ready() -> void:
 	window.min_size = _min_window_size
 	window.max_size = _max_window_size
 
+	var tree := get_tree()
 	window.focus_entered.connect(func() -> void:
-		get_tree().paused = false
+		tree.paused = false
 	)
 	window.focus_exited.connect(func() -> void:
-		get_tree().paused = true
+		tree.paused = true
 	)
 
 	if not FileAccess.file_exists(SAVE_PATH):
@@ -34,6 +36,9 @@ func _ready() -> void:
 	var save_data: Dictionary = JSON.parse_string(\
 			FileAccess.open(SAVE_PATH, FileAccess.READ).get_as_text())
 	
+	for saveable in tree.get_nodes_in_group(SAVEABLE):
+		saveable.load(save_data)
+
 	print("Loaded %s version: %s" % [SAVE_PATH, save_data["version"]])
 
 
@@ -59,7 +64,11 @@ func _quit_app() -> void:
 		"version": ProjectSettings.get_setting("application/config/version"),
 	}
 
+	var tree := get_tree()
+	for saveable in tree.get_nodes_in_group(SAVEABLE):
+		saveable.save(save_data)
+
 	FileAccess.open(SAVE_PATH, FileAccess.WRITE)\
 			.store_string(JSON.stringify(save_data))
 
-	get_tree().quit()
+	tree.quit()
