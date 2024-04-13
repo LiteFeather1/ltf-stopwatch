@@ -33,13 +33,18 @@ func _ready() -> void:
 		print("Couldn't load %s" % SAVE_PATH)
 		return
 	
-	var save_data: Dictionary = JSON.parse_string(\
-			FileAccess.open(SAVE_PATH, FileAccess.READ).get_as_text())
+	var json = JSON.parse_string(FileAccess.open(SAVE_PATH, FileAccess.READ).get_as_text())
+	if json == null:
+		print("json object is null")
+		return
+	
+	var save_data: Dictionary = json
 	
 	for saveable in tree.get_nodes_in_group(SAVEABLE):
 		saveable.load(save_data)
 
-	print("Loaded %s version: %s" % [SAVE_PATH, save_data["version"]])
+	if save_data.has("version"):
+		print("Loaded %s version: %s" % [SAVE_PATH, save_data["version"]])
 
 
 func _shortcut_input(event: InputEvent) -> void:

@@ -41,6 +41,10 @@ func _ready() -> void:
 
 	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
+	await get_tree().process_frame
+	if _previous_window_pinned_size == Vector2i.ZERO: 
+		_previous_window_pinned_size = _window.min_size
+
 
 func _process(_delta: float) -> void:
 	_window.position += Vector2i(get_global_mouse_position() - _start_drag_pos)
@@ -60,8 +64,7 @@ func save(save_data: Dictionary) -> void:
 		save_data[WINDOW_PINNED_SIZE] = var_to_str(_window.size)
 	else:
 		save_data[WINDOW_SIZE] = var_to_str(_window.size)
-		save_data[WINDOW_PINNED_SIZE] = var_to_str(
-				_previous_window_pinned_size if _previous_window_pinned_size != Vector2i.ZERO else _window.min_size)
+		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
 	
 	save_data[WINDOW_POSITION] = var_to_str(
 		_previous_window_position if _b_pin.button_pressed else _window.position)
