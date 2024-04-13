@@ -4,6 +4,10 @@ class_name ChromeUI extends Panel
 signal close_pressed()
 
 
+const WINDOW_SIZE := &"window_size"
+const WINDOW_PINNED_SIZE := &"window_pinnned_size"
+const WINDOW_POSITION := &"window_position"
+
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
 var _start_drag_pos: Vector2
@@ -20,6 +24,10 @@ var _previous_window_position: Vector2i
 @onready var _window: Window = get_window()
 
 
+func _enter_tree() -> void:
+	add_to_group(Main.SAVEABLE)
+
+
 func _ready() -> void:
 	set_process(false)
 
@@ -30,8 +38,6 @@ func _ready() -> void:
 	%b_minimise_window.pressed.connect(minimise_window)
 
 	_window.size_changed.connect(_window_size_changed)
-
-	_previous_window_size = _window.min_size
 
 	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
@@ -46,6 +52,26 @@ func toggle_pin_input() -> void:
 
 func minimise_window() -> void:
 	_window.mode = Window.MODE_MINIMIZED
+
+
+func save(save_data: Dictionary) -> void:
+	save_data[WINDOW_SIZE] = var_to_str(_previous_window_size)
+	save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
+	save_data[WINDOW_POSITION] = var_to_str(
+		_previous_window_position if _b_pin.button_pressed else _window.position)
+
+
+func load(save_data: Dictionary) -> void:
+	if save_data.has(WINDOW_SIZE):
+		_previous_window_size = str_to_var(save_data[WINDOW_SIZE])
+		_window.size = _previous_window_size
+
+	_previous_window_pinned_size = str_to_var(save_data[WINDOW_PINNED_SIZE])\
+			if save_data.has(WINDOW_PINNED_SIZE) else _window.min_size
+	
+	if save_data.has(WINDOW_POSITION):
+		_previous_window_position = str_to_var(save_data[WINDOW_POSITION])
+		_window.position = _previous_window_position
 
 
 func _on_gui_input(event: InputEvent) -> void:
