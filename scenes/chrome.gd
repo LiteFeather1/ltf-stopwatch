@@ -16,8 +16,8 @@ var _previous_window_size: Vector2i
 var _previous_window_pinned_size: Vector2i
 var _previous_window_position: Vector2i
 
-@onready var _b_close: ButtonPopUp = %b_close_window
-@onready var _b_pin: ButtonPopUp = %b_pin
+@onready var _b_close: Button = %b_close_window
+@onready var _b_pin: ButtonHoverTip = %b_pin
 
 @onready var _l_title: Label = %l_title
 
@@ -96,7 +96,7 @@ func _close_window() -> void:
 func _toggle_pin_window(pinning: bool) -> void:
 	if pinning:
 		_b_pin.text = "nP"
-		_b_pin.set_pop_up_name("unpin")
+		_b_pin.set_tip_name("unpin")
 
 		_previous_window_position = _window.position
 
@@ -113,7 +113,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 	else:
 		_b_pin.text = "P"
-		_b_pin.set_pop_up_name("pin")
+		_b_pin.set_tip_name("pin")
 
 		_previous_window_pinned_size = _window.size
 		_window.size = _previous_window_size

@@ -1,16 +1,16 @@
-class_name ButtonPopUp extends Button
+class_name ButtonHoverTip extends Button
 
 
-@export var _pop_up_name: String = "name"
+@export var _tip_name: String = "tip"
 
 
-func set_pop_up_name(pop_up_name: String) -> void:
-	_pop_up_name = pop_up_name
+func set_tip_name(tip_name: String) -> void:
+	_tip_name = tip_name
 
 
 func _ready() -> void:
-	mouse_entered.connect(show_pop_up)
-	mouse_exited.connect(hide_pop_up)
+	mouse_entered.connect(show_hover_tip)
+	mouse_exited.connect(hide_hover_tip)
 
 
 func _pressed() -> void:
@@ -19,10 +19,10 @@ func _pressed() -> void:
 		mouse_entered.emit()
 
 
-func show_pop_up() -> void:
+func show_hover_tip() -> void:
 	if not disabled:
-		AL_PopUp.pop_up(self, _pop_up_name)
+		AL_PopUp.show_hover_tip(self, _tip_name)
 
 
-func hide_pop_up() -> void:
-	AL_PopUp.un_pop()
+func hide_hover_tip() -> void:
+	AL_PopUp.hide_hover_tip()

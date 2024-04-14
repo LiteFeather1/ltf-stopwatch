@@ -5,9 +5,9 @@ class_name StopwatchUI extends VBoxContainer
 
 @onready var _stopwatch: Stopwatch = %stopwatch
 
-@onready var _b_start: ButtonPopUp = %b_start
-@onready var _b_reset: ButtonPopUp = %b_reset
-@onready var _b_clipboard: ButtonPopUp = %b_clipboard
+@onready var _b_start: ButtonHoverTip = %b_start
+@onready var _b_reset: Button = %b_reset
+@onready var _b_clipboard: Button = %b_clipboard
 
 @onready var _window: Window = get_window()
 
@@ -55,10 +55,10 @@ func _start_toggled(state: bool) -> void:
 
 	if state:
 		_b_start.text = "P"
-		_b_start.set_pop_up_name("pause")
+		_b_start.set_tip_name("pause")
 	else:
 		_b_start.text = "C"
-		_b_start.set_pop_up_name("continue")
+		_b_start.set_tip_name("continue")
 
 
 func _reset_pressed() -> void:
@@ -70,7 +70,7 @@ func _reset_pressed() -> void:
 
 	_b_start.button_pressed = false
 	_b_start.text = "S"
-	_b_start.set_pop_up_name("start")
+	_b_start.set_tip_name("start")
 
 
 func _copy_to_clipboard() -> void:

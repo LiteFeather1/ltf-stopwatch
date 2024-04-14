@@ -1,4 +1,4 @@
-class_name PopUp extends Panel
+class_name HoverTip extends Panel
 
 
 @export var _label_padding := Vector2(10.0, 4.0)
@@ -17,13 +17,13 @@ var _tween: Tween
 
 
 func _ready() -> void:
-	_delay_to_appear.timeout.connect(_pop_up_animation)
+	_delay_to_appear.timeout.connect(_show_animation)
 
 	_font = _l_text.get_theme_font("_font")
 	_font_size = _l_text.get_theme_font_size("_font_size")
 
 
-func pop_up(c: Control, text: String) -> void:
+func show_hover_tip(c: Control, text: String) -> void:
 	if _tween:
 		_tween.kill()
 		visible = false
@@ -56,7 +56,7 @@ func pop_up(c: Control, text: String) -> void:
 	_delay_to_appear.start(_delay_to_appear.wait_time)
 
 
-func un_pop() -> void:
+func hide_hover_tip() -> void:
 	if not visible:
 		_delay_to_appear.paused = true
 		return
@@ -71,7 +71,7 @@ func un_pop() -> void:
 	visible = false
 
 
-func _pop_up_animation() -> void:
+func _show_animation() -> void:
 	visible = true
 	scale = Vector2(.75, .75)
 	

@@ -94,7 +94,7 @@ theme_override_styles/pressed = ExtResource("5_lddb2")
 toggle_mode = true
 text = "P"
 script = ExtResource("3_whgq5")
-_pop_up_name = "pin"
+_tip_name = "pin"
 
 [node name="VSeparator" type="VSeparator" parent="hbc_chrome/hbc_buttons"]
 layout_mode = 2
@@ -111,7 +111,7 @@ theme_override_styles/hover = ExtResource("4_pcg65")
 theme_override_styles/pressed = ExtResource("5_lddb2")
 text = "—"
 script = ExtResource("3_whgq5")
-_pop_up_name = "minimise"
+_tip_name = "minimise"
 
 [node name="VSeparator2" type="VSeparator" parent="hbc_chrome/hbc_buttons"]
 layout_mode = 2
@@ -128,4 +128,4 @@ theme_override_styles/hover = ExtResource("8_a0bhh")
 theme_override_styles/pressed = ExtResource("9_w7txe")
 text = "X"
 script = ExtResource("3_whgq5")
-_pop_up_name = "close"
+_tip_name = "close"

@@ -55,7 +55,7 @@ theme_override_styles/pressed = ExtResource("5_6sw6k")
 toggle_mode = true
 text = "S"
 script = ExtResource("3_wkdtx")
-_pop_up_name = "start"
+_tip_name = "start"
 
 [node name="b_reset" type="Button" parent="Control"]
 unique_name_in_owner = true
@@ -78,7 +78,7 @@ theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
 text = "R"
 script = ExtResource("3_wkdtx")
-_pop_up_name = "reset"
+_tip_name = "reset"
 
 [node name="b_clipboard" type="Button" parent="Control"]
 unique_name_in_owner = true
@@ -101,4 +101,4 @@ theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
 text = "C"
 script = ExtResource("3_wkdtx")
-_pop_up_name = "copy to clipboard"
+_tip_name = "copy to cliboard"
