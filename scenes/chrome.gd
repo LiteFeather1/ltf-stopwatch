@@ -62,12 +62,11 @@ func save(save_data: Dictionary) -> void:
 	if _b_pin.button_pressed:
 		save_data[WINDOW_SIZE] = var_to_str(_previous_window_size)
 		save_data[WINDOW_PINNED_SIZE] = var_to_str(_window.size)
+		save_data[WINDOW_POSITION] = var_to_str(_previous_window_position)
 	else:
 		save_data[WINDOW_SIZE] = var_to_str(_window.size)
 		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
-	
-	save_data[WINDOW_POSITION] = var_to_str(
-		_previous_window_position if _b_pin.button_pressed else _window.position)
+		save_data[WINDOW_POSITION] = var_to_str(_window.position)
 
 
 func load(save_data: Dictionary) -> void:
