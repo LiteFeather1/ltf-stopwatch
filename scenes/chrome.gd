@@ -10,16 +10,17 @@ const WINDOW_POSITION := &"window_position"
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
+@export var _b_close: Button
+@export var _b_pin: ButtonHoverTip
+@export var _b_minimise: Button
+
+@export var _l_title: Label
+
 var _start_drag_pos: Vector2
 
 var _previous_window_size: Vector2i
 var _previous_window_pinned_size: Vector2i
 var _previous_window_position: Vector2i
-
-@onready var _b_close: Button = %b_close_window
-@onready var _b_pin: ButtonHoverTip = %b_pin
-
-@onready var _l_title: Label = %l_title
 
 @onready var _window: Window = get_window()
 
@@ -35,7 +36,7 @@ func _ready() -> void:
 
 	_b_close.pressed.connect(_close_window)
 	_b_pin.toggled.connect(_toggle_pin_window)
-	%b_minimise_window.pressed.connect(minimise_window)
+	_b_minimise.pressed.connect(minimise_window)
 
 	_window.size_changed.connect(_window_size_changed)
 

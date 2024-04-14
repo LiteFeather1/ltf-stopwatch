@@ -15,7 +15,7 @@ bg_color = Color(0, 0, 0, 0.498039)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 
-[node name="chrome" type="Panel"]
+[node name="chrome" type="Panel" node_paths=PackedStringArray("_b_close", "_b_pin", "_b_minimise", "_l_title")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1.0
@@ -25,6 +25,10 @@ offset_bottom = 29.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mbryd")
 script = ExtResource("1_8lk40")
+_b_close = NodePath("hbc_chrome/hbc_buttons/b_close_window")
+_b_pin = NodePath("hbc_chrome/hbc_buttons/b_pin")
+_b_minimise = NodePath("hbc_chrome/hbc_buttons/b_minimise_window")
+_l_title = NodePath("hbc_chrome/hbc_title/l_title")
 
 [node name="hbc_chrome" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -70,7 +74,6 @@ texture = ExtResource("2_041hg")
 expand_mode = 1
 
 [node name="l_title" type="Label" parent="hbc_chrome/hbc_title"]
-unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "LTF Stopwatch"
@@ -83,7 +86,6 @@ size_flags_vertical = 4
 theme_override_constants/separation = 0
 
 [node name="b_pin" type="Button" parent="hbc_chrome/hbc_buttons"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
@@ -101,7 +103,6 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="b_minimise_window" type="Button" parent="hbc_chrome/hbc_buttons"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
@@ -118,7 +119,6 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="b_close_window" type="Button" parent="hbc_chrome/hbc_buttons"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
