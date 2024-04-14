@@ -35,6 +35,10 @@ func _process(delta: float) -> void:
 	_set_time()
 
 
+func has_started() -> bool:
+	return _elapsed_time > 0.0
+
+
 func set_state(state: bool) -> void:
 	if _elapsed_time == 0.0 and state:
 		started.emit()

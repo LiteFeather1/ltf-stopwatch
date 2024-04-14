@@ -23,6 +23,10 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 	_on_window_size_changed()
+	
+	if _stopwatch.has_started():
+		_set_b_start_continue()
+
 
 
 func toggle_stopwatch() -> void:
@@ -57,8 +61,7 @@ func _start_toggled(state: bool) -> void:
 		_b_start.text = "P"
 		_b_start.set_tip_name("pause")
 	else:
-		_b_start.text = "C"
-		_b_start.set_tip_name("continue")
+		_set_b_start_continue()
 
 
 func _reset_pressed() -> void:
@@ -90,3 +93,8 @@ func _on_window_size_changed() -> void:
 	_b_start.scale = b_scale
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
+
+
+func _set_b_start_continue() -> void:
+	_b_start.text = "C"
+	_b_start.set_tip_name("continue")
