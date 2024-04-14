@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AL_PopUp="*res://scenes/pop_up.tscn"
+AL_HoverTip="*res://scenes/hover_tip.tscn"
 
 [display]
 

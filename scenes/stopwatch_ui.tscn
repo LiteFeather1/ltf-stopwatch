@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="2_m0v6e"]
 [ext_resource type="StyleBox" uid="uid://bh6lrlr4iknrc" path="res://resources/themes/start_button/normal_start_button.tres" id="3_mhuhl"]
-[ext_resource type="Script" path="res://scenes/button_pop_up.gd" id="3_wkdtx"]
+[ext_resource type="Script" path="res://scenes/button_hover_tip.gd" id="3_wkdtx"]
 [ext_resource type="StyleBox" uid="uid://304vsl0vl4f7" path="res://resources/themes/start_button/hover_start_button.tres" id="4_45roa"]
 [ext_resource type="StyleBox" uid="uid://c6qgu7uipl4b8" path="res://resources/themes/start_button/pressed_start_button.tres" id="5_6sw6k"]
 [ext_resource type="StyleBox" uid="uid://b2w2qcwr68abt" path="res://resources/themes/stopwatch_buttons/normal_stopwatch_button.tres" id="7_ib2lm"]
