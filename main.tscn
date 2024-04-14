@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://main.gd" id="1_fm7if"]
 [ext_resource type="Script" path="res://scenes/resize_handler.gd" id="2_3yg2l"]
 [ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/stopwatch_ui.tscn" id="2_cujrr"]
-[ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/chrome.tscn" id="4_uv45h"]
+[ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/title_bar_ui.tscn" id="4_uv45h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmrt0"]
 bg_color = Color(0.117647, 0.117647, 0.117647, 1)
@@ -20,7 +20,7 @@ corner_radius_bottom_left = 16
 corner_detail = 20
 anti_aliasing = false
 
-[node name="Main" type="Panel" node_paths=PackedStringArray("_stopwatch_ui", "_chrome")]
+[node name="Main" type="Panel" node_paths=PackedStringArray("_stopwatch_ui", "_title_bar_ui")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -29,14 +29,14 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gmrt0")
 script = ExtResource("1_fm7if")
 _stopwatch_ui = NodePath("stopwatch_ui")
-_chrome = NodePath("chrome")
+_title_bar_ui = NodePath("title_bar_ui")
 
-[node name="chrome" parent="." instance=ExtResource("4_uv45h")]
+[node name="title_bar_ui" parent="." instance=ExtResource("4_uv45h")]
 layout_mode = 1
 
-[node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_chrome") instance=ExtResource("2_cujrr")]
+[node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_title_bar") instance=ExtResource("2_cujrr")]
 layout_mode = 1
-_chrome = NodePath("../chrome")
+_title_bar = NodePath("../title_bar_ui")
 
 [node name="c_resize_handlers" type="Control" parent="."]
 layout_mode = 1

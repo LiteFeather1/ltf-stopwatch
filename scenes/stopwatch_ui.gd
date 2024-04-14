@@ -1,7 +1,7 @@
 class_name StopwatchUI extends VBoxContainer
 
 
-@export var _chrome: Control
+@export var _title_bar: Control
 
 @export var _stopwatch: Stopwatch
 
@@ -83,7 +83,7 @@ func _copy_to_clipboard() -> void:
 func _on_window_size_changed() -> void:
 	# Scale text to fit size
 	var s_x := _window.size.x / float(_window.max_size.x)
-	var s_y := _window.size.y / float(size.y + _chrome.size.y * 2)
+	var s_y := _window.size.y / float(size.y + _title_bar.size.y * 2)
 	var s := minf(s_x, s_y)
 	scale = Vector2(s, s)
 

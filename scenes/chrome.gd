@@ -1,4 +1,4 @@
-class_name ChromeUI extends Panel
+class_name TitleBarUI extends Panel
 
 
 signal close_pressed()

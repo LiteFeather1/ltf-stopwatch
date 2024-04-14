@@ -2,7 +2,7 @@ class_name Main extends Panel
 
 
 const SAVE_PATH := &"user://ltf_stopwatch.json"
-const SAVEABLE := &"user://ltf_stopwatch.json"
+const SAVEABLE := &"saveable"
 
 @export_category("Window")
 @export var _min_window_size := Vector2i(192, 192)
@@ -11,11 +11,11 @@ const SAVEABLE := &"user://ltf_stopwatch.json"
 
 @export_category("Nodes")
 @export var _stopwatch_ui: StopwatchUI
-@export var _chrome: ChromeUI
+@export var _title_bar_ui: TitleBarUI
 
 
 func _ready() -> void:
-	_chrome.close_pressed.connect(_quit_app)
+	_title_bar_ui.close_pressed.connect(_quit_app)
 
 	var window := get_window()
 	window.min_size = _min_window_size
@@ -60,9 +60,9 @@ func _shortcut_input(event: InputEvent) -> void:
 		_stopwatch_ui.restore_last_elapsed_time()
 	# Window Events
 	elif event.is_action_pressed("toggle_pin_window"):
-		_chrome.toggle_pin_input()
+		_title_bar_ui.toggle_pin_input()
 	elif event.is_action_pressed("minimise_window"):
-		_chrome.minimise_window()
+		_title_bar_ui.minimise_window()
 
 
 func _notification(what: int) -> void:

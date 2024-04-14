@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b828x2tbifvm2"]
 
-[ext_resource type="Script" path="res://scenes/hover_tip.gd" id="1_33qhl"]
+[ext_resource type="Script" path="res://scenes/title_bar_ui.gd" id="1_33qhl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erual"]
 bg_color = Color(0, 0, 0, 1)
