@@ -25,6 +25,10 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	set_process(false)
 
+	await get_tree().physics_frame
+	if _elapsed_time > 0.0:
+		started.emit()
+
 
 func _process(delta: float) -> void:
 	_elapsed_time += delta
