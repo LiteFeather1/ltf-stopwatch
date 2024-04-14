@@ -4,14 +4,14 @@ class_name HoverTip extends Panel
 @export var _label_padding := Vector2(10.0, 4.0)
 @export var _animation_duration := .15
 
+@export var _l_text: Label
+@export var _dent: Control
+@export var _delay_to_appear: Timer
+
 var _font: Font
 var _font_size : int
 
 var _tween: Tween
-
-@onready var _l_text: Label = %l_text
-@onready var _dent: Control = %dent
-@onready var _delay_to_appear: Timer = %delay_to_appear
 
 @onready var window := get_window()
 
