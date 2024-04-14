@@ -52,9 +52,9 @@ custom_minimum_size = Vector2(4, 4)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_top = 4.0
+offset_top = 8.0
 offset_right = 4.0
-offset_bottom = -4.0
+offset_bottom = -8.0
 grow_vertical = 2
 mouse_default_cursor_shape = 10
 script = ExtResource("2_3yg2l")
@@ -67,8 +67,8 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -4.0
-offset_top = 4.0
-offset_bottom = -4.0
+offset_top = 8.0
+offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_default_cursor_shape = 10
@@ -79,8 +79,8 @@ custom_minimum_size = Vector2(4, 4)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 4.0
-offset_right = -4.0
+offset_left = 8.0
+offset_right = -8.0
 offset_bottom = 4.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 9
@@ -93,9 +93,9 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
+offset_left = 8.0
 offset_top = -4.0
-offset_right = -4.0
+offset_right = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_default_cursor_shape = 9
@@ -103,7 +103,7 @@ script = ExtResource("2_3yg2l")
 
 [node name="handler_left_top" type="Control" parent="c_resize_handlers"]
 modulate = Color(0.521569, 0.533333, 1, 1)
-custom_minimum_size = Vector2(4, 4)
+custom_minimum_size = Vector2(8, 8)
 layout_mode = 1
 anchors_preset = 0
 offset_right = 4.0
@@ -113,7 +113,7 @@ script = ExtResource("2_3yg2l")
 
 [node name="handler_right_top" type="Control" parent="c_resize_handlers"]
 modulate = Color(0.521569, 0.533333, 1, 1)
-custom_minimum_size = Vector2(4, 4)
+custom_minimum_size = Vector2(8, 8)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -126,7 +126,7 @@ script = ExtResource("2_3yg2l")
 
 [node name="handler_left_bot" type="Control" parent="c_resize_handlers"]
 modulate = Color(0.521569, 0.533333, 1, 1)
-custom_minimum_size = Vector2(4, 4)
+custom_minimum_size = Vector2(8, 8)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -139,7 +139,7 @@ script = ExtResource("2_3yg2l")
 
 [node name="handler_right_bot" type="Control" parent="c_resize_handlers"]
 modulate = Color(0.521569, 0.533333, 1, 1)
-custom_minimum_size = Vector2(4, 4)
+custom_minimum_size = Vector2(8, 8)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
