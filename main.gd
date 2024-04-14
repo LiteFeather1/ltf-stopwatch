@@ -35,8 +35,8 @@ func _ready() -> void:
 		return
 	
 	var json = JSON.parse_string(FileAccess.open(SAVE_PATH, FileAccess.READ).get_as_text())
-	if json == null:
-		print("json object is null")
+	if not json is Dictionary:
+		print("Json object is not a dictionary")
 		return
 	
 	var save_data: Dictionary = json
