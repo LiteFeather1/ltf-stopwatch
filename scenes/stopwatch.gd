@@ -12,10 +12,10 @@ const LAST_ELAPSED_TIME := &"last_elapsed_time"
 @export var _ticking_colour := Color("f7f7f7")
 @export var _paused_colour := Color("cecece")
 
+@export var _l_time: RichTextLabel
+
 var _elapsed_time := 0.0
 var _last_elapsed_time := 0.0
-
-@onready var _l_time: RichTextLabel = %l_time
 
 
 func _enter_tree() -> void:
