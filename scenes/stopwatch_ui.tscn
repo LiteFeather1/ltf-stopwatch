@@ -11,7 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://cp6snfsie0odu" path="res://resources/themes/stopwatch_buttons/pressed_stopwatch_button.tres" id="9_gkr5i"]
 [ext_resource type="StyleBox" uid="uid://h0eenhgoac4d" path="res://resources/themes/stopwatch_buttons/disabled_stopwatch_button.tres" id="10_y3bwx"]
 
-[node name="stopwatch_ui" type="VBoxContainer"]
+[node name="stopwatch_ui" type="VBoxContainer" node_paths=PackedStringArray("_stopwatch", "_b_start", "_b_reset", "_b_clipboard")]
 custom_minimum_size = Vector2(512, 207)
 anchors_preset = 14
 anchor_top = 0.5
@@ -25,17 +25,19 @@ pivot_offset = Vector2(256, 103)
 theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("1_t7xu2")
+_stopwatch = NodePath("stopwatch")
+_b_start = NodePath("buttons/b_start")
+_b_reset = NodePath("buttons/b_reset")
+_b_clipboard = NodePath("buttons/b_clipboard")
 
 [node name="stopwatch" parent="." instance=ExtResource("2_m0v6e")]
-unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Control" type="Control" parent="."]
+[node name="buttons" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 
-[node name="b_start" type="Button" parent="Control"]
-unique_name_in_owner = true
+[node name="b_start" type="Button" parent="buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 95.5
@@ -57,8 +59,7 @@ text = "S"
 script = ExtResource("3_wkdtx")
 _tip_name = "start"
 
-[node name="b_reset" type="Button" parent="Control"]
-unique_name_in_owner = true
+[node name="b_reset" type="Button" parent="buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 223.5
@@ -80,8 +81,7 @@ text = "R"
 script = ExtResource("3_wkdtx")
 _tip_name = "reset"
 
-[node name="b_clipboard" type="Button" parent="Control"]
-unique_name_in_owner = true
+[node name="b_clipboard" type="Button" parent="buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 351.5

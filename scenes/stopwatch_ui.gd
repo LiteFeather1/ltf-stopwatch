@@ -3,11 +3,11 @@ class_name StopwatchUI extends VBoxContainer
 
 @export var _chrome: Control
 
-@onready var _stopwatch: Stopwatch = %stopwatch
+@export var _stopwatch: Stopwatch
 
-@onready var _b_start: ButtonHoverTip = %b_start
-@onready var _b_reset: Button = %b_reset
-@onready var _b_clipboard: Button = %b_clipboard
+@export var _b_start: ButtonHoverTip
+@export var _b_reset: Button
+@export var _b_clipboard: Button
 
 @onready var _window: Window = get_window()
 
