@@ -1,79 +1,130 @@
-class_name HoverTip extends Panel
+class_name TitleBarUI extends Panel
 
 
-@export var _label_padding := Vector2(10.0, 4.0)
-@export var _animation_duration := .15
+signal close_pressed()
 
-@export var _l_text: Label
-@export var _dent: Control
-@export var _delay_to_appear: Timer
 
-var _font: Font
-var _font_size : int
+const WINDOW_SIZE := &"window_size"
+const WINDOW_PINNED_SIZE := &"window_pinnned_size"
+const WINDOW_POSITION := &"window_position"
 
-var _tween: Tween
+@export var _window_margin_when_pinning := Vector2i(-32, 32)
 
-@onready var window := get_window()
+@export var _b_close: Button
+@export var _b_pin: ButtonHoverTip
+@export var _b_minimise: Button
+
+@export var _l_title: Label
+
+var _start_drag_pos: Vector2
+
+var _previous_window_size: Vector2i
+var _previous_window_pinned_size: Vector2i
+var _previous_window_position: Vector2i
+
+@onready var _window: Window = get_window()
+
+
+func _enter_tree() -> void:
+	add_to_group(Main.SAVEABLE)
 
 
 func _ready() -> void:
-	_delay_to_appear.timeout.connect(_show_animation)
+	set_process(false)
 
-	_font = _l_text.get_theme_font("_font")
-	_font_size = _l_text.get_theme_font_size("_font_size")
+	gui_input.connect(_on_gui_input)
+
+	_b_close.pressed.connect(_close_window)
+	_b_pin.toggled.connect(_toggle_pin_window)
+	_b_minimise.pressed.connect(minimise_window)
+
+	_window.size_changed.connect(_window_size_changed)
+
+	_l_title.text = ProjectSettings.get_setting("application/config/name")
+
+	await get_tree().process_frame
+	if _previous_window_pinned_size == Vector2i.ZERO: 
+		_previous_window_pinned_size = _window.min_size
 
 
-func show_hover_tip(c: Control, text: String) -> void:
-	if _tween:
-		_tween.kill()
-		visible = false
+func _process(_delta: float) -> void:
+	_window.position += Vector2i(get_global_mouse_position() - _start_drag_pos)
+
+
+func toggle_pin_input() -> void:
+	_b_pin.button_pressed = not _b_pin.button_pressed
+
+
+func minimise_window() -> void:
+	_window.mode = Window.MODE_MINIMIZED
+
+
+func save(save_data: Dictionary) -> void:
+	if _b_pin.button_pressed:
+		save_data[WINDOW_SIZE] = var_to_str(_previous_window_size)
+		save_data[WINDOW_PINNED_SIZE] = var_to_str(_window.size)
+		save_data[WINDOW_POSITION] = var_to_str(_previous_window_position)
+	else:
+		save_data[WINDOW_SIZE] = var_to_str(_window.size)
+		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
+		save_data[WINDOW_POSITION] = var_to_str(_window.position)
+
+
+func load(save_data: Dictionary) -> void:
+	if save_data.has(WINDOW_SIZE):
+		_previous_window_size = str_to_var(save_data[WINDOW_SIZE])
+		_window.size = _previous_window_size
+
+	_previous_window_pinned_size = str_to_var(save_data[WINDOW_PINNED_SIZE])\
+			if save_data.has(WINDOW_PINNED_SIZE) else _window.min_size
 	
-	_l_text.text = text
+	if save_data.has(WINDOW_POSITION):
+		_previous_window_position = str_to_var(save_data[WINDOW_POSITION])
+		_window.position = _previous_window_position
 
-	var s := _font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, _font_size)
-	size = s + _label_padding
-	pivot_offset = size * .5
 
-	var c_scale := c.get_global_transform().get_scale()
-	var new_x := c.global_position.x + (c.size.x * c_scale.x - size.x) * .5
-	var right := new_x + size.x
-	var out_x := 0.0
-	# This is only checking right checking left wouldn't be to difficult but it's unnecessary due to the current layout
-	if window.size.x <= right:
-		out_x = window.size.x - right - _label_padding.x
-		new_x += out_x
+func _on_gui_input(event: InputEvent) -> void:
+	var mb_event := event as InputEventMouseButton
+	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
+		set_process(not is_processing())
+		_start_drag_pos = get_local_mouse_position()
 
-	var new_y := c.global_position.y + c.size.y * c_scale.y + _label_padding.y - _dent.position.y
-	var bot := new_y + size.y
-	if window.size.y <= bot:
-		new_y += window.size.y - bot - _label_padding.y
+
+func _close_window() -> void:
+	close_pressed.emit()
+
+
+func _toggle_pin_window(pinning: bool) -> void:
+	if pinning:
+		_b_pin.text = "nP"
+		_b_pin.set_tip_name("unpin")
+
+		_previous_window_position = _window.position
+
+		_previous_window_size = _window.size
+		_window.size = _previous_window_pinned_size
+
+		var win_id := _window.current_screen
+		var right := DisplayServer.screen_get_position(win_id).x\
+				+ DisplayServer.screen_get_size(win_id).x\
+				- _window.size.x\
+				+ _window_margin_when_pinning.x
+		
+		_window.position = Vector2i(right, _window_margin_when_pinning.y)
+
+	else:
+		_b_pin.text = "P"
+		_b_pin.set_tip_name("pin")
+
+		_previous_window_pinned_size = _window.size
+		_window.size = _previous_window_size
+
+		_window.position = _previous_window_position
 	
-	global_position = Vector2(new_x, new_y)
-
-	_dent.position.x = pivot_offset.x - _dent.pivot_offset.x - out_x
-
-	_delay_to_appear.paused = false
-	_delay_to_appear.start(_delay_to_appear.wait_time)
+	_b_close.visible = not pinning
+	_window.always_on_top = pinning
 
 
-func hide_hover_tip() -> void:
-	if not visible:
-		_delay_to_appear.paused = true
-		return
-	
-	if _tween:
-		_tween.kill()
-	
-	_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	_tween.tween_property(self, "scale", Vector2(.5, .5), _animation_duration)
-	await _tween.finished
-
-	visible = false
-
-
-func _show_animation() -> void:
-	visible = true
-	scale = Vector2(.75, .75)
-	
-	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_tween.tween_property(self, "scale", Vector2(1.0, 1.0), _animation_duration)
+func _window_size_changed() -> void:
+	await get_tree().process_frame
+	_l_title.visible = _l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x < 0.0
