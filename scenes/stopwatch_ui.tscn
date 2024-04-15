@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=13 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="2_m0v6e"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/button_hover_tip.gd" id="3_wkdtx"]
 [ext_resource type="StyleBox" uid="uid://304vsl0vl4f7" path="res://resources/themes/start_button/hover_start_button.tres" id="4_45roa"]
 [ext_resource type="StyleBox" uid="uid://c6qgu7uipl4b8" path="res://resources/themes/start_button/pressed_start_button.tres" id="5_6sw6k"]
+[ext_resource type="Texture2D" uid="uid://cdpk0okppa7wy" path="res://assets/sprites/buttons_stopwatch/s_play_button.svg" id="6_qv58p"]
 [ext_resource type="StyleBox" uid="uid://b2w2qcwr68abt" path="res://resources/themes/stopwatch_buttons/normal_stopwatch_button.tres" id="7_ib2lm"]
 [ext_resource type="StyleBox" uid="uid://b5bv3bbdsyxvb" path="res://resources/themes/stopwatch_buttons/hover_stopwatch_button.tres" id="8_mdogp"]
 [ext_resource type="StyleBox" uid="uid://cp6snfsie0odu" path="res://resources/themes/stopwatch_buttons/pressed_stopwatch_button.tres" id="9_gkr5i"]
@@ -46,17 +47,17 @@ offset_right = 159.5
 offset_bottom = 64.0
 pivot_offset = Vector2(32, 0)
 focus_mode = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_constants/icon_max_width = 48
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = ExtResource("3_mhuhl")
 theme_override_styles/hover = ExtResource("4_45roa")
 theme_override_styles/pressed = ExtResource("5_6sw6k")
 toggle_mode = true
-text = "S"
+icon = ExtResource("6_qv58p")
+icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "start"
 
