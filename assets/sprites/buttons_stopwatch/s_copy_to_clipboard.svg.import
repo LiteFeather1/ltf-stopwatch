@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbow7jib5a2st"
-path="res://.godot/imported/s_pin_button.svg-179f613d7b69f8e99b2c5568eb0b7cb4.ctex"
+uid="uid://b12aiw15pcoh1"
+path="res://.godot/imported/s_copy_to_clipboard.svg-7baa72c743e74be06aebad7b9e4fa9e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/s_pin_button.svg"
-dest_files=["res://.godot/imported/s_pin_button.svg-179f613d7b69f8e99b2c5568eb0b7cb4.ctex"]
+source_file="res://assets/sprites/buttons_stopwatch/s_copy_to_clipboard.svg"
+dest_files=["res://.godot/imported/s_copy_to_clipboard.svg-7baa72c743e74be06aebad7b9e4fa9e4.ctex"]
 
 [params]
 
