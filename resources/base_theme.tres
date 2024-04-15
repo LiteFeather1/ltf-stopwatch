@@ -5,6 +5,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
 [resource]
+Button/constants/icon_max_width = 16
 Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_u3pcg")
 Label/fonts/font = ExtResource("1_u3pcg")
