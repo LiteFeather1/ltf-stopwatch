@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drpy0b1g317le"
-path="res://.godot/imported/s_minimise_button.svg-b2ea2db783b34d05963f8933d596b7e1.ctex"
+uid="uid://b58ugamqjmaon"
+path="res://.godot/imported/s_close_button.svg-e303ada5f29a99676c0121b04ef5a0ba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/s_minimise_button.svg"
-dest_files=["res://.godot/imported/s_minimise_button.svg-b2ea2db783b34d05963f8933d596b7e1.ctex"]
+source_file="res://assets/s_close_button.svg"
+dest_files=["res://.godot/imported/s_close_button.svg-e303ada5f29a99676c0121b04ef5a0ba.ctex"]
 
 [params]
 
