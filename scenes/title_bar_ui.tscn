@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=15 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://be575cxvyxn1y" path="res://icon.svg" id="2_041hg"]
+[ext_resource type="Texture2D" uid="uid://blnni3cgdpn8r" path="res://assets/s_unpin_button.svg" id="3_0o78v"]
 [ext_resource type="StyleBox" uid="uid://dvjr08r8ak11w" path="res://resources/themes/title_bar_buttons/normal_title_bar_button.tres" id="3_s80vr"]
 [ext_resource type="Script" path="res://scenes/button_hover_tip.gd" id="3_whgq5"]
 [ext_resource type="StyleBox" uid="uid://yivw5cmeo2qx" path="res://resources/themes/title_bar_buttons/hover_title_bar_button.tres" id="4_pcg65"]
@@ -18,7 +19,7 @@ bg_color = Color(0, 0, 0, 0.498039)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 
-[node name="title_bar_ui" type="Panel" node_paths=PackedStringArray("_b_close", "_b_pin", "_b_minimise", "_l_title")]
+[node name="title_bar_ui" type="Panel" node_paths=PackedStringArray("_l_title", "_b_close", "_b_minimise", "_b_pin")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1.0
@@ -28,10 +29,12 @@ offset_bottom = 29.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mbryd")
 script = ExtResource("1_8lk40")
-_b_close = NodePath("hbc_title_bar/hbc_buttons/b_close_window")
-_b_pin = NodePath("hbc_title_bar/hbc_buttons/b_pin")
-_b_minimise = NodePath("hbc_title_bar/hbc_buttons/b_minimise_window")
 _l_title = NodePath("hbc_title_bar/hbc_title/l_title")
+_b_close = NodePath("hbc_title_bar/hbc_buttons/b_close_window")
+_b_minimise = NodePath("hbc_title_bar/hbc_buttons/b_minimise_window")
+_b_pin = NodePath("hbc_title_bar/hbc_buttons/b_pin")
+_sprite_pin = ExtResource("6_6bgae")
+_sprite_unpin = ExtResource("3_0o78v")
 
 [node name="hbc_title_bar" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -92,7 +95,7 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 focus_mode = 0
-theme_override_constants/icon_max_width = 28
+theme_override_constants/icon_max_width = 20
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = ExtResource("3_s80vr")
 theme_override_styles/hover = ExtResource("4_pcg65")

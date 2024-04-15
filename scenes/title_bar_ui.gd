@@ -10,11 +10,15 @@ const WINDOW_POSITION := &"window_position"
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
+@export var _l_title: Label
+
 @export var _b_close: Button
-@export var _b_pin: ButtonHoverTip
 @export var _b_minimise: Button
 
-@export var _l_title: Label
+@export_category("Button Pin")
+@export var _b_pin: ButtonHoverTip
+@export var _sprite_pin: Texture2D
+@export var _sprite_unpin: Texture2D
 
 var _start_drag_pos: Vector2
 
@@ -96,7 +100,7 @@ func _close_window() -> void:
 
 func _toggle_pin_window(pinning: bool) -> void:
 	if pinning:
-		_b_pin.text = "nP"
+		_b_pin.icon = _sprite_unpin
 		_b_pin.set_tip_name("unpin")
 
 		_previous_window_position = _window.position
@@ -113,7 +117,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 		_window.position = Vector2i(right, _window_margin_when_pinning.y)
 
 	else:
-		_b_pin.text = "P"
+		_b_pin.icon = _sprite_pin
 		_b_pin.set_tip_name("pin")
 
 		_previous_window_pinned_size = _window.size
