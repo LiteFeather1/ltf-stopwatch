@@ -5,10 +5,15 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
 [resource]
+Button/colors/font_color = Color(0.87451, 0.87451, 0.87451, 1)
+Button/colors/font_disabled_color = Color(0.498039, 0.498039, 0.498039, 0.4)
+Button/colors/font_hover_color = Color(1, 1, 1, 0.87451)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
 Button/colors/icon_disabled_color = Color(0.498039, 0.498039, 0.498039, 0.4)
 Button/colors/icon_hover_color = Color(1, 1, 1, 0.87451)
 Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
-Button/colors/icon_normal_color = Color(1, 1, 1, 0.74902)
+Button/colors/icon_normal_color = Color(0.87451, 0.87451, 0.87451, 1)
 Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
 Button/constants/icon_max_width = 16
 Button/font_sizes/font_size = 32
