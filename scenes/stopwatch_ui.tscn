@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=14 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="2_m0v6e"]
+[ext_resource type="Texture2D" uid="uid://blu7k5mxd8do4" path="res://assets/sprites/buttons_stopwatch/s_stop_button.svg" id="3_fs0r6"]
 [ext_resource type="StyleBox" uid="uid://bh6lrlr4iknrc" path="res://resources/themes/start_button/normal_start_button.tres" id="3_mhuhl"]
 [ext_resource type="Script" path="res://scenes/button_hover_tip.gd" id="3_wkdtx"]
 [ext_resource type="StyleBox" uid="uid://304vsl0vl4f7" path="res://resources/themes/start_button/hover_start_button.tres" id="4_45roa"]
@@ -13,7 +14,7 @@
 [ext_resource type="StyleBox" uid="uid://h0eenhgoac4d" path="res://resources/themes/stopwatch_buttons/disabled_stopwatch_button.tres" id="10_y3bwx"]
 [ext_resource type="Texture2D" uid="uid://b12aiw15pcoh1" path="res://assets/sprites/buttons_stopwatch/s_copy_to_clipboard.svg" id="11_1p55s"]
 
-[node name="stopwatch_ui" type="VBoxContainer" node_paths=PackedStringArray("_stopwatch", "_b_start", "_b_reset", "_b_clipboard")]
+[node name="stopwatch_ui" type="VBoxContainer" node_paths=PackedStringArray("_stopwatch", "_b_reset", "_b_clipboard", "_b_start")]
 custom_minimum_size = Vector2(512, 207)
 anchors_preset = 14
 anchor_top = 0.5
@@ -28,9 +29,11 @@ theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("1_t7xu2")
 _stopwatch = NodePath("stopwatch")
-_b_start = NodePath("buttons/b_start")
 _b_reset = NodePath("buttons/b_reset")
 _b_clipboard = NodePath("buttons/b_clipboard")
+_b_start = NodePath("buttons/b_start")
+_sprite_start = ExtResource("6_qv58p")
+_sprite_pause = ExtResource("3_fs0r6")
 
 [node name="stopwatch" parent="." instance=ExtResource("2_m0v6e")]
 layout_mode = 2
