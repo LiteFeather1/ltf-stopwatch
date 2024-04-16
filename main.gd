@@ -48,7 +48,7 @@ func _ready() -> void:
 		print("Loaded %s version: %s" % [SAVE_PATH, save_data["version"]])
 
 
-func _shortcut_input(event: InputEvent) -> void:
+func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("restore_last_elapsed_time"):
 		_stopwatch_ui.restore_last_elapsed_time()
 
