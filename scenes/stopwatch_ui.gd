@@ -1,7 +1,9 @@
-class_name StopwatchUI extends VBoxContainer
+class_name StopwatchUI extends Control
 
 
 @export var _title_bar: Control
+
+@export var _element_to_scale: Control
 
 @export var _stopwatch: Stopwatch
 
@@ -72,7 +74,7 @@ func _on_window_size_changed() -> void:
 	var s_x := Global.window.size.x / float(Global.window.max_size.x)
 	var s_y := Global.window.size.y / float(size.y + _title_bar.size.y * 2)
 	var s := minf(s_x, s_y)
-	scale = Vector2(s, s)
+	_element_to_scale.scale = Vector2(s, s)
 
 	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)

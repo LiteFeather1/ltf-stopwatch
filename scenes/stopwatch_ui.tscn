@@ -45,8 +45,26 @@ keycode = 67
 [sub_resource type="Shortcut" id="Shortcut_ysi7m"]
 events = [SubResource("InputEventKey_limys")]
 
-[node name="stopwatch_ui" type="VBoxContainer" node_paths=PackedStringArray("_stopwatch", "_b_reset", "_b_clipboard", "_b_start")]
-custom_minimum_size = Vector2(512, 207)
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_t7xu2")
+_element_to_scale = NodePath("VBoxContainer")
+_stopwatch = NodePath("VBoxContainer/stopwatch")
+_b_reset = NodePath("VBoxContainer/buttons/b_reset")
+_b_clipboard = NodePath("VBoxContainer/buttons/b_clipboard")
+_b_start = NodePath("VBoxContainer/buttons/b_start")
+_sprite_start = ExtResource("6_qv58p")
+_sprite_pause = ExtResource("3_fs0r6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(512, 223)
+layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -57,23 +75,15 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(256, 103)
 theme_override_constants/separation = 16
-alignment = 1
-script = ExtResource("1_t7xu2")
-_stopwatch = NodePath("stopwatch")
-_b_reset = NodePath("buttons/b_reset")
-_b_clipboard = NodePath("buttons/b_clipboard")
-_b_start = NodePath("buttons/b_start")
-_sprite_start = ExtResource("6_qv58p")
-_sprite_pause = ExtResource("3_fs0r6")
 
-[node name="stopwatch" parent="." instance=ExtResource("2_m0v6e")]
+[node name="stopwatch" parent="VBoxContainer" instance=ExtResource("2_m0v6e")]
 layout_mode = 2
 
-[node name="buttons" type="Control" parent="."]
+[node name="buttons" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 
-[node name="b_start" type="Button" parent="buttons"]
+[node name="b_start" type="Button" parent="VBoxContainer/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 95.5
@@ -97,7 +107,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "start"
 
-[node name="b_reset" type="Button" parent="buttons"]
+[node name="b_reset" type="Button" parent="VBoxContainer/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 223.5
@@ -119,7 +129,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "reset"
 
-[node name="b_clipboard" type="Button" parent="buttons"]
+[node name="b_clipboard" type="Button" parent="VBoxContainer/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 351.5
