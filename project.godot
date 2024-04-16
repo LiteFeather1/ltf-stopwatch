@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 AL_HoverTip="*res://scenes/hover_tip.tscn"
+Global="*res://scripts/global.gd"
 
 [display]
 
