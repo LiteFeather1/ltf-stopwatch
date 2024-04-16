@@ -17,9 +17,9 @@ func _ready() -> void:
 
 	_distance_to_edge = Vector2i(
 		int(global_position.x) if global_position.x < _window.size.x / 2.0
-				else _window.size.x - int(global_position.x),
+			else _window.size.x - int(global_position.x),
 		int(global_position.y) if (global_position.y < _window.size.y / 2.0)
-				else _window.size.y - int(global_position.y)
+			else _window.size.y - int(global_position.y)
 	)
 
 

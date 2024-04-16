@@ -49,8 +49,12 @@ func _ready() -> void:
 
 	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
-	_b_minimise.add_theme_stylebox_override(HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate())
-	_b_minimise.add_theme_stylebox_override(PRESSED, _b_minimise.get_theme_stylebox(PRESSED).duplicate())
+	_b_minimise.add_theme_stylebox_override(
+		HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate()
+	)
+	_b_minimise.add_theme_stylebox_override(
+		PRESSED, _b_minimise.get_theme_stylebox(PRESSED).duplicate()
+	)
 
 	await get_tree().process_frame
 	if _previous_window_pinned_size == Vector2i.ZERO:
@@ -78,7 +82,7 @@ func load(save_data: Dictionary) -> void:
 		_window.size = _previous_window_size
 
 	_previous_window_pinned_size = str_to_var(save_data[WINDOW_PINNED_SIZE])\
-			if save_data.has(WINDOW_PINNED_SIZE) else _window.min_size
+		if save_data.has(WINDOW_PINNED_SIZE) else _window.min_size
 	
 	if save_data.has(WINDOW_POSITION):
 		_previous_window_position = str_to_var(save_data[WINDOW_POSITION])
