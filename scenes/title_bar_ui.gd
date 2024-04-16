@@ -8,6 +8,9 @@ const WINDOW_SIZE := &"window_size"
 const WINDOW_PINNED_SIZE := &"window_pinnned_size"
 const WINDOW_POSITION := &"window_position"
 
+const HOVER := &"hover"
+const PRESSED := &"pressed"
+
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
 @export var _l_title: Label
@@ -46,8 +49,11 @@ func _ready() -> void:
 
 	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
+	_b_minimise.add_theme_stylebox_override(HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate())
+	_b_minimise.add_theme_stylebox_override(PRESSED, _b_minimise.get_theme_stylebox(PRESSED).duplicate())
+
 	await get_tree().process_frame
-	if _previous_window_pinned_size == Vector2i.ZERO: 
+	if _previous_window_pinned_size == Vector2i.ZERO:
 		_previous_window_pinned_size = _window.min_size
 
 
@@ -103,7 +109,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 		_b_pin.icon = _sprite_unpin
 		_b_pin.set_tip_name("unpin")
 
-		_set_minimise_corner_radius(_b_close.get_theme_stylebox("hover").corner_radius_top_right)
+		_set_minimise_corner_radius(_b_close.get_theme_stylebox(HOVER).corner_radius_top_right)
 
 		_previous_window_position = _window.position
 
@@ -121,7 +127,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 		_b_pin.icon = _sprite_pin
 		_b_pin.set_tip_name("pin")
 
-		_set_minimise_corner_radius(_b_minimise.get_theme_stylebox("hover").corner_radius_top_left)
+		_set_minimise_corner_radius(_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_left)
 
 		_previous_window_pinned_size = _window.size
 		_window.size = _previous_window_size
@@ -138,5 +144,5 @@ func _window_size_changed() -> void:
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
-	_b_minimise.get_theme_stylebox("hover").corner_radius_top_right = radius
-	_b_minimise.get_theme_stylebox("pressed").corner_radius_top_right = radius
+	_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_right = radius
+	_b_minimise.get_theme_stylebox(PRESSED).corner_radius_top_right = radius
