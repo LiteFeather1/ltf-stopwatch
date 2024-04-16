@@ -2,6 +2,7 @@ class_name Main extends Panel
 
 
 const SAVE_PATH := &"user://ltf_stopwatch.json"
+const VERSION := &"version"
 const SAVEABLE := &"saveable"
 
 @export_category("Window")
@@ -17,16 +18,15 @@ const SAVEABLE := &"saveable"
 func _ready() -> void:
 	_title_bar_ui.close_pressed.connect(_quit_app)
 
-	var window := get_window()
-	window.min_size = _min_window_size
-	window.max_size = _max_window_size
+	
+	Global.window.min_size = _min_window_size
+	Global.window.max_size = _max_window_size
 
-	var tree := get_tree()
-	window.focus_entered.connect(func() -> void:
-		tree.paused = false
+	Global.window.focus_entered.connect(func() -> void:
+		Global.tree.paused = false
 	)
-	window.focus_exited.connect(func() -> void:
-		tree.paused = true
+	Global.window.focus_exited.connect(func() -> void:
+		Global.tree.paused = true
 	)
 
 	if not FileAccess.file_exists(SAVE_PATH):
@@ -40,11 +40,11 @@ func _ready() -> void:
 	
 	var save_data: Dictionary = json
 	
-	for saveable in tree.get_nodes_in_group(SAVEABLE):
+	for saveable in Global.tree.get_nodes_in_group(SAVEABLE):
 		saveable.load(save_data)
 
-	if save_data.has("version"):
-		print("Loaded %s version: %s" % [SAVE_PATH, save_data["version"]])
+	if save_data.has(VERSION):
+		print("Loaded %s version: %s" % [SAVE_PATH, save_data[VERSION]])
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -58,15 +58,13 @@ func _notification(what: int) -> void:
 
 
 func _quit_app() -> void:
-	var save_data := {
-		"version": ProjectSettings.get_setting("application/config/version"),
-	}
+	var save_data := {}
+	save_data[VERSION] = ProjectSettings.get_setting("application/config/version")
 
-	var tree := get_tree()
-	for saveable in tree.get_nodes_in_group(SAVEABLE):
+	for saveable in Global.tree.get_nodes_in_group(SAVEABLE):
 		saveable.save(save_data)
 
 	FileAccess.open(SAVE_PATH, FileAccess.WRITE)\
 			.store_string(JSON.stringify(save_data))
 
-	tree.quit()
+	Global.tree.quit()
