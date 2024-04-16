@@ -22,7 +22,6 @@ func _ready() -> void:
 	window.max_size = _max_window_size
 
 	var tree := get_tree()
-	tree.auto_accept_quit = false
 	window.focus_entered.connect(func() -> void:
 		tree.paused = false
 	)
