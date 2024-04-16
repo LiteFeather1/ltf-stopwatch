@@ -13,8 +13,6 @@ var _font_size : int
 
 var _tween: Tween
 
-@onready var window := get_window()
-
 
 func _ready() -> void:
 	_delay_to_appear.timeout.connect(_show_animation)
@@ -39,14 +37,14 @@ func show_hover_tip(c: Control, text: String) -> void:
 	var right := new_x + size.x
 	var out_x := 0.0
 	# This is only checking right checking left wouldn't be to difficult but it's unnecessary due to the current layout
-	if window.size.x <= right:
-		out_x = window.size.x - right - _label_padding.x
+	if Global.window.size.x <= right:
+		out_x = Global.window.size.x - right - _label_padding.x
 		new_x += out_x
 
 	var new_y := c.global_position.y + c.size.y * c_scale.y + _label_padding.y - _dent.position.y
 	var bot := new_y + size.y
-	if window.size.y <= bot:
-		new_y += window.size.y - bot - _label_padding.y
+	if Global.window.size.y <= bot:
+		new_y += Global.window.size.y - bot - _label_padding.y
 	
 	global_position = Vector2(new_x, new_y)
 
