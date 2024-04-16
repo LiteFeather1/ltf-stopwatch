@@ -152,3 +152,32 @@ icon = ExtResource("11_1p55s")
 icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "copy to cliboard"
+
+[node name="PanelContainer" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = 128.0
+offset_right = 52.0
+offset_bottom = 192.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(52, 32)
+
+[node name="l_time_copied" type="Label" parent="PanelContainer"]
+modulate = Color(0.968627, 0.968627, 0.968627, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Copied!
+00:00:00
+"
+horizontal_alignment = 1
+vertical_alignment = 1
