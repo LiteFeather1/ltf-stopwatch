@@ -103,6 +103,8 @@ func _toggle_pin_window(pinning: bool) -> void:
 		_b_pin.icon = _sprite_unpin
 		_b_pin.set_tip_name("unpin")
 
+		_set_minimise_corner_radius(_b_close.get_theme_stylebox("hover").corner_radius_top_right)
+
 		_previous_window_position = _window.position
 
 		_previous_window_size = _window.size
@@ -115,10 +117,11 @@ func _toggle_pin_window(pinning: bool) -> void:
 				+ _window_margin_when_pinning.x
 		
 		_window.position = Vector2i(right, _window_margin_when_pinning.y)
-
 	else:
 		_b_pin.icon = _sprite_pin
 		_b_pin.set_tip_name("pin")
+
+		_set_minimise_corner_radius(_b_minimise.get_theme_stylebox("hover").corner_radius_top_left)
 
 		_previous_window_pinned_size = _window.size
 		_window.size = _previous_window_size
@@ -132,3 +135,8 @@ func _toggle_pin_window(pinning: bool) -> void:
 func _window_size_changed() -> void:
 	await get_tree().process_frame
 	_l_title.visible = _l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x < 0.0
+
+
+func _set_minimise_corner_radius(radius: int) -> void:
+	_b_minimise.get_theme_stylebox("hover").corner_radius_top_right = radius
+	_b_minimise.get_theme_stylebox("pressed").corner_radius_top_right = radius

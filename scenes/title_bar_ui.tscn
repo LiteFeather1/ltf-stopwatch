@@ -89,7 +89,7 @@ custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = 0
+theme_override_constants/separation = 4
 
 [node name="b_pin" type="Button" parent="hbc_title_bar/hbc_buttons"]
 custom_minimum_size = Vector2(42, 0)
@@ -106,10 +106,6 @@ icon_alignment = 1
 script = ExtResource("3_whgq5")
 _tip_name = "pin"
 
-[node name="VSeparator" type="VSeparator" parent="hbc_title_bar/hbc_buttons"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
 [node name="b_minimise_window" type="Button" parent="hbc_title_bar/hbc_buttons"]
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
@@ -122,10 +118,6 @@ icon = ExtResource("9_6idio")
 icon_alignment = 1
 script = ExtResource("3_whgq5")
 _tip_name = "minimise"
-
-[node name="VSeparator2" type="VSeparator" parent="hbc_title_bar/hbc_buttons"]
-layout_mode = 2
-theme_override_constants/separation = 4
 
 [node name="b_close_window" type="Button" parent="hbc_title_bar/hbc_buttons"]
 custom_minimum_size = Vector2(42, 0)
