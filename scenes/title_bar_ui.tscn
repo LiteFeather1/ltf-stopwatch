@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=19 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://be575cxvyxn1y" path="res://icon.svg" id="2_041hg"]
@@ -18,6 +18,22 @@
 bg_color = Color(0, 0, 0, 0.498039)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
+
+[sub_resource type="InputEventKey" id="InputEventKey_vfb77"]
+device = -1
+ctrl_pressed = true
+keycode = 80
+
+[sub_resource type="Shortcut" id="Shortcut_gkgwu"]
+events = [SubResource("InputEventKey_vfb77")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_wnjlu"]
+device = -1
+ctrl_pressed = true
+keycode = 77
+
+[sub_resource type="Shortcut" id="Shortcut_4h1gf"]
+events = [SubResource("InputEventKey_wnjlu")]
 
 [node name="title_bar_ui" type="Panel" node_paths=PackedStringArray("_l_title", "_b_close", "_b_minimise", "_b_pin")]
 anchors_preset = 10
@@ -101,6 +117,7 @@ theme_override_styles/normal = ExtResource("3_s80vr")
 theme_override_styles/hover = ExtResource("4_pcg65")
 theme_override_styles/pressed = ExtResource("5_lddb2")
 toggle_mode = true
+shortcut = SubResource("Shortcut_gkgwu")
 icon = ExtResource("2_b70b5")
 icon_alignment = 1
 script = ExtResource("3_whgq5")
@@ -114,6 +131,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = ExtResource("3_s80vr")
 theme_override_styles/hover = ExtResource("4_pcg65")
 theme_override_styles/pressed = ExtResource("5_lddb2")
+shortcut = SubResource("Shortcut_4h1gf")
 icon = ExtResource("9_6idio")
 icon_alignment = 1
 script = ExtResource("3_whgq5")
