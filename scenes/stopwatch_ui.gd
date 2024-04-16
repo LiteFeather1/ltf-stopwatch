@@ -13,8 +13,6 @@ class_name StopwatchUI extends VBoxContainer
 @export var _sprite_start: Texture2D
 @export var _sprite_pause: Texture2D
 
-@onready var _window: Window = get_window()
-
 
 func _ready() -> void:
 	_stopwatch.started.connect(_enable_buttons)
@@ -23,7 +21,7 @@ func _ready() -> void:
 	_b_reset.pressed.connect(_reset_pressed)
 	_b_clipboard.pressed.connect(_copy_to_clipboard)
 
-	_window.size_changed.connect(_on_window_size_changed)
+	Global.window.size_changed.connect(_on_window_size_changed)
 
 	await get_tree().process_frame
 	_on_window_size_changed()
@@ -71,8 +69,8 @@ func _copy_to_clipboard() -> void:
 
 func _on_window_size_changed() -> void:
 	# Scale text to fit size
-	var s_x := _window.size.x / float(_window.max_size.x)
-	var s_y := _window.size.y / float(size.y + _title_bar.size.y * 2)
+	var s_x := Global.window.size.x / float(Global.window.max_size.x)
+	var s_y := Global.window.size.y / float(size.y + _title_bar.size.y * 2)
 	var s := minf(s_x, s_y)
 	scale = Vector2(s, s)
 
