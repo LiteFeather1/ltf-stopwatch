@@ -32,21 +32,6 @@ func _ready() -> void:
 		_set_b_start_continue()
 
 
-
-func toggle_stopwatch() -> void:
-	_b_start.button_pressed = not _b_start.button_pressed
-
-
-func try_reset_stopwatch() -> void:
-	if not _b_reset.disabled:
-		_reset_pressed()
-
-
-func try_copy_to_clipboard() -> void:
-	if not _b_clipboard.disabled:
-		_copy_to_clipboard()
-
-
 func restore_last_elapsed_time() -> void:
 	_b_start.button_pressed = false
 	_enable_buttons()

@@ -49,20 +49,8 @@ func _ready() -> void:
 
 
 func _shortcut_input(event: InputEvent) -> void:
-	# Stopwatch UI Events
-	if event.is_action_pressed("toggle_stopwatch"):
-		_stopwatch_ui.toggle_stopwatch()
-	elif event.is_action_pressed("reset_stopwatch"):
-		_stopwatch_ui.try_reset_stopwatch()
-	elif event.is_action_pressed("copy_to_clipboard"):
-		_stopwatch_ui.try_copy_to_clipboard()
-	elif event.is_action_pressed("restore_last_elapsed_time"):
+	if event.is_action_pressed("restore_last_elapsed_time"):
 		_stopwatch_ui.restore_last_elapsed_time()
-	# Window Events
-	elif event.is_action_pressed("toggle_pin_window"):
-		_title_bar_ui.toggle_pin_input()
-	elif event.is_action_pressed("minimise_window"):
-		_title_bar_ui.minimise_window()
 
 
 func _notification(what: int) -> void:

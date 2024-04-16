@@ -43,7 +43,7 @@ func _ready() -> void:
 
 	_b_close.pressed.connect(_close_window)
 	_b_pin.toggled.connect(_toggle_pin_window)
-	_b_minimise.pressed.connect(minimise_window)
+	_b_minimise.pressed.connect(_minimise_window)
 
 	_window.size_changed.connect(_window_size_changed)
 
@@ -59,14 +59,6 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_window.position += Vector2i(get_global_mouse_position() - _start_drag_pos)
-
-
-func toggle_pin_input() -> void:
-	_b_pin.button_pressed = not _b_pin.button_pressed
-
-
-func minimise_window() -> void:
-	_window.mode = Window.MODE_MINIMIZED
 
 
 func save(save_data: Dictionary) -> void:
@@ -136,6 +128,10 @@ func _toggle_pin_window(pinning: bool) -> void:
 	
 	_b_close.visible = not pinning
 	_window.always_on_top = pinning
+
+
+func _minimise_window() -> void:
+	_window.mode = Window.MODE_MINIMIZED
 
 
 func _window_size_changed() -> void:

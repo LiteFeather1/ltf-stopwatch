@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=22 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="2_m0v6e"]
@@ -14,6 +14,36 @@
 [ext_resource type="StyleBox" uid="uid://h0eenhgoac4d" path="res://resources/themes/stopwatch_buttons/disabled_stopwatch_button.tres" id="10_y3bwx"]
 [ext_resource type="Texture2D" uid="uid://b12aiw15pcoh1" path="res://assets/sprites/buttons_stopwatch/s_copy_to_clipboard.svg" id="11_1p55s"]
 [ext_resource type="Texture2D" uid="uid://cdcm8yx1ah58x" path="res://assets/sprites/buttons_stopwatch/s_button_reset.svg" id="13_iq6nj"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_f1pn7"]
+device = -1
+ctrl_pressed = true
+keycode = 32
+unicode = 32
+
+[sub_resource type="InputEventKey" id="InputEventKey_e7n4a"]
+device = -1
+ctrl_pressed = true
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_m2i2w"]
+events = [SubResource("InputEventKey_f1pn7"), SubResource("InputEventKey_e7n4a")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_1xko1"]
+device = -1
+ctrl_pressed = true
+keycode = 82
+
+[sub_resource type="Shortcut" id="Shortcut_eqit1"]
+events = [SubResource("InputEventKey_1xko1")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_limys"]
+device = -1
+ctrl_pressed = true
+keycode = 67
+
+[sub_resource type="Shortcut" id="Shortcut_ysi7m"]
+events = [SubResource("InputEventKey_limys")]
 
 [node name="stopwatch_ui" type="VBoxContainer" node_paths=PackedStringArray("_stopwatch", "_b_reset", "_b_clipboard", "_b_start")]
 custom_minimum_size = Vector2(512, 207)
@@ -60,6 +90,8 @@ theme_override_styles/normal = ExtResource("3_mhuhl")
 theme_override_styles/hover = ExtResource("4_45roa")
 theme_override_styles/pressed = ExtResource("5_6sw6k")
 toggle_mode = true
+shortcut = SubResource("Shortcut_m2i2w")
+shortcut_in_tooltip = false
 icon = ExtResource("6_qv58p")
 icon_alignment = 1
 script = ExtResource("3_wkdtx")
@@ -80,6 +112,8 @@ theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/pressed = ExtResource("9_gkr5i")
 theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
+shortcut = SubResource("Shortcut_eqit1")
+shortcut_in_tooltip = false
 icon = ExtResource("13_iq6nj")
 icon_alignment = 1
 script = ExtResource("3_wkdtx")
@@ -100,6 +134,8 @@ theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/pressed = ExtResource("9_gkr5i")
 theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
+shortcut = SubResource("Shortcut_ysi7m")
+shortcut_in_tooltip = false
 text = "
 "
 icon = ExtResource("11_1p55s")
