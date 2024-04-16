@@ -99,6 +99,9 @@ func _close_window() -> void:
 
 
 func _toggle_pin_window(pinning: bool) -> void:
+	_b_close.visible = not pinning
+	Global.window.always_on_top = pinning
+
 	if pinning:
 		_b_pin.icon = _sprite_unpin
 		_b_pin.set_tip_name("unpin")
@@ -127,9 +130,6 @@ func _toggle_pin_window(pinning: bool) -> void:
 		Global.window.size = _previous_window_size
 		
 		Global.window.position = _previous_window_position
-	
-	_b_close.visible = not pinning
-	Global.window.always_on_top = pinning
 
 
 func _minimise_window() -> void:
