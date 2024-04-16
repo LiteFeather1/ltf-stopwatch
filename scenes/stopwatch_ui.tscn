@@ -45,7 +45,7 @@ keycode = 67
 [sub_resource type="Shortcut" id="Shortcut_ysi7m"]
 events = [SubResource("InputEventKey_limys")]
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,6 +61,8 @@ _b_clipboard = NodePath("VBoxContainer/buttons/b_clipboard")
 _b_start = NodePath("VBoxContainer/buttons/b_start")
 _sprite_start = ExtResource("6_qv58p")
 _sprite_pause = ExtResource("3_fs0r6")
+_copied_pop_up = NodePath("l_copied_pop_up")
+_l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(512, 223)
@@ -153,7 +155,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "copy to cliboard"
 
-[node name="PanelContainer" type="Panel" parent="."]
+[node name="l_copied_pop_up" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -166,9 +168,10 @@ offset_right = 52.0
 offset_bottom = 192.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1, 1e-05)
 pivot_offset = Vector2(52, 32)
 
-[node name="l_time_copied" type="Label" parent="PanelContainer"]
+[node name="l_time_copied" type="Label" parent="l_copied_pop_up"]
 modulate = Color(0.968627, 0.968627, 0.968627, 1)
 layout_mode = 1
 anchors_preset = 15

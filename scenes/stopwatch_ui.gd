@@ -15,6 +15,12 @@ class_name StopwatchUI extends Control
 @export var _sprite_start: Texture2D
 @export var _sprite_pause: Texture2D
 
+@export_category("Copied Pop Up")
+@export var _copied_pop_up: Control
+@export var _l_copied_time: Label
+
+var _pop_up_tween: Tween
+
 
 func _ready() -> void:
 	_stopwatch.started.connect(_enable_buttons)
@@ -66,7 +72,18 @@ func _reset_pressed() -> void:
 
 
 func _copy_to_clipboard() -> void:
-	DisplayServer.clipboard_set(_stopwatch.get_time_short())
+	var time := _stopwatch.get_time_short()
+	DisplayServer.clipboard_set(time)
+
+	_l_copied_time.text = "Copied!\n%s" % time
+
+	if _pop_up_tween:
+		_pop_up_tween.kill()
+
+	_pop_up_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_EXPO)
+	_pop_up_tween.tween_property(_copied_pop_up, "scale:y", 1.0, .25)
+	_pop_up_tween.tween_interval(.75)
+	_pop_up_tween.tween_callback(func() -> void: _copied_pop_up.scale.y = 0.0)
 
 
 func _on_window_size_changed() -> void:
