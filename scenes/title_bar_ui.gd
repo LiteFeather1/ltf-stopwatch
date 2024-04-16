@@ -8,13 +8,20 @@ const WINDOW_SIZE := &"window_size"
 const WINDOW_PINNED_SIZE := &"window_pinnned_size"
 const WINDOW_POSITION := &"window_position"
 
+const HOVER := &"hover"
+const PRESSED := &"pressed"
+
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
+@export var _l_title: Label
+
 @export var _b_close: Button
-@export var _b_pin: ButtonHoverTip
 @export var _b_minimise: Button
 
-@export var _l_title: Label
+@export_category("Button Pin")
+@export var _b_pin: ButtonHoverTip
+@export var _sprite_pin: Texture2D
+@export var _sprite_unpin: Texture2D
 
 var _start_drag_pos: Vector2
 
@@ -42,8 +49,11 @@ func _ready() -> void:
 
 	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
+	_b_minimise.add_theme_stylebox_override(HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate())
+	_b_minimise.add_theme_stylebox_override(PRESSED, _b_minimise.get_theme_stylebox(PRESSED).duplicate())
+
 	await get_tree().process_frame
-	if _previous_window_pinned_size == Vector2i.ZERO: 
+	if _previous_window_pinned_size == Vector2i.ZERO:
 		_previous_window_pinned_size = _window.min_size
 
 
@@ -96,8 +106,10 @@ func _close_window() -> void:
 
 func _toggle_pin_window(pinning: bool) -> void:
 	if pinning:
-		_b_pin.text = "nP"
+		_b_pin.icon = _sprite_unpin
 		_b_pin.set_tip_name("unpin")
+
+		_set_minimise_corner_radius(_b_close.get_theme_stylebox(HOVER).corner_radius_top_right)
 
 		_previous_window_position = _window.position
 
@@ -111,10 +123,11 @@ func _toggle_pin_window(pinning: bool) -> void:
 				+ _window_margin_when_pinning.x
 		
 		_window.position = Vector2i(right, _window_margin_when_pinning.y)
-
 	else:
-		_b_pin.text = "P"
+		_b_pin.icon = _sprite_pin
 		_b_pin.set_tip_name("pin")
+
+		_set_minimise_corner_radius(_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_left)
 
 		_previous_window_pinned_size = _window.size
 		_window.size = _previous_window_size
@@ -128,3 +141,8 @@ func _toggle_pin_window(pinning: bool) -> void:
 func _window_size_changed() -> void:
 	await get_tree().process_frame
 	_l_title.visible = _l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x < 0.0
+
+
+func _set_minimise_corner_radius(radius: int) -> void:
+	_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_right = radius
+	_b_minimise.get_theme_stylebox(PRESSED).corner_radius_top_right = radius

@@ -5,9 +5,13 @@ class_name StopwatchUI extends VBoxContainer
 
 @export var _stopwatch: Stopwatch
 
-@export var _b_start: ButtonHoverTip
 @export var _b_reset: Button
 @export var _b_clipboard: Button
+
+@export_category("Start Button")
+@export var _b_start: ButtonHoverTip
+@export var _sprite_start: Texture2D
+@export var _sprite_pause: Texture2D
 
 @onready var _window: Window = get_window()
 
@@ -58,7 +62,7 @@ func _start_toggled(state: bool) -> void:
 	_stopwatch.set_state(state)
 
 	if state:
-		_b_start.text = "P"
+		_b_start.icon = _sprite_pause
 		_b_start.set_tip_name("pause")
 	else:
 		_set_b_start_continue()
@@ -72,7 +76,7 @@ func _reset_pressed() -> void:
 	_stopwatch.reset()
 
 	_b_start.button_pressed = false
-	_b_start.text = "S"
+	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("start")
 
 
@@ -96,5 +100,5 @@ func _on_window_size_changed() -> void:
 
 
 func _set_b_start_continue() -> void:
-	_b_start.text = "C"
+	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
