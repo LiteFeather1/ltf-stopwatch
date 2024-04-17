@@ -157,6 +157,7 @@ script = ExtResource("3_wkdtx")
 _tip_name = "copy to cliboard"
 
 [node name="l_copied_pop_up" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -169,7 +170,6 @@ offset_right = 52.0
 offset_bottom = 31.884
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(1, 1e-05)
 pivot_offset = Vector2(52, 32)
 mouse_filter = 2
 

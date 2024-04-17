@@ -19,6 +19,7 @@ class_name StopwatchUI extends Control
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
 
+var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
 
 
@@ -82,10 +83,12 @@ func _copy_to_clipboard() -> void:
 	if _pop_up_tween:
 		_pop_up_tween.kill()
 
-	_pop_up_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_EXPO)
-	_pop_up_tween.tween_property(_copied_pop_up, "scale:y", 1.0, .25)
+	_copied_pop_up.scale.y = 0.0
+	_copied_pop_up.visible = true
+	_pop_up_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	_pop_up_tween.tween_property(_copied_pop_up, "scale:y", _pop_up_scale, .25)
 	_pop_up_tween.tween_interval(.75)
-	_pop_up_tween.tween_callback(func() -> void: _copied_pop_up.scale.y = 0.0)
+	_pop_up_tween.tween_callback(func() -> void: _copied_pop_up.visible = false)
 
 
 func _on_window_size_changed() -> void:
@@ -101,8 +104,8 @@ func _on_window_size_changed() -> void:
 	_element_to_scale.scale = Vector2(s, s)
 
 	# Slight scale s_copied
-	var s_copied := clampf(s * 1.025, .7, 1.0)
-	_copied_pop_up.scale = Vector2(s_copied, s_copied)
+	_pop_up_scale = clampf(s * 1.025, .7, 1.0)
+	_copied_pop_up.scale = Vector2(_pop_up_scale, _pop_up_scale)
 
 	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)
