@@ -94,6 +94,9 @@ func _on_window_size_changed() -> void:
 	var s := minf(s_x, s_y)
 	_element_to_scale.scale = Vector2(s, s)
 
+	var s_copied := clampf(s * 1.025, .7, 1.0)
+	_copied_pop_up.scale = Vector2(s_copied, s_copied)
+
 	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)
 	var b_scale = Vector2(b_s, b_s)

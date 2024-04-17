@@ -159,16 +159,17 @@ _tip_name = "copy to cliboard"
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.812
+anchor_top = 0.843
 anchor_right = 0.5
-anchor_bottom = 0.812
+anchor_bottom = 0.843
 offset_left = -52.0
-offset_top = -31.744
+offset_top = -32.116
 offset_right = 52.0
-offset_bottom = 32.256
+offset_bottom = 31.884
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(52, 32)
+mouse_filter = 2
 
 [node name="l_time_copied" type="Label" parent="l_copied_pop_up"]
 modulate = Color(0.968627, 0.968627, 0.968627, 1)
