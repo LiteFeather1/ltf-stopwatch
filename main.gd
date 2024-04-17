@@ -65,6 +65,6 @@ func _quit_app() -> void:
 		saveable.save(save_data)
 
 	FileAccess.open(SAVE_PATH, FileAccess.WRITE)\
-			.store_string(JSON.stringify(save_data))
+			.store_string(JSON.stringify(save_data, "\t", false))
 
 	Global.tree.quit()
