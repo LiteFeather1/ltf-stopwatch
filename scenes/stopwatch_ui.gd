@@ -31,6 +31,8 @@ func _ready() -> void:
 
 	Global.window.size_changed.connect(_on_window_size_changed)
 
+	pivot_offset.y += _title_bar.size.y
+
 	await get_tree().process_frame
 	_on_window_size_changed()
 	
@@ -90,15 +92,15 @@ func _on_window_size_changed() -> void:
 	# Scale text to fit size
 	var win_size_y := float(Global.window.size.y)
 	var win_max_size_y := float(Global.window.max_size.y)
-	var min_s_y := (win_size_y +_title_bar.size.y + _stopwatch.size.y) / win_max_size_y
+	var min_s_y := (win_size_y + _title_bar.size.y + _stopwatch.size.y) / win_max_size_y
 	var s := clampf(
-		(win_size_y / win_max_size_y) * min_s_y * 2.0, 
+		(win_size_y / win_max_size_y) * (min_s_y * 2.0),
 		min_s_y,
-		Global.window.size.x / float(Global.window.max_size.x) # X Sscale
+		Global.window.size.x / float(Global.window.max_size.x) # X Scale
 	)
-
 	_element_to_scale.scale = Vector2(s, s)
 
+	# Slight scale s_copied
 	var s_copied := clampf(s * 1.025, .7, 1.0)
 	_copied_pop_up.scale = Vector2(s_copied, s_copied)
 

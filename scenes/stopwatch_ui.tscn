@@ -76,7 +76,7 @@ offset_top = -103.5
 offset_bottom = 103.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(256, 112)
+pivot_offset = Vector2(256, 111)
 theme_override_constants/separation = 16
 
 [node name="stopwatch" parent="VBoxContainer" instance=ExtResource("2_m0v6e")]
