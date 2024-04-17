@@ -52,6 +52,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(256, 256)
 mouse_filter = 2
 script = ExtResource("1_t7xu2")
 _element_to_scale = NodePath("VBoxContainer")
@@ -75,7 +76,7 @@ offset_top = -103.5
 offset_bottom = 103.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(256, 103)
+pivot_offset = Vector2(256, 112)
 theme_override_constants/separation = 16
 
 [node name="stopwatch" parent="VBoxContainer" instance=ExtResource("2_m0v6e")]
@@ -168,6 +169,7 @@ offset_right = 52.0
 offset_bottom = 31.884
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(1, 1e-05)
 pivot_offset = Vector2(52, 32)
 mouse_filter = 2
 

@@ -88,10 +88,15 @@ func _copy_to_clipboard() -> void:
 
 func _on_window_size_changed() -> void:
 	# Scale text to fit size
-	var s_x := Global.window.size.x / float(Global.window.max_size.x)
 	var win_size_y := float(Global.window.size.y)
-	var s_y := win_size_y / (size.y + _title_bar.size.y) + _title_bar.size.y / win_size_y
-	var s := minf(s_x, s_y)
+	var win_max_size_y := float(Global.window.max_size.y)
+	var min_s_y := (win_size_y +_title_bar.size.y + _stopwatch.size.y) / win_max_size_y
+	var s := clampf(
+		(win_size_y / win_max_size_y) * min_s_y * 2.0, 
+		min_s_y,
+		Global.window.size.x / float(Global.window.max_size.x) # X Sscale
+	)
+
 	_element_to_scale.scale = Vector2(s, s)
 
 	var s_copied := clampf(s * 1.025, .7, 1.0)
