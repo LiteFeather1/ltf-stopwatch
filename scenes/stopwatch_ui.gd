@@ -1,7 +1,9 @@
-class_name StopwatchUI extends VBoxContainer
+class_name StopwatchUI extends Control
 
 
 @export var _title_bar: Control
+
+@export var _element_to_scale: Control
 
 @export var _stopwatch: Stopwatch
 
@@ -12,6 +14,12 @@ class_name StopwatchUI extends VBoxContainer
 @export var _b_start: ButtonHoverTip
 @export var _sprite_start: Texture2D
 @export var _sprite_pause: Texture2D
+
+@export_category("Copied Pop Up")
+@export var _copied_pop_up: Control
+@export var _l_copied_time: Label
+
+var _pop_up_tween: Tween
 
 
 func _ready() -> void:
@@ -64,15 +72,30 @@ func _reset_pressed() -> void:
 
 
 func _copy_to_clipboard() -> void:
-	DisplayServer.clipboard_set(_stopwatch.get_time_short())
+	var time := _stopwatch.get_time_short()
+	DisplayServer.clipboard_set(time)
+
+	_l_copied_time.text = "Copied!\n%s" % time
+
+	if _pop_up_tween:
+		_pop_up_tween.kill()
+
+	_pop_up_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_EXPO)
+	_pop_up_tween.tween_property(_copied_pop_up, "scale:y", 1.0, .25)
+	_pop_up_tween.tween_interval(.75)
+	_pop_up_tween.tween_callback(func() -> void: _copied_pop_up.scale.y = 0.0)
 
 
 func _on_window_size_changed() -> void:
 	# Scale text to fit size
 	var s_x := Global.window.size.x / float(Global.window.max_size.x)
-	var s_y := Global.window.size.y / float(size.y + _title_bar.size.y * 2)
+	var win_size_y := float(Global.window.size.y)
+	var s_y := win_size_y / (size.y + _title_bar.size.y) + _title_bar.size.y / win_size_y
 	var s := minf(s_x, s_y)
-	scale = Vector2(s, s)
+	_element_to_scale.scale = Vector2(s, s)
+
+	var s_copied := clampf(s * 1.025, .7, 1.0)
+	_copied_pop_up.scale = Vector2(s_copied, s_copied)
 
 	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)
