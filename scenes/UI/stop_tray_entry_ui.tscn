@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://ckdwpgw2ltoie"]
+
+[node name="stop_tray_entry_ui" type="HBoxContainer"]
+theme_override_constants/separation = 58
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "1 Shortest"
+
+[node name="Label2" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "00:00:00"
+
+[node name="Label3" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "--:--:--"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=24 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="2_m0v6e"]
@@ -14,6 +14,7 @@
 [ext_resource type="StyleBox" uid="uid://h0eenhgoac4d" path="res://resources/themes/stopwatch_buttons/disabled_stopwatch_button.tres" id="10_y3bwx"]
 [ext_resource type="Texture2D" uid="uid://b12aiw15pcoh1" path="res://assets/sprites/buttons_stopwatch/s_copy_to_clipboard.svg" id="11_1p55s"]
 [ext_resource type="Texture2D" uid="uid://cdcm8yx1ah58x" path="res://assets/sprites/buttons_stopwatch/s_button_reset.svg" id="13_iq6nj"]
+[ext_resource type="PackedScene" uid="uid://ckdwpgw2ltoie" path="res://scenes/UI/stop_tray_entry_ui.tscn" id="15_7masa"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_f1pn7"]
 device = -1
@@ -45,6 +46,12 @@ keycode = 67
 [sub_resource type="Shortcut" id="Shortcut_ysi7m"]
 events = [SubResource("InputEventKey_limys")]
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ugxop"]
+color = Color(0.290196, 0.290196, 0.290196, 1)
+grow_begin = 0.0
+grow_end = -32.0
+thickness = 2
+
 [node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
@@ -55,38 +62,39 @@ grow_vertical = 2
 pivot_offset = Vector2(256, 256)
 mouse_filter = 2
 script = ExtResource("1_t7xu2")
-_element_to_scale = NodePath("VBoxContainer")
-_stopwatch = NodePath("VBoxContainer/stopwatch")
-_b_reset = NodePath("VBoxContainer/buttons/b_reset")
-_b_clipboard = NodePath("VBoxContainer/buttons/b_clipboard")
-_b_start = NodePath("VBoxContainer/buttons/b_start")
+_element_to_scale = NodePath("elements_to_scale")
+_stopwatch = NodePath("elements_to_scale/stopwatch")
+_b_reset = NodePath("elements_to_scale/buttons/b_reset")
+_b_clipboard = NodePath("elements_to_scale/buttons/b_clipboard")
+_b_start = NodePath("elements_to_scale/buttons/b_start")
 _sprite_start = ExtResource("6_qv58p")
 _sprite_pause = ExtResource("3_fs0r6")
 _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="elements_to_scale" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(512, 223)
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -103.5
-offset_bottom = 103.5
+offset_top = -111.5
+offset_bottom = 111.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(256, 111)
+mouse_filter = 2
 theme_override_constants/separation = 16
 
-[node name="stopwatch" parent="VBoxContainer" instance=ExtResource("2_m0v6e")]
+[node name="stopwatch" parent="elements_to_scale" instance=ExtResource("2_m0v6e")]
 layout_mode = 2
 
-[node name="buttons" type="Control" parent="VBoxContainer"]
+[node name="buttons" type="Control" parent="elements_to_scale"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 
-[node name="b_start" type="Button" parent="VBoxContainer/buttons"]
+[node name="b_start" type="Button" parent="elements_to_scale/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 95.5
@@ -110,7 +118,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "start"
 
-[node name="b_reset" type="Button" parent="VBoxContainer/buttons"]
+[node name="b_reset" type="Button" parent="elements_to_scale/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 223.5
@@ -132,7 +140,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "reset"
 
-[node name="b_clipboard" type="Button" parent="VBoxContainer/buttons"]
+[node name="b_clipboard" type="Button" parent="elements_to_scale/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 351.5
@@ -187,199 +195,71 @@ text = "Copied!
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="stop_tray_ui" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -160.0
-offset_right = -16.0
-offset_bottom = -16.0
+offset_left = 32.0
+offset_top = -140.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="stop_tray_ui"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 60
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="stop_tray_ui/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme_override_constants/separation = 32
+theme_override_font_sizes/font_size = 11
+text = "  Stops"
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer"]
-layout_mode = 2
-text = "Stops"
+[node name="Button" type="Button" parent="stop_tray_ui/HBoxContainer/Label"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+grow_vertical = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 20
+icon = ExtResource("11_1p55s")
+flat = true
 
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer2/HBoxContainer"]
+[node name="Label2" type="Label" parent="stop_tray_ui/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label2" type="Label" parent="VBoxContainer2/HBoxContainer"]
-layout_mode = 2
+theme_override_font_sizes/font_size = 11
 text = "Pause Time"
 
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer2/HBoxContainer"]
+[node name="Label3" type="Label" parent="stop_tray_ui/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label3" type="Label" parent="VBoxContainer2/HBoxContainer"]
-layout_mode = 2
+theme_override_font_sizes/font_size = 11
 text = "Continue Time"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer2"]
+[node name="HSeparator" type="HSeparator" parent="stop_tray_ui"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ugxop")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="stop_tray_ui"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="stop_tray_ui/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/ScrollContainer/VBoxContainer"]
+[node name="stop_tray_entry_ui" parent="stop_tray_ui/ScrollContainer/VBoxContainer" instance=ExtResource("15_7masa")]
 layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 32
-
-[node name="Label" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Stops"
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label2" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Pause Time"
-
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label3" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Continue Time"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-theme_override_constants/separation = 32
-
-[node name="Label" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Stops"
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label2" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Pause Time"
-
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label3" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Continue Time"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-theme_override_constants/separation = 32
-
-[node name="Label" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-text = "Stops"
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label2" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-text = "Pause Time"
-
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label3" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-text = "Continue Time"
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-theme_override_constants/separation = 32
-
-[node name="Label" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-text = "Stops"
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label2" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-text = "Pause Time"
-
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label3" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-text = "Continue Time"
-
-[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer5"]
-layout_mode = 2
-theme_override_constants/separation = 32
-
-[node name="Label" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer5"]
-layout_mode = 2
-text = "Stops"
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer5"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label2" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer5"]
-layout_mode = 2
-text = "Pause Time"
-
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer5"]
-layout_mode = 2
-theme_override_constants/separation = 80
-
-[node name="Label3" type="Label" parent="VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer5"]
-layout_mode = 2
-text = "Continue Time"
+theme_override_constants/separation = 60
