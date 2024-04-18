@@ -92,11 +92,11 @@ func get_time_short() -> String:
 	]
 
 
-func get_current_paused_times() -> Array[float]:
+func get_current_paused_times() -> PackedFloat32Array:
 	return _current_time_state.paused_times
 
 
-func get_current_resumed_times() -> Array[float]:
+func get_current_resumed_times() -> PackedFloat32Array:
 	return _current_time_state.resumed_times
 
 
@@ -132,18 +132,18 @@ class TimeState extends Object:
 	const PAUSED_TIMES := &"paused_times"
 
 	var elapsed_time: float = 0.0
-	var resumed_times: Array[float]
-	var paused_times: Array[float]
+	var resumed_times: PackedFloat32Array
+	var paused_times: PackedFloat32Array
 
 	func init_from_dict(dict: Dictionary) -> void:
 		if dict.has(ELAPSED_TIME):
 			elapsed_time = dict[ELAPSED_TIME]
 		
 		if dict.has(RESUMED_TIMES):
-			resumed_times.assign(dict[RESUMED_TIMES])
+			resumed_times = dict[RESUMED_TIMES]
 		
 		if dict.has(PAUSED_TIMES):
-			paused_times.assign(dict[PAUSED_TIMES])
+			paused_times = dict[PAUSED_TIMES]
 
 
 	func as_dict() -> Dictionary:
