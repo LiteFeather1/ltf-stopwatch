@@ -61,12 +61,16 @@ func _enable_buttons() -> void:
 
 
 func _start_toggled(state: bool) -> void:
-	_stopwatch.set_state(state)
 
 	if state:
 		_b_start.icon = _sprite_pause
 		_b_start.set_tip_name("pause")
 
+		# Set last entry resume time
+		if _stopwatch.has_started():
+			_stop_tray_entries_ui.back().set_resume_time()
+	else:
+		_set_b_start_continue()
 		# Add new stop entry
 		var new_entry: StopTrayEntryUI = _scene_stop_tray_entry_ui.instantiate()
 		new_entry.set_stop(str(_stop_tray_entries_ui.size() + 1))
@@ -75,11 +79,8 @@ func _start_toggled(state: bool) -> void:
 		_stop_tray_entries_ui.append(new_entry)
 		_tray_container.add_child(new_entry)
 		_stop_tray.visible = true
-	else:
-		_set_b_start_continue()
-
-		# Set last entry resume time
-		_stop_tray_entries_ui.back().set_resume_time()
+	
+	_stopwatch.set_state(state)
 
 
 func _reset_pressed() -> void:
