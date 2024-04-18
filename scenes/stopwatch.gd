@@ -15,8 +15,8 @@ const LAST_ELAPSED_TIME := &"last_elapsed_time"
 
 @export var _l_time: RichTextLabel
 
-var _elapsed_time := 0.0
-var _last_elapsed_time := 0.0
+var _current_time_state: TimeState = TimeState.new()
+var _last_time_state: TimeState = TimeState.new()
 
 
 func _enter_tree() -> void:
@@ -27,17 +27,17 @@ func _ready() -> void:
 	set_process(false)
 
 	await get_tree().physics_frame
-	if _elapsed_time > 0.0:
+	if _current_time_state.elapsed_time > 0.0:
 		started.emit()
 
 
 func _process(delta: float) -> void:
-	_elapsed_time += delta
+	_current_time_state.elapsed_time += delta
 	_set_time()
 
 
 func has_started() -> bool:
-	return _elapsed_time > 0.0
+	return _current_time_state.elapsed_time > 0.0
 
 
 func set_state(state: bool) -> void:
@@ -50,7 +50,7 @@ func set_state(state: bool) -> void:
 	if state:
 		modulate = _ticking_colour
 		
-		if not _elapsed_time == 0.0:
+		if not _current_time_state.elapsed_time == 0.0:
 			resumed.emit(time)
 		else:
 			started.emit()
@@ -63,44 +63,46 @@ func set_state(state: bool) -> void:
 
 
 func reset() -> void:
-	_last_elapsed_time = _elapsed_time
-	_elapsed_time = 0.0
+	_last_time_state = _current_time_state
+	_current_time_state.free()
+	_current_time_state = TimeState.new()
 	_set_time()
 
 
 func restore_last_elapsed_time() -> void:
-	var temp := _elapsed_time
-	_elapsed_time = _last_elapsed_time
-	_last_elapsed_time = temp
+	var temp := _current_time_state
+	_current_time_state = _last_time_state
+	_current_time_state = temp
 	_set_time()
 
 
 func save(save_data: Dictionary) -> void:
-	save_data[ELAPSED_TIME] = _elapsed_time
-	save_data[LAST_ELAPSED_TIME] = _last_elapsed_time
+	pass
+
 
 
 func load(save_data: Dictionary) -> void:
-	if save_data.has(ELAPSED_TIME):
-		_elapsed_time = save_data[ELAPSED_TIME]
-		_set_time()
-	
-	if save_data.has(LAST_ELAPSED_TIME):
-		_last_elapsed_time = save_data[LAST_ELAPSED_TIME]
+	pass
 
 
 func get_time_short() -> String:
 	return "%02d:%02d:%02d" % [
-		_elapsed_time / 3600.0,
-		fmod(_elapsed_time, 3600.0) / 60.0,
-		fmod(_elapsed_time, 60.0)
+		_current_time_state.elapsed_time / 3600.0,
+		fmod(_current_time_state.elapsed_time, 3600.0) / 60.0,
+		fmod(_current_time_state.elapsed_time, 60.0)
 	]
 
 
 func _set_time() -> void:
 	_l_time.text = _time_text_template % [
-		_elapsed_time / 3600.0,
-		fmod(_elapsed_time, 3600.0) / 60.0,
-		fmod(_elapsed_time, 60.0),
-		fmod(_elapsed_time, 1) * 100.0
+		_current_time_state.elapsed_time / 3600.0,
+		fmod(_current_time_state.elapsed_time, 3600.0) / 60.0,
+		fmod(_current_time_state.elapsed_time, 60.0),
+		fmod(_current_time_state.elapsed_time, 1) * 100.0
 	]
+
+
+class TimeState extends Object:
+	const ELAPSED_TIME := &"elapsed_time"
+
+	var elapsed_time: float = 0.0
