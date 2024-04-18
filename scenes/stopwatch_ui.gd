@@ -52,11 +52,12 @@ func _ready() -> void:
 	
 	var paused_times := _stopwatch.get_current_paused_times()
 	var resumed_times := _stopwatch.get_current_resumed_times()
-	for i in paused_times.size() - 1:
+	var last_index := paused_times.size() - 1
+	for i in last_index - 1:
 		_stopwatch_paused(_seconds_to_hours(paused_times[i]))
 		_stopwatch_resumed(_seconds_to_hours(resumed_times[i]))
 	
-	_stopwatch_paused(_seconds_to_hours(paused_times.back()))
+	_stopwatch_paused(_seconds_to_hours(paused_times[last_index]))
 
 
 func restore_last_elapsed_time() -> void:
