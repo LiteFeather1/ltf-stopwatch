@@ -78,6 +78,9 @@ func _start_toggled(state: bool) -> void:
 	else:
 		_set_b_start_continue()
 
+		# Set last entry resume time
+		_stop_tray_entries_ui.back().set_resume_time()
+
 
 func _reset_pressed() -> void:
 	_b_reset.disabled = true
