@@ -78,6 +78,7 @@ func _start_toggled(state: bool) -> void:
 
 		_stop_tray_entries_ui.append(new_entry)
 		_tray_container.add_child(new_entry)
+		_tray_container.move_child(new_entry, 0)
 		_stop_tray.visible = true
 	
 	_stopwatch.set_state(state)
