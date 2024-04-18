@@ -52,9 +52,9 @@ func _ready() -> void:
 
 
 func restore_last_elapsed_time() -> void:
+	_stopwatch.restore_last_elapsed_time()
 	_b_start.button_pressed = false
 	_enable_buttons()
-	_stopwatch.restore_last_elapsed_time()
 
 
 func _enable_buttons() -> void:

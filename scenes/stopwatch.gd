@@ -82,7 +82,10 @@ func save(save_data: Dictionary) -> void:
 
 
 func load(save_data: Dictionary) -> void:
-	pass
+	try_init(_current_time_state, save_data, CURRENT_TIME_STATE)
+	try_init(_last_time_state, save_data, LAST_TIME_STATE)
+
+	_set_time()
 
 
 func get_time_short() -> String:
@@ -102,10 +105,20 @@ func _set_time() -> void:
 	]
 
 
+func try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
+	if dict.has(key) and dict[key] is Dictionary:
+		time_state.init_from_dict(dict[key])
+
+
 class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
 
 	var elapsed_time: float = 0.0
+
+	func init_from_dict(dict: Dictionary) -> void:
+		if dict.has(ELAPSED_TIME):
+			elapsed_time = dict[ELAPSED_TIME]
+
 
 	func as_dict() -> Dictionary:
 		return {
