@@ -92,9 +92,6 @@ theme_override_constants/separation = 16
 
 [node name="stopwatch" parent="elements_to_scale" instance=ExtResource("2_m0v6e")]
 layout_mode = 2
-_time_text_template = null
-_ticking_colour = null
-_paused_colour = null
 
 [node name="buttons" type="Control" parent="elements_to_scale"]
 custom_minimum_size = Vector2(0, 64)

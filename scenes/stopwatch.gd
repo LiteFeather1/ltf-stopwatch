@@ -5,8 +5,8 @@ signal started()
 signal paused(time: StringName)
 signal resumed(time: StringName)
 
-const ELAPSED_TIME := &"elapsed_time"
-const LAST_ELAPSED_TIME := &"last_elapsed_time"
+const CURRENT_TIME_STATE := &"current_time_state"
+const LAST_TIME_STATE := &"last_time_state"
 
 @export_multiline var _time_text_template := "[center]%02d:%02d:%02d.[font_size=48]%02d[/font_size][/center]"
 
@@ -72,13 +72,13 @@ func reset() -> void:
 func restore_last_elapsed_time() -> void:
 	var temp := _current_time_state
 	_current_time_state = _last_time_state
-	_current_time_state = temp
+	_last_time_state = temp
 	_set_time()
 
 
 func save(save_data: Dictionary) -> void:
-	pass
-
+	save_data[CURRENT_TIME_STATE] = _current_time_state.as_dict()
+	save_data[LAST_TIME_STATE] = _last_time_state.as_dict()
 
 
 func load(save_data: Dictionary) -> void:
@@ -106,3 +106,8 @@ class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
 
 	var elapsed_time: float = 0.0
+
+	func as_dict() -> Dictionary:
+		return {
+			ELAPSED_TIME: elapsed_time
+		}
