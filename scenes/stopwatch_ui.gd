@@ -50,14 +50,12 @@ func _ready() -> void:
 	if _stopwatch.has_started():
 		_set_b_start_continue()
 	
-	var paused_times := _stopwatch.get_current_paused_times()
-	var resumed_times := _stopwatch.get_current_resumed_times()
-	var last_index := paused_times.size() - 1
-	for i in last_index - 1:
-		_stopwatch_paused(_seconds_to_hours(paused_times[i]))
-		_stopwatch_resumed(_seconds_to_hours(resumed_times[i]))
+	var last_index := _stopwatch.get_current_paused_times_size() - 1
+	for i in last_index:
+		_stopwatch_paused(_stopwatch.get_current_paused_time(i))
+		_stopwatch_resumed(_stopwatch.get_current_resumed_time(i))
 	
-	_stopwatch_paused(_seconds_to_hours(paused_times[last_index]))
+	_stopwatch_paused(_stopwatch.get_current_paused_time(last_index))
 
 
 func restore_last_elapsed_time() -> void:
@@ -86,7 +84,7 @@ func _stopwatch_paused(time: StringName) -> void:
 
 
 func _stopwatch_resumed(time: StringName) -> void:
-	_stop_tray_entries_ui.back().set_resume_time(time)
+	_stop_tray_entries_ui.front().set_resume_time(time)
 
 
 func _start_toggled(state: bool) -> void:
@@ -164,11 +162,3 @@ func _on_window_size_changed() -> void:
 func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
-
-
-func _seconds_to_hours(seconds: float) -> StringName:
-	return &"%02d:%02d:%02d" % [
-		seconds / 3600.0,
-		fmod(seconds, 3600.0) / 60.0,
-		fmod(seconds, 60.0)
-	]

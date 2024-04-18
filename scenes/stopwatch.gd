@@ -92,12 +92,20 @@ func get_time_short() -> String:
 	]
 
 
-func get_current_paused_times() -> PackedFloat32Array:
-	return _current_time_state.paused_times
+func get_current_paused_times_size() -> int:
+	return _current_time_state.paused_times.size()
 
 
-func get_current_resumed_times() -> PackedFloat32Array:
-	return _current_time_state.resumed_times
+func get_current_paused_time(index: int) -> StringName:
+	return _seconds_to_hour(_current_time_state.paused_times[index])
+
+
+func get_current_resumed_time_size() -> int:
+	return _current_time_state.resumed_times.size()
+
+
+func get_current_resumed_time(index: int) -> StringName:
+	return _seconds_to_hour(_current_time_state.resumed_times[index])
 
 
 func save(save_data: Dictionary) -> void:
@@ -125,6 +133,13 @@ func _set_time() -> void:
 		fmod(_current_time_state.elapsed_time, 1) * 100.0
 	]
 
+
+func _seconds_to_hour(seconds: float) -> String:
+	return &"%02d:%02d:%02d" % [
+		seconds / 3600.0,
+		fmod(seconds, 3600.0) / 60.0,
+		fmod(seconds, 60.0)
+	]
 
 class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
