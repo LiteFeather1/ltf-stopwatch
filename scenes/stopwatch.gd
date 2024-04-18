@@ -84,24 +84,37 @@ func restore_last_elapsed_time() -> void:
 	_set_time()
 
 
-func save(save_data: Dictionary) -> void:
-	save_data[CURRENT_TIME_STATE] = _current_time_state.as_dict()
-	save_data[LAST_TIME_STATE] = _last_time_state.as_dict()
-
-
-func load(save_data: Dictionary) -> void:
-	try_init(_current_time_state, save_data, CURRENT_TIME_STATE)
-	try_init(_last_time_state, save_data, LAST_TIME_STATE)
-
-	_set_time()
-
-
 func get_time_short() -> String:
 	return "%02d:%02d:%02d" % [
 		_current_time_state.elapsed_time / 3600.0,
 		fmod(_current_time_state.elapsed_time, 3600.0) / 60.0,
 		fmod(_current_time_state.elapsed_time, 60.0)
 	]
+
+
+func get_current_paused_times() -> Array[float]:
+	return _current_time_state.paused_times
+
+
+func get_current_resumed_times() -> Array[float]:
+	return _current_time_state.resumed_times
+
+
+func save(save_data: Dictionary) -> void:
+	save_data[CURRENT_TIME_STATE] = _current_time_state.as_dict()
+	save_data[LAST_TIME_STATE] = _last_time_state.as_dict()
+
+
+func load(save_data: Dictionary) -> void:
+	_try_init(_current_time_state, save_data, CURRENT_TIME_STATE)
+	_try_init(_last_time_state, save_data, LAST_TIME_STATE)
+
+	_set_time()
+
+
+func _try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
+	if dict.has(key) and dict[key] is Dictionary:
+		time_state.init_from_dict(dict[key])
 
 
 func _set_time() -> void:
@@ -113,11 +126,6 @@ func _set_time() -> void:
 	]
 
 
-func try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
-	if dict.has(key) and dict[key] is Dictionary:
-		time_state.init_from_dict(dict[key])
-
-
 class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
 	const RESUMED_TIMES := &"resumed_times"
@@ -127,16 +135,15 @@ class TimeState extends Object:
 	var resumed_times: Array[float]
 	var paused_times: Array[float]
 
-
 	func init_from_dict(dict: Dictionary) -> void:
 		if dict.has(ELAPSED_TIME):
 			elapsed_time = dict[ELAPSED_TIME]
 		
 		if dict.has(RESUMED_TIMES):
-			resumed_times = dict[RESUMED_TIMES]
+			resumed_times.assign(dict[RESUMED_TIMES])
 		
 		if dict.has(PAUSED_TIMES):
-			paused_times = dict[PAUSED_TIMES]
+			paused_times.assign(dict[PAUSED_TIMES])
 
 
 	func as_dict() -> Dictionary:
