@@ -94,6 +94,11 @@ func _reset_pressed() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("start")
 
+	for entry in _stop_tray_entries_ui:
+		entry.queue_free()
+	
+	_stop_tray_entries_ui.clear()
+
 
 func _copy_to_clipboard() -> void:
 	var time := _stopwatch.get_time_short()
