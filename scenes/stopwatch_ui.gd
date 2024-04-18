@@ -15,6 +15,14 @@ class_name StopwatchUI extends Control
 @export var _sprite_start: Texture2D
 @export var _sprite_pause: Texture2D
 
+
+@export_category("Stop tray")
+@export var _scene_stop_tray_entry_ui: PackedScene
+@export var _stop_tray: Control
+@export var _tray_container: Control
+var _stop_tray_entries_ui: Array[StopTrayEntryUI]
+
+
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
@@ -58,6 +66,15 @@ func _start_toggled(state: bool) -> void:
 	if state:
 		_b_start.icon = _sprite_pause
 		_b_start.set_tip_name("pause")
+
+		# Add new stop entry
+		var new_entry: StopTrayEntryUI = _scene_stop_tray_entry_ui.instantiate()
+		new_entry.set_stop(str(_stop_tray_entries_ui.size() + 1))
+		new_entry.set_stop_time()
+
+		_stop_tray_entries_ui.append(new_entry)
+		_tray_container.add_child(new_entry)
+		_stop_tray.visible = true
 	else:
 		_set_b_start_continue()
 

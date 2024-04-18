@@ -6,7 +6,7 @@ class_name StopTrayEntryUI extends HBoxContainer
 @export var _l_resume_time: Label
 
 
-func set_stop_num(text: String) -> void:
+func set_stop(text: String) -> void:
 	_l_stop.text = text
 
 
