@@ -47,24 +47,32 @@ func set_state(state: bool) -> void:
 		current_time["minute"],
 		current_time["second"]
 	]
+	
+	var seconds := \
+		float(current_time["hour"]) * 3600.0\
+		+ float(current_time["minute"]) * 60.0\
+		+ float(current_time["second"])
+
 	if state:
 		modulate = _ticking_colour
 		
 		if not _current_time_state.elapsed_time == 0.0:
 			resumed.emit(time)
+			_current_time_state.resumed_times.append(seconds)
 		else:
 			started.emit()
 	else:
 		modulate = _paused_colour
 
 		paused.emit(time)
+		_current_time_state.paused_times.append(seconds)
 
 	set_process(state)
 
 
 func reset() -> void:
+	_last_time_state.free()
 	_last_time_state = _current_time_state
-	_current_time_state.free()
 	_current_time_state = TimeState.new()
 	_set_time()
 
@@ -114,6 +122,8 @@ class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
 
 	var elapsed_time: float = 0.0
+	var resumed_times: Array[float]
+	var paused_times: Array[float]
 
 	func init_from_dict(dict: Dictionary) -> void:
 		if dict.has(ELAPSED_TIME):
