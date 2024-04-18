@@ -120,17 +120,28 @@ func try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
 
 class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
+	const RESUMED_TIMES := &"resumed_times"
+	const PAUSED_TIMES := &"paused_times"
 
 	var elapsed_time: float = 0.0
 	var resumed_times: Array[float]
 	var paused_times: Array[float]
 
+
 	func init_from_dict(dict: Dictionary) -> void:
 		if dict.has(ELAPSED_TIME):
 			elapsed_time = dict[ELAPSED_TIME]
+		
+		if dict.has(RESUMED_TIMES):
+			resumed_times = dict[RESUMED_TIMES]
+		
+		if dict.has(PAUSED_TIMES):
+			paused_times = dict[PAUSED_TIMES]
 
 
 	func as_dict() -> Dictionary:
 		return {
-			ELAPSED_TIME: elapsed_time
+			ELAPSED_TIME: elapsed_time,
+			RESUMED_TIMES: resumed_times,
+			PAUSED_TIMES: paused_times,
 		}
