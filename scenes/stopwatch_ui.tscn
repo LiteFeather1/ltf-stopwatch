@@ -49,7 +49,7 @@ events = [SubResource("InputEventKey_limys")]
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_ugxop"]
 color = Color(0.290196, 0.290196, 0.290196, 1)
 grow_begin = 0.0
-grow_end = -32.0
+grow_end = 0.0
 thickness = 2
 
 [node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_stop_tray", "_tray_container", "_copied_pop_up", "_l_copied_time")]
@@ -199,6 +199,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="stop_tray_ui" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -207,6 +208,7 @@ anchor_bottom = 1.0
 offset_left = 32.0
 offset_top = -140.0
 offset_right = -32.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8

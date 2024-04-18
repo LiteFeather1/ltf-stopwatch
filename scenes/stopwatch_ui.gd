@@ -33,7 +33,9 @@ var _pop_up_tween: Tween
 
 func _ready() -> void:
 	_stopwatch.started.connect(_enable_buttons)
-	
+	_stopwatch.paused.connect(_stopwatch_paused)
+	_stopwatch.resumed.connect(_stopwatch_resumed)
+
 	_b_start.toggled.connect(_start_toggled)
 	_b_reset.pressed.connect(_reset_pressed)
 	_b_clipboard.pressed.connect(_copy_to_clipboard)
@@ -60,27 +62,31 @@ func _enable_buttons() -> void:
 	_b_clipboard.disabled = false
 
 
-func _start_toggled(state: bool) -> void:
+func _stopwatch_resumed(time: StringName) -> void:
+	_stop_tray_entries_ui.back().set_resume_time(time)
 
+
+func _stopwatch_paused(time: StringName) -> void:
+	var new_entry: StopTrayEntryUI = _scene_stop_tray_entry_ui.instantiate()
+	_stop_tray_entries_ui.push_front(new_entry)
+	var stop_tray_size := _stop_tray_entries_ui.size()
+	new_entry.set_stop(str(stop_tray_size))
+	new_entry.set_stop_time(time)
+
+	_tray_container.add_child(new_entry)
+	_tray_container.move_child(new_entry, 0)
+	
+	if stop_tray_size > 0:
+		_stop_tray.visible = true
+
+
+func _start_toggled(state: bool) -> void:
 	if state:
 		_b_start.icon = _sprite_pause
 		_b_start.set_tip_name("pause")
-
-		# Set last entry resume time
-		if _stopwatch.has_started():
-			_stop_tray_entries_ui.back().set_resume_time()
 	else:
 		_set_b_start_continue()
-		# Add new stop entry
-		var new_entry: StopTrayEntryUI = _scene_stop_tray_entry_ui.instantiate()
-		new_entry.set_stop(str(_stop_tray_entries_ui.size() + 1))
-		new_entry.set_stop_time()
 
-		_stop_tray_entries_ui.append(new_entry)
-		_tray_container.add_child(new_entry)
-		_tray_container.move_child(new_entry, 0)
-		_stop_tray.visible = true
-	
 	_stopwatch.set_state(state)
 
 

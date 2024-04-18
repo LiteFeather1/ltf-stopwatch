@@ -10,18 +10,9 @@ func set_stop(text: String) -> void:
 	_l_stop.text = text
 
 
-func set_stop_time() -> void:
-	_l_stop_time.text = _get_current_time()
+func set_stop_time(time: StringName) -> void:
+	_l_stop_time.text = time
 
 
-func set_resume_time() -> void:
-	_l_resume_time.text = _get_current_time()
-
-
-func _get_current_time() -> String:
-	var current_time := Time.get_datetime_dict_from_system()
-	return "%s:%s:%s" % [
-		current_time["hour"],
-		current_time["minute"],
-		current_time["second"]
-	]
+func set_resume_time(time: StringName) -> void:
+	_l_resume_time.text = time
