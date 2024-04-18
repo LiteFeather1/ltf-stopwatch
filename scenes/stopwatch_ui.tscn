@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=23 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/stopwatch.tscn" id="2_m0v6e"]
@@ -14,7 +14,6 @@
 [ext_resource type="StyleBox" uid="uid://h0eenhgoac4d" path="res://resources/themes/stopwatch_buttons/disabled_stopwatch_button.tres" id="10_y3bwx"]
 [ext_resource type="Texture2D" uid="uid://b12aiw15pcoh1" path="res://assets/sprites/buttons_stopwatch/s_copy_to_clipboard.svg" id="11_1p55s"]
 [ext_resource type="Texture2D" uid="uid://cdcm8yx1ah58x" path="res://assets/sprites/buttons_stopwatch/s_button_reset.svg" id="13_iq6nj"]
-[ext_resource type="PackedScene" uid="uid://ckdwpgw2ltoie" path="res://scenes/UI/stop_tray_entry_ui.tscn" id="15_7masa"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_f1pn7"]
 device = -1
@@ -196,6 +195,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="stop_tray_ui" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -203,6 +203,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
 offset_top = -140.0
+offset_right = -32.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8
@@ -215,7 +216,8 @@ theme_override_constants/separation = 60
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
-text = "  Stops"
+text = "  Stops
+"
 
 [node name="Button" type="Button" parent="stop_tray_ui/HBoxContainer/Label"]
 layout_mode = 1
@@ -258,8 +260,4 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 16
-
-[node name="stop_tray_entry_ui" parent="stop_tray_ui/ScrollContainer/VBoxContainer" instance=ExtResource("15_7masa")]
-layout_mode = 2
-theme_override_constants/separation = 60
+theme_override_constants/separation = 8
