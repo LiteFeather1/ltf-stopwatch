@@ -16,3 +16,7 @@ func set_pause_time(time: StringName) -> void:
 
 func set_resume_time(time: StringName) -> void:
 	_l_resume_time.text = time
+
+
+func set_resume_time_empty() -> void:
+	_l_resume_time.text = "--:--:--"
