@@ -42,7 +42,7 @@ func has_started() -> bool:
 
 func set_state(state: bool) -> void:
 	var current_time := Time.get_datetime_dict_from_system()
-	var time := &"%s:%s:%s" % [
+	var time := &"%s:%02d:%02d" % [
 		current_time["hour"],
 		current_time["minute"],
 		current_time["second"]
