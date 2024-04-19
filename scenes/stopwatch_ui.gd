@@ -51,12 +51,7 @@ func _ready() -> void:
 		_set_b_start_continue()
 	
 	var resumed_size := _stopwatch.get_current_resumed_times_size()
-	for i: int in resumed_size:
-		_stopwatch_paused(_stopwatch.get_current_paused_time(i))
-		_stopwatch_resumed(_stopwatch.get_current_resumed_time(i))
-	
-	if resumed_size != _stopwatch.get_current_paused_times_size():
-		_stopwatch_paused(_stopwatch.get_current_paused_time(resumed_size))
+	_instantiate_pause_tray_entries(resumed_size)
 
 
 func restore_last_time_state() -> void:
@@ -86,15 +81,7 @@ func restore_last_time_state() -> void:
 	else:
 		existing_entries = tray_size
 
-		# Spawn missing matched entries
-		for i: int in resumed_size - tray_size:
-			var index := tray_size + i
-			_stopwatch_paused(_stopwatch.get_current_paused_time(index))
-			_stopwatch_resumed(_stopwatch.get_current_resumed_time(index))
-		
-		# Spawn missing entry with no resumed time
-		if not matching_paused_resumed:
-			_stopwatch_paused(_stopwatch.get_current_paused_time(tray_size - resumed_size))
+		_instantiate_pause_tray_entries(resumed_size - tray_size, tray_size)
 	
 	# Set existing matched entries
 	for i: int in existing_entries:
@@ -218,3 +205,13 @@ func _on_window_size_changed() -> void:
 func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
+
+
+func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void:
+	for i in amount:
+		var index := index_offset + i
+		_stopwatch_paused(_stopwatch.get_current_paused_time(index))
+		_stopwatch_resumed(_stopwatch.get_current_resumed_time(index))
+	
+	if amount != _stopwatch.get_current_paused_times_size():
+		_stopwatch_paused(_stopwatch.get_current_paused_time(index_offset + amount))
