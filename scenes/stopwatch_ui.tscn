@@ -52,7 +52,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_stop_tray", "_tray_container", "_copied_pop_up", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_pause_tray", "_tray_container", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -69,9 +69,9 @@ _b_clipboard = NodePath("elements_to_scale/buttons/b_clipboard")
 _b_start = NodePath("elements_to_scale/buttons/b_start")
 _sprite_start = ExtResource("6_qv58p")
 _sprite_pause = ExtResource("3_fs0r6")
-_scene_stop_tray_entry_ui = ExtResource("4_ta478")
-_stop_tray = NodePath("stop_tray_ui")
-_tray_container = NodePath("stop_tray_ui/ScrollContainer/vhc_tray_container")
+_scene_pause_tray_entry_ui = ExtResource("4_ta478")
+_pause_tray = NodePath("pause_tray_ui")
+_tray_container = NodePath("pause_tray_ui/ScrollContainer/vbc_tray_container")
 _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
@@ -198,7 +198,7 @@ text = "Copied!
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="stop_tray_ui" type="VBoxContainer" parent="."]
+[node name="pause_tray_ui" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 12
@@ -213,18 +213,18 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="stop_tray_ui"]
+[node name="HBoxContainer" type="HBoxContainer" parent="pause_tray_ui"]
 layout_mode = 2
 theme_override_constants/separation = 60
 
-[node name="Label" type="Label" parent="stop_tray_ui/HBoxContainer"]
+[node name="Label" type="Label" parent="pause_tray_ui/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "  Stops
 "
 
-[node name="Button" type="Button" parent="stop_tray_ui/HBoxContainer/Label"]
+[node name="Button" type="Button" parent="pause_tray_ui/HBoxContainer/Label"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -239,29 +239,29 @@ theme_override_constants/icon_max_width = 20
 icon = ExtResource("11_1p55s")
 flat = true
 
-[node name="Label2" type="Label" parent="stop_tray_ui/HBoxContainer"]
+[node name="Label2" type="Label" parent="pause_tray_ui/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Pause Time"
 
-[node name="Label3" type="Label" parent="stop_tray_ui/HBoxContainer"]
+[node name="Label3" type="Label" parent="pause_tray_ui/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Resume Time"
 
-[node name="HSeparator" type="HSeparator" parent="stop_tray_ui"]
+[node name="HSeparator" type="HSeparator" parent="pause_tray_ui"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_ugxop")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="stop_tray_ui"]
+[node name="ScrollContainer" type="ScrollContainer" parent="pause_tray_ui"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="vhc_tray_container" type="VBoxContainer" parent="stop_tray_ui/ScrollContainer"]
+[node name="vbc_tray_container" type="VBoxContainer" parent="pause_tray_ui/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8

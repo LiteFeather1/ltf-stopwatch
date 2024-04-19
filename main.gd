@@ -17,7 +17,6 @@ const SAVEABLE := &"saveable"
 
 func _ready() -> void:
 	_title_bar_ui.close_pressed.connect(_quit_app)
-
 	
 	Global.window.min_size = _min_window_size
 	Global.window.max_size = _max_window_size
@@ -49,7 +48,7 @@ func _ready() -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("restore_last_elapsed_time"):
-		_stopwatch_ui.restore_last_elapsed_time()
+		_stopwatch_ui.restore_last_time_state()
 
 
 func _notification(what: int) -> void:

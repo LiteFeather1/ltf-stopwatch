@@ -77,7 +77,7 @@ func reset() -> void:
 	_set_time()
 
 
-func restore_last_elapsed_time() -> void:
+func restore_last_time_state() -> void:
 	var temp := _current_time_state
 	_current_time_state = _last_time_state
 	_last_time_state = temp
@@ -143,27 +143,27 @@ func _seconds_to_hour(seconds: float) -> String:
 
 class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
-	const RESUMED_TIMES := &"resumed_times"
 	const PAUSED_TIMES := &"paused_times"
+	const RESUMED_TIMES := &"resumed_times"
 
 	var elapsed_time: float = 0.0
-	var resumed_times: PackedFloat32Array
 	var paused_times: PackedFloat32Array
+	var resumed_times: PackedFloat32Array
 
 	func init_from_dict(dict: Dictionary) -> void:
 		if dict.has(ELAPSED_TIME):
 			elapsed_time = dict[ELAPSED_TIME]
 		
-		if dict.has(RESUMED_TIMES):
-			resumed_times = dict[RESUMED_TIMES]
-		
 		if dict.has(PAUSED_TIMES):
 			paused_times = dict[PAUSED_TIMES]
+		
+		if dict.has(RESUMED_TIMES):
+			resumed_times = dict[RESUMED_TIMES]
 
 
 	func as_dict() -> Dictionary:
 		return {
 			ELAPSED_TIME: elapsed_time,
-			RESUMED_TIMES: resumed_times,
 			PAUSED_TIMES: paused_times,
+			RESUMED_TIMES: resumed_times,
 		}

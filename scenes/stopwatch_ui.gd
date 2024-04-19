@@ -17,10 +17,10 @@ class_name StopwatchUI extends Control
 
 
 @export_category("Stop tray")
-@export var _scene_stop_tray_entry_ui: PackedScene
-@export var _stop_tray: Control
+@export var _scene_pause_tray_entry_ui: PackedScene
+@export var _pause_tray: Control
 @export var _tray_container: Control
-var _stop_tray_entries_ui: Array[StopTrayEntryUI]
+var _pause_tray_entries_ui: Array[PauseTrayEntryUI]
 
 
 @export_category("Copied Pop Up")
@@ -50,17 +50,60 @@ func _ready() -> void:
 	if _stopwatch.has_started():
 		_set_b_start_continue()
 	
-	var times_size := _stopwatch.get_current_resumed_times_size()
-	for i in times_size:
+	var resumed_size := _stopwatch.get_current_resumed_times_size()
+	for i: int in resumed_size:
 		_stopwatch_paused(_stopwatch.get_current_paused_time(i))
 		_stopwatch_resumed(_stopwatch.get_current_resumed_time(i))
 	
-	if times_size != _stopwatch.get_current_paused_times_size():
-		_stopwatch_paused(_stopwatch.get_current_paused_time(times_size))
+	if resumed_size != _stopwatch.get_current_paused_times_size():
+		_stopwatch_paused(_stopwatch.get_current_paused_time(resumed_size))
 
 
-func restore_last_elapsed_time() -> void:
-	_stopwatch.restore_last_elapsed_time()
+func restore_last_time_state() -> void:
+	_stopwatch.restore_last_time_state()
+
+	# Swap entries
+	var to_set_size: int
+	var paused_size := _stopwatch.get_current_paused_times_size()
+	var resumed_size := _stopwatch.get_current_resumed_times_size()
+	var tray_size := _pause_tray_entries_ui.size()
+
+	var remainder := tray_size - paused_size
+	var matching_paused_resumed := paused_size == resumed_size
+	if remainder >= 0:
+		to_set_size = resumed_size
+
+		# Delete overflow entries
+		for i: int in remainder:
+			_pause_tray_entries_ui.pop_back().queue_free()
+		
+		# Set entry with not resumed time
+		if not matching_paused_resumed:
+			var index := paused_size - 1
+			var entry := _pause_tray_entries_ui[index]
+			entry.set_pause_time(_stopwatch.get_current_paused_time(index))
+			entry.set_resume_time_empty()
+	else:
+		to_set_size = tray_size
+
+		# Spawn missing matched entries
+		for i: int in resumed_size - tray_size:
+			var index := tray_size + i
+			_stopwatch_paused(_stopwatch.get_current_paused_time(index))
+			_stopwatch_resumed(_stopwatch.get_current_resumed_time(index))
+		
+		# Spawn missing entry with no resumed time
+		if not matching_paused_resumed:
+			_stopwatch_paused(_stopwatch.get_current_paused_time(tray_size - resumed_size))
+	
+	# Set existing matched entries
+	for i: int in to_set_size:
+		var entry := _pause_tray_entries_ui[i]
+		entry.set_pause_time(_stopwatch.get_current_paused_time(i))
+		entry.set_resume_time(_stopwatch.get_current_resumed_time(i))
+	
+	_pause_tray.visible = paused_size > 0
+
 	_b_start.button_pressed = false
 	_enable_buttons()
 
@@ -71,21 +114,21 @@ func _enable_buttons() -> void:
 
 
 func _stopwatch_paused(time: StringName) -> void:
-	var new_entry: StopTrayEntryUI = _scene_stop_tray_entry_ui.instantiate()
-	_stop_tray_entries_ui.append(new_entry)
-	var stop_tray_size := _stop_tray_entries_ui.size()
-	new_entry.set_stop(str(stop_tray_size))
-	new_entry.set_stop_time(time)
+	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
+	_pause_tray_entries_ui.append(new_entry)
+	var pause_tray_size := _pause_tray_entries_ui.size()
+	new_entry.set_pause_num(str(pause_tray_size))
+	new_entry.set_pause_time(time)
 
 	_tray_container.add_child(new_entry)
 	_tray_container.move_child(new_entry, 0)
 	
-	if stop_tray_size > 0:
-		_stop_tray.visible = true
+	if pause_tray_size > 0:
+		_pause_tray.visible = true
 
 
 func _stopwatch_resumed(time: StringName) -> void:
-	_stop_tray_entries_ui.back().set_resume_time(time)
+	_pause_tray_entries_ui.back().set_resume_time(time)
 
 
 func _start_toggled(state: bool) -> void:
@@ -109,10 +152,10 @@ func _reset_pressed() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("start")
 
-	for entry in _stop_tray_entries_ui:
+	for entry in _pause_tray_entries_ui:
 		entry.queue_free()
 	
-	_stop_tray_entries_ui.clear()
+	_pause_tray_entries_ui.clear()
 
 
 func _copy_to_clipboard() -> void:
