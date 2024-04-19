@@ -157,6 +157,8 @@ func _reset_pressed() -> void:
 	
 	_pause_tray_entries_ui.clear()
 
+	_pause_tray.visible = false
+
 
 func _copy_to_clipboard() -> void:
 	var time := _stopwatch.get_time_short()
