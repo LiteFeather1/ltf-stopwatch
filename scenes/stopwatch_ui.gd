@@ -50,7 +50,7 @@ func _ready() -> void:
 	if _stopwatch.has_started():
 		_set_b_start_continue()
 	
-	var resumed_size := _stopwatch.get_current_resumed_times_size()
+	var resumed_size := _stopwatch.get_resumed_times_size()
 	_instantiate_pause_tray_entries(resumed_size)
 
 
@@ -59,8 +59,8 @@ func restore_last_time_state() -> void:
 
 	# Swap entries
 	var existing_entries: int
-	var paused_size := _stopwatch.get_current_paused_times_size()
-	var resumed_size := _stopwatch.get_current_resumed_times_size()
+	var paused_size := _stopwatch.get_paused_times_size()
+	var resumed_size := _stopwatch.get_resumed_times_size()
 	var tray_size := _pause_tray_entries_ui.size()
 
 	var remainder := tray_size - paused_size
@@ -76,7 +76,7 @@ func restore_last_time_state() -> void:
 		if not matching_paused_resumed:
 			var index := paused_size - 1
 			var entry := _pause_tray_entries_ui[index]
-			entry.set_pause_time(_stopwatch.get_current_paused_time(index))
+			entry.set_pause_time(_stopwatch.get_paused_time(index))
 			entry.set_resume_time_empty()
 	else:
 		existing_entries = tray_size
@@ -86,8 +86,8 @@ func restore_last_time_state() -> void:
 	# Set existing matched entries
 	for i: int in existing_entries:
 		var entry := _pause_tray_entries_ui[i]
-		entry.set_pause_time(_stopwatch.get_current_paused_time(i))
-		entry.set_resume_time(_stopwatch.get_current_resumed_time(i))
+		entry.set_pause_time(_stopwatch.get_paused_time(i))
+		entry.set_resume_time(_stopwatch.get_resumed_time(i))
 	
 	_pause_tray.visible = paused_size > 0
 
@@ -210,8 +210,8 @@ func _set_b_start_continue() -> void:
 func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void:
 	for i in amount:
 		var index := index_offset + i
-		_stopwatch_paused(_stopwatch.get_current_paused_time(index))
-		_stopwatch_resumed(_stopwatch.get_current_resumed_time(index))
+		_stopwatch_paused(_stopwatch.get_paused_time(index))
+		_stopwatch_resumed(_stopwatch.get_resumed_time(index))
 	
-	if amount != _stopwatch.get_current_paused_times_size():
-		_stopwatch_paused(_stopwatch.get_current_paused_time(index_offset + amount))
+	if amount != _stopwatch.get_paused_times_size():
+		_stopwatch_paused(_stopwatch.get_paused_time(index_offset + amount))
