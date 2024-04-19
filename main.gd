@@ -57,6 +57,8 @@ func _notification(what: int) -> void:
 
 
 func _quit_app() -> void:
+	_stopwatch_ui.pause_stopwatch_if_running()
+	
 	var save_data := {}
 	save_data[VERSION] = ProjectSettings.get_setting("application/config/version")
 

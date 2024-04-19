@@ -108,6 +108,11 @@ func restore_last_time_state() -> void:
 	_enable_buttons()
 
 
+func pause_stopwatch_if_running() -> void:
+	if _b_start.button_pressed:
+		_stopwatch.set_state(false)
+
+
 func _enable_buttons() -> void:
 	_b_reset.disabled = false
 	_b_clipboard.disabled = false
