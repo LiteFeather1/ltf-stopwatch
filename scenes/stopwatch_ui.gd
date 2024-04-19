@@ -50,15 +50,13 @@ func _ready() -> void:
 	if _stopwatch.has_started():
 		_set_b_start_continue()
 	
-	var last_index := _stopwatch.get_current_paused_times_size() - 1
-	if last_index == -1:
-		return
-	
-	for i in last_index:
+	var times_size := _stopwatch.get_current_resumed_times_size()
+	for i in times_size:
 		_stopwatch_paused(_stopwatch.get_current_paused_time(i))
 		_stopwatch_resumed(_stopwatch.get_current_resumed_time(i))
 	
-	_stopwatch_paused(_stopwatch.get_current_paused_time(last_index))
+	if times_size != _stopwatch.get_current_paused_times_size():
+		_stopwatch_paused(_stopwatch.get_current_paused_time(times_size))
 
 
 func restore_last_elapsed_time() -> void:

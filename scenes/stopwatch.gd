@@ -100,7 +100,7 @@ func get_current_paused_time(index: int) -> StringName:
 	return _seconds_to_hour(_current_time_state.paused_times[index])
 
 
-func get_current_resumed_time_size() -> int:
+func get_current_resumed_times_size() -> int:
 	return _current_time_state.resumed_times.size()
 
 
