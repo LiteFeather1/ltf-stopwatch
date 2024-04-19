@@ -1,13 +1,13 @@
-class_name StopTrayEntryUI extends HBoxContainer
+class_name PauseTrayEntryUI extends HBoxContainer
 
 
-@export var _l_stop: Label
+@export var _l_pause_num: Label
 @export var _l_pause_time: Label
 @export var _l_resume_time: Label
 
 
-func set_stop(text: String) -> void:
-	_l_stop.text = text
+func set_pause_num(text: String) -> void:
+	_l_pause_num.text = text
 
 
 func set_pause_time(time: StringName) -> void:

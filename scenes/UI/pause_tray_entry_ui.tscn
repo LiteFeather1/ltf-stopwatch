@@ -1,14 +1,15 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckdwpgw2ltoie"]
 
-[ext_resource type="Script" path="res://scenes/UI/stop_tray_entry_ui.gd" id="1_o2eal"]
+[ext_resource type="Script" path="res://scenes/UI/pause_tray_entry_ui.gd" id="1_o2eal"]
 
-[node name="stop_tray_entry_ui" type="HBoxContainer" node_paths=PackedStringArray("_l_stop", "_l_resume_time")]
+[node name="pause_tray_entry_ui" type="HBoxContainer" node_paths=PackedStringArray("_l_pause_num", "_l_pause_time", "_l_resume_time")]
 theme_override_constants/separation = 60
 script = ExtResource("1_o2eal")
-_l_stop = NodePath("l_stop")
+_l_pause_num = NodePath("l_pause")
+_l_pause_time = NodePath("l_pause_time")
 _l_resume_time = NodePath("l_resume_time")
 
-[node name="l_stop" type="Label" parent="."]
+[node name="l_pause" type="Label" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
