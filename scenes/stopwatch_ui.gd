@@ -32,7 +32,7 @@ var _pop_up_tween: Tween
 
 
 func _ready() -> void:
-	_stopwatch.started.connect(_enable_buttons)
+	_stopwatch.started.connect(_on_stopwatch_started)
 	_stopwatch.paused.connect(_stopwatch_paused)
 	_stopwatch.resumed.connect(_stopwatch_resumed)
 
@@ -63,7 +63,7 @@ func restore_last_time_state() -> void:
 	_stopwatch.restore_last_time_state()
 
 	# Swap entries
-	var to_set_size: int
+	var existing_entries: int
 	var paused_size := _stopwatch.get_current_paused_times_size()
 	var resumed_size := _stopwatch.get_current_resumed_times_size()
 	var tray_size := _pause_tray_entries_ui.size()
@@ -71,7 +71,7 @@ func restore_last_time_state() -> void:
 	var remainder := tray_size - paused_size
 	var matching_paused_resumed := paused_size == resumed_size
 	if remainder >= 0:
-		to_set_size = resumed_size
+		existing_entries = resumed_size
 
 		# Delete overflow entries
 		for i: int in remainder:
@@ -84,7 +84,7 @@ func restore_last_time_state() -> void:
 			entry.set_pause_time(_stopwatch.get_current_paused_time(index))
 			entry.set_resume_time_empty()
 	else:
-		to_set_size = tray_size
+		existing_entries = tray_size
 
 		# Spawn missing matched entries
 		for i: int in resumed_size - tray_size:
@@ -97,7 +97,7 @@ func restore_last_time_state() -> void:
 			_stopwatch_paused(_stopwatch.get_current_paused_time(tray_size - resumed_size))
 	
 	# Set existing matched entries
-	for i: int in to_set_size:
+	for i: int in existing_entries:
 		var entry := _pause_tray_entries_ui[i]
 		entry.set_pause_time(_stopwatch.get_current_paused_time(i))
 		entry.set_resume_time(_stopwatch.get_current_resumed_time(i))
@@ -105,7 +105,8 @@ func restore_last_time_state() -> void:
 	_pause_tray.visible = paused_size > 0
 
 	_b_start.button_pressed = false
-	_enable_buttons()
+
+	_set_buttons_disabled(not _stopwatch.has_started())
 
 
 func pause_stopwatch_if_running() -> void:
@@ -113,9 +114,13 @@ func pause_stopwatch_if_running() -> void:
 		_stopwatch.set_state(false)
 
 
-func _enable_buttons() -> void:
-	_b_reset.disabled = false
-	_b_clipboard.disabled = false
+func _set_buttons_disabled(state: bool) -> void:
+	_b_reset.disabled = state
+	_b_clipboard.disabled = state
+
+
+func _on_stopwatch_started() -> void:
+	_set_buttons_disabled(false)
 
 
 func _stopwatch_paused(time: StringName) -> void:
