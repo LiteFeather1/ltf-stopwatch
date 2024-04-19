@@ -51,6 +51,9 @@ func _ready() -> void:
 		_set_b_start_continue()
 	
 	var last_index := _stopwatch.get_current_paused_times_size() - 1
+	if last_index == -1:
+		return
+	
 	for i in last_index:
 		_stopwatch_paused(_stopwatch.get_current_paused_time(i))
 		_stopwatch_resumed(_stopwatch.get_current_resumed_time(i))
@@ -71,7 +74,7 @@ func _enable_buttons() -> void:
 
 func _stopwatch_paused(time: StringName) -> void:
 	var new_entry: StopTrayEntryUI = _scene_stop_tray_entry_ui.instantiate()
-	_stop_tray_entries_ui.push_front(new_entry)
+	_stop_tray_entries_ui.append(new_entry)
 	var stop_tray_size := _stop_tray_entries_ui.size()
 	new_entry.set_stop(str(stop_tray_size))
 	new_entry.set_stop_time(time)
@@ -84,7 +87,7 @@ func _stopwatch_paused(time: StringName) -> void:
 
 
 func _stopwatch_resumed(time: StringName) -> void:
-	_stop_tray_entries_ui.front().set_resume_time(time)
+	_stop_tray_entries_ui.back().set_resume_time(time)
 
 
 func _start_toggled(state: bool) -> void:
