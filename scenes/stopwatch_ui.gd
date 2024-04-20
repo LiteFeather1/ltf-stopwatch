@@ -137,6 +137,21 @@ func _stopwatch_paused(time: StringName) -> PauseTrayEntryUI:
 func _stopwatch_resumed(time: StringName) -> void:
 	_pause_tray_entries_ui.back().set_resume_time(time)
 
+	var index := _stopwatch.get_resumed_times_size() - 1
+	if index < 1:
+		return
+
+	# two entries. None has longest nor shortest
+	if index == 1:
+		_set_longest_shortest_times()
+	else:
+		var pause_span := _stopwatch.get_pause_span(index)
+		# Check if new entry is new longest or shortest
+		if pause_span >= _stopwatch.get_pause_span(_prev_longest_pause_index):
+			_set_longest_pause_index(index)
+		elif pause_span <= _stopwatch.get_pause_span(_prev_shortest_pause_index):
+			_set_shortest_pause_index(index)
+
 
 func _start_toggled(state: bool) -> void:
 	if state:
@@ -165,6 +180,9 @@ func _reset_pressed() -> void:
 	_pause_tray_entries_ui.clear()
 
 	_pause_tray.visible = false
+
+	_prev_longest_pause_index = 0
+	_prev_shortest_pause_index = 0
 
 
 func _copy_to_clipboard() -> void:
@@ -227,31 +245,6 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 		_stopwatch_paused(_stopwatch.get_paused_time(amount + index_offset))
 
 
-func _set_longest_shortest_times() -> void:
-	var valid_entries_size := _stopwatch.get_resumed_times_size()
-	if valid_entries_size < 2:
-		return
-	
-	var longest_distance := -1.79769e308
-	var longest_index := _prev_longest_pause_index
-	var shortest_distance := 1.79769e308
-	var shortest_index := _prev_shortest_pause_index
-
-	for i: int in valid_entries_size:
-		var distance := _stopwatch.get_resumed_seconds(i) - _stopwatch.get_paused_seconds(i)
-
-		if distance > longest_distance:
-			longest_distance = distance
-			longest_index = i
-		
-		if distance < shortest_distance:
-			shortest_distance = distance
-			shortest_index = i
-
-	_prev_longest_pause_index = _set_entry_num(longest_index, _prev_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
-	_prev_shortest_pause_index = _set_entry_num(shortest_index, _prev_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
-
-
 func _set_entry_num(index: int, prev_index: int, text: StringName) -> int:
 	if prev_index < _pause_tray_entries_ui.size() and prev_index != index:
 		_pause_tray_entries_ui[prev_index].set_pause_num(str(prev_index + 1))
@@ -259,3 +252,34 @@ func _set_entry_num(index: int, prev_index: int, text: StringName) -> int:
 	_pause_tray_entries_ui[index].set_pause_num(text % (index + 1))
 	
 	return index
+
+
+func _set_longest_pause_index(index: int) -> void:
+	_prev_longest_pause_index = _set_entry_num(index, _prev_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
+
+
+func _set_shortest_pause_index(index: int) -> void:
+	_prev_shortest_pause_index = _set_entry_num(index, _prev_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
+
+
+func _set_longest_shortest_times() -> void:
+	var valid_entries_size := _stopwatch.get_resumed_times_size()
+	if valid_entries_size < 2:
+		return
+	
+	var longest_pause_span := -1.79769e308
+	var longest_index := _prev_longest_pause_index
+	var shortest_pause_span := 1.79769e308
+	var shortest_index := _prev_shortest_pause_index
+
+	for i: int in valid_entries_size:
+		var pause_span := _stopwatch.get_pause_span(i)
+		if pause_span >= longest_pause_span:
+			longest_pause_span = pause_span
+			longest_index = i
+		elif pause_span <= shortest_pause_span:
+			shortest_pause_span = pause_span
+			shortest_index = i
+
+	_set_longest_pause_index(longest_index)
+	_set_shortest_pause_index(shortest_index)

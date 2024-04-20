@@ -57,15 +57,15 @@ func set_state(state: bool) -> void:
 		modulate = _ticking_colour
 		
 		if not _time_state.elapsed_time == 0.0:
-			resumed.emit(time)
 			_time_state.resumed_times.append(seconds)
+			resumed.emit(time)
 		else:
 			started.emit()
 	else:
 		modulate = _paused_colour
 
-		paused.emit(time)
 		_time_state.paused_times.append(seconds)
+		paused.emit(time)
 
 	set_process(state)
 
@@ -96,10 +96,6 @@ func get_paused_times_size() -> int:
 	return _time_state.paused_times.size()
 
 
-func get_paused_seconds(index: int) -> float:
-	return _time_state.paused_times[index]
-
-
 func get_paused_time(index: int) -> StringName:
 	return _seconds_to_hour(_time_state.paused_times[index])
 
@@ -108,12 +104,12 @@ func get_resumed_times_size() -> int:
 	return _time_state.resumed_times.size()
 
 
-func get_resumed_seconds(index: int) -> float:
-	return _time_state.resumed_times[index]
-
-
 func get_resumed_time(index: int) -> StringName:
 	return _seconds_to_hour(_time_state.resumed_times[index])
+
+
+func get_pause_span(index: int) -> float:
+	return _time_state.resumed_times[index] - _time_state.paused_times[index]
 
 
 func save(save_data: Dictionary) -> void:
