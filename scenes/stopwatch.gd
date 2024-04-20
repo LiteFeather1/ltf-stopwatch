@@ -96,12 +96,20 @@ func get_paused_times_size() -> int:
 	return _time_state.paused_times.size()
 
 
+func get_paused_seconds(index: int) -> float:
+	return _time_state.paused_times[index]
+
+
 func get_paused_time(index: int) -> StringName:
 	return _seconds_to_hour(_time_state.paused_times[index])
 
 
 func get_resumed_times_size() -> int:
 	return _time_state.resumed_times.size()
+
+
+func get_resumed_seconds(index: int) -> float:
+	return _time_state.resumed_times[index]
 
 
 func get_resumed_time(index: int) -> StringName:

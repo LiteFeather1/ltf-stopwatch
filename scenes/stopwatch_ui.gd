@@ -20,12 +20,15 @@ class_name StopwatchUI extends Control
 @export var _scene_pause_tray_entry_ui: PackedScene
 @export var _pause_tray: Control
 @export var _tray_container: Control
-var _pause_tray_entries_ui: Array[PauseTrayEntryUI]
 
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
+
+var _pause_tray_entries_ui: Array[PauseTrayEntryUI]
+var _prev_longest_pause_index: int = -1
+var _prev_shortest_pause_index: int = -1
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -50,8 +53,7 @@ func _ready() -> void:
 	if _stopwatch.has_started():
 		_set_b_start_continue()
 	
-	var resumed_size := _stopwatch.get_resumed_times_size()
-	_instantiate_pause_tray_entries(resumed_size)
+	_instantiate_pause_tray_entries(_stopwatch.get_resumed_times_size())
 
 
 func restore_last_time_state() -> void:
@@ -215,3 +217,37 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 	
 	if amount != _stopwatch.get_paused_times_size():
 		_stopwatch_paused(_stopwatch.get_paused_time(index_offset + amount))
+
+
+func _set_longest_shortest_times() -> void:
+	var valid_entries_size := _stopwatch.get_resumed_times_size()
+	if valid_entries_size < 2:
+		return
+	
+	var longest_distance := -1.79769e308
+	var longest_index := _prev_longest_pause_index
+	var shortest_distance := 1.79769e308
+	var shortest_index := _prev_shortest_pause_index
+
+	for i: int in valid_entries_size:
+		var distance := _stopwatch.get_resumed_seconds(i) - _stopwatch.get_paused_seconds(i)
+
+		if distance > longest_distance:
+			longest_distance = distance
+			longest_index = i
+		
+		if distance < shortest_distance:
+			shortest_distance = distance
+			shortest_index = i
+
+	_prev_longest_pause_index = _set_entry_num(longest_index, _prev_longest_pause_index, &"%d Longest")
+	_prev_shortest_pause_index = _set_entry_num(shortest_index, _prev_shortest_pause_index, &"%d Shortest")
+
+
+func _set_entry_num(index: int, prev_index: int, text: StringName) -> int:
+	if prev_index < _pause_tray_entries_ui.size() and prev_index != index:
+		_pause_tray_entries_ui[prev_index].set_pause_num(str(prev_index + 1))
+	
+	_pause_tray_entries_ui[index].set_pause_num(text % (index + 1))
+	
+	return index
