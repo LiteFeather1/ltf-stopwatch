@@ -30,8 +30,8 @@ const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 @export var _l_copied_time: Label
 
 var _pause_tray_entries_ui: Array[PauseTrayEntryUI]
-var _prev_longest_pause_index: int = -1
-var _prev_shortest_pause_index: int = -1
+var _prev_longest_pause_index: int
+var _prev_shortest_pause_index: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -119,7 +119,7 @@ func _on_stopwatch_started() -> void:
 	_set_buttons_disabled(false)
 
 
-func _stopwatch_paused(time: StringName) -> void:
+func _stopwatch_paused(time: StringName) -> PauseTrayEntryUI:
 	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
 	_pause_tray_entries_ui.append(new_entry)
 	var pause_tray_size := _pause_tray_entries_ui.size()
@@ -129,8 +129,9 @@ func _stopwatch_paused(time: StringName) -> void:
 	_tray_container.add_child(new_entry)
 	_tray_container.move_child(new_entry, 0)
 	
-	if pause_tray_size > 0:
-		_pause_tray.visible = true
+	_pause_tray.visible = true
+
+	return new_entry
 
 
 func _stopwatch_resumed(time: StringName) -> void:
@@ -219,11 +220,11 @@ func _set_b_start_continue() -> void:
 func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void:
 	for i in amount:
 		var index := index_offset + i
-		_stopwatch_paused(_stopwatch.get_paused_time(index))
-		_stopwatch_resumed(_stopwatch.get_resumed_time(index))
+		_stopwatch_paused(_stopwatch.get_paused_time(index))\
+			.set_resume_time(_stopwatch.get_resumed_time(index))
 	
 	if amount != _stopwatch.get_paused_times_size():
-		_stopwatch_paused(_stopwatch.get_paused_time(index_offset + amount))
+		_stopwatch_paused(_stopwatch.get_paused_time(amount + index_offset))
 
 
 func _set_longest_shortest_times() -> void:
