@@ -1,6 +1,9 @@
 class_name StopwatchUI extends Control
 
 
+const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
+const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
+
 @export var _title_bar: Control
 
 @export var _element_to_scale: Control
@@ -55,12 +58,14 @@ func _ready() -> void:
 	
 	_instantiate_pause_tray_entries(_stopwatch.get_resumed_times_size())
 
+	_set_longest_shortest_times()
+
 
 func restore_last_time_state() -> void:
 	_stopwatch.restore_last_time_state()
 
 	# Swap entries
-	var existing_entries: int
+	var to_set_in_tray: int
 	var paused_size := _stopwatch.get_paused_times_size()
 	var resumed_size := _stopwatch.get_resumed_times_size()
 	var tray_size := _pause_tray_entries_ui.size()
@@ -68,7 +73,7 @@ func restore_last_time_state() -> void:
 	var remainder := tray_size - paused_size
 	var matching_paused_resumed := paused_size == resumed_size
 	if remainder >= 0:
-		existing_entries = resumed_size
+		to_set_in_tray = resumed_size
 
 		# Delete overflow entries
 		for i: int in remainder:
@@ -81,16 +86,18 @@ func restore_last_time_state() -> void:
 			entry.set_pause_time(_stopwatch.get_paused_time(index))
 			entry.set_resume_time_empty()
 	else:
-		existing_entries = tray_size
+		to_set_in_tray = tray_size
 
 		_instantiate_pause_tray_entries(resumed_size - tray_size, tray_size)
 	
 	# Set existing matched entries
-	for i: int in existing_entries:
+	for i: int in to_set_in_tray:
 		var entry := _pause_tray_entries_ui[i]
 		entry.set_pause_time(_stopwatch.get_paused_time(i))
 		entry.set_resume_time(_stopwatch.get_resumed_time(i))
 	
+	_set_longest_shortest_times()
+
 	_pause_tray.visible = paused_size > 0
 
 	_b_start.button_pressed = false
@@ -240,8 +247,8 @@ func _set_longest_shortest_times() -> void:
 			shortest_distance = distance
 			shortest_index = i
 
-	_prev_longest_pause_index = _set_entry_num(longest_index, _prev_longest_pause_index, &"%d Longest")
-	_prev_shortest_pause_index = _set_entry_num(shortest_index, _prev_shortest_pause_index, &"%d Shortest")
+	_prev_longest_pause_index = _set_entry_num(longest_index, _prev_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
+	_prev_shortest_pause_index = _set_entry_num(shortest_index, _prev_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
 
 
 func _set_entry_num(index: int, prev_index: int, text: StringName) -> int:
