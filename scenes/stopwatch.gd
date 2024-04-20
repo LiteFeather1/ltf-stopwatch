@@ -41,6 +41,8 @@ func has_started() -> bool:
 
 
 func set_state(state: bool) -> void:
+	set_process(state)
+
 	var current_time := Time.get_datetime_dict_from_system()
 
 	var seconds := \
@@ -67,7 +69,6 @@ func set_state(state: bool) -> void:
 		_time_state.paused_times.append(seconds)
 		paused.emit(time)
 
-	set_process(state)
 
 
 func reset() -> void:
@@ -81,6 +82,7 @@ func restore_last_time_state() -> void:
 	var temp := _time_state
 	_time_state = _last_time_state
 	_last_time_state = temp
+
 	_set_time()
 
 

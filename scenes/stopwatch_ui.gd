@@ -62,6 +62,8 @@ func _ready() -> void:
 
 
 func restore_last_time_state() -> void:
+	# Pauses stopwatch if running
+	_b_start.button_pressed = false
 	_stopwatch.restore_last_time_state()
 
 	# Swap entries
@@ -99,8 +101,6 @@ func restore_last_time_state() -> void:
 	_set_longest_shortest_times()
 
 	_pause_tray.visible = paused_size > 0
-
-	_b_start.button_pressed = false
 
 	_set_buttons_disabled(not _stopwatch.has_started())
 
