@@ -68,12 +68,11 @@ func restore_last_time_state() -> void:
 
 	# Swap entries
 	var to_set_in_tray: int
+	var tray_size := _pause_tray_entries_ui.size()
 	var paused_size := _stopwatch.get_paused_times_size()
 	var resumed_size := _stopwatch.get_resumed_times_size()
-	var tray_size := _pause_tray_entries_ui.size()
 
 	var remainder := tray_size - paused_size
-	var matching_paused_resumed := paused_size == resumed_size
 	if remainder >= 0:
 		to_set_in_tray = resumed_size
 
@@ -82,7 +81,7 @@ func restore_last_time_state() -> void:
 			_pause_tray_entries_ui.pop_back().queue_free()
 		
 		# Set entry with not resumed time
-		if not matching_paused_resumed:
+		if paused_size != resumed_size:
 			var index := paused_size - 1
 			var entry := _pause_tray_entries_ui[index]
 			entry.set_pause_time(_stopwatch.get_paused_time(index))
@@ -101,6 +100,7 @@ func restore_last_time_state() -> void:
 	tray_size = _pause_tray_entries_ui.size()
 	if _prev_longest_pause_index < tray_size:
 		_clear_prev_entry(_prev_longest_pause_index)
+	
 	if _prev_shortest_pause_index < tray_size:
 		_clear_prev_entry(_prev_shortest_pause_index)
 	
@@ -216,14 +216,7 @@ func _on_window_size_changed() -> void:
 	var win_size_y := float(Global.window.size.y)
 	var win_max_size_y := float(Global.window.max_size.y)
 	var min_scale_y := (win_size_y + _title_bar.size.y + _stopwatch.size.y) / win_max_size_y
-	var s := minf(
-		scale_x,
-		clampf(
-			(win_size_y / win_max_size_y) * (min_scale_y * 2.0),
-			min_scale_y,
-			scale_x
-		)
-	)
+	var s := minf(scale_x, maxf((win_size_y / win_max_size_y) * (min_scale_y * 2.0), min_scale_y))
 	_element_to_scale.scale = Vector2(s, s)
 
 	# Slight scale s_copied
