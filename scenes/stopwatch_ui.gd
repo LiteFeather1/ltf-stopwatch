@@ -24,7 +24,6 @@ const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 @export var _pause_tray: Control
 @export var _tray_container: Control
 
-
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
