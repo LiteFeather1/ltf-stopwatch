@@ -1,13 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://b828x2tbifvm2"]
 
-[ext_resource type="Script" path="res://scenes/hover_tip.gd" id="1_iadc8"]
+[ext_resource type="Script" path="res://scenes/hover_tip_button.gd" id="1_iadc8"]
 
-[node name="hover_tip" type="Panel" node_paths=PackedStringArray("_l_text", "_dent", "_delay_to_appear")]
+[node name="hover_tip_button" type="Panel" node_paths=PackedStringArray("_l_text", "_dent", "_delay_to_appear")]
 visible = false
 z_index = 1000
 offset_right = 128.0
 offset_bottom = 32.0
 size_flags_horizontal = 4
+mouse_filter = 2
 script = ExtResource("1_iadc8")
 _l_text = NodePath("l_text")
 _dent = NodePath("dent")

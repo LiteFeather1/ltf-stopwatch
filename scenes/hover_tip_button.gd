@@ -1,4 +1,4 @@
-class_name HoverTip extends Panel
+class_name HoverTipButton extends Panel
 
 
 @export var _label_padding := Vector2(10.0, 4.0)
