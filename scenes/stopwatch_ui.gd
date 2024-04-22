@@ -246,13 +246,25 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 	if index == _longest_pause_index:
 		var longest_span := -Global.FLOAT_MAX
 		var longest_index := 0
+
 		for i in entries_size:
 			var time_span := _stopwatch.get_pause_span(i)
-			if time_span > longest_span:
+			if time_span >= longest_span:
 				longest_span = time_span
 				longest_index = i
 		
 		_longest_pause_index = _set_entry_span(longest_index, TEMPLATE_LONGEST_ENTRY)
+	elif index == _shortest_pause_index:
+		var shortest_span := Global.FLOAT_MAX
+		var shortest_index := 0
+
+		for i in entries_size:
+			var time_span := _stopwatch.get_pause_span(i)
+			if time_span <= shortest_span:
+				shortest_span = time_span
+				shortest_index = i
+		
+		_shortest_pause_index = _set_entry_span(shortest_index, TEMPLATE_SHORTEST_ENTRY)
 
 
 func _set_b_start_continue() -> void:
