@@ -8,11 +8,6 @@ class_name HoverTipButton extends HoverTip
 var _tween: Tween
 
 
-func _ready() -> void:
-	super()
-	_delay_to_appear.timeout.connect(_show_animation)
-
-
 func show_hover_tip(c: Control, text: String) -> void:
 	if _tween:
 		_tween.kill()
@@ -43,7 +38,8 @@ func show_hover_tip(c: Control, text: String) -> void:
 
 
 func hide_hover_tip() -> void:
-	if try_stop_timer():
+	if not visible:
+		_delay_to_appear.paused = true
 		return
 	
 	if _tween:
@@ -56,8 +52,8 @@ func hide_hover_tip() -> void:
 	)
 
 
-func _show_animation() -> void:
-	visible = true
+func _show() -> void:
+	super()
 	scale = Vector2(.75, .75)
 	
 	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)

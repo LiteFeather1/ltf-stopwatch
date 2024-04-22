@@ -10,6 +10,8 @@ var _font_size: int
 
 
 func _ready() -> void:
+	_delay_to_appear.timeout.connect(_show)
+
 	_font = _l_text.get_theme_font("_font")
 	_font_size = _l_text.get_theme_font_size("_font_size")
 
@@ -22,3 +24,7 @@ func _set_text(text: String) -> void:
 
 	_delay_to_appear.paused = false
 	_delay_to_appear.start(_delay_to_appear.wait_time)
+
+
+func _show() -> void:
+	visible = true
