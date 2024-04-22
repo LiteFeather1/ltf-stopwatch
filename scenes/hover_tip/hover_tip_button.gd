@@ -9,10 +9,8 @@ var _tween: Tween
 
 
 func _ready() -> void:
+	super()
 	_delay_to_appear.timeout.connect(_show_animation)
-
-	_font = _l_text.get_theme_font("_font")
-	_font_size = _l_text.get_theme_font_size("_font_size")
 
 
 func show_hover_tip(c: Control, text: String) -> void:
@@ -28,7 +26,8 @@ func show_hover_tip(c: Control, text: String) -> void:
 	var new_x := c.global_position.x + (c.size.x * c_scale.x - size.x) * .5
 	var right := new_x + size.x
 	var out_x := 0.0
-	# This is only checking right checking left wouldn't be to difficult but it's unnecessary due to the current layout
+	# This is only checking right checking left wouldn't be to difficult 
+	# but it's unnecessary due to the current layout
 	if Global.window.size.x <= right:
 		out_x = Global.window.size.x - right - _label_padding.x
 		new_x += out_x
@@ -44,8 +43,7 @@ func show_hover_tip(c: Control, text: String) -> void:
 
 
 func hide_hover_tip() -> void:
-	if not visible:
-		_delay_to_appear.paused = true
+	if try_stop_timer():
 		return
 	
 	if _tween:
@@ -53,9 +51,9 @@ func hide_hover_tip() -> void:
 	
 	_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	_tween.tween_property(self, "scale", Vector2(.5, .5), _animation_duration)
-	await _tween.finished
-
-	visible = false
+	_tween.tween_callback(func() -> void:
+		visible = false
+	)
 
 
 func _show_animation() -> void:
