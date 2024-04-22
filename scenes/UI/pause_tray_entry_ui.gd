@@ -6,7 +6,7 @@ signal pointer_exited(instance: Control)
 signal deleted(sibbling_index: int)
 
 
-@export var _l_pause_num: Label
+@export var _l_pause_span: Label
 @export var _l_pause_time: Label
 @export var _l_resume_time: Label
 
@@ -39,8 +39,12 @@ func _on_gui_input(event: InputEvent) -> void:
 		queue_free()
 
 
-func set_pause_num(text: String) -> void:
-	_l_pause_num.text = text
+func set_pause_span(text: String) -> void:
+	_l_pause_span.text = text
+
+
+func replace_pause_num(from: String, to: String) -> void:
+	_l_pause_span.text = _l_pause_span.text.replace(from, to)
 
 
 func set_pause_time(time: StringName) -> void:
