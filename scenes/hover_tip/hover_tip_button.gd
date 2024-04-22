@@ -1,15 +1,9 @@
-class_name HoverTipButton extends Panel
+class_name HoverTipButton extends HoverTip
 
 
-@export var _label_padding := Vector2(10.0, 4.0)
 @export var _animation_duration := .15
 
-@export var _l_text: Label
 @export var _dent: Control
-@export var _delay_to_appear: Timer
-
-var _font: Font
-var _font_size : int
 
 var _tween: Tween
 
@@ -26,10 +20,8 @@ func show_hover_tip(c: Control, text: String) -> void:
 		_tween.kill()
 		visible = false
 	
-	_l_text.text = text
+	_set_text(text)
 
-	var s := _font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, _font_size)
-	size = s + _label_padding
 	pivot_offset = size * .5
 
 	var c_scale := c.get_global_transform().get_scale()
@@ -49,9 +41,6 @@ func show_hover_tip(c: Control, text: String) -> void:
 	global_position = Vector2(new_x, new_y)
 
 	_dent.position.x = pivot_offset.x - _dent.pivot_offset.x - out_x
-
-	_delay_to_appear.paused = false
-	_delay_to_appear.start(_delay_to_appear.wait_time)
 
 
 func hide_hover_tip() -> void:

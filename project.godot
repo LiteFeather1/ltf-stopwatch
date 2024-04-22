@@ -22,7 +22,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AL_HoverTipButton="*res://scenes/hover_tip_button.tscn"
+AL_HoverTipButton="*res://scenes/hover_tip/hover_tip_button.tscn"
 Global="*res://scripts/global.gd"
 
 [display]
