@@ -154,10 +154,12 @@ func _stopwatch_resumed(time: StringName) -> void:
 		# Check if new entry is new longest or shortest
 		if pause_span >= _stopwatch.get_pause_span(_longest_pause_index):
 			_clear_prev_entry(_longest_pause_index)
-			_longest_pause_index = _set_entry_span(index, TEMPLATE_LONGEST_ENTRY)
+			_longest_pause_index = index
+			_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
 		elif pause_span <= _stopwatch.get_pause_span(_shortest_pause_index):
 			_clear_prev_entry(_shortest_pause_index)
-			_shortest_pause_index = _set_entry_span(index, TEMPLATE_SHORTEST_ENTRY)
+			_shortest_pause_index = index
+			_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
 
 
 func _start_toggled(state: bool) -> void:
@@ -245,26 +247,26 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 	
 	if index == _longest_pause_index:
 		var longest_span := -Global.FLOAT_MAX
-		var longest_index := 0
+		_longest_pause_index = 0
 
 		for i in entries_size:
 			var time_span := _stopwatch.get_pause_span(i)
 			if time_span >= longest_span:
 				longest_span = time_span
-				longest_index = i
+				_longest_pause_index = i
 		
-		_longest_pause_index = _set_entry_span(longest_index, TEMPLATE_LONGEST_ENTRY)
+		_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
 	elif index == _shortest_pause_index:
 		var shortest_span := Global.FLOAT_MAX
-		var shortest_index := 0
+		_shortest_pause_index = 0
 
 		for i in entries_size:
 			var time_span := _stopwatch.get_pause_span(i)
 			if time_span <= shortest_span:
 				shortest_span = time_span
-				shortest_index = i
+				_shortest_pause_index = i
 		
-		_shortest_pause_index = _set_entry_span(shortest_index, TEMPLATE_SHORTEST_ENTRY)
+		_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
 
 
 func _set_b_start_continue() -> void:
@@ -286,9 +288,8 @@ func _clear_prev_entry(prev_index: int) -> void:
 	_pause_tray_entries_ui[prev_index].set_pause_span(str(prev_index + 1))
 
 
-func _set_entry_span(index: int, template: StringName) -> int:
+func _set_entry_span(index: int, template: StringName) -> void:
 	_pause_tray_entries_ui[index].set_pause_span(template % (index + 1))
-	return index
 
 
 func _set_longest_shortest_times() -> void:
@@ -297,18 +298,18 @@ func _set_longest_shortest_times() -> void:
 		return
 	
 	var longest_pause_span := -Global.FLOAT_MAX
-	var longest_index := 0
+	_longest_pause_index = 0
 	var shortest_pause_span := Global.FLOAT_MAX
-	var shortest_index := 0
+	_shortest_pause_index = 0
 
 	for i: int in valid_entries_size:
 		var pause_span := _stopwatch.get_pause_span(i)
 		if pause_span >= longest_pause_span:
 			longest_pause_span = pause_span
-			longest_index = i
+			_longest_pause_index = i
 		elif pause_span <= shortest_pause_span:
 			shortest_pause_span = pause_span
-			shortest_index = i
-
-	_longest_pause_index = _set_entry_span(longest_index, TEMPLATE_LONGEST_ENTRY)
-	_shortest_pause_index = _set_entry_span(shortest_index, TEMPLATE_SHORTEST_ENTRY)
+			_shortest_pause_index = i
+	
+	_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
+	_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
