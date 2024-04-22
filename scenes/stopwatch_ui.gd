@@ -239,6 +239,21 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 	for i in range(index, tray_size):
 		_pause_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
 
+	var entries_size := _stopwatch.get_resumed_times_size()
+	if entries_size < 2:
+		return
+	
+	if index == _longest_pause_index:
+		var longest_span := -Global.FLOAT_MAX
+		var longest_index := 0
+		for i in entries_size:
+			var time_span := _stopwatch.get_pause_span(i)
+			if time_span > longest_span:
+				longest_span = time_span
+				longest_index = i
+		
+		_longest_pause_index = _set_entry_span(longest_index, TEMPLATE_LONGEST_ENTRY)
+
 
 func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
