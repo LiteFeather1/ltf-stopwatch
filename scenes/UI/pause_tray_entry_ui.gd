@@ -1,8 +1,7 @@
 class_name PauseTrayEntryUI extends HBoxContainer
 
 
-signal pointer_entered(instance: Control)
-signal pointer_exited(instance: Control)
+signal pointer_entered(instance: PauseTrayEntryUI)
 signal deleted(sibbling_index: int)
 
 
@@ -11,6 +10,8 @@ signal deleted(sibbling_index: int)
 @export var _l_resume_time: Label
 
 var _is_mouse_inside := false
+
+var _tween: Tween
 
 
 func _ready() -> void:
@@ -26,7 +27,8 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	_is_mouse_inside = false
-	pointer_exited.emit(self)
+
+	modulate_animation(Color.WHITE, .25, .0)
 
 
 func _on_gui_input(event: InputEvent) -> void:
@@ -57,3 +59,12 @@ func set_resume_time(time: StringName) -> void:
 
 func set_resume_time_empty() -> void:
 	_l_resume_time.text = "--:--:--"
+
+
+func modulate_animation(colour: Color, duration: float = .4, interval = .33) -> void:
+	if _tween:
+		_tween.kill()
+	
+	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_tween.tween_interval(interval)\
+		.tween_property(self, "self_modulate", colour, duration)
