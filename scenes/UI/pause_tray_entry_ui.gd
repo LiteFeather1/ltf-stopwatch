@@ -36,6 +36,7 @@ func _on_gui_input(event: InputEvent) -> void:
 			and mb_event.is_released()\
 			and _is_mouse_inside:
 		deleted.emit(get_index())
+		queue_free()
 
 
 func set_pause_num(text: String) -> void:
