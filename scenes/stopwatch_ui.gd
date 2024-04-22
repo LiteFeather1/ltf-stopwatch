@@ -233,6 +233,7 @@ func _on_window_size_changed() -> void:
 func _on_entry_deleted(sibbling_index: int) -> void:
 	var index := _pause_tray_entries_ui.size() - sibbling_index - 1
 	_pause_tray_entries_ui.remove_at(index)
+	_stopwatch.delete_time_entry(index)
 
 
 func _set_b_start_continue() -> void:

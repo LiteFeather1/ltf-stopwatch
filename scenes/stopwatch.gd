@@ -113,6 +113,13 @@ func get_pause_span(index: int) -> float:
 	return _time_state.resumed_times[index] - _time_state.paused_times[index]
 
 
+func delete_time_entry(index: int) -> void:
+	_time_state.paused_times.remove_at(index)
+	
+	if _time_state.resumed_times.size() > index:
+		_time_state.resumed_times.remove_at(index)
+
+
 func save(save_data: Dictionary) -> void:
 	save_data[CURRENT_TIME_STATE] = _time_state.as_dict()
 	save_data[LAST_TIME_STATE] = _last_time_state.as_dict()
