@@ -3,7 +3,7 @@ class_name PauseTrayEntryUI extends HBoxContainer
 
 signal pointer_entered(instance: Control)
 signal pointer_exited(instance: Control)
-signal deleted(index: int)
+signal deleted(sibbling_index: int)
 
 
 @export var _l_pause_num: Label

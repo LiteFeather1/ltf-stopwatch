@@ -127,9 +127,9 @@ func _on_stopwatch_started() -> void:
 func _stopwatch_paused(time: StringName) -> PauseTrayEntryUI:
 	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
 	_pause_tray_entries_ui.append(new_entry)
-	var pause_tray_size := _pause_tray_entries_ui.size()
-	new_entry.set_pause_num(str(pause_tray_size))
+	new_entry.set_pause_num(str(_pause_tray_entries_ui.size()))
 	new_entry.set_pause_time(time)
+	new_entry.deleted.connect(_on_entry_deleted)
 
 	_tray_container.add_child(new_entry)
 	_tray_container.move_child(new_entry, 0)
@@ -228,6 +228,11 @@ func _on_window_size_changed() -> void:
 	_b_start.scale = b_scale
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
+
+
+func _on_entry_deleted(sibbling_index: int) -> void:
+	var index := _pause_tray_entries_ui.size() - sibbling_index - 1
+	_pause_tray_entries_ui.remove_at(index)
 
 
 func _set_b_start_continue() -> void:
