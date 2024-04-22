@@ -127,7 +127,7 @@ func _on_stopwatch_started() -> void:
 func _stopwatch_paused(time: StringName) -> PauseTrayEntryUI:
 	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
 	_pause_tray_entries_ui.append(new_entry)
-	new_entry.set_pause_num(str(_pause_tray_entries_ui.size()))
+	new_entry.set_pause_span(str(_pause_tray_entries_ui.size()))
 	new_entry.set_pause_time(time)
 	new_entry.deleted.connect(_on_entry_deleted)
 
@@ -231,9 +231,13 @@ func _on_window_size_changed() -> void:
 
 
 func _on_entry_deleted(sibbling_index: int) -> void:
-	var index := _pause_tray_entries_ui.size() - sibbling_index - 1
+	var tray_size := _pause_tray_entries_ui.size() - 1
+	var index := tray_size - sibbling_index
 	_pause_tray_entries_ui.remove_at(index)
 	_stopwatch.delete_time_entry(index)
+
+	for i in range(index, tray_size):
+		_pause_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
 
 
 func _set_b_start_continue() -> void:
@@ -252,11 +256,11 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 
 
 func _clear_prev_entry(prev_index: int) -> void:
-	_pause_tray_entries_ui[prev_index].set_pause_num(str(prev_index + 1))
+	_pause_tray_entries_ui[prev_index].set_pause_span(str(prev_index + 1))
 
 
 func _set_entry_span(index: int, template: StringName) -> int:
-	_pause_tray_entries_ui[index].set_pause_num(template % (index + 1))
+	_pause_tray_entries_ui[index].set_pause_span(template % (index + 1))
 	return index
 
 
