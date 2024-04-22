@@ -18,11 +18,11 @@ const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 @export var _sprite_start: Texture2D
 @export var _sprite_pause: Texture2D
 
-
 @export_category("Stop tray")
 @export var _scene_pause_tray_entry_ui: PackedScene
 @export var _pause_tray: Control
 @export var _tray_container: Control
+@export var _hover_entry_colour := Color("#fc6360")
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
@@ -129,6 +129,7 @@ func _stopwatch_paused(time: StringName) -> PauseTrayEntryUI:
 	_pause_tray_entries_ui.append(new_entry)
 	new_entry.set_pause_span(str(_pause_tray_entries_ui.size()))
 	new_entry.set_pause_time(time)
+	new_entry.hovered.connect(_on_entry_hovered)
 	new_entry.deleted.connect(_on_entry_deleted)
 
 	_tray_container.add_child(new_entry)
@@ -230,6 +231,10 @@ func _on_window_size_changed() -> void:
 	_b_start.scale = b_scale
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
+
+
+func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
+	entry.modulate_animation(_hover_entry_colour)
 
 
 func _on_entry_deleted(sibbling_index: int) -> void:
