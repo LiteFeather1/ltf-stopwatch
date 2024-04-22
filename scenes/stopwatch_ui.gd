@@ -29,8 +29,8 @@ const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 @export var _l_copied_time: Label
 
 var _pause_tray_entries_ui: Array[PauseTrayEntryUI]
-var _prev_longest_pause_index: int
-var _prev_shortest_pause_index: int
+var _longest_pause_index: int
+var _shortest_pause_index: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -97,11 +97,11 @@ func restore_last_time_state() -> void:
 		entry.set_resume_time(_stopwatch.get_resumed_time(i))
 	
 	tray_size = _pause_tray_entries_ui.size()
-	if _prev_longest_pause_index < tray_size:
-		_clear_prev_entry(_prev_longest_pause_index)
+	if _longest_pause_index < tray_size:
+		_clear_prev_entry(_longest_pause_index)
 	
-	if _prev_shortest_pause_index < tray_size:
-		_clear_prev_entry(_prev_shortest_pause_index)
+	if _shortest_pause_index < tray_size:
+		_clear_prev_entry(_shortest_pause_index)
 	
 	_set_longest_shortest_times()
 
@@ -152,12 +152,12 @@ func _stopwatch_resumed(time: StringName) -> void:
 	else:
 		var pause_span := _stopwatch.get_pause_span(index)
 		# Check if new entry is new longest or shortest
-		if pause_span >= _stopwatch.get_pause_span(_prev_longest_pause_index):
-			_clear_prev_entry(_prev_longest_pause_index)
-			_prev_longest_pause_index = _set_entry_span(index, TEMPLATE_LONGEST_ENTRY)
-		elif pause_span <= _stopwatch.get_pause_span(_prev_shortest_pause_index):
-			_clear_prev_entry(_prev_shortest_pause_index)
-			_prev_shortest_pause_index = _set_entry_span(index, TEMPLATE_SHORTEST_ENTRY)
+		if pause_span >= _stopwatch.get_pause_span(_longest_pause_index):
+			_clear_prev_entry(_longest_pause_index)
+			_longest_pause_index = _set_entry_span(index, TEMPLATE_LONGEST_ENTRY)
+		elif pause_span <= _stopwatch.get_pause_span(_shortest_pause_index):
+			_clear_prev_entry(_shortest_pause_index)
+			_shortest_pause_index = _set_entry_span(index, TEMPLATE_SHORTEST_ENTRY)
 
 
 func _start_toggled(state: bool) -> void:
@@ -188,8 +188,8 @@ func _reset_pressed() -> void:
 
 	_pause_tray.visible = false
 
-	_prev_longest_pause_index = 0
-	_prev_shortest_pause_index = 0
+	_longest_pause_index = 0
+	_shortest_pause_index = 0
 
 
 func _copy_to_clipboard() -> void:
@@ -269,9 +269,9 @@ func _set_longest_shortest_times() -> void:
 	if valid_entries_size < 2:
 		return
 	
-	var longest_pause_span := -1.79769e308
+	var longest_pause_span := -Global.FLOAT_MAX
 	var longest_index := 0
-	var shortest_pause_span := 1.79769e308
+	var shortest_pause_span := Global.FLOAT_MAX
 	var shortest_index := 0
 
 	for i: int in valid_entries_size:
@@ -283,5 +283,5 @@ func _set_longest_shortest_times() -> void:
 			shortest_pause_span = pause_span
 			shortest_index = i
 
-	_prev_longest_pause_index = _set_entry_span(longest_index, TEMPLATE_LONGEST_ENTRY)
-	_prev_shortest_pause_index = _set_entry_span(shortest_index, TEMPLATE_SHORTEST_ENTRY)
+	_longest_pause_index = _set_entry_span(longest_index, TEMPLATE_LONGEST_ENTRY)
+	_shortest_pause_index = _set_entry_span(shortest_index, TEMPLATE_SHORTEST_ENTRY)
