@@ -248,7 +248,9 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 
 	var entries_size := _stopwatch.get_resumed_times_size()
 	if entries_size < 2:
-		if index == _longest_pause_index:
+		if entries_size == 0:
+			_pause_tray.hide()
+		elif index == _longest_pause_index:
 			_clear_entry_suffix(_shortest_pause_index)
 		elif index == _shortest_pause_index:
 			_clear_entry_suffix(_longest_pause_index)
