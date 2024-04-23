@@ -22,11 +22,13 @@ func _ready() -> void:
 
 func _on_mouse_entered() -> void:
 	_is_mouse_inside = true
+	AL_HoverTipFollow.show_hover_tip("LMB: Delete")
 	hovered.emit(self)
 
 
 func _on_mouse_exited() -> void:
 	_is_mouse_inside = false
+	AL_HoverTipFollow.hide_hover_tip()
 
 	if modulate == Color.WHITE:
 		_tween.kill()
