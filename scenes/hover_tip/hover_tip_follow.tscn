@@ -3,12 +3,14 @@
 [ext_resource type="Script" path="res://scenes/hover_tip/hover_tip_follow.gd" id="1_hg4h4"]
 
 [node name="hover_tip_follow" type="Panel" node_paths=PackedStringArray("_l_text", "_delay_to_appear")]
+visible = false
 z_index = 1000
 offset_right = 128.0
 offset_bottom = 32.0
 size_flags_horizontal = 4
 mouse_filter = 2
 script = ExtResource("1_hg4h4")
+_label_padding = Vector2(4, 2)
 _l_text = NodePath("l_text")
 _delay_to_appear = NodePath("delay_to_appear")
 
@@ -30,5 +32,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="delay_to_appear" type="Timer" parent="."]
-wait_time = 0.5
 one_shot = true
