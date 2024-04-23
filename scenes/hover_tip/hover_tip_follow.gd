@@ -6,6 +6,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	# FIXME I can get outside window
 	position = get_global_mouse_position()
 
 
