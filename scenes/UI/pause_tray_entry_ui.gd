@@ -42,8 +42,13 @@ func _on_gui_input(event: InputEvent) -> void:
 			and mb_event.button_index == MOUSE_BUTTON_LEFT\
 			and mb_event.is_released()\
 			and _is_mouse_inside:
+		mouse_entered.disconnect(_on_mouse_entered)
+		mouse_exited.disconnect(_on_mouse_exited)
 		gui_input.disconnect(_on_gui_input)
 		deleted.emit(get_index())
+
+		if _tween:
+			_tween.kill()
 
 		var dir := 1.0 if randf() > .5 else -1.0
 		var offset := randf_range(48.0, 64.0) * dir

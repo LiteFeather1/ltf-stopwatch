@@ -240,7 +240,7 @@ func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
 func _on_entry_deleted(sibbling_index: int) -> void:
 	var tray_size := _pause_tray_entries_ui.size() - 1
 	var index := tray_size - sibbling_index
-	_pause_tray_entries_ui.remove_at(index)
+	_pause_tray_entries_ui.pop_at(index).modulate = _hover_entry_colour
 	_stopwatch.delete_time_entry(index)
 
 	for i in range(index, tray_size):
