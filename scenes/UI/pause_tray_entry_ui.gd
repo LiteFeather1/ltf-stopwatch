@@ -48,8 +48,6 @@ func _on_gui_input(event: InputEvent) -> void:
 
 		AL_HoverTipFollow.hide_hover_tip()
 
-		deleted.emit(get_index())
-
 		if _tween:
 			_tween.kill()
 
@@ -68,6 +66,8 @@ func _on_gui_input(event: InputEvent) -> void:
 		)
 		
 		await tween.finished
+
+		deleted.emit(get_index())
 
 		queue_free()
 
