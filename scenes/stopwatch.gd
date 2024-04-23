@@ -57,10 +57,10 @@ func set_state(state: bool) -> void:
 	if state:
 		modulate = _ticking_colour
 		
-		if _time_state.elapsed_time > 0.0:
+		if _time_state.resumed_times.size() < _time_state.paused_times.size():
 			_time_state.resumed_times.append(seconds)
 			resumed.emit(time)
-		else:
+		elif _time_state.elapsed_time == 0.0:
 			started.emit()
 	else:
 		modulate = _paused_colour
