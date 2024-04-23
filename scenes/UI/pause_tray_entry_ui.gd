@@ -2,6 +2,7 @@ class_name PauseTrayEntryUI extends HBoxContainer
 
 
 signal hovered(instance: PauseTrayEntryUI)
+signal pre_deletion(instance: Control)
 signal deleted(sibbling_index: int)
 
 
@@ -42,6 +43,8 @@ func _on_gui_input(event: InputEvent) -> void:
 			and mb_event.button_index == MOUSE_BUTTON_LEFT\
 			and mb_event.is_released()\
 			and _is_mouse_inside:
+		pre_deletion.emit(self)
+
 		mouse_entered.disconnect(_on_mouse_entered)
 		mouse_exited.disconnect(_on_mouse_exited)
 		gui_input.disconnect(_on_gui_input)

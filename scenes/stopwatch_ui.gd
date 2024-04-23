@@ -130,6 +130,7 @@ func _stopwatch_paused(time: StringName) -> PauseTrayEntryUI:
 	new_entry.set_pause_span(str(_pause_tray_entries_ui.size()))
 	new_entry.set_pause_time(time)
 	new_entry.hovered.connect(_on_entry_hovered)
+	new_entry.pre_deletion.connect(_on_entry_pre_deletion)
 	new_entry.deleted.connect(_on_entry_deleted)
 
 	_tray_container.add_child(new_entry)
@@ -237,10 +238,14 @@ func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
 	entry.modulate_animation(_hover_entry_colour)
 
 
+func _on_entry_pre_deletion(entry: Control) -> void:
+	entry.modulate = _hover_entry_colour
+
+
 func _on_entry_deleted(sibbling_index: int) -> void:
 	var tray_size := _pause_tray_entries_ui.size() - 1
 	var index := tray_size - sibbling_index
-	_pause_tray_entries_ui.pop_at(index).modulate = _hover_entry_colour
+	_pause_tray_entries_ui.remove_at(index)
 	_stopwatch.delete_time_entry(index)
 
 	for i in range(index, tray_size):
