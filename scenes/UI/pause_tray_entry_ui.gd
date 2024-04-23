@@ -45,6 +45,9 @@ func _on_gui_input(event: InputEvent) -> void:
 		mouse_entered.disconnect(_on_mouse_entered)
 		mouse_exited.disconnect(_on_mouse_exited)
 		gui_input.disconnect(_on_gui_input)
+
+		AL_HoverTipFollow.hide_hover_tip()
+
 		deleted.emit(get_index())
 
 		if _tween:
