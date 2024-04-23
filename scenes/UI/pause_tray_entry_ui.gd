@@ -44,12 +44,19 @@ func _on_gui_input(event: InputEvent) -> void:
 			and _is_mouse_inside:
 		gui_input.disconnect(_on_gui_input)
 		deleted.emit(get_index())
-		
+
+		var dir := 1.0 if randf() > .5 else -1.0
+		var offset := randf_range(48.0, 64.0) * dir
 		var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.tween_property(
 			self, "position:x",
-			position.x + size.x * (1.0 if randf() > .5 else -1.0),
-			randf_range(.15, .25)
+			position.x + offset,
+			randf_range(.15, .2)
+		)
+		tween.tween_property(
+			self, "position:x",
+			position.x -offset + size.x * -dir,
+			randf_range(.175, .25)
 		)
 		
 		await tween.finished
