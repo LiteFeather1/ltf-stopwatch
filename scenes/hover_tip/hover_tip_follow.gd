@@ -7,8 +7,13 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	# FIXME I can get outside window
-	position = get_global_mouse_position() - size
+	var new_pos := get_global_mouse_position() - size
+
+	# We are only correcting the position if we go out to the left
+	if new_pos.x < _label_padding.x:
+		new_pos.x += -new_pos.x + _label_padding.x
+
+	position = new_pos
 
 
 func show_hover_tip(text: String) -> void:
