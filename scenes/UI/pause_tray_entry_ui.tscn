@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://scenes/UI/pause_tray_entry_ui.gd" id="1_ekrcj"]
 
 [node name="pause_tray_entry_ui" type="HBoxContainer" node_paths=PackedStringArray("_l_pause_span", "_l_pause_time", "_l_resume_time")]
+offset_right = 420.0
+offset_bottom = 17.0
 theme_override_constants/separation = 60
 script = ExtResource("1_ekrcj")
 _l_pause_span = NodePath("l_pause_span")
