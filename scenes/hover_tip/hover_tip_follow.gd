@@ -2,7 +2,8 @@ class_name HoverTipFollow extends HoverTip
 
 
 func _ready() -> void:
-	set_process(true)
+	super()
+	set_process(false)
 
 
 func _process(_delta: float) -> void:
