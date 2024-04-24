@@ -47,7 +47,7 @@ func _ready() -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("restore_last_elapsed_time"):
+	if event.is_action_pressed("restore_last_time_state"):
 		_stopwatch_ui.restore_last_time_state()
 
 
