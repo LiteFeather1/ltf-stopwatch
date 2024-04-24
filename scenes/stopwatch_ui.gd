@@ -110,6 +110,14 @@ func restore_last_time_state() -> void:
 	_set_buttons_disabled(not _stopwatch.has_started())
 
 
+func redo_deleted_pause_entry() -> void:
+	print("redo_deleted_pause_entry pressed")
+
+
+func undo_deleted_pause_entry() -> void:
+	print("undo_deleted_pause_entry pressed")
+
+
 func pause_stopwatch_if_running() -> void:
 	if _b_start.button_pressed:
 		_stopwatch.set_state(false)
