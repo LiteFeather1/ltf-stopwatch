@@ -256,12 +256,14 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 	var tray_size := _pause_tray_entries_ui.size() - 1
 	var index := tray_size - sibbling_index
 	_pause_tray_entries_ui.remove_at(index)
-	_stopwatch.delete_time_entry(index)
+
+	var time_state := _stopwatch.get_time_state()
+	time_state.delete_entry(index)
 
 	for i in range(index, tray_size):
 		_pause_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
 
-	var entries_size := _stopwatch.get_time_state().resumed_times.size()
+	var entries_size := time_state.resumed_times.size()
 	if entries_size < 2:
 		if entries_size == 0:
 			_pause_tray.hide()

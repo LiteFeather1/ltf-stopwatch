@@ -182,6 +182,7 @@ class TimeState extends Object:
 			resumed_times.insert(deleted_entry.index, deleted_entry.resumed_time)
 
 		print("Undone: ", deleted_entry)
+		deleted_entry.free()
 		return true
 
 
