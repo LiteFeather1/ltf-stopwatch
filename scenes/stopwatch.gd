@@ -148,7 +148,8 @@ class TimeState extends Object:
 	var paused_times: PackedFloat32Array
 	var resumed_times: PackedFloat32Array
 
-	var deleted_entries: Array[DeletedEntry]
+	var _deleted_entries: Array[DeletedEntry]
+	var _undone_deleted_entries: Array[DeletedEntry]
 
 
 	func init_from_dict(dict: Dictionary) -> void:
@@ -179,8 +180,24 @@ class TimeState extends Object:
 			deleted_entry.resumed_time = resumed_times[index]
 			resumed_times.remove_at(index)
 		
-		deleted_entries.append(deleted_entry)
+		_deleted_entries.append(deleted_entry)
 		print(deleted_entry)
+
+
+	func undo_delete_entry() -> bool:
+		if _deleted_entries.size() == 0:
+			return false
+	
+		var deleted_entry: DeletedEntry = _deleted_entries.pop_back()
+		_undone_deleted_entries.append(deleted_entry)
+
+		paused_times.insert(deleted_entry.index, deleted_entry.paused_time)
+
+		if deleted_entry.resumed_time >= 0.0:
+			resumed_times.insert(deleted_entry.index, deleted_entry.resumed_time)
+
+		return true
+
 
 
 # We could use a command pattern here
