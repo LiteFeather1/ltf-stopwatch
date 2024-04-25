@@ -86,11 +86,7 @@ func restore_last_time_state() -> void:
 
 
 func get_time_short() -> String:
-	return "%02d:%02d:%02d" % [
-		_time_state.elapsed_time / 3600.0,
-		fmod(_time_state.elapsed_time, 3600.0) / 60.0,
-		fmod(_time_state.elapsed_time, 60.0)
-	]
+	return Global.seconds_to_hour(_time_state.elasped_time)
 
 
 func get_paused_times_size() -> int:
@@ -98,7 +94,7 @@ func get_paused_times_size() -> int:
 
 
 func get_paused_time(index: int) -> StringName:
-	return _seconds_to_hour(_time_state.paused_times[index])
+	return Global.seconds_to_hour(_time_state.paused_times[index])
 
 
 func get_resumed_times_size() -> int:
@@ -106,7 +102,7 @@ func get_resumed_times_size() -> int:
 
 
 func get_resumed_time(index: int) -> StringName:
-	return _seconds_to_hour(_time_state.resumed_times[index])
+	return Global.seconds_to_hour(_time_state.resumed_times[index])
 
 
 func get_pause_span(index: int) -> float:
@@ -143,14 +139,6 @@ func _set_time() -> void:
 	]
 
 
-func _seconds_to_hour(seconds: float) -> String:
-	return &"%02d:%02d:%02d" % [
-		seconds / 3600.0,
-		fmod(seconds, 3600.0) / 60.0,
-		fmod(seconds, 60.0)
-	]
-
-
 class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
 	const PAUSED_TIMES := &"paused_times"
@@ -180,7 +168,7 @@ class TimeState extends Object:
 			PAUSED_TIMES: paused_times,
 			RESUMED_TIMES: resumed_times,
 		}
-	
+
 
 	func delete_entry(index: int) -> void:
 		var deleted_entry := DeletedEntry.new(index, paused_times[index])
