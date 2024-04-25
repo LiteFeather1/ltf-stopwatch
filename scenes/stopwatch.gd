@@ -19,6 +19,10 @@ var _time_state: TimeState = TimeState.new()
 var _last_time_state: TimeState = TimeState.new()
 
 
+func get_time_state() -> TimeState:
+	return _time_state
+
+
 func _enter_tree() -> void:
 	add_to_group(Main.SAVEABLE)
 
@@ -89,28 +93,8 @@ func get_time_short() -> String:
 	return Global.seconds_to_time(_time_state.elasped_time)
 
 
-func get_paused_times_size() -> int:
-	return _time_state.paused_times.size()
-
-
-func get_paused_time(index: int) -> StringName:
-	return Global.seconds_to_time(_time_state.paused_times[index])
-
-
-func get_resumed_times_size() -> int:
-	return _time_state.resumed_times.size()
-
-
-func get_resumed_time(index: int) -> StringName:
-	return Global.seconds_to_time(_time_state.resumed_times[index])
-
-
 func get_pause_span(index: int) -> float:
 	return _time_state.resumed_times[index] - _time_state.paused_times[index]
-
-
-func delete_time_entry(index: int) -> void:
-	_time_state.delete_entry(index)
 
 
 func save(save_data: Dictionary) -> void:

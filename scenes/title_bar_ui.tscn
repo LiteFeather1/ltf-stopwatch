@@ -45,12 +45,12 @@ offset_bottom = 29.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mbryd")
 script = ExtResource("1_8lk40")
-_sprite_pin = ExtResource("2_b70b5")
-_sprite_unpin = ExtResource("3_1s23j")
 _l_title = NodePath("hbc_title_bar/hbc_title/l_title")
 _b_close = NodePath("hbc_title_bar/hbc_buttons/b_close_window")
 _b_minimise = NodePath("hbc_title_bar/hbc_buttons/b_minimise_window")
 _b_pin = NodePath("hbc_title_bar/hbc_buttons/b_pin")
+_sprite_pin = ExtResource("2_b70b5")
+_sprite_unpin = ExtResource("3_1s23j")
 
 [node name="hbc_title_bar" type="HBoxContainer" parent="."]
 layout_mode = 1
