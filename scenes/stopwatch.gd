@@ -180,8 +180,10 @@ class TimeState extends Object:
 			resumed_times.remove_at(index)
 		
 		deleted_entries.append(deleted_entry)
+		print(deleted_entry)
 
 
+# We could use a command pattern here
 class DeletedEntry extends Object:
 	var index: int
 	var paused_time: float
@@ -194,3 +196,11 @@ class DeletedEntry extends Object:
 	) -> void:
 		index = _index
 		paused_time = _paused_time
+
+
+	func _to_string() -> String:
+		return "Index: %d, Paused time: %s, %s" % [
+			index,
+			Global.seconds_to_time(paused_time),
+			"Resumed Time: %s" % Global.seconds_to_time(resumed_time) if resumed_time != -1 else "No Resume time"
+		]
