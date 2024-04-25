@@ -179,3 +179,19 @@ class TimeState extends Object:
 			PAUSED_TIMES: paused_times,
 			RESUMED_TIMES: resumed_times,
 		}
+
+
+class DeletedEntry extends Object:
+	var index: int
+	var paused_time: float
+	var resumed_time: float = -1
+
+
+	func _init(
+		_index: int = -1,
+		_paused_time: float = -1.0,
+		_resumed_time: float = -1
+	) -> void:
+		index = _index
+		paused_time = _paused_time
+		resumed_time = _resumed_time
