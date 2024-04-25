@@ -114,10 +114,7 @@ func get_pause_span(index: int) -> float:
 
 
 func delete_time_entry(index: int) -> void:
-	_time_state.paused_times.remove_at(index)
-	
-	if _time_state.resumed_times.size() > index:
-		_time_state.resumed_times.remove_at(index)
+	_time_state.delete_entry(index)
 
 
 func save(save_data: Dictionary) -> void:
@@ -153,6 +150,7 @@ func _seconds_to_hour(seconds: float) -> String:
 		fmod(seconds, 60.0)
 	]
 
+
 class TimeState extends Object:
 	const ELAPSED_TIME := &"elapsed_time"
 	const PAUSED_TIMES := &"paused_times"
@@ -161,6 +159,9 @@ class TimeState extends Object:
 	var elapsed_time: float = 0.0
 	var paused_times: PackedFloat32Array
 	var resumed_times: PackedFloat32Array
+
+	var deleted_entries: Array[DeletedEntry]
+
 
 	func init_from_dict(dict: Dictionary) -> void:
 		if dict.has(ELAPSED_TIME):
@@ -179,19 +180,29 @@ class TimeState extends Object:
 			PAUSED_TIMES: paused_times,
 			RESUMED_TIMES: resumed_times,
 		}
+	
+
+	func delete_entry(index: int) -> void:
+		var deleted_entry := DeletedEntry.new(index, paused_times[index])
+
+		paused_times.remove_at(index)
+
+		if index < resumed_times.size():
+			deleted_entry.resumed_time = resumed_times[index]
+			resumed_times.remove_at(index)
+		
+		deleted_entries.append(deleted_entry)
 
 
 class DeletedEntry extends Object:
 	var index: int
 	var paused_time: float
-	var resumed_time: float = -1
+	var resumed_time: float = -1.0
 
 
 	func _init(
 		_index: int = -1,
 		_paused_time: float = -1.0,
-		_resumed_time: float = -1
 	) -> void:
 		index = _index
 		paused_time = _paused_time
-		resumed_time = _resumed_time
