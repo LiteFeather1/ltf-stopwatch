@@ -308,8 +308,7 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 		_stopwatch_paused(Global.seconds_to_time(time_state.paused_times[index]))\
 			.set_resume_time(Global.seconds_to_time(time_state.resumed_times[index]))
 	
-	if amount != time_state.paused_times.size():
-		_stopwatch_paused(Global.seconds_to_time(time_state.paused_times[amount + index_offset]))
+	_stopwatch_paused(Global.seconds_to_time(time_state.paused_times[amount + index_offset]))
 
 
 func _clear_entry_suffix(prev_index: int) -> void:
