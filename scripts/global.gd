@@ -1,4 +1,4 @@
-extends Node
+class_name Global extends Node
 
 
 const FLOAT_MAX := 1.79769e308

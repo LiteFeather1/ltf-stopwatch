@@ -24,7 +24,7 @@ config/icon="res://icon.svg"
 
 AL_HoverTipButton="*res://scenes/hover_tip/hover_tip_button.tscn"
 AL_HoverTipFollow="*res://scenes/hover_tip/hover_tip_follow.tscn"
-Global="*res://scripts/global.gd"
+GLOBAL="*res://scripts/global.gd"
 
 [display]
 

@@ -45,7 +45,7 @@ func _ready() -> void:
 	_b_reset.pressed.connect(_reset_pressed)
 	_b_clipboard.pressed.connect(_copy_to_clipboard)
 
-	Global.window.size_changed.connect(_on_window_size_changed)
+	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
 	pivot_offset.y += _title_bar.size.y
 
@@ -223,9 +223,9 @@ func _copy_to_clipboard() -> void:
 
 func _on_window_size_changed() -> void:
 	# Scale text to fit size
-	var scale_x := Global.window.size.x / float(Global.window.max_size.x)
-	var win_size_y := float(Global.window.size.y)
-	var win_max_size_y := float(Global.window.max_size.y)
+	var scale_x := GLOBAL.window.size.x / float(GLOBAL.window.max_size.x)
+	var win_size_y := float(GLOBAL.window.size.y)
+	var win_max_size_y := float(GLOBAL.window.max_size.y)
 	var min_scale_y := (win_size_y + _title_bar.size.y + _stopwatch.size.y) / win_max_size_y
 	var s := minf(scale_x, maxf((win_size_y / win_max_size_y) * (min_scale_y * 2.0), min_scale_y))
 	_element_to_scale.scale = Vector2(s, s)

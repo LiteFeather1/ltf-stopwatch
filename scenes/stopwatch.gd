@@ -86,7 +86,7 @@ func restore_last_time_state() -> void:
 
 
 func get_time_short() -> String:
-	return Global.seconds_to_hour(_time_state.elasped_time)
+	return Global.seconds_to_time(_time_state.elasped_time)
 
 
 func get_paused_times_size() -> int:
@@ -94,7 +94,7 @@ func get_paused_times_size() -> int:
 
 
 func get_paused_time(index: int) -> StringName:
-	return Global.seconds_to_hour(_time_state.paused_times[index])
+	return Global.seconds_to_time(_time_state.paused_times[index])
 
 
 func get_resumed_times_size() -> int:
@@ -102,7 +102,7 @@ func get_resumed_times_size() -> int:
 
 
 func get_resumed_time(index: int) -> StringName:
-	return Global.seconds_to_hour(_time_state.resumed_times[index])
+	return Global.seconds_to_time(_time_state.resumed_times[index])
 
 
 func get_pause_span(index: int) -> float:
