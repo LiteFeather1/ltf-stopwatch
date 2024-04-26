@@ -53,7 +53,7 @@ func set_state(state: bool) -> void:
 		+ float(current_time["minute"]) * 60.0\
 		+ float(current_time["second"])
 
-	var time := &"%s:%02d:%02d" % [
+	var time := &"%02d:%02d:%02d" % [
 		current_time["hour"],
 		current_time["minute"],
 		current_time["second"]
@@ -180,17 +180,18 @@ class TimeState extends Object:
 
 	func undo_deleted_entry() -> int:
 		var deleted_entry: DeletedEntry = _deleted_entries.pop_back()
+		var index := deleted_entry.index
 
-		_redo_deleted_indexes.append(deleted_entry.index)
+		_redo_deleted_indexes.append(index)
 
-		paused_times.insert(deleted_entry.index, deleted_entry.paused_time)
+		paused_times.insert(index, deleted_entry.paused_time)
 
 		if deleted_entry.resumed_time >= 0.0:
-			resumed_times.insert(deleted_entry.index, deleted_entry.resumed_time)
+			resumed_times.insert(index, deleted_entry.resumed_time)
 
 		print("Undone: ", deleted_entry)
 		deleted_entry.free()
-		return deleted_entry.index
+		return index
 
 
 	func redo_deleted_entry() -> int:
