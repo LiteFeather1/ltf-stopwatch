@@ -130,7 +130,16 @@ func undo_deleted_pause_entry() -> void:
 	if index < time_state.resumed_times.size():
 		new_entry.set_resume_time(Global.seconds_to_time(time_state.resumed_times[index]))
 
-	_fix_entries_pause_num(index + 1, _pause_tray_entries_ui.size(), 0, 1)
+	_clear_entry_suffix(_longest_pause_index)
+	_clear_entry_suffix(_shortest_pause_index)
+	for i: int in range(index + 1, _pause_tray_entries_ui.size()):
+		_pause_tray_entries_ui[i].set_pause_span(str(i + 1))
+
+	var entries_size := time_state.resumed_times.size()
+	if entries_size < 2:
+		return
+	
+	_set_longest_shortest_times()
 
 
 func redo_deleted_pause_entry() -> void:
@@ -264,7 +273,8 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 	var time_state := _stopwatch.get_time_state()
 	time_state.delete_entry(index)
 
-	_fix_entries_pause_num(index, tray_size, 2, 1)
+	for i: int in range(index, tray_size):
+		_pause_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
 
 	var entries_size := time_state.resumed_times.size()
 	if entries_size < 2:
@@ -371,8 +381,3 @@ func _set_longest_shortest_times() -> void:
 	
 	_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
 	_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
-
-
-func _fix_entries_pause_num(from: int, to: int, from_offset: int, to_offset) -> void:
-	for i: int in range(from, to):
-		_pause_tray_entries_ui[i].replace_pause_num(str(i + from_offset), str(i + to_offset))
