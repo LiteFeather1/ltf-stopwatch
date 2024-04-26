@@ -130,9 +130,12 @@ func undo_deleted_pause_entry() -> void:
 	if index < time_state.resumed_times.size():
 		new_entry.set_resume_time(Global.seconds_to_time(time_state.resumed_times[index]))
 
-	_clear_entry_suffix(_longest_pause_index)
-	_clear_entry_suffix(_shortest_pause_index)
-	for i: int in range(index + 1, _pause_tray_entries_ui.size()):
+	var tray_size := _pause_tray_entries_ui.size()
+	if _longest_pause_index < tray_size and _shortest_pause_index < tray_size:
+		_clear_entry_suffix(_longest_pause_index)
+		_clear_entry_suffix(_shortest_pause_index)
+
+	for i: int in range(index + 1, tray_size):
 		_pause_tray_entries_ui[i].set_pause_span(str(i + 1))
 
 	var entries_size := time_state.resumed_times.size()
