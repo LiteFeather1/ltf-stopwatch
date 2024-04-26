@@ -55,7 +55,8 @@ func _ready() -> void:
 	if _stopwatch.has_started():
 		_set_b_start_continue()
 	
-	_instantiate_pause_tray_entries(_stopwatch.get_time_state().resumed_times.size())
+	if _stopwatch.get_time_state().paused_times.size() > 0:
+		_instantiate_pause_tray_entries(_stopwatch.get_time_state().resumed_times.size())
 
 	_set_longest_shortest_times()
 
