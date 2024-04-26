@@ -111,12 +111,12 @@ func restore_last_time_state() -> void:
 	_set_buttons_disabled(not _stopwatch.has_started())
 
 
-func redo_deleted_pause_entry() -> void:
-	print("redo_deleted_pause_entry pressed")
-
-
 func undo_deleted_pause_entry() -> void:
 	print("undo_deleted_pause_entry pressed")
+
+
+func redo_deleted_pause_entry() -> void:
+	print("redo_deleted_pause_entry pressed")
 
 
 func pause_stopwatch_if_running() -> void:
@@ -133,22 +133,8 @@ func _on_stopwatch_started() -> void:
 	_set_buttons_disabled(false)
 
 
-func _stopwatch_paused(time: StringName) -> PauseTrayEntryUI:
-	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
-	_pause_tray_entries_ui.append(new_entry)
-	new_entry.set_pause_span(str(_pause_tray_entries_ui.size()))
-	new_entry.set_pause_time(time)
-
-	new_entry.hovered.connect(_on_entry_hovered)
-	new_entry.pre_deletion.connect(_on_entry_pre_deletion)
-	new_entry.deleted.connect(_on_entry_deleted)
-
-	_tray_container.add_child(new_entry)
-	_tray_container.move_child(new_entry, 0)
-	
-	_pause_tray.visible = true
-
-	return new_entry
+func _stopwatch_paused(time: StringName) -> void:
+	_instantiate_pause_entry(time)
 
 
 func _stopwatch_resumed(time: StringName) -> void:
@@ -303,14 +289,32 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
+func _instantiate_pause_entry(time: StringName, move_to: int = 0) -> PauseTrayEntryUI:
+	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
+	_pause_tray_entries_ui.append(new_entry)
+	new_entry.set_pause_span(str(_pause_tray_entries_ui.size()))
+	new_entry.set_pause_time(time)
+
+	new_entry.hovered.connect(_on_entry_hovered)
+	new_entry.pre_deletion.connect(_on_entry_pre_deletion)
+	new_entry.deleted.connect(_on_entry_deleted)
+
+	_tray_container.add_child(new_entry)
+	_tray_container.move_child(new_entry, move_to)
+	
+	_pause_tray.visible = true
+
+	return new_entry
+
+
 func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void:
 	var time_state := _stopwatch.get_time_state()
 	for i in amount:
 		var index := index_offset + i
-		_stopwatch_paused(Global.seconds_to_time(time_state.paused_times[index]))\
+		_instantiate_pause_entry(Global.seconds_to_time(time_state.paused_times[index]))\
 			.set_resume_time(Global.seconds_to_time(time_state.resumed_times[index]))
 	
-	_stopwatch_paused(Global.seconds_to_time(time_state.paused_times[amount + index_offset]))
+	_instantiate_pause_entry(Global.seconds_to_time(time_state.paused_times[amount + index_offset]))
 
 
 func _clear_entry_suffix(prev_index: int) -> void:
