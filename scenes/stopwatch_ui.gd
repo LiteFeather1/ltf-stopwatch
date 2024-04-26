@@ -331,16 +331,14 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 		var index := index_offset + i
 		_instantiate_pause_entry(
 			Global.seconds_to_time(time_state.paused_times[index]),
-			# FIXME: We don't need to keep calling size here
-			_pause_tray_entries_ui.size(),
+			i + index_offset,
 			0
 			)\
 			.set_resume_time(Global.seconds_to_time(time_state.resumed_times[index]))
 	
 	_instantiate_pause_entry(
 		Global.seconds_to_time(time_state.paused_times[amount + index_offset]),
-		# FIXME: We don't need to keep calling size here
-		_pause_tray_entries_ui.size(),
+		amount + index_offset,
 		0
 	)
 
