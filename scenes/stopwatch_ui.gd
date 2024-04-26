@@ -310,7 +310,7 @@ func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) ->
 	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
 	if _pause_tray_entries_ui.insert(insert_at, new_entry) != OK:
 		print("not okay")
-	new_entry.set_pause_span(str(_pause_tray_entries_ui.size()))
+	new_entry.set_pause_span(str(insert_at + 1))
 	new_entry.set_pause_time(time)
 
 	new_entry.hovered.connect(_on_entry_hovered)
