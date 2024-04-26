@@ -293,7 +293,7 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 
 	var entries_size := time_state.resumed_times.size()
 	if entries_size < 2:
-		if entries_size == 0:
+		if entries_size == 0 and time_state.paused_times.size() == 0:
 			_pause_tray.hide()
 		elif index == _longest_pause_index:
 			_clear_entry_suffix(_shortest_pause_index)
