@@ -155,7 +155,6 @@ func redo_deleted_pause_entry() -> void:
 	
 	var index := time_state.redo_deleted_entry()
 	var entry := _pause_tray_entries_ui[index]
-	_on_entry_pre_deletion(entry)
 
 	entry.delete_routine()
 
@@ -277,13 +276,11 @@ func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
 	entry.modulate_animation(_hover_entry_colour)
 
 
-func _on_entry_pre_deletion(entry: Control) -> void:
-	entry.modulate = _hover_entry_colour
-
-
 func _on_entry_deleted(sibbling_index: int) -> void:
 	var tray_size := _pause_tray_entries_ui.size() - 1
 	var index := tray_size - sibbling_index
+	
+	_pause_tray_entries_ui[index].modulate = _hover_entry_colour
 	_pause_tray_entries_ui.remove_at(index)
 
 	var time_state := _stopwatch.get_time_state()
@@ -339,7 +336,6 @@ func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) ->
 	new_entry.set_pause_time(time)
 
 	new_entry.hovered.connect(_on_entry_hovered)
-	new_entry.pre_deletion.connect(_on_entry_pre_deletion)
 	new_entry.deleted.connect(_on_entry_deleted)
 
 	_tray_container.add_child(new_entry)
