@@ -120,10 +120,9 @@ func undo_deleted_pause_entry() -> void:
 		return
 	
 	var index := time_state.undo_deleted_entry()
-	print(index)
 	var new_entry := _instantiate_pause_entry(
 		Global.seconds_to_time(time_state.paused_times[index]),
-		index
+		time_state.paused_times.size() - index - 1
 	)
 
 	if index < time_state.resumed_times.size():
