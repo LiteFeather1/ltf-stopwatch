@@ -123,6 +123,7 @@ func undo_deleted_pause_entry() -> void:
 	var index := time_state.undo_deleted_entry()
 	var new_entry := _instantiate_pause_entry(
 		Global.seconds_to_time(time_state.paused_times[index]),
+		index,
 		time_state.paused_times.size() - index - 1
 	)
 
@@ -150,7 +151,7 @@ func _on_stopwatch_started() -> void:
 
 
 func _stopwatch_paused(time: StringName) -> void:
-	_instantiate_pause_entry(time)
+	_instantiate_pause_entry(time, _pause_tray_entries_ui.size(), 0)
 
 
 func _stopwatch_resumed(time: StringName) -> void:
@@ -305,9 +306,10 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _instantiate_pause_entry(time: StringName, move_to: int = 0) -> PauseTrayEntryUI:
+func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) -> PauseTrayEntryUI:
 	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
-	_pause_tray_entries_ui.append(new_entry)
+	if _pause_tray_entries_ui.insert(insert_at, new_entry) != OK:
+		print("not okay")
 	new_entry.set_pause_span(str(_pause_tray_entries_ui.size()))
 	new_entry.set_pause_time(time)
 
@@ -327,10 +329,20 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 	var time_state := _stopwatch.get_time_state()
 	for i in amount:
 		var index := index_offset + i
-		_instantiate_pause_entry(Global.seconds_to_time(time_state.paused_times[index]))\
+		_instantiate_pause_entry(
+			Global.seconds_to_time(time_state.paused_times[index]),
+			# FIXME: We don't need to keep calling size here
+			_pause_tray_entries_ui.size(),
+			0
+			)\
 			.set_resume_time(Global.seconds_to_time(time_state.resumed_times[index]))
 	
-	_instantiate_pause_entry(Global.seconds_to_time(time_state.paused_times[amount + index_offset]))
+	_instantiate_pause_entry(
+		Global.seconds_to_time(time_state.paused_times[amount + index_offset]),
+		# FIXME: We don't need to keep calling size here
+		_pause_tray_entries_ui.size(),
+		0
+	)
 
 
 func _clear_entry_suffix(prev_index: int) -> void:
