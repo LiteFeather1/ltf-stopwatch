@@ -296,9 +296,9 @@ func _on_entry_deleted(sibbling_index: int) -> void:
 		if entries_size == 0 and time_state.paused_times.size() == 0:
 			_pause_tray.hide()
 		elif index == _longest_pause_index:
-			_clear_entry_suffix(_shortest_pause_index)
+			_clear_entry_suffix(_shortest_pause_index - (0 if index != 0 else 1))
 		elif index == _shortest_pause_index:
-			_clear_entry_suffix(_longest_pause_index)
+			_clear_entry_suffix(_longest_pause_index - (0 if index != 0 else 1))
 
 		return
 	
@@ -367,8 +367,8 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 	)
 
 
-func _clear_entry_suffix(prev_index: int) -> void:
-	_pause_tray_entries_ui[prev_index].set_pause_span(str(prev_index + 1))
+func _clear_entry_suffix(index: int) -> void:
+	_pause_tray_entries_ui[index].set_pause_span(str(index + 1))
 
 
 func _set_entry_span(index: int, template: StringName) -> void:
