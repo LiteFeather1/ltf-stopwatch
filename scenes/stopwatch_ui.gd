@@ -148,6 +148,18 @@ func undo_deleted_pause_entry() -> void:
 func redo_deleted_pause_entry() -> void:
 	print("redo_deleted_pause_entry pressed")
 
+	var time_state := _stopwatch.get_time_state()
+	if not time_state.can_redo():
+		return
+	
+	var index := time_state.redo_deleted_entry()
+	var entry := _pause_tray_entries_ui[index]
+	_on_entry_pre_deletion(entry)
+
+	entry.delete_routine()
+
+	_on_entry_deleted(_pause_tray_entries_ui.size() - index - 1)
+
 
 func pause_stopwatch_if_running() -> void:
 	if _b_start.button_pressed:
