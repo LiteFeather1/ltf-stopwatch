@@ -114,6 +114,22 @@ func restore_last_time_state() -> void:
 func undo_deleted_pause_entry() -> void:
 	print("undo_deleted_pause_entry pressed")
 
+	var time_state := _stopwatch.get_time_state()
+	if not time_state.can_undo():
+		print("No entries to undo")
+		return
+	
+	var index := time_state.undo_deleted_entry()
+	print(index)
+	var new_entry := _instantiate_pause_entry(
+		Global.seconds_to_time(time_state.paused_times[index]),
+		index
+	)
+
+	if index < time_state.resumed_times.size():
+		new_entry.set_resume_time(Global.seconds_to_time(time_state.resumed_times[index]))
+
+
 
 func redo_deleted_pause_entry() -> void:
 	print("redo_deleted_pause_entry pressed")
