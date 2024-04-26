@@ -150,6 +150,7 @@ func redo_deleted_pause_entry() -> void:
 
 	var time_state := _stopwatch.get_time_state()
 	if not time_state.can_redo():
+		print("no entries to redo")
 		return
 	
 	var index := time_state.redo_deleted_entry()
