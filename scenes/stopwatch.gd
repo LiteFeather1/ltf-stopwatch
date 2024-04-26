@@ -63,6 +63,7 @@ func set_state(state: bool) -> void:
 		
 		if _time_state.resumed_times.size() < _time_state.paused_times.size():
 			_time_state.resumed_times.append(seconds)
+			_time_state.clear_redo()
 			resumed.emit(time)
 		elif _time_state.elapsed_time == 0.0:
 			started.emit()
@@ -70,6 +71,7 @@ func set_state(state: bool) -> void:
 		modulate = _paused_colour
 
 		_time_state.paused_times.append(seconds)
+		_time_state.clear_redo()
 		paused.emit(time)
 
 
@@ -195,6 +197,11 @@ class TimeState extends Object:
 		_redo_deleted_indexes.remove_at(last_index)
 
 		return true
+
+
+	func clear_redo() -> void:
+		if not _redo_deleted_indexes.is_empty():
+			_redo_deleted_indexes.clear()
 
 
 # We could use a command pattern here
