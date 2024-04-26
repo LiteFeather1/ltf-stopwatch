@@ -45,34 +45,9 @@ func _on_gui_input(event: InputEvent) -> void:
 			and _is_mouse_inside:
 		pre_deletion.emit(self)
 
-		mouse_entered.disconnect(_on_mouse_entered)
-		mouse_exited.disconnect(_on_mouse_exited)
-		gui_input.disconnect(_on_gui_input)
-
-		AL_HoverTipFollow.hide_hover_tip()
-
-		if _tween:
-			_tween.kill()
-
-		var dir := 1.0 if randf() > .5 else -1.0
-		var offset := randf_range(48.0, 64.0) * dir
-		var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		tween.tween_property(
-			self, "position:x",
-			position.x + offset,
-			randf_range(.15, .2)
-		)
-		tween.tween_property(
-			self, "position:x",
-			position.x -offset + size.x * -dir,
-			randf_range(.175, .25)
-		)
-		
-		await tween.finished
+		await delete_routine()
 
 		deleted.emit(get_index())
-
-		queue_free()
 
 
 func set_pause_span(text: String) -> void:
@@ -93,6 +68,35 @@ func set_resume_time(time: StringName) -> void:
 
 func set_resume_time_empty() -> void:
 	_l_resume_time.text = "--:--:--"
+
+
+func delete_routine() -> void:
+	mouse_entered.disconnect(_on_mouse_entered)
+	mouse_exited.disconnect(_on_mouse_exited)
+	gui_input.disconnect(_on_gui_input)
+
+	AL_HoverTipFollow.hide_hover_tip()
+
+	if _tween:
+		_tween.kill()
+
+	var dir := 1.0 if randf() > .5 else -1.0
+	var offset := randf_range(48.0, 64.0) * dir
+	var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.tween_property(
+		self, "position:x",
+		position.x + offset,
+		randf_range(.15, .2)
+	)
+	tween.tween_property(
+		self, "position:x",
+		position.x -offset + size.x * -dir,
+		randf_range(.175, .25)
+	)
+	
+	await tween.finished
+
+	queue_free()
 
 
 func modulate_animation(colour: Color, duration: float = .4, interval = .33) -> void:
