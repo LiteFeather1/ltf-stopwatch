@@ -334,9 +334,13 @@ func _delete_pause_tray_entry(index: int) -> void:
 		if entries_size == 0 and time_state.paused_times.size() == 0:
 			_pause_tray.hide()
 		elif index == _longest_pause_index:
-			_clear_entry_suffix(_shortest_pause_index - (0 if index != 0 else 1))
+			if index < _shortest_pause_index:
+				_shortest_pause_index -= 1
+			_clear_entry_suffix(_shortest_pause_index)
 		elif index == _shortest_pause_index:
-			_clear_entry_suffix(_longest_pause_index - (0 if index != 0 else 1))
+			if index < _longest_pause_index:
+				_longest_pause_index -= 1
+			_clear_entry_suffix(_longest_pause_index)
 
 		return
 	
