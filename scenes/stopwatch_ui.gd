@@ -124,7 +124,7 @@ func undo_deleted_pause_entry() -> void:
 	var new_entry := _instantiate_pause_entry(
 		Global.seconds_to_time(time_state.paused_times[index]),
 		index,
-		time_state.paused_times.size() - index - 1
+		_pause_tray_entries_ui.size() - index
 	)
 	
 	if index < time_state.resumed_times.size():
