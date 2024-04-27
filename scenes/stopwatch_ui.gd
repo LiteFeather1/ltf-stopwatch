@@ -55,10 +55,11 @@ func _ready() -> void:
 	if _stopwatch.has_started():
 		_set_b_start_continue()
 	
-	if _stopwatch.get_time_state().paused_times_size() > 0:
-		_instantiate_pause_tray_entries(_stopwatch.get_time_state().resumed_times_size())
-
-	_set_longest_shortest_times()
+	var time_state := _stopwatch.get_time_state()
+	if time_state.paused_times_size() > 0:
+		_instantiate_pause_tray_entries(time_state.resumed_times_size())
+		
+		_set_longest_shortest_times()
 
 
 func restore_last_time_state() -> void:
@@ -314,11 +315,12 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 			)\
 			.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
 	
-	_instantiate_pause_entry(
-		Global.seconds_to_time(time_state.get_paused_time(amount + index_offset)),
-		amount + index_offset,
-		0
-	)
+	if (amount + index_offset) < time_state.paused_times_size():
+		_instantiate_pause_entry(
+			Global.seconds_to_time(time_state.get_paused_time(amount + index_offset)),
+			amount + index_offset,
+			0
+		)
 
 
 func _delete_pause_tray_entry(index: int) -> void:
