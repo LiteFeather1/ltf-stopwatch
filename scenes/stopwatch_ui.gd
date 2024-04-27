@@ -329,22 +329,27 @@ func _delete_pause_tray_entry(index: int) -> void:
 	for i: int in range(index, _pause_tray_entries_ui.size()):
 		_pause_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
 
+	var was_longest := index == _longest_pause_index
+	var was_shortest := index == _shortest_pause_index
+
+	if index < _shortest_pause_index:
+		_shortest_pause_index -= 1
+
+	if index < _longest_pause_index:
+		_longest_pause_index -= 1
+
 	var entries_size := time_state.resumed_times.size()
 	if entries_size < 2:
 		if entries_size == 0 and time_state.paused_times.size() == 0:
 			_pause_tray.hide()
-		elif index == _longest_pause_index:
-			if index < _shortest_pause_index:
-				_shortest_pause_index -= 1
+		elif was_longest:
 			_clear_entry_suffix(_shortest_pause_index)
-		elif index == _shortest_pause_index:
-			if index < _longest_pause_index:
-				_longest_pause_index -= 1
+		elif was_shortest:
 			_clear_entry_suffix(_longest_pause_index)
 
 		return
 	
-	if index == _longest_pause_index:
+	if was_longest:
 		var longest_span := -Global.FLOAT_MAX
 		_longest_pause_index = 0
 
@@ -355,7 +360,7 @@ func _delete_pause_tray_entry(index: int) -> void:
 				_longest_pause_index = i
 		
 		_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
-	elif index == _shortest_pause_index:
+	elif was_shortest:
 		var shortest_span := Global.FLOAT_MAX
 		_shortest_pause_index = 0
 
