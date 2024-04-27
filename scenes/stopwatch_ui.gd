@@ -157,7 +157,7 @@ func redo_deleted_pause_entry() -> void:
 
 	_pause_tray_entries_ui[index].delete_routine()
 
-	_delete_pause_tray_entry(index, _pause_tray_entries_ui.size() - 1)
+	_delete_pause_tray_entry(index)
 
 
 func pause_stopwatch_if_running() -> void:
@@ -275,11 +275,8 @@ func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
 	entry.modulate_animation(_hover_entry_colour)
 
 
-func _on_entry_deleted(sibbling_index: int) -> void:
-	var tray_size := _pause_tray_entries_ui.size() - 1
-	var index := _correct_index_to_delete(sibbling_index, tray_size)
-
-	_delete_pause_tray_entry(index, tray_size)
+func _on_entry_deleted(entry: PauseTrayEntryUI) -> void:
+	_delete_pause_tray_entry(_pause_tray_entries_ui.find(entry))
 
 
 func _set_b_start_continue() -> void:
@@ -322,14 +319,14 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 	)
 
 
-func _delete_pause_tray_entry(index: int, tray_size: int) -> void:
+func _delete_pause_tray_entry(index: int) -> void:
 	_pause_tray_entries_ui[index].modulate = _hover_entry_colour
 	_pause_tray_entries_ui.remove_at(index)
 
 	var time_state := _stopwatch.get_time_state()
 	time_state.delete_entry(index)
 
-	for i: int in range(index, tray_size):
+	for i: int in range(index, _pause_tray_entries_ui.size()):
 		_pause_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
 
 	var entries_size := time_state.resumed_times.size()
@@ -366,6 +363,7 @@ func _delete_pause_tray_entry(index: int, tray_size: int) -> void:
 
 		_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
 
+
 func _clear_entry_suffix(index: int) -> void:
 	_pause_tray_entries_ui[index].set_pause_span(str(index + 1))
 
@@ -395,7 +393,3 @@ func _set_longest_shortest_times() -> void:
 	
 	_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
 	_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
-
-
-func _correct_index_to_delete(index: int, tray_size: int) -> int:
-	return tray_size - index + (_tray_container.get_child_count() - 1 - tray_size)

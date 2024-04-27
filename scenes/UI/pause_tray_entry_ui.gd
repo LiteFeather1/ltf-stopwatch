@@ -2,7 +2,7 @@ class_name PauseTrayEntryUI extends HBoxContainer
 
 
 signal hovered(instance: PauseTrayEntryUI)
-signal deleted(sibbling_index: int)
+signal deleted(instance: PauseTrayEntryUI)
 
 
 @export var _l_pause_span: Label
@@ -42,7 +42,7 @@ func _on_gui_input(event: InputEvent) -> void:
 			and mb_event.button_index == MOUSE_BUTTON_LEFT\
 			and mb_event.is_released()\
 			and _is_mouse_inside:
-		deleted.emit(get_index())
+		deleted.emit(self)
 
 		delete_routine()
 
