@@ -158,7 +158,7 @@ func redo_deleted_pause_entry() -> void:
 
 	entry.delete_routine()
 
-	_on_entry_deleted(_pause_tray_entries_ui.size() - index - 1)
+	_on_entry_deleted(_correct_index_to_delete(index, _pause_tray_entries_ui.size() - 1))
 
 
 func pause_stopwatch_if_running() -> void:
@@ -278,7 +278,7 @@ func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
 
 func _on_entry_deleted(sibbling_index: int) -> void:
 	var tray_size := _pause_tray_entries_ui.size() - 1
-	var index := tray_size - sibbling_index + (_tray_container.get_child_count() - 1 - tray_size)
+	var index := _correct_index_to_delete(sibbling_index, tray_size)
 	
 	_pause_tray_entries_ui[index].modulate = _hover_entry_colour
 	_pause_tray_entries_ui.remove_at(index)
@@ -393,3 +393,7 @@ func _set_longest_shortest_times() -> void:
 	
 	_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
 	_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
+
+
+func _correct_index_to_delete(index: int, tray_size: int) -> int:
+	return tray_size - index + (_tray_container.get_child_count() - 1 - tray_size)
