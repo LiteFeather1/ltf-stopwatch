@@ -61,8 +61,8 @@ func set_state(state: bool) -> void:
 	if state:
 		modulate = _ticking_colour
 		
-		if _time_state.resumed_times.size() < _time_state.paused_times.size():
-			_time_state.resumed_times.append(seconds)
+		if _time_state.is_ticking():
+			_time_state.append_resumed_time(seconds)
 			_time_state.clear_redo()
 			resumed.emit(time)
 		elif _time_state.elapsed_time == 0.0:
@@ -70,7 +70,7 @@ func set_state(state: bool) -> void:
 	else:
 		modulate = _paused_colour
 
-		_time_state.paused_times.append(seconds)
+		_time_state.append_paused_time(seconds)
 		_time_state.clear_redo()
 		paused.emit(time)
 
@@ -155,6 +155,18 @@ class TimeState extends Object:
 			PAUSED_TIMES: paused_times,
 			RESUMED_TIMES: resumed_times,
 		}
+
+
+	func is_ticking() -> bool:
+		return resumed_times.size() < paused_times.size()
+
+
+	func append_paused_time(time: float) -> void:
+		paused_times.append(time)
+
+
+	func append_resumed_time(time: float) -> void:
+		resumed_times.append(time)
 
 
 	func delete_entry(index: int) -> void:
