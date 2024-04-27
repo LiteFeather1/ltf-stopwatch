@@ -169,6 +169,13 @@ class TimeState extends Object:
 		_deleted_entries.append(deleted_entry)
 		print("Deleted: ", deleted_entry)
 
+		var last_redo_index := _redo_deleted_indexes.size() - 1
+		if last_redo_index != -1:
+			if index == _redo_deleted_indexes[last_redo_index]:
+				_redo_deleted_indexes.remove_at(last_redo_index)
+			else:
+				_redo_deleted_indexes.clear()
+
 
 	func can_undo() -> bool:
 		return not _deleted_entries.is_empty()
@@ -195,11 +202,7 @@ class TimeState extends Object:
 
 
 	func redo_deleted_entry() -> int:
-		var last_index := _redo_deleted_indexes.size() - 1
-		var to_delete_index = _redo_deleted_indexes[last_index]
-		_redo_deleted_indexes.remove_at(last_index)
-
-		return to_delete_index
+		return _redo_deleted_indexes[_redo_deleted_indexes.size() - 1]
 
 
 	func clear_redo() -> void:
