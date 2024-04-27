@@ -278,7 +278,7 @@ func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
 
 func _on_entry_deleted(sibbling_index: int) -> void:
 	var tray_size := _pause_tray_entries_ui.size() - 1
-	var index := tray_size - sibbling_index
+	var index := tray_size - sibbling_index + (_tray_container.get_child_count() - 1 - tray_size)
 	
 	_pause_tray_entries_ui[index].modulate = _hover_entry_colour
 	_pause_tray_entries_ui.remove_at(index)
