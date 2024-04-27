@@ -135,6 +135,7 @@ class TimeState extends Object:
 
 	var _deleted_entries: Array[DeletedEntry]
 	var _redo_deleted_indexes: PackedInt32Array
+	var _unmatched_paused_index: int = -1
 
 
 	func init_from_dict(dict: Dictionary) -> void:
@@ -161,6 +162,10 @@ class TimeState extends Object:
 
 
 	func append_paused_time(time: float) -> void:
+		if _unmatched_paused_index != -1:
+			_deleted_entries[_unmatched_paused_index].resumed_time = time
+			_unmatched_paused_index = -1
+		
 		_paused_times.append(time)
 
 
@@ -173,6 +178,7 @@ class TimeState extends Object:
 
 
 	func append_resumed_time(time: float) -> void:
+		_unmatched_paused_index = -1
 		_resumed_times.append(time)
 
 
@@ -196,6 +202,8 @@ class TimeState extends Object:
 		if index < _resumed_times.size():
 			deleted_entry.resumed_time = _resumed_times[index]
 			_resumed_times.remove_at(index)
+		else:
+			_unmatched_paused_index = _deleted_entries.size()
 		
 		_deleted_entries.append(deleted_entry)
 		print("Deleted: ", deleted_entry)
