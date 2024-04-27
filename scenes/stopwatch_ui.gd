@@ -58,8 +58,8 @@ func _ready() -> void:
 	var time_state := _stopwatch.get_time_state()
 	if time_state.paused_times_size() > 0:
 		_instantiate_pause_tray_entries(time_state.resumed_times_size())
-		
-		_set_longest_shortest_times()
+
+		_find_longest_shortest_times()
 
 
 func restore_last_time_state() -> void:
@@ -106,7 +106,7 @@ func restore_last_time_state() -> void:
 	if _shortest_pause_index < tray_size:
 		_clear_entry_suffix(_shortest_pause_index)
 	
-	_set_longest_shortest_times()
+	_find_longest_shortest_times()
 
 	_pause_tray.visible = paused_size > 0
 
@@ -133,6 +133,7 @@ func undo_deleted_pause_entry() -> void:
 		new_entry.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
 
 	var tray_size := _pause_tray_entries_ui.size()
+	# FIXME move to esse of entries size
 	if _longest_pause_index < tray_size and _shortest_pause_index < tray_size:
 		_clear_entry_suffix(_longest_pause_index)
 		_clear_entry_suffix(_shortest_pause_index)
@@ -144,7 +145,7 @@ func undo_deleted_pause_entry() -> void:
 	if entries_size < 2:
 		return
 	
-	_set_longest_shortest_times()
+	_find_longest_shortest_times()
 
 
 func redo_deleted_pause_entry() -> void:
@@ -188,9 +189,9 @@ func _stopwatch_resumed(time: StringName) -> void:
 	if index < 1:
 		return
 
-	# two entries. None has longest nor shortest
+	# Two entries. None has longest nor shortest
 	if index == 1:
-		_set_longest_shortest_times()
+		_find_longest_shortest_times()
 	else:
 		var pause_span := time_state.pause_span(index)
 		# Check if new entry is new longest or shortest
@@ -359,7 +360,7 @@ func _delete_pause_tray_entry(index: int) -> void:
 
 		for i in entries_size:
 			var time_span := time_state.pause_span(i)
-			if time_span >= longest_span:
+			if time_span >= longest_span and i != _shortest_pause_index: # Would it be better if we break and do _find_longes_tand_shortest()?
 				longest_span = time_span
 				_longest_pause_index = i
 		
@@ -370,7 +371,7 @@ func _delete_pause_tray_entry(index: int) -> void:
 
 		for i in entries_size:
 			var time_span := time_state.pause_span(i)
-			if time_span <= shortest_span:
+			if time_span <= shortest_span and i != _longest_pause_index: # Would it be better if we break and do _find_longest_shortest_entries()?
 				shortest_span = time_span
 				_shortest_pause_index = i
 
@@ -385,7 +386,7 @@ func _set_entry_span(index: int, template: StringName) -> void:
 	_pause_tray_entries_ui[index].set_pause_span(template % (index + 1))
 
 
-func _set_longest_shortest_times() -> void:
+func _find_longest_shortest_times() -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
 	if resumed_size < 2:
