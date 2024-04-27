@@ -75,7 +75,6 @@ func set_state(state: bool) -> void:
 		paused.emit(time)
 
 
-
 func reset() -> void:
 	_last_time_state.free()
 	_last_time_state = _time_state
@@ -131,8 +130,8 @@ class TimeState extends Object:
 	const RESUMED_TIMES := &"resumed_times"
 
 	var elapsed_time: float = 0.0
-	var paused_times: PackedFloat32Array
-	var resumed_times: PackedFloat32Array
+	var _paused_times: PackedFloat32Array
+	var _resumed_times: PackedFloat32Array
 
 	var _deleted_entries: Array[DeletedEntry]
 	var _redo_deleted_indexes: PackedInt32Array
@@ -143,40 +142,60 @@ class TimeState extends Object:
 			elapsed_time = dict[ELAPSED_TIME]
 		
 		if dict.has(PAUSED_TIMES):
-			paused_times = dict[PAUSED_TIMES]
+			_paused_times = dict[PAUSED_TIMES]
 		
 		if dict.has(RESUMED_TIMES):
-			resumed_times = dict[RESUMED_TIMES]
+			_resumed_times = dict[RESUMED_TIMES]
 
 
 	func as_dict() -> Dictionary:
 		return {
 			ELAPSED_TIME: elapsed_time,
-			PAUSED_TIMES: paused_times,
-			RESUMED_TIMES: resumed_times,
+			PAUSED_TIMES: _paused_times,
+			RESUMED_TIMES: _resumed_times,
 		}
 
 
 	func is_ticking() -> bool:
-		return resumed_times.size() < paused_times.size()
+		return _resumed_times.size() < _paused_times.size()
 
 
 	func append_paused_time(time: float) -> void:
-		paused_times.append(time)
+		_paused_times.append(time)
+
+
+	func get_paused_time(index: int) -> float:
+		return _paused_times[index]
+
+
+	func paused_times_size() -> int:
+		return _paused_times.size()
 
 
 	func append_resumed_time(time: float) -> void:
-		resumed_times.append(time)
+		_resumed_times.append(time)
+
+
+	func get_resumed_time(index: int) -> float:
+		return _resumed_times[index]
+
+
+	func resumed_times_size() -> int:
+		return _resumed_times.size()
+
+
+	func pause_span(index: int) -> float:
+		return _resumed_times[index] - _paused_times[index]
 
 
 	func delete_entry(index: int) -> void:
-		var deleted_entry := DeletedEntry.new(index, paused_times[index])
+		var deleted_entry := DeletedEntry.new(index, _paused_times[index])
 
-		paused_times.remove_at(index)
+		_paused_times.remove_at(index)
 
-		if index < resumed_times.size():
-			deleted_entry.resumed_time = resumed_times[index]
-			resumed_times.remove_at(index)
+		if index < _resumed_times.size():
+			deleted_entry.resumed_time = _resumed_times[index]
+			_resumed_times.remove_at(index)
 		
 		_deleted_entries.append(deleted_entry)
 		print("Deleted: ", deleted_entry)
@@ -203,10 +222,10 @@ class TimeState extends Object:
 
 		_redo_deleted_indexes.append(index)
 
-		paused_times.insert(index, deleted_entry.paused_time)
+		_paused_times.insert(index, deleted_entry.paused_time)
 
 		if deleted_entry.resumed_time >= 0.0:
-			resumed_times.insert(index, deleted_entry.resumed_time)
+			_resumed_times.insert(index, deleted_entry.resumed_time)
 
 		print("Undone: ", deleted_entry)
 		deleted_entry.free()
