@@ -2,7 +2,7 @@ class_name Stopwatch extends VBoxContainer
 
 
 signal started()
-signal paused(time: StringName)
+signal paused()
 signal resumed(time: StringName)
 
 const TIME_STATE := &"time_state"
@@ -71,7 +71,7 @@ func set_state(state: bool) -> void:
 		modulate = _paused_colour
 
 		_time_state.append_paused_time(seconds)
-		paused.emit(time)
+		paused.emit()
 
 
 func reset() -> void:

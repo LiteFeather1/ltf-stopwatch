@@ -87,6 +87,7 @@ func restore_last_time_state() -> void:
 			var index := paused_size - 1
 			var entry := _stopwatch_tray_entries_ui[index]
 			entry.set_pause_time(Global.seconds_to_time(time_state.get_paused_time(index)))
+			# Set elapsed_time
 			entry.set_resume_time_empty()
 	else:
 		to_set_in_tray = tray_size
@@ -97,6 +98,7 @@ func restore_last_time_state() -> void:
 	for i: int in to_set_in_tray:
 		var entry := _stopwatch_tray_entries_ui[i]
 		entry.set_pause_time(Global.seconds_to_time(time_state.get_paused_time(i)))
+		# Set elapsed_time
 		entry.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(i)))
 	
 	tray_size = _stopwatch_tray_entries_ui.size()
@@ -122,11 +124,7 @@ func undo_deleted_pause_entry() -> void:
 		return
 	
 	var index := time_state.undo_deleted_entry()
-	var new_entry := _instantiate_pause_entry(
-		Global.seconds_to_time(time_state.get_paused_time(index)),
-		index,
-		_stopwatch_tray_entries_ui.size() - index
-	)
+	var new_entry := _instantiate_pause_entry(index, _stopwatch_tray_entries_ui.size() - index)
 	
 	var resumed_size := time_state.resumed_times_size()
 	if index < resumed_size:
@@ -173,8 +171,8 @@ func _on_stopwatch_started() -> void:
 	_set_buttons_disabled(false)
 
 
-func _stopwatch_paused(time: StringName) -> void:
-	_instantiate_pause_entry(time, _stopwatch_tray_entries_ui.size(), 0)
+func _stopwatch_paused() -> void:
+	_instantiate_pause_entry(_stopwatch_tray_entries_ui.size(), 0)
 
 
 func _stopwatch_resumed(time: StringName) -> void:
@@ -284,15 +282,14 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) -> StopwatchEntryUI:
+func _instantiate_pause_entry(insert_at: int, move_to: int) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
 
+	var time_state := _stopwatch.get_time_state()
 	new_entry.set_pause_span(str(insert_at + 1))
-	new_entry.set_pause_time(time)
-	new_entry.set_elapsed_time(
-		Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
-	)
+	new_entry.set_pause_time(Global.seconds_to_time(time_state.get_paused_time(insert_at)))
+	new_entry.set_elapsed_time(Global.seconds_to_time(time_state.get_elapsed_time(insert_at)))
 	new_entry.hovered.connect(_on_entry_hovered)
 	new_entry.deleted.connect(_on_entry_deleted)
 
@@ -308,19 +305,11 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 	var time_state := _stopwatch.get_time_state()
 	for i in amount:
 		var index := index_offset + i
-		_instantiate_pause_entry(
-			Global.seconds_to_time(time_state.get_paused_time(index)),
-			i + index_offset,
-			0
-			)\
+		_instantiate_pause_entry(i + index_offset, 0)\
 			.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
 	
 	if (amount + index_offset) < time_state.paused_times_size():
-		_instantiate_pause_entry(
-			Global.seconds_to_time(time_state.get_paused_time(amount + index_offset)),
-			amount + index_offset,
-			0
-		)
+		_instantiate_pause_entry(amount + index_offset, 0)
 
 
 func _delete_pause_tray_entry(index: int) -> void:
