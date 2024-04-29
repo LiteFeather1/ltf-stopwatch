@@ -115,6 +115,8 @@ func restore_last_time_state() -> void:
 
 	_set_buttons_disabled(not _stopwatch.has_started())
 
+	AL_HoverTipFollow.hide_hover_tip()
+
 
 func undo_deleted_stopwatch_entry_ui() -> void:
 	print("undo_deleted_pause_entry pressed")
