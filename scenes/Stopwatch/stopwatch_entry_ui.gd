@@ -1,8 +1,8 @@
-class_name PauseTrayEntryUI extends HBoxContainer
+class_name StopwatchEntryUI extends HBoxContainer
 
 
-signal hovered(instance: PauseTrayEntryUI)
-signal deleted(instance: PauseTrayEntryUI)
+signal hovered(instance: StopwatchEntryUI)
+signal deleted(instance: StopwatchEntryUI)
 
 
 @export var _l_pause_span: Label

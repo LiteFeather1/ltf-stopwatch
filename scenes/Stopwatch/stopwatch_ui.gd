@@ -18,9 +18,9 @@ const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 @export var _sprite_start: Texture2D
 @export var _sprite_pause: Texture2D
 
-@export_category("Stop tray")
-@export var _scene_pause_tray_entry_ui: PackedScene
-@export var _pause_tray: Control
+@export_category("Entry tray")
+@export var _scene_stopwatch_entry_ui: PackedScene
+@export var _entry_tray: Control
 @export var _tray_container: Control
 @export var _hover_entry_colour := Color("#fc6360")
 
@@ -28,9 +28,9 @@ const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
 
-var _pause_tray_entries_ui: Array[PauseTrayEntryUI]
-var _longest_pause_index: int
-var _shortest_pause_index: int
+var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
+var _longest_entry_index: int
+var _shortest_entry_index: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -69,7 +69,7 @@ func restore_last_time_state() -> void:
 
 	# Swap entries
 	var to_set_in_tray: int
-	var tray_size := _pause_tray_entries_ui.size()
+	var tray_size := _stopwatch_tray_entries_ui.size()
 	var time_state := _stopwatch.get_time_state()
 	var paused_size := time_state.paused_times_size()
 	var resumed_size := time_state.resumed_times_size()
@@ -80,12 +80,12 @@ func restore_last_time_state() -> void:
 
 		# Delete overflow entries
 		for i: int in remainder:
-			_pause_tray_entries_ui.pop_back().queue_free()
+			_stopwatch_tray_entries_ui.pop_back().queue_free()
 		
 		# Set entry with not resumed time
 		if paused_size != resumed_size:
 			var index := paused_size - 1
-			var entry := _pause_tray_entries_ui[index]
+			var entry := _stopwatch_tray_entries_ui[index]
 			entry.set_pause_time(Global.seconds_to_time(time_state.get_paused_time(index)))
 			entry.set_resume_time_empty()
 	else:
@@ -95,20 +95,20 @@ func restore_last_time_state() -> void:
 	
 	# Set existing matched entries
 	for i: int in to_set_in_tray:
-		var entry := _pause_tray_entries_ui[i]
+		var entry := _stopwatch_tray_entries_ui[i]
 		entry.set_pause_time(Global.seconds_to_time(time_state.get_paused_time(i)))
 		entry.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(i)))
 	
-	tray_size = _pause_tray_entries_ui.size()
-	if _longest_pause_index < tray_size:
-		_clear_entry_suffix(_longest_pause_index)
+	tray_size = _stopwatch_tray_entries_ui.size()
+	if _longest_entry_index < tray_size:
+		_clear_entry_suffix(_longest_entry_index)
 	
-	if _shortest_pause_index < tray_size:
-		_clear_entry_suffix(_shortest_pause_index)
+	if _shortest_entry_index < tray_size:
+		_clear_entry_suffix(_shortest_entry_index)
 	
 	_find_longest_shortest_times()
 
-	_pause_tray.visible = paused_size > 0
+	_entry_tray.visible = paused_size > 0
 
 	_set_buttons_disabled(not _stopwatch.has_started())
 
@@ -125,21 +125,21 @@ func undo_deleted_pause_entry() -> void:
 	var new_entry := _instantiate_pause_entry(
 		Global.seconds_to_time(time_state.get_paused_time(index)),
 		index,
-		_pause_tray_entries_ui.size() - index
+		_stopwatch_tray_entries_ui.size() - index
 	)
 	
 	var resumed_size := time_state.resumed_times_size()
 	if index < resumed_size:
 		new_entry.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
 
-	for i: int in range(index + 1, _pause_tray_entries_ui.size()):
-		_pause_tray_entries_ui[i].set_pause_span(str(i + 1))
+	for i: int in range(index + 1, _stopwatch_tray_entries_ui.size()):
+		_stopwatch_tray_entries_ui[i].set_pause_span(str(i + 1))
 
 	if resumed_size < 2:
 		return
 	else:
-		_clear_entry_suffix(_longest_pause_index)
-		_clear_entry_suffix(_shortest_pause_index)
+		_clear_entry_suffix(_longest_entry_index)
+		_clear_entry_suffix(_shortest_entry_index)
 
 		_find_longest_shortest_times()
 
@@ -154,7 +154,7 @@ func redo_deleted_pause_entry() -> void:
 	
 	var index := time_state.redo_deleted_entry()
 
-	_pause_tray_entries_ui[index].delete_routine()
+	_stopwatch_tray_entries_ui[index].delete_routine()
 
 	_delete_pause_tray_entry(index)
 
@@ -174,11 +174,11 @@ func _on_stopwatch_started() -> void:
 
 
 func _stopwatch_paused(time: StringName) -> void:
-	_instantiate_pause_entry(time, _pause_tray_entries_ui.size(), 0)
+	_instantiate_pause_entry(time, _stopwatch_tray_entries_ui.size(), 0)
 
 
 func _stopwatch_resumed(time: StringName) -> void:
-	_pause_tray_entries_ui.back().set_resume_time(time)
+	_stopwatch_tray_entries_ui.back().set_resume_time(time)
 
 	var time_state = _stopwatch.get_time_state()
 	var index := time_state.resumed_times_size() - 1
@@ -191,14 +191,14 @@ func _stopwatch_resumed(time: StringName) -> void:
 	else:
 		var pause_span := time_state.pause_span(index)
 		# Check if new entry is new longest or shortest
-		if pause_span >= time_state.pause_span(_longest_pause_index):
-			_clear_entry_suffix(_longest_pause_index)
-			_longest_pause_index = index
-			_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
-		elif pause_span <= time_state.pause_span(_shortest_pause_index):
-			_clear_entry_suffix(_shortest_pause_index)
-			_shortest_pause_index = index
-			_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
+		if pause_span >= time_state.pause_span(_longest_entry_index):
+			_clear_entry_suffix(_longest_entry_index)
+			_longest_entry_index = index
+			_set_entry_span(_longest_entry_index, TEMPLATE_LONGEST_ENTRY)
+		elif pause_span <= time_state.pause_span(_shortest_entry_index):
+			_clear_entry_suffix(_shortest_entry_index)
+			_shortest_entry_index = index
+			_set_entry_span(_shortest_entry_index, TEMPLATE_SHORTEST_ENTRY)
 
 
 func _start_toggled(state: bool) -> void:
@@ -222,15 +222,15 @@ func _reset_pressed() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("start")
 
-	for entry in _pause_tray_entries_ui:
+	for entry in _stopwatch_tray_entries_ui:
 		entry.queue_free()
 	
-	_pause_tray_entries_ui.clear()
+	_stopwatch_tray_entries_ui.clear()
 
-	_pause_tray.visible = false
+	_entry_tray.visible = false
 
-	_longest_pause_index = 0
-	_shortest_pause_index = 0
+	_longest_entry_index = 0
+	_shortest_entry_index = 0
 
 
 func _copy_to_clipboard() -> void:
@@ -271,12 +271,12 @@ func _on_window_size_changed() -> void:
 	_b_clipboard.scale = b_scale
 
 
-func _on_entry_hovered(entry: PauseTrayEntryUI) -> void:
+func _on_entry_hovered(entry: StopwatchEntryUI) -> void:
 	entry.modulate_animation(_hover_entry_colour)
 
 
-func _on_entry_deleted(entry: PauseTrayEntryUI) -> void:
-	_delete_pause_tray_entry(_pause_tray_entries_ui.find(entry))
+func _on_entry_deleted(entry: StopwatchEntryUI) -> void:
+	_delete_pause_tray_entry(_stopwatch_tray_entries_ui.find(entry))
 
 
 func _set_b_start_continue() -> void:
@@ -284,9 +284,9 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) -> PauseTrayEntryUI:
-	var new_entry: PauseTrayEntryUI = _scene_pause_tray_entry_ui.instantiate()
-	_pause_tray_entries_ui.insert(insert_at, new_entry)
+func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) -> StopwatchEntryUI:
+	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
+	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
 	new_entry.set_pause_span(str(insert_at + 1))
 	new_entry.set_pause_time(time)
 
@@ -296,7 +296,7 @@ func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) ->
 	_tray_container.add_child(new_entry)
 	_tray_container.move_child(new_entry, move_to)
 	
-	_pause_tray.visible = true
+	_entry_tray.visible = true
 
 	return new_entry
 
@@ -321,65 +321,65 @@ func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void
 
 
 func _delete_pause_tray_entry(index: int) -> void:
-	_pause_tray_entries_ui[index].modulate = _hover_entry_colour
-	_pause_tray_entries_ui.remove_at(index)
+	_stopwatch_tray_entries_ui[index].modulate = _hover_entry_colour
+	_stopwatch_tray_entries_ui.remove_at(index)
 
 	var time_state := _stopwatch.get_time_state()
 	time_state.delete_entry(index)
 
-	for i: int in range(index, _pause_tray_entries_ui.size()):
-		_pause_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
+	for i: int in range(index, _stopwatch_tray_entries_ui.size()):
+		_stopwatch_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
 
-	var was_longest := index == _longest_pause_index
-	var was_shortest := index == _shortest_pause_index
+	var was_longest := index == _longest_entry_index
+	var was_shortest := index == _shortest_entry_index
 
-	if index < _shortest_pause_index:
-		_shortest_pause_index -= 1
+	if index < _shortest_entry_index:
+		_shortest_entry_index -= 1
 
-	if index < _longest_pause_index:
-		_longest_pause_index -= 1
+	if index < _longest_entry_index:
+		_longest_entry_index -= 1
 
 	var entries_size := time_state.resumed_times_size()
 	if entries_size < 2:
 		if entries_size == 0 and time_state.paused_times_size() == 0:
-			_pause_tray.hide()
+			_entry_tray.hide()
 		elif was_longest:
-			_clear_entry_suffix(_shortest_pause_index)
+			_clear_entry_suffix(_shortest_entry_index)
 		elif was_shortest:
-			_clear_entry_suffix(_longest_pause_index)
+			_clear_entry_suffix(_longest_entry_index)
 
 		return
 	
 	if was_longest:
 		var longest_span := -Global.FLOAT_MAX
-		_longest_pause_index = 0
+		_longest_entry_index = 0
 
 		for i in entries_size:
 			var time_span := time_state.pause_span(i)
-			if time_span >= longest_span and i != _shortest_pause_index: # Would it be better if we break and do _find_longes_tand_shortest()?
+			if time_span >= longest_span and i != _shortest_entry_index: # Would it be better if we break and do _find_longes_tand_shortest()?
 				longest_span = time_span
-				_longest_pause_index = i
+				_longest_entry_index = i
 		
-		_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
+		_set_entry_span(_longest_entry_index, TEMPLATE_LONGEST_ENTRY)
 	elif was_shortest:
 		var shortest_span := Global.FLOAT_MAX
-		_shortest_pause_index = 0
+		_shortest_entry_index = 0
 
 		for i in entries_size:
 			var time_span := time_state.pause_span(i)
-			if time_span <= shortest_span and i != _longest_pause_index: # Would it be better if we break and do _find_longest_shortest_entries()?
+			if time_span <= shortest_span and i != _longest_entry_index: # Would it be better if we break and do _find_longest_shortest_entries()?
 				shortest_span = time_span
-				_shortest_pause_index = i
+				_shortest_entry_index = i
 
-		_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
+		_set_entry_span(_shortest_entry_index, TEMPLATE_SHORTEST_ENTRY)
 
 
 func _clear_entry_suffix(index: int) -> void:
-	_pause_tray_entries_ui[index].set_pause_span(str(index + 1))
+	_stopwatch_tray_entries_ui[index].set_pause_span(str(index + 1))
 
 
 func _set_entry_span(index: int, template: StringName) -> void:
-	_pause_tray_entries_ui[index].set_pause_span(template % (index + 1))
+	_stopwatch_tray_entries_ui[index].set_pause_span(template % (index + 1))
 
 
 func _find_longest_shortest_times() -> void:
@@ -389,18 +389,18 @@ func _find_longest_shortest_times() -> void:
 		return
 	
 	var longest_pause_span := -Global.FLOAT_MAX
-	_longest_pause_index = 0
+	_longest_entry_index = 0
 	var shortest_pause_span := Global.FLOAT_MAX
-	_shortest_pause_index = 0
+	_shortest_entry_index = 0
 
 	for i: int in resumed_size:
 		var pause_span := time_state.pause_span(i)
 		if pause_span >= longest_pause_span:
 			longest_pause_span = pause_span
-			_longest_pause_index = i
+			_longest_entry_index = i
 		elif pause_span <= shortest_pause_span:
 			shortest_pause_span = pause_span
-			_shortest_pause_index = i
+			_shortest_entry_index = i
 	
-	_set_entry_span(_longest_pause_index, TEMPLATE_LONGEST_ENTRY)
-	_set_entry_span(_shortest_pause_index, TEMPLATE_SHORTEST_ENTRY)
+	_set_entry_span(_longest_entry_index, TEMPLATE_LONGEST_ENTRY)
+	_set_entry_span(_shortest_entry_index, TEMPLATE_SHORTEST_ENTRY)
