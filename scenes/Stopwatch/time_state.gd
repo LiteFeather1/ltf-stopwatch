@@ -5,9 +5,12 @@ const ELAPSED_TIME := &"elapsed_time"
 const PAUSED_TIMES := &"paused_times"
 const RESUMED_TIMES := &"resumed_times"
 
+# TODO Save elapsed time
+
 var elapsed_time: float = 0.0
 
 var _paused_times: PackedFloat32Array
+var _elapsed_times: PackedFloat32Array
 var _resumed_times: PackedFloat32Array
 
 var _deleted_entries: Array[DeletedEntry]
@@ -19,6 +22,7 @@ func _to_string() -> String:
 	var text := "Elapsed Time: %s\n" % Global.seconds_to_time(elapsed_time)
 
 	var resumed_size := _resumed_times.size()
+	# TODO added elapsed time
 	const TEMPLATE_ENTRY := "Pause time: %s | Resumed time: %s\n"
 	for i: int in resumed_size:
 		text += TEMPLATE_ENTRY % [
@@ -57,6 +61,7 @@ func append_paused_time(time: float) -> void:
 		_unmatched_paused_index = -1
 	
 	_paused_times.append(time)
+	_elapsed_times.append(elapsed_time)
 
 	_clear_redo()
 
@@ -89,9 +94,10 @@ func pause_span(index: int) -> float:
 
 
 func delete_entry(index: int) -> void:
-	var deleted_entry := DeletedEntry.new(index, _paused_times[index])
+	var deleted_entry := DeletedEntry.new(index, _paused_times[index], _elapsed_times[index])
 
 	_paused_times.remove_at(index)
+	_elapsed_times.remove_at(index)
 
 	if index < _resumed_times.size():
 		deleted_entry.resumed_time = _resumed_times[index]
@@ -125,6 +131,7 @@ func undo_deleted_entry() -> int:
 	_redo_deleted_indexes.append(index)
 
 	_paused_times.insert(index, deleted_entry.paused_time)
+	_elapsed_times.insert(index, deleted_entry.elapsed_time)
 
 	if deleted_entry.resumed_time >= 0.0:
 		_resumed_times.insert(index, deleted_entry.resumed_time)
@@ -147,18 +154,22 @@ func _clear_redo() -> void:
 class DeletedEntry extends Object:
 	var index: int
 	var paused_time: float
+	var elapsed_time: float
 	var resumed_time: float = -1.0
 
 
 	func _init(
-		_index: int = -1,
-		_paused_time: float = -1.0,
+		index_: int = -1,
+		paused_time_: float = -1.0,
+		elapsed_time_: float = -1.0
 	) -> void:
-		index = _index
-		paused_time = _paused_time
+		index = index_
+		paused_time = paused_time_
+		elapsed_time = elapsed_time_
 
 
 	func _to_string() -> String:
+		# TODO Add elapsed time
 		return "Index: %d, Paused time: %s, %s" % [
 			index,
 			Global.seconds_to_time(paused_time),
