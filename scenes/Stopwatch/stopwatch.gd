@@ -31,6 +31,7 @@ func _ready() -> void:
 	set_process(false)
 
 	await get_tree().physics_frame
+	
 	if _time_state.elapsed_time > 0.0:
 		started.emit()
 
@@ -61,9 +62,8 @@ func set_state(state: bool) -> void:
 	if state:
 		modulate = _ticking_colour
 		
-		if _time_state.is_ticking():
+		if _time_state.resumed_times_size() < _time_state.paused_times_size():
 			_time_state.append_resumed_time(seconds)
-			_time_state.clear_redo()
 			resumed.emit(time)
 		elif _time_state.elapsed_time == 0.0:
 			started.emit()
@@ -71,7 +71,6 @@ func set_state(state: bool) -> void:
 		modulate = _paused_colour
 
 		_time_state.append_paused_time(seconds)
-		_time_state.clear_redo()
 		paused.emit(time)
 
 

@@ -33,16 +33,14 @@ func as_dict() -> Dictionary:
 	}
 
 
-func is_ticking() -> bool:
-	return _resumed_times.size() < _paused_times.size()
-
-
 func append_paused_time(time: float) -> void:
 	if _unmatched_paused_index != -1:
 		_deleted_entries[_unmatched_paused_index].resumed_time = time
 		_unmatched_paused_index = -1
 	
 	_paused_times.append(time)
+
+	_clear_redo()
 
 
 func get_paused_time(index: int) -> float:
@@ -56,6 +54,8 @@ func paused_times_size() -> int:
 func append_resumed_time(time: float) -> void:
 	_unmatched_paused_index = -1
 	_resumed_times.append(time)
+
+	_clear_redo()
 
 
 func get_resumed_time(index: int) -> float:
@@ -120,7 +120,7 @@ func redo_deleted_entry() -> int:
 	return _redo_deleted_indexes[_redo_deleted_indexes.size() - 1]
 
 
-func clear_redo() -> void:
+func _clear_redo() -> void:
 	if not _redo_deleted_indexes.is_empty():
 			_redo_deleted_indexes.clear()
 
