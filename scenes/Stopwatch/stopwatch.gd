@@ -84,10 +84,6 @@ func restore_last_time_state() -> void:
 	_set_time()
 
 
-func get_pause_span(index: int) -> float:
-	return _time_state.resumed_times[index] - _time_state.paused_times[index]
-
-
 func save(save_data: Dictionary) -> void:
 	save_data[TIME_STATE] = _time_state.as_dict()
 	save_data[LAST_TIME_STATE] = _last_time_state.as_dict()
