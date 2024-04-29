@@ -16,6 +16,20 @@ var _is_mouse_inside := false
 var _tween: Tween
 
 
+func init(
+	span: String,
+	pause_time: String,
+	elapsed_time: String,
+	on_hovered: Callable,
+	on_deleted: Callable
+) -> void:
+	_l_pause_span.text = span
+	_l_pause_time.text = pause_time
+	_elapsed_time = elapsed_time
+	hovered.connect(on_hovered)
+	deleted.connect(on_deleted)
+
+
 func set_elapsed_time(elapsed_time: String) -> void:
 	_elapsed_time = elapsed_time
 
@@ -61,11 +75,11 @@ func replace_pause_num(from: String, to: String) -> void:
 	_l_pause_span.text = _l_pause_span.text.replace(from, to)
 
 
-func set_pause_time(time: StringName) -> void:
+func set_pause_time(time: String) -> void:
 	_l_pause_time.text = time
 
 
-func set_resume_time(time: StringName) -> void:
+func set_resume_time(time: String) -> void:
 	_l_resume_time.text = time
 
 

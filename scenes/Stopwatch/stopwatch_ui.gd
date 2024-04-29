@@ -289,11 +289,13 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchE
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
 
 	var time_state := _stopwatch.get_time_state()
-	new_entry.set_pause_span(str(insert_at + 1))
-	new_entry.set_pause_time(Global.seconds_to_time(time_state.get_paused_time(insert_at)))
-	new_entry.set_elapsed_time(Global.seconds_to_time(time_state.get_elapsed_time(insert_at)))
-	new_entry.hovered.connect(_on_stopwatch_entry_hovered)
-	new_entry.deleted.connect(_on_stopwatch_entry_deleted)
+	new_entry.init(
+		str(insert_at + 1),
+		Global.seconds_to_time(time_state.get_paused_time(insert_at)),
+		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
+		_on_stopwatch_entry_hovered,
+		_on_stopwatch_entry_deleted
+	)
 
 	_tray_container.add_child(new_entry)
 	_tray_container.move_child(new_entry, move_to)
