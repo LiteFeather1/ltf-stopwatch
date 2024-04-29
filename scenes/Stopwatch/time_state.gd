@@ -18,19 +18,23 @@ var _unmatched_paused_index: int = -1
 
 
 func _to_string() -> String:
-	var text := "Elapsed Time: %s\n" % Global.seconds_to_time(elapsed_time)
+	var text := "Total Elapsed Time: %s\n" % Global.seconds_to_time(elapsed_time)
 
 	var resumed_size := _resumed_times.size()
-	# TODO added elapsed time
-	const TEMPLATE_ENTRY := "Pause time: %s | Resumed time: %s\n"
+	const TEMPLATE_ENTRY := "Elapsed Time: %s | Pause time: %s | Resumed time: %s\n"
 	for i: int in resumed_size:
 		text += TEMPLATE_ENTRY % [
+			Global.seconds_to_time(_elapsed_times[i]),
 			Global.seconds_to_time(_paused_times[i]),
 			Global.seconds_to_time(_resumed_times[i])
 		]
 	
 	if resumed_size < _paused_times.size():
-		text += TEMPLATE_ENTRY % [Global.seconds_to_time(_paused_times[resumed_size]), "--:--:--"]
+		text += TEMPLATE_ENTRY % [
+			Global.seconds_to_time(_elapsed_times[resumed_size]),
+			Global.seconds_to_time(_paused_times[resumed_size]),
+			"--:--:--"
+		]
 
 	return text
 
@@ -177,8 +181,9 @@ class DeletedEntry extends Object:
 
 	func _to_string() -> String:
 		# TODO Add elapsed time
-		return "Index: %d, Paused time: %s, %s" % [
+		return "Index: %d | Elapsed time: %s | Paused time: %s | %s" % [
 			index,
+			Global.seconds_to_time(elapsed_time),
 			Global.seconds_to_time(paused_time),
 			"Resumed Time: %s" % Global.seconds_to_time(resumed_time) if resumed_time != -1 else "No Resume time"
 		]
