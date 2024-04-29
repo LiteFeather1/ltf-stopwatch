@@ -3,6 +3,7 @@ class_name TimeState extends Object
 
 const ELAPSED_TIME := &"elapsed_time"
 const PAUSED_TIMES := &"paused_times"
+const ELAPSED_TIMES := &"elapsed_times"
 const RESUMED_TIMES := &"resumed_times"
 
 # TODO Save elapsed time
@@ -43,6 +44,9 @@ func init_from_dict(dict: Dictionary) -> void:
 	if dict.has(PAUSED_TIMES):
 		_paused_times = dict[PAUSED_TIMES]
 	
+	if dict.has(ELAPSED_TIMES):
+		_elapsed_times = dict[ELAPSED_TIMES]
+
 	if dict.has(RESUMED_TIMES):
 		_resumed_times = dict[RESUMED_TIMES]
 
@@ -51,6 +55,7 @@ func as_dict() -> Dictionary:
 	return {
 		ELAPSED_TIME: elapsed_time,
 		PAUSED_TIMES: _paused_times,
+		ELAPSED_TIMES: _elapsed_times,
 		RESUMED_TIMES: _resumed_times,
 	}
 

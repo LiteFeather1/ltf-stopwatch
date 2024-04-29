@@ -5,7 +5,7 @@ signal started()
 signal paused(time: StringName)
 signal resumed(time: StringName)
 
-const CURRENT_TIME_STATE := &"current_time_state"
+const TIME_STATE := &"time_state"
 const LAST_TIME_STATE := &"last_time_state"
 
 @export_multiline var _time_text_template := "[center]%02d:%02d:%02d.[font_size=48]%02d[/font_size][/center]"
@@ -98,12 +98,12 @@ func get_pause_span(index: int) -> float:
 
 
 func save(save_data: Dictionary) -> void:
-	save_data[CURRENT_TIME_STATE] = _time_state.as_dict()
+	save_data[TIME_STATE] = _time_state.as_dict()
 	save_data[LAST_TIME_STATE] = _last_time_state.as_dict()
 
 
 func load(save_data: Dictionary) -> void:
-	_try_init(_time_state, save_data, CURRENT_TIME_STATE)
+	_try_init(_time_state, save_data, TIME_STATE)
 	_try_init(_last_time_state, save_data, LAST_TIME_STATE)
 
 	_set_time()
