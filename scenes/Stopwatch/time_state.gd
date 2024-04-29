@@ -6,12 +6,30 @@ const PAUSED_TIMES := &"paused_times"
 const RESUMED_TIMES := &"resumed_times"
 
 var elapsed_time: float = 0.0
+
 var _paused_times: PackedFloat32Array
 var _resumed_times: PackedFloat32Array
 
 var _deleted_entries: Array[DeletedEntry]
 var _redo_deleted_indexes: PackedInt32Array
 var _unmatched_paused_index: int = -1
+
+
+func _to_string() -> String:
+	var text := "Elapsed Time: %s\n" % Global.seconds_to_time(elapsed_time)
+
+	var resumed_size := _resumed_times.size()
+	const TEMPLATE_ENTRY := "Pause time: %s | Resumed time: %s\n"
+	for i: int in resumed_size:
+		text += TEMPLATE_ENTRY % [
+			Global.seconds_to_time(_paused_times[i]),
+			Global.seconds_to_time(_resumed_times[i])
+		]
+	
+	if resumed_size < _paused_times.size():
+		text += TEMPLATE_ENTRY % [Global.seconds_to_time(_paused_times[resumed_size]), "--:--:--"]
+
+	return text
 
 
 func init_from_dict(dict: Dictionary) -> void:
