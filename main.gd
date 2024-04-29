@@ -50,9 +50,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("restore_last_time_state"):
 		_stopwatch_ui.restore_last_time_state()
 	elif event.is_action_pressed("redo_deleted_pause_entry"):
-		_stopwatch_ui.redo_deleted_pause_entry()
+		_stopwatch_ui.redo_deleted_stopwatch_entry_ui()
 	elif event.is_action_pressed("undo_deleted_pause_entry"):
-		_stopwatch_ui.undo_deleted_pause_entry()
+		_stopwatch_ui.undo_deleted_stopwatch_entry_ui()
 
 
 func _notification(what: int) -> void:

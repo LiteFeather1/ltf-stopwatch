@@ -57,7 +57,7 @@ func _ready() -> void:
 	
 	var time_state := _stopwatch.get_time_state()
 	if time_state.paused_times_size() > 0:
-		_instantiate_pause_tray_entries(time_state.resumed_times_size())
+		_instantiate_stopwatch_entries_ui(time_state.resumed_times_size())
 
 		_find_longest_shortest_times()
 
@@ -92,7 +92,7 @@ func restore_last_time_state() -> void:
 	else:
 		to_set_in_tray = tray_size
 
-		_instantiate_pause_tray_entries(resumed_size - tray_size, tray_size)
+		_instantiate_stopwatch_entries_ui(resumed_size - tray_size, tray_size)
 	
 	# Set existing matched entries
 	for i: int in to_set_in_tray:
@@ -115,7 +115,7 @@ func restore_last_time_state() -> void:
 	_set_buttons_disabled(not _stopwatch.has_started())
 
 
-func undo_deleted_pause_entry() -> void:
+func undo_deleted_stopwatch_entry_ui() -> void:
 	print("undo_deleted_pause_entry pressed")
 
 	var time_state := _stopwatch.get_time_state()
@@ -124,7 +124,7 @@ func undo_deleted_pause_entry() -> void:
 		return
 	
 	var index := time_state.undo_deleted_entry()
-	var new_entry := _instantiate_pause_entry(index, _stopwatch_tray_entries_ui.size() - index)
+	var new_entry := _instantiate_stopwatch_entry_ui(index, _stopwatch_tray_entries_ui.size() - index)
 	
 	var resumed_size := time_state.resumed_times_size()
 	if index < resumed_size:
@@ -142,7 +142,7 @@ func undo_deleted_pause_entry() -> void:
 		_find_longest_shortest_times()
 
 
-func redo_deleted_pause_entry() -> void:
+func redo_deleted_stopwatch_entry_ui() -> void:
 	print("redo_deleted_pause_entry pressed")
 
 	var time_state := _stopwatch.get_time_state()
@@ -154,7 +154,7 @@ func redo_deleted_pause_entry() -> void:
 
 	_stopwatch_tray_entries_ui[index].delete_routine()
 
-	_delete_pause_tray_entry(index)
+	_delete_stopwatch_entry_ui(index)
 
 
 func pause_stopwatch_if_running() -> void:
@@ -172,7 +172,7 @@ func _on_stopwatch_started() -> void:
 
 
 func _stopwatch_paused() -> void:
-	_instantiate_pause_entry(_stopwatch_tray_entries_ui.size(), 0)
+	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0)
 
 
 func _stopwatch_resumed() -> void:
@@ -271,12 +271,12 @@ func _on_window_size_changed() -> void:
 	_b_clipboard.scale = b_scale
 
 
-func _on_entry_hovered(entry: StopwatchEntryUI) -> void:
+func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
 	entry.modulate_animation(_hover_entry_colour)
 
 
-func _on_entry_deleted(entry: StopwatchEntryUI) -> void:
-	_delete_pause_tray_entry(_stopwatch_tray_entries_ui.find(entry))
+func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
+	_delete_stopwatch_entry_ui(_stopwatch_tray_entries_ui.find(entry))
 
 
 func _set_b_start_continue() -> void:
@@ -284,7 +284,7 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _instantiate_pause_entry(insert_at: int, move_to: int) -> StopwatchEntryUI:
+func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
 
@@ -292,8 +292,8 @@ func _instantiate_pause_entry(insert_at: int, move_to: int) -> StopwatchEntryUI:
 	new_entry.set_pause_span(str(insert_at + 1))
 	new_entry.set_pause_time(Global.seconds_to_time(time_state.get_paused_time(insert_at)))
 	new_entry.set_elapsed_time(Global.seconds_to_time(time_state.get_elapsed_time(insert_at)))
-	new_entry.hovered.connect(_on_entry_hovered)
-	new_entry.deleted.connect(_on_entry_deleted)
+	new_entry.hovered.connect(_on_stopwatch_entry_hovered)
+	new_entry.deleted.connect(_on_stopwatch_entry_deleted)
 
 	_tray_container.add_child(new_entry)
 	_tray_container.move_child(new_entry, move_to)
@@ -303,18 +303,18 @@ func _instantiate_pause_entry(insert_at: int, move_to: int) -> StopwatchEntryUI:
 	return new_entry
 
 
-func _instantiate_pause_tray_entries(amount: int, index_offset: int = 0) -> void:
+func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> void:
 	var time_state := _stopwatch.get_time_state()
 	for i in amount:
 		var index := index_offset + i
-		_instantiate_pause_entry(i + index_offset, 0)\
+		_instantiate_stopwatch_entry_ui(i + index_offset, 0)\
 			.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
 	
 	if (amount + index_offset) < time_state.paused_times_size():
-		_instantiate_pause_entry(amount + index_offset, 0)
+		_instantiate_stopwatch_entry_ui(amount + index_offset, 0)
 
 
-func _delete_pause_tray_entry(index: int) -> void:
+func _delete_stopwatch_entry_ui(index: int) -> void:
 	_stopwatch_tray_entries_ui[index].modulate = _hover_entry_colour
 	_stopwatch_tray_entries_ui.remove_at(index)
 
