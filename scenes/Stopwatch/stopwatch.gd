@@ -49,11 +49,12 @@ func set_state(state: bool) -> void:
 	set_process(state)
 
 	var current_time := Time.get_datetime_dict_from_system()
-	var seconds := \
-		float(current_time["hour"]) * 3600.0\
-		+ float(current_time["minute"]) * 60.0\
+	var seconds := (
+		float(current_time["hour"]) * 3600.0
+		+ float(current_time["minute"]) * 60.0
 		+ float(current_time["second"])
-
+	)
+	
 	if state:
 		modulate = _ticking_colour
 		

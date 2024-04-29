@@ -38,12 +38,12 @@ func _ready() -> void:
 		return
 	
 	var save_data: Dictionary = json
-	
-	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
-		saveable.load(save_data)
 
 	if save_data.has(VERSION):
 		print("Loaded %s version: %s" % [SAVE_PATH, save_data[VERSION]])
+	
+	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
+		saveable.load(save_data)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -63,8 +63,9 @@ func _notification(what: int) -> void:
 func _quit_app() -> void:
 	_stopwatch_ui.pause_stopwatch_if_running()
 	
-	var save_data := {}
-	save_data[VERSION] = ProjectSettings.get_setting("application/config/version")
+	var save_data := {
+		VERSION = ProjectSettings.get_setting("application/config/version")
+	}
 
 	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
 		saveable.save(save_data)

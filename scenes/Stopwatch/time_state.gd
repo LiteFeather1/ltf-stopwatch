@@ -94,7 +94,6 @@ func delete_entry(index: int) -> void:
 		_unmatched_paused_index = _deleted_entries.size()
 	
 	_deleted_entries.append(deleted_entry)
-	print("Deleted: ", deleted_entry)
 
 	var last_redo_index := _redo_deleted_indexes.size() - 1
 	if last_redo_index != -1:
@@ -124,7 +123,6 @@ func undo_deleted_entry() -> int:
 	if deleted_entry.resumed_time >= 0.0:
 		_resumed_times.insert(index, deleted_entry.resumed_time)
 
-	print("Undone: ", deleted_entry)
 	deleted_entry.free()
 	return index
 

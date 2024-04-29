@@ -119,11 +119,8 @@ func restore_last_time_state() -> void:
 
 
 func undo_deleted_stopwatch_entry_ui() -> void:
-	print("undo_deleted_pause_entry pressed")
-
 	var time_state := _stopwatch.get_time_state()
 	if not time_state.can_undo():
-		print("No entries to undo")
 		return
 	
 	var index := time_state.undo_deleted_entry()
@@ -146,11 +143,8 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 
 
 func redo_deleted_stopwatch_entry_ui() -> void:
-	print("redo_deleted_pause_entry pressed")
-
 	var time_state := _stopwatch.get_time_state()
 	if not time_state.can_redo():
-		print("no entries to redo")
 		return
 	
 	var index := time_state.redo_deleted_entry()
