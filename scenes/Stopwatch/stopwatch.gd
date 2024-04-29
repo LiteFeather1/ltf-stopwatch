@@ -3,7 +3,7 @@ class_name Stopwatch extends VBoxContainer
 
 signal started()
 signal paused()
-signal resumed(time: StringName)
+signal resumed()
 
 const TIME_STATE := &"time_state"
 const LAST_TIME_STATE := &"last_time_state"
@@ -54,17 +54,12 @@ func set_state(state: bool) -> void:
 		+ float(current_time["minute"]) * 60.0\
 		+ float(current_time["second"])
 
-	var time := &"%02d:%02d:%02d" % [
-		current_time["hour"],
-		current_time["minute"],
-		current_time["second"]
-	]
 	if state:
 		modulate = _ticking_colour
 		
 		if _time_state.resumed_times_size() < _time_state.paused_times_size():
 			_time_state.append_resumed_time(seconds)
-			resumed.emit(time)
+			resumed.emit()
 		elif _time_state.elapsed_time == 0.0:
 			started.emit()
 	else:

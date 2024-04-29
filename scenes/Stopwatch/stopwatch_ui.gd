@@ -175,11 +175,13 @@ func _stopwatch_paused() -> void:
 	_instantiate_pause_entry(_stopwatch_tray_entries_ui.size(), 0)
 
 
-func _stopwatch_resumed(time: StringName) -> void:
-	_stopwatch_tray_entries_ui.back().set_resume_time(time)
-
+func _stopwatch_resumed() -> void:
 	var time_state = _stopwatch.get_time_state()
 	var index := time_state.resumed_times_size() - 1
+	_stopwatch_tray_entries_ui.back().set_resume_time(
+		Global.seconds_to_time(time_state.get_resumed_time(index))
+	)
+
 	if index < 1:
 		return
 
