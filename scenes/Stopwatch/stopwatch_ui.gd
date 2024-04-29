@@ -237,7 +237,7 @@ func _reset_pressed() -> void:
 
 
 func _copy_to_clipboard() -> void:
-	var time := _stopwatch.get_time_short()
+	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
 	DisplayServer.clipboard_set(time)
 
 	_l_copied_time.text = "Copied!\n%s" % time

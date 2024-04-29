@@ -84,10 +84,6 @@ func restore_last_time_state() -> void:
 	_set_time()
 
 
-func get_time_short() -> String:
-	return Global.seconds_to_time(_time_state.elasped_time)
-
-
 func get_pause_span(index: int) -> float:
 	return _time_state.resumed_times[index] - _time_state.paused_times[index]
 
