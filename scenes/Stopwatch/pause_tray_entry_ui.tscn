@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckdwpgw2ltoie"]
 
-[ext_resource type="Script" path="res://scenes/UI/pause_tray_entry_ui.gd" id="1_ekrcj"]
+[ext_resource type="Script" path="res://scenes/Stopwatch/pause_tray_entry_ui.gd" id="1_twsal"]
 
 [node name="pause_tray_entry_ui" type="HBoxContainer" node_paths=PackedStringArray("_l_pause_span", "_l_pause_time", "_l_resume_time")]
 offset_right = 420.0
 offset_bottom = 17.0
 theme_override_constants/separation = 60
-script = ExtResource("1_ekrcj")
+script = ExtResource("1_twsal")
 _l_pause_span = NodePath("l_pause_span")
 _l_pause_time = NodePath("l_pause_time")
 _l_resume_time = NodePath("l_resume_time")
