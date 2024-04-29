@@ -287,9 +287,12 @@ func _set_b_start_continue() -> void:
 func _instantiate_pause_entry(time: StringName, insert_at: int, move_to: int) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
+
 	new_entry.set_pause_span(str(insert_at + 1))
 	new_entry.set_pause_time(time)
-
+	new_entry.set_elapsed_time(
+		Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
+	)
 	new_entry.hovered.connect(_on_entry_hovered)
 	new_entry.deleted.connect(_on_entry_deleted)
 

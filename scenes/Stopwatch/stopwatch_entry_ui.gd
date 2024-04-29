@@ -9,9 +9,15 @@ signal deleted(instance: StopwatchEntryUI)
 @export var _l_pause_time: Label
 @export var _l_resume_time: Label
 
+var _elapsed_time: String
+
 var _is_mouse_inside := false
 
 var _tween: Tween
+
+
+func set_elapsed_time(elapsed_time: String) -> void:
+	_elapsed_time = elapsed_time
 
 
 func _ready() -> void:
@@ -22,7 +28,7 @@ func _ready() -> void:
 
 func _on_mouse_entered() -> void:
 	_is_mouse_inside = true
-	AL_HoverTipFollow.show_hover_tip("LMB: Delete")
+	AL_HoverTipFollow.show_hover_tip(_elapsed_time)
 	hovered.emit(self)
 
 
