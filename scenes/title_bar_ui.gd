@@ -63,17 +63,6 @@ func _process(_delta: float) -> void:
 	GLOBAL.window.position += Vector2i(get_global_mouse_position() - _start_drag_pos)
 
 
-func save(save_data: Dictionary) -> void:
-	if _b_pin.button_pressed:
-		save_data[WINDOW_SIZE] = var_to_str(_previous_window_size)
-		save_data[WINDOW_PINNED_SIZE] = var_to_str(GLOBAL.window.size)
-		save_data[WINDOW_POSITION] = var_to_str(_previous_window_position)
-	else:
-		save_data[WINDOW_SIZE] = var_to_str(GLOBAL.window.size)
-		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
-		save_data[WINDOW_POSITION] = var_to_str(GLOBAL.window.position)
-
-
 func load(save_data: Dictionary) -> void:
 	if save_data.has(WINDOW_SIZE):
 		_previous_window_size = str_to_var(save_data[WINDOW_SIZE])
@@ -85,6 +74,17 @@ func load(save_data: Dictionary) -> void:
 	if save_data.has(WINDOW_POSITION):
 		_previous_window_position = str_to_var(save_data[WINDOW_POSITION])
 		GLOBAL.window.position = _previous_window_position
+
+
+func save(save_data: Dictionary) -> void:
+	if _b_pin.button_pressed:
+		save_data[WINDOW_SIZE] = var_to_str(_previous_window_size)
+		save_data[WINDOW_PINNED_SIZE] = var_to_str(GLOBAL.window.size)
+		save_data[WINDOW_POSITION] = var_to_str(_previous_window_position)
+	else:
+		save_data[WINDOW_SIZE] = var_to_str(GLOBAL.window.size)
+		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
+		save_data[WINDOW_POSITION] = var_to_str(GLOBAL.window.position)
 
 
 func _on_gui_input(event: InputEvent) -> void:

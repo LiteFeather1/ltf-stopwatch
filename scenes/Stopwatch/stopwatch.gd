@@ -84,11 +84,6 @@ func restore_last_time_state() -> void:
 	_set_time()
 
 
-func save(save_data: Dictionary) -> void:
-	save_data[TIME_STATE] = _time_state.as_dict()
-	save_data[LAST_TIME_STATE] = _last_time_state.as_dict()
-
-
 func load(save_data: Dictionary) -> void:
 	_try_init(_time_state, save_data, TIME_STATE)
 	_try_init(_last_time_state, save_data, LAST_TIME_STATE)
@@ -96,9 +91,14 @@ func load(save_data: Dictionary) -> void:
 	_set_time()
 
 
+func save(save_data: Dictionary) -> void:
+	_time_state.save(save_data, TIME_STATE)
+	_last_time_state.save(save_data, LAST_TIME_STATE)
+
+
 func _try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
 	if dict.has(key) and dict[key] is Dictionary:
-		time_state.init_from_dict(dict[key])
+		time_state.load(dict[key])
 
 
 func _set_time() -> void:

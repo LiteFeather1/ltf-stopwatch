@@ -39,29 +39,6 @@ func _to_string() -> String:
 	return text
 
 
-func init_from_dict(dict: Dictionary) -> void:
-	if dict.has(ELAPSED_TIME):
-		elapsed_time = dict[ELAPSED_TIME]
-	
-	if dict.has(PAUSED_TIMES):
-		_paused_times = dict[PAUSED_TIMES]
-	
-	if dict.has(ELAPSED_TIMES):
-		_elapsed_times = dict[ELAPSED_TIMES]
-
-	if dict.has(RESUMED_TIMES):
-		_resumed_times = dict[RESUMED_TIMES]
-
-
-func as_dict() -> Dictionary:
-	return {
-		ELAPSED_TIME: elapsed_time,
-		PAUSED_TIMES: _paused_times,
-		ELAPSED_TIMES: _elapsed_times,
-		RESUMED_TIMES: _resumed_times,
-	}
-
-
 func append_paused_time(time: float) -> void:
 	if _unmatched_paused_index != -1:
 		_deleted_entries[_unmatched_paused_index].resumed_time = time
@@ -154,6 +131,29 @@ func undo_deleted_entry() -> int:
 
 func redo_deleted_entry() -> int:
 	return _redo_deleted_indexes[_redo_deleted_indexes.size() - 1]
+
+
+func load(save_data: Dictionary) -> void:
+	if save_data.has(ELAPSED_TIME):
+		elapsed_time = save_data[ELAPSED_TIME]
+	
+	if save_data.has(PAUSED_TIMES):
+		_paused_times = save_data[PAUSED_TIMES]
+	
+	if save_data.has(ELAPSED_TIMES):
+		_elapsed_times = save_data[ELAPSED_TIMES]
+
+	if save_data.has(RESUMED_TIMES):
+		_resumed_times = save_data[RESUMED_TIMES]
+
+
+func save(save_data: Dictionary, key: StringName) -> void:
+	save_data[key] = {
+		ELAPSED_TIME: elapsed_time,
+		PAUSED_TIMES: _paused_times,
+		ELAPSED_TIMES: _elapsed_times,
+		RESUMED_TIMES: _resumed_times,
+	}
 
 
 func _clear_redo() -> void:
