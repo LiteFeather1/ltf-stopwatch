@@ -30,10 +30,6 @@ func init(
 	deleted.connect(on_deleted)
 
 
-func set_elapsed_time(elapsed_time: String) -> void:
-	_elapsed_time = elapsed_time
-
-
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
@@ -75,16 +71,14 @@ func replace_pause_num(from: String, to: String) -> void:
 	_l_pause_span.text = _l_pause_span.text.replace(from, to)
 
 
-func set_pause_time(time: String) -> void:
-	_l_pause_time.text = time
+func set_times(paused_time: String, elapsed_time: String, resumed_time := "--:--:--") -> void:
+	_l_pause_time.text = paused_time
+	_elapsed_time = elapsed_time
+	_l_resume_time.text = resumed_time
 
 
 func set_resume_time(time: String) -> void:
 	_l_resume_time.text = time
-
-
-func set_resume_time_empty() -> void:
-	_l_resume_time.text = "--:--:--"
 
 
 func delete_routine() -> void:
