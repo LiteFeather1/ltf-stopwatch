@@ -43,7 +43,7 @@ func _ready() -> void:
 
 	_b_start.toggled.connect(_start_toggled)
 	_b_reset.pressed.connect(_reset_pressed)
-	_b_clipboard.pressed.connect(_copy_to_clipboard)
+	_b_clipboard.pressed.connect(_copy_elapsed_time_to_clipboard)
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
@@ -230,21 +230,27 @@ func _reset_pressed() -> void:
 	_shortest_entry_index = 0
 
 
-func _copy_to_clipboard() -> void:
-	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
-	DisplayServer.clipboard_set(time)
-
-	_l_copied_time.text = "Copied!\n%s" % time
+func _pop_up_copied(text: String) -> void:
+	_l_copied_time.text = text
 
 	if _pop_up_tween:
 		_pop_up_tween.kill()
 
 	_copied_pop_up.scale.y = 0.0
 	_copied_pop_up.visible = true
+
 	_pop_up_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	_pop_up_tween.tween_property(_copied_pop_up, "scale:y", _pop_up_scale, .25)
-	_pop_up_tween.tween_interval(.75)
-	_pop_up_tween.tween_callback(func() -> void: _copied_pop_up.visible = false)
+	_pop_up_tween.tween_callback(func() -> void:
+		_copied_pop_up.visible = false
+	).set_delay(.66)
+
+
+func _copy_elapsed_time_to_clipboard() -> void:
+	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
+	DisplayServer.clipboard_set(time)
+
+	_pop_up_copied(time)
 
 
 func _on_window_size_changed() -> void:
