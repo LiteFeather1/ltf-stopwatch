@@ -22,6 +22,7 @@ const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 @export var _scene_stopwatch_entry_ui: PackedScene
 @export var _entry_tray: Control
 @export var _tray_container: Control
+@export var _menu_copy_tray: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 
 @export_category("Copied Pop Up")
@@ -48,6 +49,18 @@ func _ready() -> void:
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
 	pivot_offset.y += _title_bar.size.y
+
+	# Set up copy menu tray
+	const ITEMS := [&"Copy Simple", &"Copy CSV", &"Copy Markdown Table"]
+	var pop_up := _menu_copy_tray.get_popup()
+	for item in ITEMS:
+		pop_up.add_item(item)
+
+	pop_up.add_separator("|Options|")
+
+	const OPTIONS := [&"Elapsed Time", &"Longest/Shortest", &"Pause time"]
+	for option in OPTIONS:
+		pop_up.add_check_item(option)
 
 	await get_tree().process_frame
 	_on_window_size_changed()

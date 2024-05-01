@@ -52,7 +52,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_copied_pop_up", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_menu_copy_tray", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,6 +72,7 @@ _sprite_pause = ExtResource("3_fs0r6")
 _scene_stopwatch_entry_ui = ExtResource("4_ta478")
 _entry_tray = NodePath("stopwatch_tray_ui")
 _tray_container = NodePath("stopwatch_tray_ui/ScrollContainer/vbc_tray_container")
+_menu_copy_tray = NodePath("stopwatch_tray_ui/HBoxContainer/Label/menu_button_copy_tray")
 _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
 _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
@@ -205,26 +206,6 @@ offset_right = 14.0
 offset_bottom = 14.0
 grow_vertical = 2
 icon = ExtResource("11_1p55s")
-switch_on_hover = true
-item_count = 7
-popup/item_0/text = "Copy Simple"
-popup/item_0/id = 0
-popup/item_1/text = "Copy Long"
-popup/item_1/id = 1
-popup/item_2/text = "Copy Markdown Table"
-popup/item_2/id = 2
-popup/item_3/text = "Copy CSV"
-popup/item_3/id = 3
-popup/item_4/text = "Options"
-popup/item_4/id = 4
-popup/item_4/disabled = true
-popup/item_4/separator = true
-popup/item_5/text = "Contain Elapsed Time"
-popup/item_5/checkable = 1
-popup/item_5/id = 5
-popup/item_6/text = "Contain Longest/Shortest"
-popup/item_6/checkable = 1
-popup/item_6/id = 6
 
 [node name="Label2" type="Label" parent="stopwatch_tray_ui/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
