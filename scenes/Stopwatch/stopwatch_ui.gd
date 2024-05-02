@@ -1,6 +1,12 @@
 class_name StopwatchUI extends Control
 
 
+enum CopyMenuFlags {
+	ELAPSED_TIMES = 1 << 0,
+	PAUSE_TIMES = 1 << 1,
+	SHORTEST_LONGEST = 1 << 2,
+}
+
 const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
 const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 
@@ -34,6 +40,7 @@ var _longest_entry_index: int
 var _shortest_entry_index: int
 
 var _menu_copy_id_to_callable: Dictionary
+var _copy_menu_mask: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -54,7 +61,7 @@ func _ready() -> void:
 
 	# Set up copy menu tray
 	var pop_up := _menu_copy_tray.get_popup()
-	pop_up.id_pressed.connect(_on_menu_copy_id_pressed)
+	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
 	const ITEMS := [&"Copy Simple", &"Copy CSV", &"Copy Markdown Table"]
 	var items_size := ITEMS.size()
@@ -63,7 +70,7 @@ func _ready() -> void:
 	for i in items_size:
 		pop_up.add_item(ITEMS[i], i)
 		_menu_copy_id_to_callable[i] = func() -> void:
-			call_temp.call(ITEMS[i])
+			call_temp.call()
 
 	pop_up.add_separator("|Options|")
 
@@ -280,8 +287,8 @@ func _copy_elapsed_time_to_clipboard() -> void:
 	_pop_up_copied(time)
 
 
-func _on_menu_copy_id_pressed(id: int) -> void:
-	_menu_copy_id_to_callable[id].call()
+func _on_copy_menu_id_pressed(index: int) -> void:
+	_menu_copy_id_to_callable[index].call(index)
 
 
 func _on_window_size_changed() -> void:
