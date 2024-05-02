@@ -3,8 +3,8 @@ class_name StopwatchUI extends Control
 
 enum CopyMenuFlags {
 	ELAPSED_TIMES = 1 << 0,
-	PAUSE_TIMES = 1 << 1,
-	SHORTEST_LONGEST = 1 << 2,
+	SHORTEST_LONGEST = 1 << 1,
+	PAUSE_TIMES = 1 << 2,
 }
 
 const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
@@ -74,14 +74,20 @@ func _ready() -> void:
 
 	pop_up.add_separator("|Options|")
 
-	const OPTIONS := [&"Elapsed Time", &"Longest/Shortest", &"Pause time"]
-	var options_size := OPTIONS.size()
-	for i in options_size:
-		var index := i + options_size + 1
+	const OPTIONS := [
+		&"Elapsed Time",
+		&"Longest/Shortest",
+		&"Pause time",
+	]
+	var options_calls := [
+		_copy_menu_toggle_elapsed_time,
+		_copy_menu_toggle_shortest_longest,
+		_copy_menu_toggle_pause_time,
+	]
+	for i in OPTIONS.size():
+		var index := i + items_size + 1
 		pop_up.add_check_item(OPTIONS[i], index)
-		_menu_copy_id_to_callable[index] = func() -> void:
-			pop_up.set_item_checked(index, not pop_up.is_item_checked(index))
-			call_temp.call("Toggles %s" % OPTIONS[i])
+		_menu_copy_id_to_callable[index] = options_calls[i]
 
 	await get_tree().process_frame
 	_on_window_size_changed()
@@ -299,6 +305,18 @@ func _copy_menu_toggle_options(index: int, flag: int) -> void:
 		_copy_menu_options_mask = _copy_menu_options_mask & ~flag
 	else:
 		_copy_menu_options_mask = _copy_menu_options_mask | flag
+
+
+func _copy_menu_toggle_elapsed_time(index: int) -> void:
+	_copy_menu_toggle_options(index, CopyMenuFlags.ELAPSED_TIMES)
+
+
+func _copy_menu_toggle_shortest_longest(index: int) -> void:
+	_copy_menu_toggle_options(index, CopyMenuFlags.SHORTEST_LONGEST)
+
+
+func _copy_menu_toggle_pause_time(index: int) -> void:
+	_copy_menu_toggle_options(index, CopyMenuFlags.PAUSE_TIMES)
 
 
 func _on_window_size_changed() -> void:
