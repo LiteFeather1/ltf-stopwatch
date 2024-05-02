@@ -306,6 +306,21 @@ func _copy_menu_toggle_options(index: int, flag: int) -> void:
 	else:
 		_copy_menu_options_mask = _copy_menu_options_mask | flag
 
+	# TODO Remove once done
+	var O := &"Options enabled"
+	var enabled_options := O
+	var i := 0
+	for f in CopyMenuFlags:
+		if _copy_menu_options_mask & CopyMenuFlags.values()[i] != 0:
+			enabled_options += " %s" % f
+		
+		i += 1
+
+	if enabled_options == O:
+		print("No options enabled")
+	else:
+		print(enabled_options)
+
 
 func _copy_menu_toggle_elapsed_time(index: int) -> void:
 	_copy_menu_toggle_options(index, CopyMenuFlags.ELAPSED_TIMES)
