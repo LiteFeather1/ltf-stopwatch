@@ -40,7 +40,7 @@ var _longest_entry_index: int
 var _shortest_entry_index: int
 
 var _menu_copy_id_to_callable: Dictionary
-var _copy_menu_mask: int
+var _copy_menu_options_mask: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -289,6 +289,16 @@ func _copy_elapsed_time_to_clipboard() -> void:
 
 func _on_copy_menu_id_pressed(index: int) -> void:
 	_menu_copy_id_to_callable[index].call(index)
+
+
+func _copy_menu_toggle_options(index: int, flag: int) -> void:
+	var is_option_checked := _copy_menu_options_mask & flag != 0
+	_menu_copy_tray.get_popup().set_item_checked(index, not is_option_checked)
+
+	if is_option_checked:
+		_copy_menu_options_mask = _copy_menu_options_mask & ~flag
+	else:
+		_copy_menu_options_mask = _copy_menu_options_mask | flag
 
 
 func _on_window_size_changed() -> void:
