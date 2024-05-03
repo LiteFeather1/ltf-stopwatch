@@ -65,11 +65,13 @@ func _ready() -> void:
 
 	const ITEMS := [
 		&"Copy Simple",
+		&"Copy Long",
 		&"Copy CSV",
 		&"Copy Markdown Table",
 	]
 	var items_size := ITEMS.size()
 	var items_calls := [
+		_copy_menu_simple,
 		_copy_menu_simple,
 		_copy_menu_simple,
 		_copy_menu_simple,
@@ -304,24 +306,24 @@ func _on_copy_menu_id_pressed(index: int) -> void:
 	_menu_copy_id_to_callable[index].call(index)
 
 
-func _copy_menu_tray_entries(template: StringName, message: StringName) -> void:
+func _copy_menu_tray_entries(entries_text: PackedStringArray, template: StringName, message: StringName) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
 
-	var entries_text := PackedStringArray()
+	var base_size := entries_text.size()
 	if resumed_size == time_state.paused_times_size():
-		entries_text.resize(resumed_size)
+		entries_text.resize(resumed_size + base_size)
 	else:
-		entries_text.resize(resumed_size + 1)
+		entries_text.resize(resumed_size + base_size + 1)
 
-		entries_text[resumed_size] = template % [
+		entries_text[resumed_size + base_size] = template % [
 			resumed_size + 1,
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT
 		]
 
 	for i in resumed_size:
-		entries_text[i] = template % [
+		entries_text[i + base_size] = template % [
 			i + 1,
 			Global.seconds_to_time(time_state.get_paused_time(i)),
 			Global.seconds_to_time(time_state.get_resumed_time(i))
@@ -331,7 +333,7 @@ func _copy_menu_tray_entries(template: StringName, message: StringName) -> void:
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries(&"%d    %s    %s", &"Simple")
+	_copy_menu_tray_entries(PackedStringArray(), &"%d    %s    %s", &"Simple")
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
