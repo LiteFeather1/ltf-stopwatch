@@ -306,39 +306,55 @@ func _on_copy_menu_id_pressed(index: int) -> void:
 	_menu_copy_id_to_callable[index].call(index)
 
 
-func _copy_menu_tray_entries(entries_text: PackedStringArray, template: StringName, message: StringName) -> void:
+func _copy_menu_tray_entries(
+	entries_text: PackedStringArray,
+	templates: PackedStringArray,
+	message: StringName
+	) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
 
 	var base_size := entries_text.size()
+	var entries_entry_texts = []
 	if resumed_size == time_state.paused_times_size():
 		entries_text.resize(resumed_size + base_size)
+
+		entries_entry_texts.resize(resumed_size)
 	else:
 		entries_text.resize(resumed_size + base_size + 1)
 
-		entries_text[resumed_size + base_size] = template % [
-			resumed_size + 1,
-			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
-			time_state.NIL_PAUSE_TEXT
-		]
+		entries_entry_texts.resize(resumed_size + 1)
+
+		var entry_texts := PackedStringArray()
+		entry_texts.resize(3)
+		entry_texts[0] = templates[0] % (resumed_size + 1)
+		entry_texts[1] = templates[1] % Global.seconds_to_time(time_state.get_paused_time(resumed_size))
+		entry_texts[2] = templates[2] % time_state.NIL_PAUSE_TEXT
+		entries_entry_texts[resumed_size] = entry_texts
 
 	for i in resumed_size:
-		entries_text[i + base_size] = template % [
-			i + 1,
-			Global.seconds_to_time(time_state.get_paused_time(i)),
-			Global.seconds_to_time(time_state.get_resumed_time(i))
-		]
+		var entry_texts := PackedStringArray()
+		entry_texts.resize(3)
+		entry_texts[0] = templates[0] % (i + 1)
+		entry_texts[1] = templates[1] % Global.seconds_to_time(time_state.get_paused_time(i))
+		entry_texts[2] = templates[2] % Global.seconds_to_time(time_state.get_resumed_time(i))
+		entries_entry_texts[i] = entry_texts
+	
+	# Added formating options mutations here
+
+	for i in entries_entry_texts.size():
+		entries_text[i + base_size] = "".join(entries_entry_texts[i])
 	
 	_set_clipboard("\n".join(entries_text), message)
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries(PackedStringArray(), &"%s    %s    %s", &"Simple")
+	_copy_menu_tray_entries(PackedStringArray(), PackedStringArray([&"%s    ", &"%s    ", &"%s"]), &"Simple")
 
 
 func _copy_menu_long(_index: int) -> void:
 	var entries_text := PackedStringArray(["Pauses  |  Pause Time  |  Resume Time"])
-	_copy_menu_tray_entries(entries_text, &"%s       |  %s    |  %s", &"Long")
+	_copy_menu_tray_entries(entries_text, PackedStringArray([&"%s       |  ", &" %s   |  ", &" %s"]), &"Long")
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
