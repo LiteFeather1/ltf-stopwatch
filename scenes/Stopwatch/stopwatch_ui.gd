@@ -322,7 +322,7 @@ func _copy_menu_simple(_index: int) -> void:
 		message_entries.append(TEMPLATE % [
 			resumed_size + 1,
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
-			"--:--:--"
+			TimeState.NIL_PAUSE_TEXT
 		])
 
 	_set_clipboard("\n".join(message_entries), "Simple")

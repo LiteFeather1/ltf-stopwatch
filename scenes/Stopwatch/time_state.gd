@@ -6,6 +6,8 @@ const PAUSED_TIMES := &"paused_times"
 const ELAPSED_TIMES := &"elapsed_times"
 const RESUMED_TIMES := &"resumed_times"
 
+const NIL_PAUSE_TEXT := &"--:--:--"
+
 var elapsed_time: float = 0.0
 
 var _paused_times: PackedFloat32Array
@@ -33,7 +35,7 @@ func _to_string() -> String:
 		text += TEMPLATE_ENTRY % [
 			Global.seconds_to_time(_elapsed_times[resumed_size]),
 			Global.seconds_to_time(_paused_times[resumed_size]),
-			"--:--:--"
+			NIL_PAUSE_TEXT
 		]
 
 	return text

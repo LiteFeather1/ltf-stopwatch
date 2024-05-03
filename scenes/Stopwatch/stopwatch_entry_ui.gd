@@ -71,7 +71,11 @@ func replace_pause_num(from: String, to: String) -> void:
 	_l_pause_span.text = _l_pause_span.text.replace(from, to)
 
 
-func set_times(paused_time: String, elapsed_time: String, resumed_time := "--:--:--") -> void:
+func set_times(
+	paused_time: String,
+	elapsed_time: String,
+	resumed_time: String = TimeState.NIL_PAUSE_TEXT
+) -> void:
 	_l_pause_time.text = paused_time
 	_elapsed_time = elapsed_time
 	_l_resume_time.text = resumed_time
