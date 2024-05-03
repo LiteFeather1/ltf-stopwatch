@@ -276,11 +276,11 @@ func _reset_pressed() -> void:
 	_shortest_entry_index = 0
 
 
-func _set_clipboard(to_copy: String, feedback_message: String) -> void:
+func _set_clipboard(to_copy: String, message: String) -> void:
 	DisplayServer.clipboard_set(to_copy)
 	print("Clipboard set to:\n%s" % to_copy)
 
-	_l_copied_time.text = "Copied!\n%s" % feedback_message
+	_l_copied_time.text = "Copied!\n%s" % message
 
 	if _pop_up_tween:
 		_pop_up_tween.kill()
@@ -304,28 +304,34 @@ func _on_copy_menu_id_pressed(index: int) -> void:
 	_menu_copy_id_to_callable[index].call(index)
 
 
-func _copy_menu_simple(_index: int) -> void:
-	const TEMPLATE := &"%d    %s    %s"
+func _copy_menu_tray_entries(template: StringName, message: StringName) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
 
-	var message_entries := PackedStringArray()
-	message_entries.resize(resumed_size)
+	var entries_text := PackedStringArray()
+	if resumed_size == time_state.paused_times_size():
+		entries_text.resize(resumed_size)
+	else:
+		entries_text.resize(resumed_size + 1)
+
+		entries_text[resumed_size] = template % [
+			resumed_size + 1,
+			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
+			time_state.NIL_PAUSE_TEXT
+		]
+
 	for i in resumed_size:
-		message_entries[i] = TEMPLATE % [
+		entries_text[i] = template % [
 			i + 1,
 			Global.seconds_to_time(time_state.get_paused_time(i)),
 			Global.seconds_to_time(time_state.get_resumed_time(i))
 		]
 	
-	if resumed_size < time_state.paused_times_size():
-		message_entries.append(TEMPLATE % [
-			resumed_size + 1,
-			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
-			TimeState.NIL_PAUSE_TEXT
-		])
+	_set_clipboard("\n".join(entries_text), message)
 
-	_set_clipboard("\n".join(message_entries), "Simple")
+
+func _copy_menu_simple(_index: int) -> void:
+	_copy_menu_tray_entries(&"%d    %s    %s", &"Simple")
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
