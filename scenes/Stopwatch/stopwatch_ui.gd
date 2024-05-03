@@ -63,16 +63,23 @@ func _ready() -> void:
 	var pop_up := _menu_copy_tray.get_popup()
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
-	const ITEMS := [&"Copy Simple", &"Copy CSV", &"Copy Markdown Table"]
+	const ITEMS := [
+		&"Copy Simple",
+		&"Copy CSV",
+		&"Copy Markdown Table"
+	]
 	var items_size := ITEMS.size()
-	var call_temp := func(message: String) -> void:
+	var items_calls := []
+	items_calls.resize(items_size)
+	items_calls.fill(func(message: String) -> void:
 		print("Pressed %s" % message)
+	)
 	for i in items_size:
 		pop_up.add_item(ITEMS[i], i)
-		_menu_copy_id_to_callable[i] = func() -> void:
-			call_temp.call()
+		_menu_copy_id_to_callable[i] = func(_index: int) -> void:
+			items_calls[i].call(ITEMS[i])
 
-	pop_up.add_separator("|Options|")
+	pop_up.add_separator("| Options |")
 
 	const OPTIONS := [
 		&"Elapsed Time",
@@ -270,8 +277,9 @@ func _reset_pressed() -> void:
 	_shortest_entry_index = 0
 
 
-func _pop_up_copied(text: String) -> void:
-	_l_copied_time.text = text
+func _set_clipboard(to_copy: String, feedback_message: String) -> void:
+	DisplayServer.clipboard_set(to_copy)
+	_l_copied_time.text = "Copied!\n%s" % feedback_message
 
 	if _pop_up_tween:
 		_pop_up_tween.kill()
@@ -288,9 +296,7 @@ func _pop_up_copied(text: String) -> void:
 
 func _copy_elapsed_time_to_clipboard() -> void:
 	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
-	DisplayServer.clipboard_set(time)
-
-	_pop_up_copied(time)
+	_set_clipboard(time, time)
 
 
 func _on_copy_menu_id_pressed(index: int) -> void:
