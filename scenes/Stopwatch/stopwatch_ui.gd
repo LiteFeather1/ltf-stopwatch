@@ -66,18 +66,17 @@ func _ready() -> void:
 	const ITEMS := [
 		&"Copy Simple",
 		&"Copy CSV",
-		&"Copy Markdown Table"
+		&"Copy Markdown Table",
 	]
 	var items_size := ITEMS.size()
-	var items_calls := []
-	items_calls.resize(items_size)
-	items_calls.fill(func(message: String) -> void:
-		print("Pressed %s" % message)
-	)
+	var items_calls := [
+		_copy_menu_simple,
+		_copy_menu_simple,
+		_copy_menu_simple,
+	]
 	for i in items_size:
 		pop_up.add_item(ITEMS[i], i)
-		_menu_copy_id_to_callable[i] = func(_index: int) -> void:
-			items_calls[i].call(ITEMS[i])
+		_menu_copy_id_to_callable[i] = items_calls[i]
 
 	pop_up.add_separator("| Options |")
 
@@ -279,6 +278,8 @@ func _reset_pressed() -> void:
 
 func _set_clipboard(to_copy: String, feedback_message: String) -> void:
 	DisplayServer.clipboard_set(to_copy)
+	print("Clipboard set to:\n%s" % to_copy)
+
 	_l_copied_time.text = "Copied!\n%s" % feedback_message
 
 	if _pop_up_tween:
@@ -301,6 +302,30 @@ func _copy_elapsed_time_to_clipboard() -> void:
 
 func _on_copy_menu_id_pressed(index: int) -> void:
 	_menu_copy_id_to_callable[index].call(index)
+
+
+func _copy_menu_simple(_index: int) -> void:
+	const TEMPLATE := &"%d    %s    %s"
+	var time_state := _stopwatch.get_time_state()
+	var resumed_size := time_state.resumed_times_size()
+
+	var message_entries := PackedStringArray()
+	message_entries.resize(resumed_size)
+	for i in resumed_size:
+		message_entries[i] = TEMPLATE % [
+			i + 1,
+			Global.seconds_to_time(time_state.get_paused_time(i)),
+			Global.seconds_to_time(time_state.get_resumed_time(i))
+		]
+	
+	if resumed_size < time_state.paused_times_size():
+		message_entries.append(TEMPLATE % [
+			resumed_size + 1,
+			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
+			"--:--:--"
+		])
+
+	_set_clipboard("\n".join(message_entries), "Simple")
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
