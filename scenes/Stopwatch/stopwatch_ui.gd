@@ -11,6 +11,11 @@ const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
 const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 
 const DEFAULT_COPY_ENTRY := [&"Pauses", &"Pause Time", &"Resume Time"]
+const PAUSES := &"Pauses"
+const PAUSE_TIME := &"Pause Time"
+const RESUME_TIME := &"Resume Time"
+const ELAPSED_TIME := &"Elapsed Time"
+const PAUSE_SPAN := &"Pause Span"
 
 @export var _title_bar: Control
 
@@ -309,10 +314,10 @@ func _on_copy_menu_id_pressed(index: int) -> void:
 
 
 func _copy_menu_tray_entries(
-	message: StringName,
+	message: String,
 	entries_text: PackedStringArray,
-	template: StringName,
-	elapsed_time_separator: StringName = &""
+	template: String,
+	elapsed_time_separator: String = ""
 ) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
@@ -345,16 +350,30 @@ func _copy_menu_tray_entries(
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries(&"Simple", PackedStringArray(), &"%s    %s%s    %s", &"%s    ")
+	_copy_menu_tray_entries("Simple", PackedStringArray(), "%s    %s%s    %s", "%s    ")
+
+
+func _build_heading(
+	pause_template: String,
+	pause_time_template: String,
+	resume_time_template: String,
+	elapsed_time_template: String,
+) -> String:
+	var heading := PackedStringArray([
+		pause_template % PAUSES,
+		pause_time_template % PAUSE_TIME,
+		resume_time_template % RESUME_TIME
+	])
+
+	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES:
+		heading.insert(1, elapsed_time_template % ELAPSED_TIME)
+
+	return "".join(heading)
 
 
 func _copy_menu_long(_index: int) -> void:
-	var heading := PackedStringArray(["Pauses  |", "  Pause Time  |", "  Resumed Time"])
-	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES:
-		heading.insert(1, "  Elapsed Time  |")
-
-	var entries_text := PackedStringArray(["".join(heading)])
-	_copy_menu_tray_entries(&"Long", entries_text, &"%s       %s|   %s   |    %s", &"|    %s    ")
+	var entries_text := PackedStringArray([_build_heading("%s  |", "  %s  |", "  %s", "  %s  |")])
+	_copy_menu_tray_entries("Long", entries_text, "%s       %s|   %s   |    %s", "|    %s    ")
 
 
 func _copy_menu_csv(_index: int) -> void:
