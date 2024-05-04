@@ -358,7 +358,7 @@ func _build_heading(
 	pause_time_template: String,
 	resume_time_template: String,
 	elapsed_time_template: String,
-) -> String:
+) -> PackedStringArray:
 	var heading := PackedStringArray([
 		pause_template % PAUSES,
 		pause_time_template % PAUSE_TIME,
@@ -368,16 +368,16 @@ func _build_heading(
 	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES:
 		heading.insert(1, elapsed_time_template % ELAPSED_TIME)
 
-	return "".join(heading)
+	return heading
 
 
 func _copy_menu_long(_index: int) -> void:
-	var entries_text := PackedStringArray([_build_heading("%s  |", "  %s  |", "  %s", "  %s  |")])
+	var entries_text := PackedStringArray(["".join(_build_heading("%s  |", "  %s  |", "  %s", "  %s  |"))])
 	_copy_menu_tray_entries("Long", entries_text, "%s       %s|   %s   |    %s", "|    %s    ")
 
 
 func _copy_menu_csv(_index: int) -> void:
-	var entries_text := PackedStringArray([_build_heading("%s,", "%s,", "%s", "%s,")])
+	var entries_text := PackedStringArray(["".join(_build_heading("%s,", "%s,", "%s", "%s,"))])
 	_copy_menu_tray_entries("CSV", entries_text, "%s,%s%s,%s", "%s,")
 
 
