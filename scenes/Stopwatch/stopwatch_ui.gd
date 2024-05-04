@@ -73,7 +73,7 @@ func _ready() -> void:
 	var items_calls := [
 		_copy_menu_simple,
 		_copy_menu_long,
-		_copy_menu_simple,
+		_copy_menu_csv,
 		_copy_menu_simple,
 	]
 	for i in items_size:
@@ -333,12 +333,17 @@ func _copy_menu_tray_entries(entries_text: PackedStringArray, template: StringNa
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries(PackedStringArray(), &"%s    %s    %s", &"Simple")
+	_copy_menu_tray_entries(PackedStringArray(), &"%s\t%s\t%s", &"Simple")
 
 
 func _copy_menu_long(_index: int) -> void:
 	var entries_text := PackedStringArray(["Pauses  |  Pause Time  |  Resume Time"])
 	_copy_menu_tray_entries(entries_text, &"%s       |  %s    |  %s", &"Long")
+
+
+func _copy_menu_csv(_index: int) -> void:
+	var entries_text := PackedStringArray(["Pauses,Pause Time, Resume Time"])
+	_copy_menu_tray_entries(entries_text, &"%s,%s,%s", &"CSV")
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
