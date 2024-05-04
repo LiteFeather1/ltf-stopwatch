@@ -308,11 +308,17 @@ func _on_copy_menu_id_pressed(index: int) -> void:
 	_menu_copy_id_to_callable[index].call(index)
 
 
-func _copy_menu_tray_entries(entries_text: PackedStringArray, template: StringName, message: StringName) -> void:
+func _copy_menu_tray_entries(
+	entries_text: PackedStringArray,
+	message: StringName,
+	template: StringName,
+	elapsed_time_separator: StringName = &""
+) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
 
 	var base_size := entries_text.size()
+	var show_elapsed_time := _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0
 	if resumed_size == time_state.paused_times_size():
 		entries_text.resize(resumed_size + base_size)
 	else:
@@ -320,6 +326,8 @@ func _copy_menu_tray_entries(entries_text: PackedStringArray, template: StringNa
 
 		entries_text[resumed_size + base_size] = template % [
 			resumed_size + 1,
+			(elapsed_time_separator % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
+				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT
 		]
@@ -327,6 +335,8 @@ func _copy_menu_tray_entries(entries_text: PackedStringArray, template: StringNa
 	for i in resumed_size:
 		entries_text[i + base_size] = template % [
 			i + 1,
+			(elapsed_time_separator % Global.seconds_to_time(time_state.get_elapsed_time(i)))
+				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(i)),
 			Global.seconds_to_time(time_state.get_resumed_time(i))
 		]
@@ -335,7 +345,7 @@ func _copy_menu_tray_entries(entries_text: PackedStringArray, template: StringNa
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries(PackedStringArray(), &"%s\t%s\t%s", &"Simple")
+	_copy_menu_tray_entries(PackedStringArray(), &"%s\t%s%s\t%s", &"Simple", &"%s\t")
 
 
 func _copy_menu_long(_index: int) -> void:
