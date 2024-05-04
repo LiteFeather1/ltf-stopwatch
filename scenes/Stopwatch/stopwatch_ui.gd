@@ -10,6 +10,8 @@ enum CopyMenuFlags {
 const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
 const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 
+const DEFAULT_COPY_ENTRY := [&"Pauses", &"Pause Time", &"Resume Time"]
+
 @export var _title_bar: Control
 
 @export var _element_to_scale: Control
@@ -74,7 +76,7 @@ func _ready() -> void:
 		_copy_menu_simple,
 		_copy_menu_long,
 		_copy_menu_csv,
-		_copy_menu_simple,
+		_copy_menu_markdown,
 	]
 	for i in items_size:
 		pop_up.add_item(ITEMS[i], i)
@@ -337,13 +339,23 @@ func _copy_menu_simple(_index: int) -> void:
 
 
 func _copy_menu_long(_index: int) -> void:
-	var entries_text := PackedStringArray(["Pauses  |  Pause Time  |  Resume Time"])
+	var entries_text := PackedStringArray(["%s  |  %s  |  %s" % DEFAULT_COPY_ENTRY])
 	_copy_menu_tray_entries(entries_text, &"%s       |  %s    |  %s", &"Long")
 
 
 func _copy_menu_csv(_index: int) -> void:
-	var entries_text := PackedStringArray(["Pauses,Pause Time, Resume Time"])
+	const TEMPLATE := &"%s,%s,%s"
+	var entries_text := PackedStringArray([TEMPLATE % DEFAULT_COPY_ENTRY])
 	_copy_menu_tray_entries(entries_text, &"%s,%s,%s", &"CSV")
+
+
+func _copy_menu_markdown(_index: int) -> void:
+	var TEMPLATE := &"|%s|%s|%s|"
+	var entries_text := PackedStringArray(["%s\n%s" % [
+		TEMPLATE % DEFAULT_COPY_ENTRY,
+		TEMPLATE % [":--", ":-:", ":-:"]
+	]])
+	_copy_menu_tray_entries(entries_text, TEMPLATE, &"MD Table")
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
