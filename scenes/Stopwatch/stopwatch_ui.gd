@@ -349,7 +349,11 @@ func _copy_menu_simple(_index: int) -> void:
 
 
 func _copy_menu_long(_index: int) -> void:
-	var entries_text := PackedStringArray(["%s  |  %s  |  %s" % DEFAULT_COPY_ENTRY])
+	var heading := PackedStringArray(["Pauses  |", "  Pause Time  |", "  Resumed Time"])
+	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES:
+		heading.insert(1, "  Elapsed Time  |")
+
+	var entries_text := PackedStringArray(["".join(heading)])
 	_copy_menu_tray_entries(&"Long", entries_text, &"%s       |  %s    |  %s")
 
 
