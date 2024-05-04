@@ -345,7 +345,7 @@ func _copy_menu_tray_entries(
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries(&"Simple", PackedStringArray(), &"%s\t%s%s\t%s", &"%s\t")
+	_copy_menu_tray_entries(&"Simple", PackedStringArray(), &"%s    %s%s    %s", &"%s    ")
 
 
 func _copy_menu_long(_index: int) -> void:
@@ -354,7 +354,7 @@ func _copy_menu_long(_index: int) -> void:
 		heading.insert(1, "  Elapsed Time  |")
 
 	var entries_text := PackedStringArray(["".join(heading)])
-	_copy_menu_tray_entries(&"Long", entries_text, &"%s       |  %s    |  %s")
+	_copy_menu_tray_entries(&"Long", entries_text, &"%s       %s|   %s   |    %s", &"|    %s    ")
 
 
 func _copy_menu_csv(_index: int) -> void:
