@@ -377,9 +377,8 @@ func _copy_menu_long(_index: int) -> void:
 
 
 func _copy_menu_csv(_index: int) -> void:
-	const TEMPLATE := &"%s,%s,%s"
-	var entries_text := PackedStringArray([TEMPLATE % DEFAULT_COPY_ENTRY])
-	_copy_menu_tray_entries(&"CSV", entries_text, &"%s,%s,%s")
+	var entries_text := PackedStringArray([_build_heading("%s,", "%s,", "%s", "%s,")])
+	_copy_menu_tray_entries("CSV", entries_text, "%s,%s%s,%s", "%s,")
 
 
 func _copy_menu_markdown(_index: int) -> void:
@@ -388,7 +387,7 @@ func _copy_menu_markdown(_index: int) -> void:
 		TEMPLATE % DEFAULT_COPY_ENTRY,
 		TEMPLATE % [":--", ":-:", ":-:"]
 	]])
-	_copy_menu_tray_entries(&"MD Table", entries_text, TEMPLATE)
+	_copy_menu_tray_entries("MD Table", entries_text, TEMPLATE)
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
