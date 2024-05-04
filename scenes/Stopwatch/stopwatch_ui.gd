@@ -309,8 +309,8 @@ func _on_copy_menu_id_pressed(index: int) -> void:
 
 
 func _copy_menu_tray_entries(
-	entries_text: PackedStringArray,
 	message: StringName,
+	entries_text: PackedStringArray,
 	template: StringName,
 	elapsed_time_separator: StringName = &""
 ) -> void:
@@ -345,18 +345,18 @@ func _copy_menu_tray_entries(
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries(PackedStringArray(), &"%s\t%s%s\t%s", &"Simple", &"%s\t")
+	_copy_menu_tray_entries(&"Simple", PackedStringArray(), &"%s\t%s%s\t%s", &"%s\t")
 
 
 func _copy_menu_long(_index: int) -> void:
 	var entries_text := PackedStringArray(["%s  |  %s  |  %s" % DEFAULT_COPY_ENTRY])
-	_copy_menu_tray_entries(entries_text, &"%s       |  %s    |  %s", &"Long")
+	_copy_menu_tray_entries(&"Long", entries_text, &"%s       |  %s    |  %s")
 
 
 func _copy_menu_csv(_index: int) -> void:
 	const TEMPLATE := &"%s,%s,%s"
 	var entries_text := PackedStringArray([TEMPLATE % DEFAULT_COPY_ENTRY])
-	_copy_menu_tray_entries(entries_text, &"%s,%s,%s", &"CSV")
+	_copy_menu_tray_entries(&"CSV", entries_text, &"%s,%s,%s")
 
 
 func _copy_menu_markdown(_index: int) -> void:
@@ -365,7 +365,7 @@ func _copy_menu_markdown(_index: int) -> void:
 		TEMPLATE % DEFAULT_COPY_ENTRY,
 		TEMPLATE % [":--", ":-:", ":-:"]
 	]])
-	_copy_menu_tray_entries(entries_text, TEMPLATE, &"MD Table")
+	_copy_menu_tray_entries(&"MD Table", entries_text, TEMPLATE)
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
