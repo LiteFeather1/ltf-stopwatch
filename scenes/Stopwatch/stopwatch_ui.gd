@@ -382,12 +382,14 @@ func _copy_menu_csv(_index: int) -> void:
 
 
 func _copy_menu_markdown(_index: int) -> void:
-	var TEMPLATE := &"|%s|%s|%s|"
-	var entries_text := PackedStringArray(["%s\n%s" % [
-		TEMPLATE % DEFAULT_COPY_ENTRY,
-		TEMPLATE % [":--", ":-:", ":-:"]
-	]])
-	_copy_menu_tray_entries("MD Table", entries_text, TEMPLATE)
+	var heading := _build_heading("|%s", "|%s", "|%s|\n", "|%s")
+	var heading_size := heading.size()
+	heading.resize(heading_size * 2 + 1)
+	heading[heading_size] = "|:-|"
+	for i: int in heading_size - 1:
+		heading[i + heading_size + 1] = ":-:|"
+
+	_copy_menu_tray_entries("MD Table", PackedStringArray(["".join(heading)]), "|%s%s|%s|%s|", "|%s")
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
