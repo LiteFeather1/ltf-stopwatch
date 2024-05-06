@@ -352,7 +352,9 @@ func _copy_menu_tray_entries(
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries("Simple", PackedStringArray(), "%s    %s%s    %s%s", "%s    ", "    %s")
+	_copy_menu_tray_entries("Simple", PackedStringArray(),
+		"%s    %s%s    %s%s", "%s    ", "    %s", "    %s"
+	)
 
 
 func _build_heading(
