@@ -327,7 +327,8 @@ func _copy_menu_tray_entries(
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT,
-			time_state.NIL_PAUSE_TEXT,
+			(pause_span_template % time_state.NIL_PAUSE_TEXT)
+				if show_pause_span else "",
 		]
 
 	for i in resumed_size:
