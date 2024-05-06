@@ -3,7 +3,7 @@ class_name StopwatchUI extends Control
 
 enum CopyMenuFlags {
 	ELAPSED_TIMES = 1 << 0,
-	PAUSE_TIMES = 1 << 1,
+	PAUSE_SPANS = 1 << 1,
 	SHORTEST_LONGEST = 1 << 2,
 }
 
@@ -307,13 +307,15 @@ func _copy_menu_tray_entries(
 	message: String,
 	entries_text: PackedStringArray,
 	template: String,
-	elapsed_time_separator: String,
+	elapsed_time_template: String,
+	pause_span_template: String = "",
 ) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
 
 	var base_size := entries_text.size()
 	var show_elapsed_time := _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0
+	var show_pause_span := _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0
 	if resumed_size == time_state.paused_times_size():
 		entries_text.resize(resumed_size + base_size)
 	else:
@@ -321,19 +323,22 @@ func _copy_menu_tray_entries(
 
 		entries_text[resumed_size + base_size] = template % [
 			resumed_size + 1,
-			(elapsed_time_separator % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
+			(elapsed_time_template % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
-			time_state.NIL_PAUSE_TEXT
+			time_state.NIL_PAUSE_TEXT,
+			time_state.NIL_PAUSE_TEXT,
 		]
 
 	for i in resumed_size:
 		entries_text[i + base_size] = template % [
 			i + 1,
-			(elapsed_time_separator % Global.seconds_to_time(time_state.get_elapsed_time(i)))
+			(elapsed_time_template % Global.seconds_to_time(time_state.get_elapsed_time(i)))
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(i)),
-			Global.seconds_to_time(time_state.get_resumed_time(i))
+			Global.seconds_to_time(time_state.get_resumed_time(i)),
+			(pause_span_template % Global.seconds_to_time(time_state.pause_span(i)))
+				if show_pause_span else "",
 		]
 	
 	_set_clipboard("\n".join(entries_text), message)
@@ -417,7 +422,7 @@ func _copy_menu_toggle_shortest_longest(index: int) -> void:
 
 
 func _copy_menu_toggle_pause_time(index: int) -> void:
-	_copy_menu_toggle_options(index, CopyMenuFlags.PAUSE_TIMES)
+	_copy_menu_toggle_options(index, CopyMenuFlags.PAUSE_SPANS)
 
 
 func _on_window_size_changed() -> void:
