@@ -4,7 +4,7 @@ class_name StopwatchUI extends Control
 enum CopyMenuFlags {
 	ELAPSED_TIMES = 1 << 0,
 	PAUSE_SPANS = 1 << 1,
-	SHORTEST_LONGEST = 1 << 2,
+	LONGEST_SHORTEST = 1 << 2,
 }
 
 const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
@@ -15,6 +15,7 @@ const PAUSE_TIME := &"Pause Time"
 const RESUME_TIME := &"Resume Time"
 const ELAPSED_TIME := &"Elapsed Time"
 const PAUSE_SPAN := &"Pause Span"
+const LONGEST_SHORTEST := &"Longest/Shortest"
 
 @export var _title_bar: Control
 
@@ -308,7 +309,8 @@ func _copy_menu_tray_entries(
 	entries_text: PackedStringArray,
 	template: String,
 	elapsed_time_template: String,
-	pause_span_template: String = "",
+	pause_span_template: String,
+	longest_shortest_template: String = ""
 ) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
@@ -342,6 +344,10 @@ func _copy_menu_tray_entries(
 				if show_pause_span else "",
 		]
 	
+	if _copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0:
+		entries_text[base_size + _longest_entry_index] += longest_shortest_template % "Longest"
+		entries_text[base_size + _shortest_entry_index] += longest_shortest_template % "Shortest"
+
 	_set_clipboard("\n".join(entries_text), message)
 
 
@@ -432,7 +438,7 @@ func _copy_menu_toggle_elapsed_time(index: int) -> void:
 
 
 func _copy_menu_toggle_shortest_longest(index: int) -> void:
-	_copy_menu_toggle_options(index, CopyMenuFlags.SHORTEST_LONGEST)
+	_copy_menu_toggle_options(index, CopyMenuFlags.LONGEST_SHORTEST)
 
 
 func _copy_menu_toggle_pause_time(index: int) -> void:
