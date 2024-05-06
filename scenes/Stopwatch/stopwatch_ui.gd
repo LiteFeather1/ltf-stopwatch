@@ -3,14 +3,13 @@ class_name StopwatchUI extends Control
 
 enum CopyMenuFlags {
 	ELAPSED_TIMES = 1 << 0,
-	SHORTEST_LONGEST = 1 << 1,
-	PAUSE_TIMES = 1 << 2,
+	PAUSE_TIMES = 1 << 1,
+	SHORTEST_LONGEST = 1 << 2,
 }
 
 const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
 const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
 
-const DEFAULT_COPY_ENTRY := [&"Pauses", &"Pause Time", &"Resume Time"]
 const PAUSES := &"Pauses"
 const PAUSE_TIME := &"Pause Time"
 const RESUME_TIME := &"Resume Time"
@@ -70,12 +69,7 @@ func _ready() -> void:
 	var pop_up := _menu_copy_tray.get_popup()
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
-	const ITEMS := [
-		&"Copy Simple",
-		&"Copy Long",
-		&"Copy CSV",
-		&"Copy Markdown Table",
-	]
+	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy Markdown Table"]
 	var items_size := ITEMS.size()
 	var items_calls := [
 		_copy_menu_simple,
@@ -89,11 +83,7 @@ func _ready() -> void:
 
 	pop_up.add_separator("| Options |")
 
-	const OPTIONS := [
-		&"Elapsed Time",
-		&"Longest/Shortest",
-		&"Pause time",
-	]
+	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
 	var options_calls := [
 		_copy_menu_toggle_elapsed_time,
 		_copy_menu_toggle_shortest_longest,
@@ -317,7 +307,7 @@ func _copy_menu_tray_entries(
 	message: String,
 	entries_text: PackedStringArray,
 	template: String,
-	elapsed_time_separator: String = ""
+	elapsed_time_separator: String,
 ) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
