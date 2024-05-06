@@ -83,6 +83,29 @@ func pause_span(index: int) -> float:
 	return _resumed_times[index] - _paused_times[index]
 
 
+func pause_span_indexes() -> PackedInt32Array:
+	var resumed_size := _resumed_times.size()
+	var pause_spans := PackedFloat32Array()
+	pause_spans.resize(resumed_size)
+	var indexes := PackedInt32Array()
+	indexes.resize(resumed_size)
+	for i: int in resumed_size:
+		pause_spans[i] = _resumed_times[i] - _paused_times[i]
+		indexes[i] = i
+
+	for i: int in resumed_size -1:
+		var minI := i
+		for j: int in range(i + 1, resumed_size):
+			if pause_spans[indexes[j]] < pause_spans[indexes[minI]]:
+				minI = j
+
+		var temp := indexes[i]
+		indexes[i] = indexes[minI]
+		indexes[minI] = temp
+
+	return indexes
+
+
 func delete_entry(index: int) -> void:
 	var deleted_entry := DeletedEntry.new(index, _paused_times[index], _elapsed_times[index])
 
