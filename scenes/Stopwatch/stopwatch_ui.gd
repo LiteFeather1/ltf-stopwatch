@@ -309,9 +309,9 @@ func _copy_menu_tray_entries(
 	message: String,
 	entries_text: PackedStringArray,
 	template: String,
-	elapsed_time_template: String,
-	pause_span_template: String,
-	longest_shortest_template: String = ""
+	template_elapsed_time: String,
+	template_pause_span: String,
+	template_longest_shortest: String
 ) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
@@ -326,28 +326,28 @@ func _copy_menu_tray_entries(
 
 		entries_text[resumed_size + base_size] = template % [
 			resumed_size + 1,
-			(elapsed_time_template % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
+			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT,
-			(pause_span_template % time_state.NIL_PAUSE_TEXT)
+			(template_pause_span % time_state.NIL_PAUSE_TEXT)
 				if show_pause_span else "",
 		]
 
 	for i in resumed_size:
 		entries_text[i + base_size] = template % [
 			i + 1,
-			(elapsed_time_template % Global.seconds_to_time(time_state.get_elapsed_time(i)))
+			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(i)))
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(i)),
 			Global.seconds_to_time(time_state.get_resumed_time(i)),
-			(pause_span_template % Global.seconds_to_time(time_state.pause_span(i)))
+			(template_pause_span % Global.seconds_to_time(time_state.pause_span(i)))
 				if show_pause_span else "",
 		]
 	
 	if _copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0:
-		entries_text[base_size + _longest_entry_index] += longest_shortest_template % "Longest"
-		entries_text[base_size + _shortest_entry_index] += longest_shortest_template % "Shortest"
+		entries_text[base_size + _longest_entry_index] += template_longest_shortest % "Longest"
+		entries_text[base_size + _shortest_entry_index] += template_longest_shortest % "Shortest"
 
 	_set_clipboard("\n".join(entries_text), message)
 
@@ -359,27 +359,27 @@ func _copy_menu_simple(_index: int) -> void:
 
 
 func _build_heading(
-	pause_template: String,
-	pause_time_template: String,
-	resume_time_template: String,
-	elapsed_time_template: String,
-	pause_span_template: String,
-	longest_shortest_template: String = ""
+	template_pause: String,
+	template_pause_time: String,
+	template_resume_time: String,
+	template_elapsed_time: String,
+	template_pause_span: String,
+	template_longest_shortest: String
 ) -> PackedStringArray:
 	var heading := PackedStringArray([
-		pause_template % PAUSES,
-		pause_time_template % PAUSE_TIME,
-		resume_time_template % RESUME_TIME
+		template_pause % PAUSES,
+		template_pause_time % PAUSE_TIME,
+		template_resume_time % RESUME_TIME
 	])
 
 	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES:
-		heading.insert(1, elapsed_time_template % ELAPSED_TIME)
+		heading.insert(1, template_elapsed_time % ELAPSED_TIME)
 
 	if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS:
-		heading.append(pause_span_template % PAUSE_SPAN)
+		heading.append(template_pause_span % PAUSE_SPAN)
 
 	if _copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST:
-		heading.append(longest_shortest_template % (
+		heading.append(template_longest_shortest % (
 			LONGEST_SHORTEST if _longest_entry_index < _shortest_entry_index else SHORTEST_LONGEST
 		))
 
