@@ -86,8 +86,8 @@ func _ready() -> void:
 	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
 	var options_calls := [
 		_copy_menu_toggle_elapsed_time,
-		_copy_menu_toggle_shortest_longest,
 		_copy_menu_toggle_pause_time,
+		_copy_menu_toggle_shortest_longest,
 	]
 	for i in OPTIONS.size():
 		var index := i + items_size + 1
@@ -346,7 +346,7 @@ func _copy_menu_tray_entries(
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries("Simple", PackedStringArray(), "%s    %s%s    %s", "%s    ")
+	_copy_menu_tray_entries("Simple", PackedStringArray(), "%s    %s%s    %s%s", "%s    ", "    %s")
 
 
 func _build_heading(
