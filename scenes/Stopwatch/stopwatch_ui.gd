@@ -354,6 +354,7 @@ func _build_heading(
 	pause_time_template: String,
 	resume_time_template: String,
 	elapsed_time_template: String,
+	pause_span_template: String = "",
 ) -> PackedStringArray:
 	var heading := PackedStringArray([
 		pause_template % PAUSES,
@@ -363,6 +364,9 @@ func _build_heading(
 
 	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES:
 		heading.insert(1, elapsed_time_template % ELAPSED_TIME)
+
+	if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS:
+		heading.append(pause_span_template % PAUSE_SPAN)
 
 	return heading
 
