@@ -389,7 +389,7 @@ func _copy_menu_csv(_index: int) -> void:
 
 
 func _copy_menu_markdown(_index: int) -> void:
-	var heading := _build_heading("|%s", "|%s", "|%s|", "|%s")
+	var heading := _build_heading("|%s", "|%s", "|%s|", "|%s", "%s|")
 	var heading_size := heading.size()
 	heading.resize(heading_size * 2 + 1)
 	heading[heading_size] = "\n"
@@ -397,7 +397,9 @@ func _copy_menu_markdown(_index: int) -> void:
 	for i: int in heading_size - 1:
 		heading[i + heading_size + 2] = ":-:|"
 
-	_copy_menu_tray_entries("MD Table", PackedStringArray(["".join(heading)]), "|%s%s|%s|%s|", "|%s")
+	_copy_menu_tray_entries("MD Table", PackedStringArray(["".join(heading)]),
+		"|%s%s|%s|%s|%s", "|%s", "%s|"
+	)
 
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
