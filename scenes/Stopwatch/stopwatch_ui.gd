@@ -16,6 +16,7 @@ const RESUME_TIME := &"Resume Time"
 const ELAPSED_TIME := &"Elapsed Time"
 const PAUSE_SPAN := &"Pause Span"
 const LONGEST_SHORTEST := &"Longest/Shortest"
+const SHORTEST_LONGEST := &"Shortest/Longest"
 
 @export var _title_bar: Control
 
@@ -362,7 +363,8 @@ func _build_heading(
 	pause_time_template: String,
 	resume_time_template: String,
 	elapsed_time_template: String,
-	pause_span_template: String = "",
+	pause_span_template: String,
+	longest_shortest_template: String = ""
 ) -> PackedStringArray:
 	var heading := PackedStringArray([
 		pause_template % PAUSES,
@@ -375,6 +377,11 @@ func _build_heading(
 
 	if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS:
 		heading.append(pause_span_template % PAUSE_SPAN)
+
+	if _copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST:
+		heading.append(longest_shortest_template % (
+			LONGEST_SHORTEST if _longest_entry_index < _shortest_entry_index else SHORTEST_LONGEST
+		))
 
 	return heading
 
