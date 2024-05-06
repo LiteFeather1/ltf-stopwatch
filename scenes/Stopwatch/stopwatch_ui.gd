@@ -557,7 +557,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 
 		for i in entries_size:
 			var time_span := time_state.pause_span(i)
-			if time_span >= longest_span and i != _shortest_entry_index: # Would it be better if we break and do _find_longes_tand_shortest()?
+			if time_span >= longest_span and i != _shortest_entry_index:
 				longest_span = time_span
 				_longest_entry_index = i
 		
@@ -568,7 +568,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 
 		for i in entries_size:
 			var time_span := time_state.pause_span(i)
-			if time_span <= shortest_span and i != _longest_entry_index: # Would it be better if we break and do _find_longest_shortest_entries()?
+			if time_span <= shortest_span and i != _longest_entry_index:
 				shortest_span = time_span
 				_shortest_entry_index = i
 
@@ -599,7 +599,8 @@ func _find_longest_shortest_times() -> void:
 		if pause_span >= longest_pause_span:
 			longest_pause_span = pause_span
 			_longest_entry_index = i
-		elif pause_span <= shortest_pause_span:
+
+		if pause_span <= shortest_pause_span and shortest_pause_span != longest_pause_span:
 			shortest_pause_span = pause_span
 			_shortest_entry_index = i
 	

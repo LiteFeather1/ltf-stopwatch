@@ -192,8 +192,7 @@ theme_override_constants/separation = 60
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
-text = "  Pauses
-"
+text = "  Pauses"
 
 [node name="menu_button_copy_tray" type="MenuButton" parent="stopwatch_tray_ui/HBoxContainer/Label"]
 layout_mode = 1
