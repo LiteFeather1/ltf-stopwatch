@@ -388,11 +388,13 @@ func _build_heading(
 
 func _copy_menu_long(_index: int) -> void:
 	var entries_text := PackedStringArray(["".join(_build_heading(
-		"%s  |", "  %s  |", "  %s", "  %s  |", "  |  %s"
+		"%s  |", "  %s  |", "  %s", "  %s  |", "  |  %s", "  |  %s"
 	))])
 
 	_copy_menu_tray_entries("Long", entries_text,
-		"%s       %s|   %s   |   %s%s", "|    %s    ", "    |   %s"
+		"%s       %s|   %s   |   %s%s", "|    %s    ", "    |   %s", (
+			"   |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "    |  %s"
+		)
 	)
 
 
