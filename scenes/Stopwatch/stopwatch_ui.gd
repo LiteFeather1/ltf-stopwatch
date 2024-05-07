@@ -73,6 +73,8 @@ func _ready() -> void:
 
 	pivot_offset.y += _title_bar.size.y
 
+	await get_tree().process_frame
+
 	# Set up copy menu tray
 	var pop_up := _menu_copy_tray.get_popup()
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
@@ -97,12 +99,15 @@ func _ready() -> void:
 		_copy_menu_toggle_pause_time,
 		_copy_menu_toggle_shortest_longest,
 	]
+	var options_flags_values := CopyMenuFlags.values()
 	for i in OPTIONS.size():
 		var index := i + items_size + 1
-		pop_up.add_check_item(OPTIONS[i], index)
 		_menu_copy_id_to_callable[index] = options_calls[i]
+		
+		pop_up.add_check_item(OPTIONS[i], index)
+		if _copy_menu_options_mask & options_flags_values[i] != 0:
+			pop_up.set_item_checked(index, true)
 
-	await get_tree().process_frame
 	_on_window_size_changed()
 	
 	if _stopwatch.has_started():
