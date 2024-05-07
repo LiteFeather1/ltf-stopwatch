@@ -38,7 +38,7 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 @export var _scene_stopwatch_entry_ui: PackedScene
 @export var _entry_tray: Control
 @export var _tray_container: Control
-@export var _menu_copy_tray: MenuButton
+@export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 
 @export_category("Copied Pop Up")
@@ -76,7 +76,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	# Set up copy menu tray
-	var pop_up := _menu_copy_tray.get_popup()
+	var pop_up := _copy_menu_button.get_popup()
 	pop_up.hide_on_checkable_item_selection = false
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
@@ -458,7 +458,7 @@ func _copy_menu_markdown(_index: int) -> void:
 
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
 	var is_option_checked := _copy_menu_options_mask & flag != 0
-	_menu_copy_tray.get_popup().set_item_checked(index, not is_option_checked)
+	_copy_menu_button.get_popup().set_item_checked(index, not is_option_checked)
 
 	if is_option_checked:
 		_copy_menu_options_mask = _copy_menu_options_mask & ~flag
@@ -638,7 +638,7 @@ func _find_longest_shortest_times() -> void:
 			longest_pause_span = pause_span
 			_longest_entry_index = i
 
-		if pause_span <= shortest_pause_span and shortest_pause_span != longest_pause_span:
+		if pause_span < shortest_pause_span:
 			shortest_pause_span = pause_span
 			_shortest_entry_index = i
 	
