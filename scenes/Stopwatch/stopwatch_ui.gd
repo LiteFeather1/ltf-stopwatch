@@ -365,7 +365,7 @@ func _copy_menu_tray_entries(
 
 func _copy_menu_simple(_index: int) -> void:
 	_copy_menu_tray_entries("Simple", PackedStringArray(),
-		"%s  %s%s  %s%s%s", "%s  ", "  %s", "  %s"
+		"%s  %s%s  %s%s%s", "%s  ", " %s", "  %s"
 	)
 
 
@@ -402,8 +402,8 @@ func _copy_menu_long(_index: int) -> void:
 		"%s  |", "  %s  |", "  %s", "  %s  |", "  |  %s", "  |  %s"
 	))])
 	_copy_menu_tray_entries("Long", entries_text,
-		"%s            %s|   %s      |   %s%s%s", "|    %s        ", "    |   %s", (
-			"   |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "    |  %s"
+		"%s            %s|     %s     |     %s%s%s", "|      %s       ", "        |    %s", (
+			"     |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "        |  %s"
 		)
 	)
 
