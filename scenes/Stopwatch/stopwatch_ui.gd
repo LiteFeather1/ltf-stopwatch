@@ -415,7 +415,7 @@ func _copy_menu_csv(_index: int) -> void:
 	var entries_text := PackedStringArray(["".join(
 		_build_heading("%s,", "%s,", "%s", "%s,", ",%s", ",%s"
 	))])
-	_copy_menu_tray_entries("CSV", entries_text, "%s,%s%s,%s%s", "%s,", ",%s", ",%s")
+	_copy_menu_tray_entries("CSV", entries_text, "%s,%s%s,%s%s%s", "%s,", ",%s", ",%s")
 
 
 func _copy_menu_markdown(_index: int) -> void:
@@ -431,7 +431,7 @@ func _copy_menu_markdown(_index: int) -> void:
 		":-|" if (_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0) else ":-:|"
 
 	_copy_menu_tray_entries("MD Table", PackedStringArray(["".join(heading)]),
-		"|%s%s|%s|%s|%s", "|%s", "%s|", "%s|"
+		"|%s%s|%s|%s|%s%s", "|%s", "%s|", "%s|"
 	)
 
 
