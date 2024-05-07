@@ -383,13 +383,16 @@ func _build_heading(
 		template_resume_time % RESUME_TIME
 	])
 
-	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES:
+	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0:
 		heading.insert(1, template_elapsed_time % ELAPSED_TIME)
 
-	if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS:
+	if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0:
 		heading.append(template_pause_span % PAUSE_SPAN)
 
-	if _copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST:
+	if (
+		_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST
+		and _stopwatch.get_time_state().resumed_times_size() > 1
+	):
 		heading.append(template_longest_shortest % (
 			LONGEST_SHORTEST if _longest_entry_index < _shortest_entry_index else SHORTEST_LONGEST
 		))
