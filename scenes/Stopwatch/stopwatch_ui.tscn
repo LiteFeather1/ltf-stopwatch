@@ -53,6 +53,7 @@ grow_end = 0.0
 thickness = 2
 
 [node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_copy_menu_button", "_copied_pop_up", "_l_copied_time")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -198,7 +199,6 @@ theme_override_font_sizes/font_size = 11
 text = "  Pauses"
 
 [node name="menu_button_copy_tray" type="MenuButton" parent="stopwatch_tray_ui/HBoxContainer/Label"]
-visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5

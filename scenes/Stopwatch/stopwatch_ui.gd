@@ -360,7 +360,9 @@ func _copy_menu_tray_entries(
 			(template_longest_shortest % "--") if show_longest_shortest else ""
 		]
 
-	var pause_span_indexes := time_state.pause_span_indexes()
+	var pause_span_indexes: PackedInt32Array
+	if show_longest_shortest:
+		pause_span_indexes = time_state.pause_span_indexes()
 	for i in resumed_size:
 		entries_text[i + base_size] = template % [
 			i + 1,
