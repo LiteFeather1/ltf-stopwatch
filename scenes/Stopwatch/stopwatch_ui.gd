@@ -410,8 +410,11 @@ func _copy_menu_markdown(_index: int) -> void:
 	heading.resize(heading_size * 2 + 1)
 	heading[heading_size] = "\n"
 	heading[heading_size + 1] = "|:-|"
-	for i: int in heading_size - 1:
+	for i: int in heading_size - 2:
 		heading[i + heading_size + 2] = ":-:|"
+	
+	heading[heading_size * 2] =\
+		":-|" if (_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0) else ":-:|"
 
 	_copy_menu_tray_entries("MD Table", PackedStringArray(["".join(heading)]),
 		"|%s%s|%s|%s|%s", "|%s", "%s|", "%s|"
