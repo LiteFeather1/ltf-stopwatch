@@ -7,8 +7,8 @@ enum CopyMenuFlags {
 	LONGEST_SHORTEST = 1 << 2,
 }
 
-const TEMPLATE_LONGEST_ENTRY := &"%d Longest"
-const TEMPLATE_SHORTEST_ENTRY := &"%d Shortest"
+const TEMPLATE_LONGEST_ENTRY := &"#%d Longest"
+const TEMPLATE_SHORTEST_ENTRY := &"#%d Shortest"
 
 const PAUSES := &"Pauses"
 const PAUSE_TIME := &"Pause Time"
@@ -178,7 +178,7 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 		new_entry.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
 
 	for i: int in range(index + 1, _stopwatch_tray_entries_ui.size()):
-		_stopwatch_tray_entries_ui[i].set_pause_span(str(i + 1))
+		_stopwatch_tray_entries_ui[i].set_pause_span("#%d" % (i + 1))
 
 	if resumed_size < 2:
 		return
@@ -512,7 +512,7 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchE
 
 	var time_state := _stopwatch.get_time_state()
 	new_entry.init(
-		str(insert_at + 1),
+		"#%d" % (insert_at + 1),
 		Global.seconds_to_time(time_state.get_paused_time(insert_at)),
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
@@ -546,7 +546,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 	time_state.delete_entry(index)
 
 	for i: int in range(index, _stopwatch_tray_entries_ui.size()):
-		_stopwatch_tray_entries_ui[i].replace_pause_num(str(i + 2), str(i + 1))
+		_stopwatch_tray_entries_ui[i].replace_pause_num("#%d" % (i + 2), str(i + 1))
 
 	var was_longest := index == _longest_entry_index
 	var was_shortest := index == _shortest_entry_index
@@ -593,7 +593,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 
 
 func _clear_entry_suffix(index: int) -> void:
-	_stopwatch_tray_entries_ui[index].set_pause_span(str(index + 1))
+	_stopwatch_tray_entries_ui[index].set_pause_span("#%d" % (index + 1))
 
 
 func _set_entry_span(index: int, template: StringName) -> void:
