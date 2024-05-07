@@ -368,9 +368,10 @@ func _copy_menu_tray_entries(
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(i)),
 			Global.seconds_to_time(time_state.get_resumed_time(i)),
-			template_pause_span % Global.seconds_to_time(time_state.pause_span(i))
+			(template_pause_span % Global.seconds_to_time(time_state.pause_span(i)))
 				if show_pause_span else "",
-			(template_longest_shortest % "#%d" % pause_span_indexes[i]) if show_longest_shortest else ""
+			(template_longest_shortest % "#%d" % pause_span_indexes[i])
+				if show_longest_shortest else ""
 		]
 	
 	if show_longest_shortest:
@@ -390,7 +391,7 @@ func _copy_menu_simple(_index: int) -> void:
 	)
 
 
-func _build_heading(
+func _build_copy_heading(
 	template_pause: String,
 	template_pause_time: String,
 	template_resume_time: String,
@@ -422,7 +423,7 @@ func _build_heading(
 
 
 func _copy_menu_long(_index: int) -> void:
-	var entries_text := PackedStringArray(["".join(_build_heading(
+	var entries_text := PackedStringArray(["".join(_build_copy_heading(
 		"%s  |", "  %s  |", "  %s", "  %s  |", "  |  %s", "  |  %s"
 	))])
 	_copy_menu_tray_entries("Long", entries_text,
@@ -434,13 +435,13 @@ func _copy_menu_long(_index: int) -> void:
 
 func _copy_menu_csv(_index: int) -> void:
 	var entries_text := PackedStringArray(["".join(
-		_build_heading("%s,", "%s,", "%s", "%s,", ",%s", ",%s"
+		_build_copy_heading("%s,", "%s,", "%s", "%s,", ",%s", ",%s"
 	))])
 	_copy_menu_tray_entries("CSV", entries_text, "#%s,%s%s,%s%s%s", "%s,", ",%s", ",%s")
 
 
 func _copy_menu_markdown(_index: int) -> void:
-	var heading := _build_heading("|%s", "|%s", "|%s|", "|%s", "%s|", "%s|")
+	var heading := _build_copy_heading("|%s", "|%s", "|%s|", "|%s", "%s|", "%s|")
 	var heading_size := heading.size()
 	heading.resize(heading_size * 2 + 1)
 	heading[heading_size] = "\n"
@@ -464,21 +465,6 @@ func _copy_menu_toggle_options(index: int, flag: int) -> void:
 		_copy_menu_options_mask = _copy_menu_options_mask & ~flag
 	else:
 		_copy_menu_options_mask = _copy_menu_options_mask | flag
-
-	# TODO Remove once done
-	var O := &"Options enabled"
-	var enabled_options := O
-	var i := 0
-	for f in CopyMenuFlags:
-		if _copy_menu_options_mask & CopyMenuFlags.values()[i] != 0:
-			enabled_options += " %s" % f
-		
-		i += 1
-
-	if enabled_options == O:
-		print("No options enabled")
-	else:
-		print(enabled_options)
 
 
 func _copy_menu_toggle_elapsed_time(index: int) -> void:
