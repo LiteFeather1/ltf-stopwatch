@@ -315,10 +315,15 @@ func _copy_menu_tray_entries(
 ) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
-
 	var base_size := entries_text.size()
+
 	var show_elapsed_time := _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0
 	var show_pause_span := _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0
+	var show_longest_shortest := (
+		_copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0
+		and resumed_size > 1
+	)
+
 	if resumed_size == time_state.paused_times_size():
 		entries_text.resize(resumed_size + base_size)
 	else:
@@ -330,10 +335,11 @@ func _copy_menu_tray_entries(
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT,
-			(template_pause_span % time_state.NIL_PAUSE_TEXT)
-				if show_pause_span else "",
+			(template_pause_span % time_state.NIL_PAUSE_TEXT) if show_pause_span else "",
+			(template_longest_shortest % "--") if show_elapsed_time else ""
 		]
 
+	var pause_span_indexes := time_state.pause_span_indexes()
 	for i in resumed_size:
 		entries_text[i + base_size] = template % [
 			i + 1,
@@ -341,13 +347,18 @@ func _copy_menu_tray_entries(
 				if show_elapsed_time else "",
 			Global.seconds_to_time(time_state.get_paused_time(i)),
 			Global.seconds_to_time(time_state.get_resumed_time(i)),
-			(template_pause_span % Global.seconds_to_time(time_state.pause_span(i)))
+			template_pause_span % Global.seconds_to_time(time_state.pause_span(i))
 				if show_pause_span else "",
+			(template_longest_shortest % pause_span_indexes[i]) if show_elapsed_time else ""
 		]
 	
-	if _copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0:
-		entries_text[base_size + _longest_entry_index] += template_longest_shortest % "Longest"
-		entries_text[base_size + _shortest_entry_index] += template_longest_shortest % "Shortest"
+	if show_longest_shortest:
+		entries_text[base_size + _longest_entry_index] = entries_text[base_size + _longest_entry_index].replace(
+			template_longest_shortest % (resumed_size - 1), "Longest"
+		)
+		entries_text[base_size + _shortest_entry_index] = entries_text[base_size + _longest_entry_index].replace(
+			template_longest_shortest % 0, "Shortest"
+		)
 
 	_set_clipboard("\n".join(entries_text), message)
 
