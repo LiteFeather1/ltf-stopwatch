@@ -7,6 +7,8 @@ enum CopyMenuFlags {
 	LONGEST_SHORTEST = 1 << 2,
 }
 
+const COPY_MENU_OPTIONS := &"copy_menu_options"
+
 const TEMPLATE_LONGEST_ENTRY := &"#%d Longest"
 const TEMPLATE_SHORTEST_ENTRY := &"#%d Shortest"
 
@@ -52,6 +54,10 @@ var _copy_menu_options_mask: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
+
+
+func _enter_tree() -> void:
+	add_to_group(Main.SAVEABLE)
 
 
 func _ready() -> void:
@@ -204,6 +210,15 @@ func redo_deleted_stopwatch_entry_ui() -> void:
 func pause_stopwatch_if_running() -> void:
 	if _b_start.button_pressed:
 		_stopwatch.set_state(false)
+
+
+func load(save_data: Dictionary) -> void:
+	if save_data.has(COPY_MENU_OPTIONS):
+		_copy_menu_options_mask = save_data[COPY_MENU_OPTIONS]
+
+
+func save(save_data: Dictionary) -> void:
+	save_data[COPY_MENU_OPTIONS] = _copy_menu_options_mask
 
 
 func _set_buttons_disabled(state: bool) -> void:
