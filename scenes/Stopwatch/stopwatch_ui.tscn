@@ -182,10 +182,12 @@ offset_right = -32.0
 offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/separation = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="stopwatch_tray_ui"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 60
 
 [node name="Label" type="Label" parent="stopwatch_tray_ui/HBoxContainer"]

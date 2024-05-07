@@ -77,6 +77,7 @@ func _ready() -> void:
 
 	# Set up copy menu tray
 	var pop_up := _menu_copy_tray.get_popup()
+	pop_up.hide_on_checkable_item_selection = false
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
 	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy Markdown Table"]
@@ -103,7 +104,7 @@ func _ready() -> void:
 	for i in OPTIONS.size():
 		var index := i + items_size + 1
 		_menu_copy_id_to_callable[index] = options_calls[i]
-		
+
 		pop_up.add_check_item(OPTIONS[i], index)
 		if _copy_menu_options_mask & options_flags_values[i] != 0:
 			pop_up.set_item_checked(index, true)
