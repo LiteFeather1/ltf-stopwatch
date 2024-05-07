@@ -320,7 +320,7 @@ func _copy_menu_tray_entries(
 	var show_elapsed_time := _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0
 	var show_pause_span := _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0
 	var show_longest_shortest := (
-		_copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0
+		_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0
 		and resumed_size > 1
 	)
 
@@ -336,7 +336,7 @@ func _copy_menu_tray_entries(
 			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT,
 			(template_pause_span % time_state.NIL_PAUSE_TEXT) if show_pause_span else "",
-			(template_longest_shortest % "--") if show_elapsed_time else ""
+			(template_longest_shortest % "--") if show_longest_shortest else ""
 		]
 
 	var pause_span_indexes := time_state.pause_span_indexes()
@@ -349,15 +349,15 @@ func _copy_menu_tray_entries(
 			Global.seconds_to_time(time_state.get_resumed_time(i)),
 			template_pause_span % Global.seconds_to_time(time_state.pause_span(i))
 				if show_pause_span else "",
-			(template_longest_shortest % pause_span_indexes[i]) if show_elapsed_time else ""
+			(template_longest_shortest % "#%d" % pause_span_indexes[i]) if show_longest_shortest else ""
 		]
 	
 	if show_longest_shortest:
 		entries_text[base_size + _longest_entry_index] = entries_text[base_size + _longest_entry_index].replace(
-			template_longest_shortest % (resumed_size - 1), "Longest"
+			template_longest_shortest % "#%d" % (resumed_size - 1), template_longest_shortest % "Longest"
 		)
-		entries_text[base_size + _shortest_entry_index] = entries_text[base_size + _longest_entry_index].replace(
-			template_longest_shortest % 0, "Shortest"
+		entries_text[base_size + _shortest_entry_index] = entries_text[base_size + _shortest_entry_index].replace(
+			template_longest_shortest % "#%d" % 0, template_longest_shortest % "Shortest"
 		)
 
 	_set_clipboard("\n".join(entries_text), message)
