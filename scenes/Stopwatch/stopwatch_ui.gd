@@ -157,8 +157,8 @@ func restore_last_time_state() -> void:
 	# Set existing matched entries
 	for i: int in to_set_in_tray:
 		_stopwatch_tray_entries_ui[i].set_times(
-			Global.seconds_to_time(time_state.get_paused_time(i)),
-			Global.seconds_to_time(time_state.get_resumed_time(i)),
+			Time.get_time_string_from_unix_time(time_state.get_paused_time(i)),
+			Time.get_time_string_from_unix_time(time_state.get_resumed_time(i)),
 			Global.seconds_to_time(time_state.get_elapsed_time(i)),
 		)
 	
@@ -188,7 +188,7 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 	
 	var resumed_size := time_state.resumed_times_size()
 	if index < resumed_size:
-		new_entry.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
+		new_entry.set_resume_time(Time.get_time_string_from_unix_time(time_state.get_resumed_time(index)))
 
 	for i: int in range(index + 1, _stopwatch_tray_entries_ui.size()):
 		_stopwatch_tray_entries_ui[i].set_pause_span("#%d" % (i + 1))
@@ -245,7 +245,7 @@ func _stopwatch_resumed() -> void:
 	var time_state = _stopwatch.get_time_state()
 	var index := time_state.resumed_times_size() - 1
 	_stopwatch_tray_entries_ui.back().set_resume_time(
-		Global.seconds_to_time(time_state.get_resumed_time(index))
+		Time.get_time_string_from_unix_time(time_state.get_resumed_time(index))
 	)
 
 	if index < 1:
@@ -369,8 +369,8 @@ func _copy_menu_tray_entries(
 			i + 1,
 			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(i)))
 				if show_elapsed_time else "",
-			Global.seconds_to_time(time_state.get_paused_time(i)),
-			Global.seconds_to_time(time_state.get_resumed_time(i)),
+			Time.get_time_string_from_unix_time(time_state.get_paused_time(i)),
+			Time.get_time_string_from_unix_time(time_state.get_resumed_time(i)),
 			(template_pause_span % Global.seconds_to_time(time_state.pause_span(i)))
 				if show_pause_span else "",
 			(template_longest_shortest % "#%d" % pause_span_indexes[i])
@@ -542,7 +542,7 @@ func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> vo
 	for i in amount:
 		var index := index_offset + i
 		_instantiate_stopwatch_entry_ui(i + index_offset, 0)\
-			.set_resume_time(Global.seconds_to_time(time_state.get_resumed_time(index)))
+			.set_resume_time(Time.get_time_string_from_unix_time(time_state.get_resumed_time(index)))
 	
 	if (amount + index_offset) < time_state.paused_times_size():
 		_instantiate_stopwatch_entry_ui(amount + index_offset, 0)
