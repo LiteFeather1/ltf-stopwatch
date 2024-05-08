@@ -48,9 +48,9 @@ func has_started() -> bool:
 func set_state(state: bool) -> void:
 	set_process(state)
 
-	var unix_time := (
+	var unix_time := int(	
 		Time.get_unix_time_from_system()
-		+ 86400.0 if Time.get_datetime_dict_from_system()["dst"] else 0.0
+		+ 3600.0 if Time.get_datetime_dict_from_system()["dst"] else 0.0
 	)
 	
 	if state:

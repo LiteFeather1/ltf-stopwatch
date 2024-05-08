@@ -10,9 +10,9 @@ const NIL_PAUSE_TEXT := &" -- : -- : -- "
 
 var elapsed_time: float = 0.0
 
-var _paused_times: PackedFloat32Array
+var _paused_times: PackedInt32Array
 var _elapsed_times: PackedFloat32Array
-var _resumed_times: PackedFloat32Array
+var _resumed_times: PackedInt32Array
 
 var _deleted_entries: Array[DeletedEntry]
 var _redo_deleted_indexes: PackedInt32Array
@@ -41,7 +41,7 @@ func _to_string() -> String:
 	return text
 
 
-func append_paused_time(time: float) -> void:
+func append_paused_time(time: int) -> void:
 	if _unmatched_paused_index != -1:
 		_deleted_entries[_unmatched_paused_index].resumed_time = time
 		_unmatched_paused_index = -1
@@ -60,7 +60,7 @@ func paused_times_size() -> int:
 	return _paused_times.size()
 
 
-func append_resumed_time(time: float) -> void:
+func append_resumed_time(time: int) -> void:
 	_unmatched_paused_index = -1
 	_resumed_times.append(time)
 
@@ -187,14 +187,14 @@ func _clear_redo() -> void:
 # We could use a command pattern instead of this
 class DeletedEntry extends Object:
 	var index: int
-	var paused_time: float
+	var paused_time: int
 	var elapsed_time: float
-	var resumed_time: float = -1.0
+	var resumed_time: int = -1
 
 
 	func _init(
 		index_: int = -1,
-		paused_time_: float = -1.0,
+		paused_time_: int = -1,
 		elapsed_time_: float = -1.0
 	) -> void:
 		index = index_
