@@ -21,7 +21,7 @@ func init(
 	pause_time: String,
 	hover_message: String,
 	on_hovered: Callable,
-	on_deleted: Callable
+	on_deleted: Callable,
 ) -> void:
 	_l_pause_span.text = span
 	_l_pause_time.text = pause_time
@@ -101,12 +101,12 @@ func delete_routine() -> void:
 	tween.tween_property(
 		self, "position:x",
 		position.x + offset,
-		randf_range(.15, .2)
+		randf_range(.15, .2),
 	)
 	tween.tween_property(
 		self, "position:x",
 		position.x -offset + size.x * -dir,
-		randf_range(.175, .25)
+		randf_range(.175, .25),
 	)
 	
 	await tween.finished

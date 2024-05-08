@@ -105,5 +105,5 @@ func _set_time() -> void:
 		_time_state.elapsed_time / 3600.0,
 		fmod(_time_state.elapsed_time, 3600.0) / 60.0,
 		fmod(_time_state.elapsed_time, 60.0),
-		fmod(_time_state.elapsed_time, 1.0) * 100.0
+		fmod(_time_state.elapsed_time, 1.0) * 100.0,
 	]

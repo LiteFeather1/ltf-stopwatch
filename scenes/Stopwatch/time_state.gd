@@ -196,7 +196,7 @@ class DeletedEntry extends Object:
 	func _init(
 		index_: int = -1,
 		paused_time_: int = -1,
-		elapsed_time_: float = -1.0
+		elapsed_time_: float = -1.0,
 	) -> void:
 		index = index_
 		paused_time = paused_time_

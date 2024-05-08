@@ -184,11 +184,15 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 		return
 	
 	var index := time_state.undo_deleted_entry()
-	var new_entry := _instantiate_stopwatch_entry_ui(index, _stopwatch_tray_entries_ui.size() - index)
+	var new_entry := _instantiate_stopwatch_entry_ui(
+		index, _stopwatch_tray_entries_ui.size() - index
+	)
 	
 	var resumed_size := time_state.resumed_times_size()
 	if index < resumed_size:
-		new_entry.set_resume_time(Time.get_time_string_from_unix_time(time_state.get_resumed_time(index)))
+		new_entry.set_resume_time(
+			Time.get_time_string_from_unix_time(time_state.get_resumed_time(index))
+		)
 
 	for i: int in range(index + 1, _stopwatch_tray_entries_ui.size()):
 		_stopwatch_tray_entries_ui[i].set_pause_span("#%d" % (i + 1))
@@ -333,7 +337,7 @@ func _copy_menu_tray_entries(
 	template: String,
 	template_elapsed_time: String,
 	template_pause_span: String,
-	template_longest_shortest: String
+	template_longest_shortest: String,
 ) -> void:
 	var time_state := _stopwatch.get_time_state()
 	var resumed_size := time_state.resumed_times_size()
@@ -358,7 +362,7 @@ func _copy_menu_tray_entries(
 			Time.get_time_string_from_unix_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT_SPACED,
 			(template_pause_span % time_state.NIL_PAUSE_TEXT_SPACED) if show_pause_span else "",
-			(template_longest_shortest % "--") if show_longest_shortest else ""
+			(template_longest_shortest % "--") if show_longest_shortest else "",
 		]
 
 	var pause_span_indexes: PackedInt32Array
@@ -390,7 +394,7 @@ func _copy_menu_tray_entries(
 
 func _copy_menu_simple(_index: int) -> void:
 	_copy_menu_tray_entries("Simple", PackedStringArray(),
-		"#%s  %s%s  %s%s%s", "%s  ", " %s", "  %s"
+		"#%s  %s%s  %s%s%s", "%s  ", "  %s", "  %s"
 	)
 
 
@@ -400,12 +404,12 @@ func _build_copy_heading(
 	template_resume_time: String,
 	template_elapsed_time: String,
 	template_pause_span: String,
-	template_longest_shortest: String
+	template_longest_shortest: String,
 ) -> PackedStringArray:
 	var heading := PackedStringArray([
 		template_pause % PAUSES,
 		template_pause_time % PAUSE_TIME,
-		template_resume_time % RESUME_TIME
+		template_resume_time % RESUME_TIME,
 	])
 
 	if _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0:
@@ -432,7 +436,7 @@ func _copy_menu_long(_index: int) -> void:
 	_copy_menu_tray_entries("Long", entries_text,
 		"#%s          %s|     %s     |     %s%s%s", "|      %s       ", "        |    %s", (
 			"     |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "        |  %s"
-		)
+		),
 	)
 
 
@@ -526,7 +530,7 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchE
 		Time.get_time_string_from_unix_time(time_state.get_paused_time(insert_at)),
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
-		_on_stopwatch_entry_deleted
+		_on_stopwatch_entry_deleted,
 	)
 
 	_tray_container.add_child(new_entry)
