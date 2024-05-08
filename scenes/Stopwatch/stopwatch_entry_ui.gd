@@ -9,7 +9,7 @@ signal deleted(instance: StopwatchEntryUI)
 @export var _l_pause_time: Label
 @export var _l_resume_time: Label
 
-var _elapsed_time: String
+var _hover_message: String
 
 var _is_mouse_inside := false
 
@@ -19,13 +19,13 @@ var _tween: Tween
 func init(
 	span: String,
 	pause_time: String,
-	elapsed_time: String,
+	hover_message: String,
 	on_hovered: Callable,
 	on_deleted: Callable
 ) -> void:
 	_l_pause_span.text = span
 	_l_pause_time.text = pause_time
-	_elapsed_time = elapsed_time
+	_hover_message = hover_message
 	hovered.connect(on_hovered)
 	deleted.connect(on_deleted)
 
@@ -38,7 +38,7 @@ func _ready() -> void:
 
 func _on_mouse_entered() -> void:
 	_is_mouse_inside = true
-	AL_HoverTipFollow.show_hover_tip(_elapsed_time)
+	AL_HoverTipFollow.show_hover_tip(_hover_message)
 	hovered.emit(self)
 
 
@@ -73,12 +73,12 @@ func replace_pause_num(from: String, to: String) -> void:
 
 func set_times(
 	paused_time: String,
-	elapsed_time: String,
+	hover_message: String,
 	resumed_time: String = TimeState.NIL_PAUSE_TEXT
 ) -> void:
 	_l_pause_time.text = paused_time
-	_elapsed_time = elapsed_time
 	_l_resume_time.text = resumed_time
+	_hover_message = hover_message
 
 
 func set_resume_time(time: String) -> void:
