@@ -81,14 +81,14 @@ func _ready() -> void:
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
 	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy Markdown Table"]
-	var items_size := ITEMS.size()
 	var items_calls := [
 		_copy_menu_simple,
 		_copy_menu_long,
 		_copy_menu_csv,
 		_copy_menu_markdown,
 	]
-	for i in items_size:
+	var items_size := ITEMS.size()
+	for i: int in items_size:
 		pop_up.add_item(ITEMS[i], i)
 		_menu_copy_id_to_callable[i] = items_calls[i]
 
@@ -101,7 +101,7 @@ func _ready() -> void:
 		_copy_menu_toggle_shortest_longest,
 	]
 	var options_flags_values := CopyMenuFlags.values()
-	for i in OPTIONS.size():
+	for i: int in OPTIONS.size():
 		var index := i + items_size + 1
 		_menu_copy_id_to_callable[index] = options_calls[i]
 
@@ -288,7 +288,7 @@ func _reset_pressed() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("start")
 
-	for entry in _stopwatch_tray_entries_ui:
+	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
 		entry.queue_free()
 	
 	_stopwatch_tray_entries_ui.clear()
@@ -364,7 +364,7 @@ func _copy_menu_tray_entries(
 	var pause_span_indexes: PackedInt32Array
 	if show_longest_shortest:
 		pause_span_indexes = time_state.pause_span_indexes()
-	for i in resumed_size:
+	for i: int in resumed_size:
 		entries_text[i + base_size] = template % [
 			i + 1,
 			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(i)))
@@ -539,7 +539,7 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchE
 
 func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> void:
 	var time_state := _stopwatch.get_time_state()
-	for i in amount:
+	for i: int in amount:
 		var index := index_offset + i
 		_instantiate_stopwatch_entry_ui(i + index_offset, 0)\
 			.set_resume_time(Time.get_time_string_from_unix_time(time_state.get_resumed_time(index)))
@@ -582,7 +582,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 		var longest_span := -Global.FLOAT_MAX
 		_longest_entry_index = 0
 
-		for i in entries_size:
+		for i:int in entries_size:
 			var time_span := time_state.pause_span(i)
 			if time_span >= longest_span and i != _shortest_entry_index:
 				longest_span = time_span
@@ -593,7 +593,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 		var shortest_span := Global.FLOAT_MAX
 		_shortest_entry_index = 0
 
-		for i in entries_size:
+		for i: int in entries_size:
 			var time_span := time_state.pause_span(i)
 			if time_span <= shortest_span and i != _longest_entry_index:
 				shortest_span = time_span
