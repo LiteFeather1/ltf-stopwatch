@@ -48,25 +48,23 @@ func has_started() -> bool:
 func set_state(state: bool) -> void:
 	set_process(state)
 
-	var current_time := Time.get_datetime_dict_from_system()
-	var seconds := (
-		float(current_time["hour"]) * 3600.0
-		+ float(current_time["minute"]) * 60.0
-		+ float(current_time["second"])
+	var unix_time := (
+		Time.get_unix_time_from_system()
+		+ 86400.0 if Time.get_datetime_dict_from_system()["dst"] else 0.0
 	)
 	
 	if state:
 		modulate = _ticking_colour
 		
 		if _time_state.resumed_times_size() < _time_state.paused_times_size():
-			_time_state.append_resumed_time(seconds)
+			_time_state.append_resumed_time(unix_time)
 			resumed.emit()
 		elif _time_state.elapsed_time == 0.0:
 			started.emit()
 	else:
 		modulate = _paused_colour
 
-		_time_state.append_paused_time(seconds)
+		_time_state.append_paused_time(unix_time)
 		paused.emit()
 
 
