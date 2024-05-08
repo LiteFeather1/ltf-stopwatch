@@ -52,7 +52,7 @@ func append_paused_time(time: int) -> void:
 	_clear_redo()
 
 
-func get_paused_time(index: int) -> float:
+func get_paused_time(index: int) -> int:
 	return _paused_times[index]
 
 
@@ -71,7 +71,7 @@ func get_elapsed_time(index: int) -> float:
 	return _elapsed_times[index]
 
 
-func get_resumed_time(index: int) -> float:
+func get_resumed_time(index: int) -> int:
 	return _resumed_times[index]
 
 
@@ -79,13 +79,13 @@ func resumed_times_size() -> int:
 	return _resumed_times.size()
 
 
-func pause_span(index: int) -> float:
+func pause_span(index: int) -> int:
 	return _resumed_times[index] - _paused_times[index]
 
 
 func pause_span_indexes() -> PackedInt32Array:
 	var resumed_size := _resumed_times.size()
-	var pause_spans := PackedFloat32Array()
+	var pause_spans := PackedInt32Array()
 	pause_spans.resize(resumed_size)
 	var indexes := PackedInt32Array()
 	indexes.resize(resumed_size)
