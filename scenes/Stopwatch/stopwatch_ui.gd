@@ -145,7 +145,7 @@ func restore_last_time_state() -> void:
 		if paused_size != resumed_size:
 			var index := paused_size - 1
 			_stopwatch_tray_entries_ui[index].set_times(
-				Global.seconds_to_time(time_state.get_paused_time(index)),
+				Time.get_time_string_from_unix_time(time_state.get_paused_time(index)),
 				TimeState.NIL_PAUSE_TEXT,
 				Global.seconds_to_time(time_state.get_elapsed_time(index)),
 			)
@@ -355,7 +355,7 @@ func _copy_menu_tray_entries(
 			resumed_size + 1,
 			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
 				if show_elapsed_time else "",
-			Global.seconds_to_time(time_state.get_paused_time(resumed_size)),
+			Time.get_time_string_from_unix_time(time_state.get_paused_time(resumed_size)),
 			time_state.NIL_PAUSE_TEXT,
 			(template_pause_span % time_state.NIL_PAUSE_TEXT) if show_pause_span else "",
 			(template_longest_shortest % "--") if show_longest_shortest else ""
@@ -523,7 +523,7 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchE
 	var time_state := _stopwatch.get_time_state()
 	new_entry.init(
 		"#%d" % (insert_at + 1),
-		Global.seconds_to_time(time_state.get_paused_time(insert_at)),
+		Time.get_time_string_from_unix_time(time_state.get_paused_time(insert_at)),
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
 		_on_stopwatch_entry_deleted
