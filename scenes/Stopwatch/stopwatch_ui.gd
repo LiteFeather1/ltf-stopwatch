@@ -356,8 +356,8 @@ func _copy_menu_tray_entries(
 			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
 				if show_elapsed_time else "",
 			Time.get_time_string_from_unix_time(time_state.get_paused_time(resumed_size)),
-			time_state.NIL_PAUSE_TEXT,
-			(template_pause_span % time_state.NIL_PAUSE_TEXT) if show_pause_span else "",
+			time_state.NIL_PAUSE_TEXT_SPACED,
+			(template_pause_span % time_state.NIL_PAUSE_TEXT_SPACED) if show_pause_span else "",
 			(template_longest_shortest % "--") if show_longest_shortest else ""
 		]
 

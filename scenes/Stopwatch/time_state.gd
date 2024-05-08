@@ -6,7 +6,8 @@ const PAUSED_TIMES := &"paused_times"
 const ELAPSED_TIMES := &"elapsed_times"
 const RESUMED_TIMES := &"resumed_times"
 
-const NIL_PAUSE_TEXT := &" -- : -- : -- "
+const NIL_PAUSE_TEXT := &"--:--:--"
+const NIL_PAUSE_TEXT_SPACED := &" -- : -- : -- "
 
 var elapsed_time: float = 0.0
 
