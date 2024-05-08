@@ -28,15 +28,15 @@ func _to_string() -> String:
 	for i: int in resumed_size:
 		text += TEMPLATE_ENTRY % [
 			Global.seconds_to_time(_elapsed_times[i]),
-			Global.seconds_to_time(_paused_times[i]),
-			Global.seconds_to_time(_resumed_times[i])
+			Time.get_time_string_from_unix_time(_paused_times[i]),
+			Time.get_time_string_from_unix_time(_resumed_times[i]),
 		]
 	
 	if resumed_size < _paused_times.size():
 		text += TEMPLATE_ENTRY % [
 			Global.seconds_to_time(_elapsed_times[resumed_size]),
-			Global.seconds_to_time(_paused_times[resumed_size]),
-			NIL_PAUSE_TEXT
+			Time.get_time_string_from_unix_time(_paused_times[resumed_size]),
+			NIL_PAUSE_TEXT,
 		]
 
 	return text
@@ -208,6 +208,8 @@ class DeletedEntry extends Object:
 		return "Index: %d | Elapsed time: %s | Paused time: %s | %s" % [
 			index,
 			Global.seconds_to_time(elapsed_time),
-			Global.seconds_to_time(paused_time),
-			"Resumed Time: %s" % Global.seconds_to_time(resumed_time) if resumed_time != -1 else "No Resume time"
+			Time.get_time_string_from_unix_time(paused_time),
+			"Resumed Time: %s" % (
+				Time.get_time_string_from_unix_time(resumed_time) if resumed_time != -1 else "No Resume time"
+			),
 		]
