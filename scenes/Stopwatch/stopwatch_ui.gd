@@ -146,7 +146,8 @@ func restore_last_time_state() -> void:
 			var index := paused_size - 1
 			_stopwatch_tray_entries_ui[index].set_times(
 				Global.seconds_to_time(time_state.get_paused_time(index)),
-				Global.seconds_to_time(time_state.get_elapsed_time(index))
+				TimeState.NIL_PAUSE_TEXT,
+				Global.seconds_to_time(time_state.get_elapsed_time(index)),
 			)
 	else:
 		to_set_in_tray = tray_size
@@ -157,8 +158,8 @@ func restore_last_time_state() -> void:
 	for i: int in to_set_in_tray:
 		_stopwatch_tray_entries_ui[i].set_times(
 			Global.seconds_to_time(time_state.get_paused_time(i)),
+			Global.seconds_to_time(time_state.get_resumed_time(i)),
 			Global.seconds_to_time(time_state.get_elapsed_time(i)),
-			Global.seconds_to_time(time_state.get_resumed_time(i))
 		)
 	
 	tray_size = _stopwatch_tray_entries_ui.size()
