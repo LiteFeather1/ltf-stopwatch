@@ -85,6 +85,10 @@ func set_resume_time(time: String) -> void:
 	_l_resume_time.text = time
 
 
+func set_separation(separation: int) -> void:
+	add_theme_constant_override("separation", separation)
+
+
 func delete_routine() -> void:
 	mouse_entered.disconnect(_on_mouse_entered)
 	mouse_exited.disconnect(_on_mouse_exited)
