@@ -172,6 +172,7 @@ script = ExtResource("3_wkdtx")
 _tip_name = "copy to cliboard"
 
 [node name="stopwatch_tray_ui" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -183,6 +184,7 @@ offset_right = -32.0
 offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset = Vector2(224, 0)
 mouse_filter = 2
 theme_override_constants/separation = 8
 

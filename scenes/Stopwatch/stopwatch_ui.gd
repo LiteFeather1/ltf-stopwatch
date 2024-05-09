@@ -186,6 +186,8 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 	if not time_state.can_undo():
 		return
 	
+	_entry_tray.visible = GLOBAL.window.size.x > _tray_h_separation_for_min_separation
+
 	var index := time_state.undo_deleted_entry()
 	var new_entry := _instantiate_stopwatch_entry_ui(
 		index, _stopwatch_tray_entries_ui.size() - index, get_h_separation_entry_tray()
@@ -246,6 +248,8 @@ func _on_stopwatch_started() -> void:
 
 func _stopwatch_paused() -> void:
 	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0, get_h_separation_entry_tray())
+
+	_entry_tray.visible = GLOBAL.window.size.x > _tray_h_separation_for_min_separation
 
 
 func _stopwatch_resumed() -> void:
@@ -558,8 +562,6 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int, separation: i
 
 	_tray_container.add_child(new_entry)
 	_tray_container.move_child(new_entry, move_to)
-	
-	_entry_tray.visible = true
 
 	return new_entry
 
