@@ -41,8 +41,8 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
-@export var _tray_h_separation_range := Vector2(60.0, -24.0)
-@export var _tray_h_separation_for_min_separation := 320.0
+@export var _tray_h_separation_range := Vector2(60.0, -20.0)
+@export var _tray_h_separation_for_min_separation := 288.0
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
@@ -188,7 +188,7 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 	
 	var index := time_state.undo_deleted_entry()
 	var new_entry := _instantiate_stopwatch_entry_ui(
-		index, _stopwatch_tray_entries_ui.size() - index
+		index, _stopwatch_tray_entries_ui.size() - index, get_h_separation_entry_tray()
 	)
 	
 	var resumed_size := time_state.resumed_times_size()
@@ -245,7 +245,7 @@ func _on_stopwatch_started() -> void:
 
 
 func _stopwatch_paused() -> void:
-	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0)
+	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0, get_h_separation_entry_tray())
 
 
 func _stopwatch_resumed() -> void:
@@ -538,7 +538,8 @@ func get_h_separation_entry_tray() -> int:
 		_tray_h_separation_range.y,
 	))
 
-func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchEntryUI:
+
+func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int, separation: int) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
 
@@ -549,6 +550,7 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchE
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
 		_on_stopwatch_entry_deleted,
+		separation,
 	)
 
 	_tray_container.add_child(new_entry)
@@ -561,13 +563,14 @@ func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchE
 
 func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> void:
 	var time_state := _stopwatch.get_time_state()
+	var separation := get_h_separation_entry_tray()
 	for i: int in amount:
 		var index := index_offset + i
-		_instantiate_stopwatch_entry_ui(i + index_offset, 0)\
+		_instantiate_stopwatch_entry_ui(i + index_offset, 0, separation)\
 			.set_resume_time(Time.get_time_string_from_unix_time(time_state.get_resumed_time(index)))
 	
 	if (amount + index_offset) < time_state.paused_times_size():
-		_instantiate_stopwatch_entry_ui(amount + index_offset, 0)
+		_instantiate_stopwatch_entry_ui(amount + index_offset, 0, separation)
 
 
 func _delete_stopwatch_entry_ui(index: int) -> void:

@@ -22,12 +22,14 @@ func init(
 	hover_message: String,
 	on_hovered: Callable,
 	on_deleted: Callable,
+	separation: int,
 ) -> void:
 	_l_pause_span.text = span
 	_l_pause_time.text = pause_time
 	_hover_message = hover_message
 	hovered.connect(on_hovered)
 	deleted.connect(on_deleted)
+	add_theme_constant_override("separation", separation)
 
 
 func _ready() -> void:
