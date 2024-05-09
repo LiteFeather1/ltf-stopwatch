@@ -36,10 +36,13 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 
 @export_category("Entry tray")
 @export var _scene_stopwatch_entry_ui: PackedScene
-@export var _entry_tray: Control
+@export var _entry_tray: VBoxContainer
 @export var _tray_container: Control
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
+@export var _hbc_tray_heading: HBoxContainer
+@export var _tray_h_separation_range := Vector2(60.0, -24.0)
+@export var _tray_h_separation_for_min_separation := 320.0
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
@@ -505,6 +508,18 @@ func _on_window_size_changed() -> void:
 	_b_start.scale = b_scale
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
+
+	# change tray h separation
+	var separation := int(remap(
+		GLOBAL.window.size.x,
+		GLOBAL.window.max_size.x,
+		_tray_h_separation_for_min_separation,
+		_tray_h_separation_range.x,
+		_tray_h_separation_range.y,
+	))
+	_hbc_tray_heading.add_theme_constant_override("separation", separation)
+	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
+		entry.add_theme_constant_override("separation", separation)
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:

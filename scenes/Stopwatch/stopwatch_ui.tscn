@@ -52,7 +52,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_copy_menu_button", "_copied_pop_up", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_element_to_scale", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_copy_menu_button", "_hbc_tray_heading", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,8 +72,9 @@ _sprite_pause = ExtResource("3_fs0r6")
 _scene_stopwatch_entry_ui = ExtResource("4_ta478")
 _entry_tray = NodePath("stopwatch_tray_ui")
 _tray_container = NodePath("stopwatch_tray_ui/ScrollContainer/vbc_tray_container")
-_copy_menu_button = NodePath("stopwatch_tray_ui/HBoxContainer/Label/menu_button_copy_tray")
+_copy_menu_button = NodePath("stopwatch_tray_ui/hbx_tray_heading/Label/menu_button_copy_tray")
 _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
+_hbc_tray_heading = NodePath("stopwatch_tray_ui/hbx_tray_heading")
 _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
@@ -171,7 +172,6 @@ script = ExtResource("3_wkdtx")
 _tip_name = "copy to cliboard"
 
 [node name="stopwatch_tray_ui" type="VBoxContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -186,18 +186,18 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="stopwatch_tray_ui"]
+[node name="hbx_tray_heading" type="HBoxContainer" parent="stopwatch_tray_ui"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 60
 
-[node name="Label" type="Label" parent="stopwatch_tray_ui/HBoxContainer"]
+[node name="Label" type="Label" parent="stopwatch_tray_ui/hbx_tray_heading"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "  Pauses"
 
-[node name="menu_button_copy_tray" type="MenuButton" parent="stopwatch_tray_ui/HBoxContainer/Label"]
+[node name="menu_button_copy_tray" type="MenuButton" parent="stopwatch_tray_ui/hbx_tray_heading/Label"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -210,13 +210,13 @@ grow_vertical = 2
 icon = ExtResource("11_1p55s")
 switch_on_hover = true
 
-[node name="Label2" type="Label" parent="stopwatch_tray_ui/HBoxContainer"]
+[node name="Label2" type="Label" parent="stopwatch_tray_ui/hbx_tray_heading"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Pause Time"
 
-[node name="Label3" type="Label" parent="stopwatch_tray_ui/HBoxContainer"]
+[node name="Label3" type="Label" parent="stopwatch_tray_ui/hbx_tray_heading"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
