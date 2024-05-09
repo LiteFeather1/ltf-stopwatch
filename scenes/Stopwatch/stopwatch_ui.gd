@@ -509,14 +509,8 @@ func _on_window_size_changed() -> void:
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
 
-	# change tray h separation
-	var separation := int(remap(
-		GLOBAL.window.size.x,
-		GLOBAL.window.max_size.x,
-		_tray_h_separation_for_min_separation,
-		_tray_h_separation_range.x,
-		_tray_h_separation_range.y,
-	))
+	# Change tray h separation
+	var separation := get_h_separation_entry_tray()
 	_hbc_tray_heading.add_theme_constant_override("separation", separation)
 	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
 		entry.add_theme_constant_override("separation", separation)
@@ -534,6 +528,15 @@ func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
 
+
+func get_h_separation_entry_tray() -> int:
+	return int(remap(
+		GLOBAL.window.size.x,
+		GLOBAL.window.max_size.x,
+		_tray_h_separation_for_min_separation,
+		_tray_h_separation_range.x,
+		_tray_h_separation_range.y,
+	))
 
 func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
