@@ -79,18 +79,16 @@ func _ready() -> void:
 
 	# Find min for h separation
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
-	_win_x_for_min_h_separation = int(
-		label_pause_time.get_theme_font("font").get_string_size(
-			"    %s  %s  %s    " % [
-				TEMPLATE_SHORTEST_ENTRY % 99,
-				label_pause_time.text,
-				_hbc_tray_heading.get_child(2).text,
-			],
-			HORIZONTAL_ALIGNMENT_LEFT,
-			-1,
-			label_pause_time.get_theme_font_size("font_size"),
-		).x
-	)
+	_win_x_for_min_h_separation = int(label_pause_time.get_theme_font("font").get_string_size(
+		"    %s  %s  %s    " % [
+			TEMPLATE_SHORTEST_ENTRY % 99,
+			label_pause_time.text,
+			_hbc_tray_heading.get_child(2).text,
+		],
+		HORIZONTAL_ALIGNMENT_LEFT,
+		-1,
+		label_pause_time.get_theme_font_size("font_size"),
+	).x)
 
 	await get_tree().process_frame
 
@@ -190,8 +188,7 @@ func restore_last_time_state() -> void:
 	
 	_find_longest_shortest_times()
 
-	_entry_tray.visible = paused_size > 0
-
+	_set_entry_tray_visibility(paused_size > 0)
 	_set_buttons_disabled(not _stopwatch.has_started())
 
 	AL_HoverTipFollow.hide_hover_tip()
@@ -202,8 +199,8 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 	if not time_state.can_undo():
 		return
 	
-	_entry_tray.visible = GLOBAL.window.size.x > _win_x_for_min_h_separation
-
+	_set_entry_tray_visibility()
+	
 	var index := time_state.undo_deleted_entry()
 	var new_entry := _instantiate_stopwatch_entry_ui(
 		index, _stopwatch_tray_entries_ui.size() - index, get_h_separation_entry_tray()
@@ -265,7 +262,7 @@ func _on_stopwatch_started() -> void:
 func _stopwatch_paused() -> void:
 	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0, get_h_separation_entry_tray())
 
-	_entry_tray.visible = GLOBAL.window.size.x > _win_x_for_min_h_separation
+	_set_entry_tray_visibility()
 
 
 func _stopwatch_resumed() -> void:
@@ -320,7 +317,7 @@ func _reset_pressed() -> void:
 	
 	_stopwatch_tray_entries_ui.clear()
 
-	_entry_tray.visible = false
+	_set_entry_tray_visibility(false)
 
 	_longest_entry_index = 0
 	_shortest_entry_index = 0
@@ -531,7 +528,7 @@ func _on_window_size_changed() -> void:
 
 	# Change tray h separation
 	var is_tray_visible := GLOBAL.window.size.x > _win_x_for_min_h_separation
-	_entry_tray.visible = is_tray_visible
+	_set_entry_tray_visibility(is_tray_visible)
 	if is_tray_visible:
 		var separation := get_h_separation_entry_tray()
 		_hbc_tray_heading.add_theme_constant_override("separation", separation)
@@ -550,6 +547,18 @@ func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
 func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
+
+
+func _set_entry_tray_visibility(
+	visibility: bool = GLOBAL.window.size.x > _win_x_for_min_h_separation,
+) -> void:
+	print("here")
+	if visibility == _entry_tray.visible:
+		return
+
+	_entry_tray.visible = visibility
+
+	# TODO Animation
 
 
 func get_h_separation_entry_tray() -> int:
