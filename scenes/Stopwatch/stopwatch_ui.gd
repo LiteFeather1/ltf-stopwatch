@@ -42,7 +42,6 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
-@export var _tray_h_separation_for_min_separation := 288.0
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
@@ -54,6 +53,8 @@ var _shortest_entry_index: int
 
 var _menu_copy_id_to_callable: Dictionary
 var _copy_menu_options_mask: int
+
+var _win_x_for_min_h_separation: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -75,6 +76,21 @@ func _ready() -> void:
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
 	pivot_offset.y += _title_bar.size.y
+
+	# Find min for h separation
+	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
+	_win_x_for_min_h_separation = int(
+		label_pause_time.get_theme_font("font").get_string_size(
+			"    %s  %s  %s    " % [
+				TEMPLATE_SHORTEST_ENTRY % 99,
+				label_pause_time.text,
+				_hbc_tray_heading.get_child(2).text,
+			],
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1,
+			label_pause_time.get_theme_font_size("font_size"),
+		).x
+	)
 
 	await get_tree().process_frame
 
@@ -186,7 +202,7 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 	if not time_state.can_undo():
 		return
 	
-	_entry_tray.visible = GLOBAL.window.size.x > _tray_h_separation_for_min_separation
+	_entry_tray.visible = GLOBAL.window.size.x > _win_x_for_min_h_separation
 
 	var index := time_state.undo_deleted_entry()
 	var new_entry := _instantiate_stopwatch_entry_ui(
@@ -249,7 +265,7 @@ func _on_stopwatch_started() -> void:
 func _stopwatch_paused() -> void:
 	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0, get_h_separation_entry_tray())
 
-	_entry_tray.visible = GLOBAL.window.size.x > _tray_h_separation_for_min_separation
+	_entry_tray.visible = GLOBAL.window.size.x > _win_x_for_min_h_separation
 
 
 func _stopwatch_resumed() -> void:
@@ -514,7 +530,7 @@ func _on_window_size_changed() -> void:
 	_b_clipboard.scale = b_scale
 
 	# Change tray h separation
-	var is_tray_visible := GLOBAL.window.size.x > _tray_h_separation_for_min_separation
+	var is_tray_visible := GLOBAL.window.size.x > _win_x_for_min_h_separation
 	_entry_tray.visible = is_tray_visible
 	if is_tray_visible:
 		var separation := get_h_separation_entry_tray()
@@ -540,7 +556,7 @@ func get_h_separation_entry_tray() -> int:
 	return int(remap(
 		GLOBAL.window.size.x,
 		GLOBAL.window.max_size.x,
-		_tray_h_separation_for_min_separation,
+		_win_x_for_min_h_separation,
 		_tray_h_separation_range.x,
 		_tray_h_separation_range.y,
 	))
