@@ -1,7 +1,7 @@
 class_name HoverTip extends Panel
 
 
-@export var _label_padding := Vector2(8.0, 4.0)
+@export var _label_padding := Vector2(12.0, 8.0)
 @export var _l_text: Label
 @export var _delay_to_appear: Timer
 
@@ -12,8 +12,8 @@ var _font_size: int
 func _ready() -> void:
 	_delay_to_appear.timeout.connect(_show)
 
-	_font = _l_text.get_theme_font("_font")
-	_font_size = _l_text.get_theme_font_size("_font_size")
+	_font = _l_text.get_theme_font("font")
+	_font_size = _l_text.get_theme_font_size("font_size")
 
 
 func _set_text(text: String) -> void:
