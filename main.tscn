@@ -20,7 +20,7 @@ corner_radius_bottom_left = 16
 corner_detail = 20
 anti_aliasing_size = 2.0
 
-[node name="Main" type="Panel" node_paths=PackedStringArray("_title_bar_ui")]
+[node name="Main" type="Panel" node_paths=PackedStringArray("_stopwatch_ui", "_title_bar_ui")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,6 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gmrt0")
 script = ExtResource("1_fm7if")
+_stopwatch_ui = NodePath("stopwatch_ui")
 _title_bar_ui = NodePath("title_bar_ui")
 
 [node name="title_bar_ui" parent="." instance=ExtResource("4_uv45h")]
