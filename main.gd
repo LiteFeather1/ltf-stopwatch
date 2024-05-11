@@ -2,13 +2,13 @@ class_name Main extends Panel
 
 
 const SAVE_PATH := &"user://ltf_stopwatch.json"
+const PASS := &"744967c4-6e81-4947-a1f4-06626abc615b"
 const VERSION := &"version"
 const SAVEABLE := &"saveable"
 
 @export_category("Window")
 @export var _min_window_size := Vector2i(192, 192)
 @export var _max_window_size := Vector2i(512, 512)
-
 
 @export_category("Nodes")
 @export var _stopwatch_ui: StopwatchUI
@@ -29,10 +29,16 @@ func _ready() -> void:
 	)
 
 	if not FileAccess.file_exists(SAVE_PATH):
-		print("Couldn't load %s" % SAVE_PATH)
+		print("No file at %s" % SAVE_PATH)
 		return
 	
-	var json = JSON.parse_string(FileAccess.open(SAVE_PATH, FileAccess.READ).get_as_text())
+	var file := FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.READ, PASS)
+	if file == null:
+		print("Couldn't load %s. Error %s" % [SAVE_PATH, FileAccess.get_open_error()])
+		return
+
+	var json = JSON.parse_string(file.get_as_text())
+	file.close()
 	if not json is Dictionary:
 		print("Json object is not a dictionary")
 		return
@@ -69,8 +75,9 @@ func _quit_app() -> void:
 
 	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
 		saveable.save(save_data)
-
-	FileAccess.open(SAVE_PATH, FileAccess.WRITE)\
-			.store_string(JSON.stringify(save_data, "\t", false))
+	
+	var file := FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.WRITE, PASS)
+	file.store_string(JSON.stringify(save_data, "", false))
+	file.close()
 
 	GLOBAL.tree.quit()

@@ -527,7 +527,7 @@ func _on_window_size_changed() -> void:
 	_b_clipboard.scale = b_scale
 
 	# Change tray h separation
-	if _set_entry_tray_visbility():
+	if _set_entry_tray_visibility():
 		var separation := get_h_separation_entry_tray()
 		_hbc_tray_heading.add_theme_constant_override("separation", separation)
 		for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
