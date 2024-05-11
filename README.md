@@ -19,7 +19,7 @@ Resetted the stopwatch by accident? No worries just press Ctrl + Z to restore th
 
 ### Copy Time
 
-Press the Copy Button or (Ctrl + S) to copy the elapsed time. Formatted as HH:MM:SS
+Press the Copy Button or Ctrl + S to copy the elapsed time. Formatted as HH:MM:SS
 
 ### Miscellaneous
 
