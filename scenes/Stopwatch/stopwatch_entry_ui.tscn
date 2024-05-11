@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckdwpgw2ltoie"]
+
+[ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_entry_ui.gd" id="1_qcgm0"]
+
+[node name="pause_tray_entry_ui" type="HBoxContainer" node_paths=PackedStringArray("_l_pause_span", "_l_pause_time", "_l_resume_time")]
+offset_right = 420.0
+offset_bottom = 17.0
+theme_override_constants/separation = 60
+script = ExtResource("1_qcgm0")
+_l_pause_span = NodePath("l_pause_span")
+_l_pause_time = NodePath("l_pause_time")
+_l_resume_time = NodePath("l_resume_time")
+
+[node name="l_pause_span" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "1 Shortest"
+
+[node name="l_pause_time" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "00:00:00"
+
+[node name="l_resume_time" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "--:--:--"

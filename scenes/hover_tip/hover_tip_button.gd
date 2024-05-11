@@ -1,24 +1,11 @@
-class_name HoverTip extends Panel
+class_name HoverTipButton extends HoverTip
 
 
-@export var _label_padding := Vector2(10.0, 4.0)
 @export var _animation_duration := .15
 
-@export var _l_text: Label
 @export var _dent: Control
-@export var _delay_to_appear: Timer
-
-var _font: Font
-var _font_size : int
 
 var _tween: Tween
-
-
-func _ready() -> void:
-	_delay_to_appear.timeout.connect(_show_animation)
-
-	_font = _l_text.get_theme_font("_font")
-	_font_size = _l_text.get_theme_font_size("_font_size")
 
 
 func show_hover_tip(c: Control, text: String) -> void:
@@ -26,32 +13,28 @@ func show_hover_tip(c: Control, text: String) -> void:
 		_tween.kill()
 		visible = false
 	
-	_l_text.text = text
+	_set_text(text)
 
-	var s := _font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, _font_size)
-	size = s + _label_padding
 	pivot_offset = size * .5
 
 	var c_scale := c.get_global_transform().get_scale()
 	var new_x := c.global_position.x + (c.size.x * c_scale.x - size.x) * .5
 	var right := new_x + size.x
 	var out_x := 0.0
-	# This is only checking right checking left wouldn't be to difficult but it's unnecessary due to the current layout
-	if Global.window.size.x <= right:
-		out_x = Global.window.size.x - right - _label_padding.x
+	# This is only checking right checking left wouldn't be to difficult 
+	# but it's unnecessary due to the current layout
+	if GLOBAL.window.size.x <= right:
+		out_x = GLOBAL.window.size.x - right - _label_padding.x
 		new_x += out_x
 
 	var new_y := c.global_position.y + c.size.y * c_scale.y + _label_padding.y - _dent.position.y
 	var bot := new_y + size.y
-	if Global.window.size.y <= bot:
-		new_y += Global.window.size.y - bot - _label_padding.y
+	if GLOBAL.window.size.y <= bot:
+		new_y += GLOBAL.window.size.y - bot - _label_padding.y
 	
 	global_position = Vector2(new_x, new_y)
 
 	_dent.position.x = pivot_offset.x - _dent.pivot_offset.x - out_x
-
-	_delay_to_appear.paused = false
-	_delay_to_appear.start(_delay_to_appear.wait_time)
 
 
 func hide_hover_tip() -> void:
@@ -64,13 +47,13 @@ func hide_hover_tip() -> void:
 	
 	_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	_tween.tween_property(self, "scale", Vector2(.5, .5), _animation_duration)
-	await _tween.finished
+	_tween.tween_callback(func() -> void:
+		visible = false
+	)
 
-	visible = false
 
-
-func _show_animation() -> void:
-	visible = true
+func _show() -> void:
+	super()
 	scale = Vector2(.75, .75)
 	
 	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)

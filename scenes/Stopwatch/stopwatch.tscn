@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ck0u55igveb4s"]
 
-[ext_resource type="Script" path="res://scenes/stopwatch.gd" id="1_s5has"]
+[ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch.gd" id="1_s5has"]
 
 [node name="stopwatch" type="VBoxContainer" node_paths=PackedStringArray("_l_time")]
 process_mode = 3

@@ -18,14 +18,14 @@ const SAVEABLE := &"saveable"
 func _ready() -> void:
 	_title_bar_ui.close_pressed.connect(_quit_app)
 	
-	Global.window.min_size = _min_window_size
-	Global.window.max_size = _max_window_size
+	GLOBAL.window.min_size = _min_window_size
+	GLOBAL.window.max_size = _max_window_size
 
-	Global.window.focus_entered.connect(func() -> void:
-		Global.tree.paused = false
+	GLOBAL.window.focus_entered.connect(func() -> void:
+		GLOBAL.tree.paused = false
 	)
-	Global.window.focus_exited.connect(func() -> void:
-		Global.tree.paused = true
+	GLOBAL.window.focus_exited.connect(func() -> void:
+		GLOBAL.tree.paused = true
 	)
 
 	if not FileAccess.file_exists(SAVE_PATH):
@@ -44,17 +44,21 @@ func _ready() -> void:
 		return
 	
 	var save_data: Dictionary = json
-	
-	for saveable in Global.tree.get_nodes_in_group(SAVEABLE):
-		saveable.load(save_data)
 
 	if save_data.has(VERSION):
 		print("Loaded %s version: %s" % [SAVE_PATH, save_data[VERSION]])
+	
+	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
+		saveable.load(save_data)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("restore_last_elapsed_time"):
-		_stopwatch_ui.restore_last_elapsed_time()
+	if event.is_action_pressed("restore_last_time_state"):
+		_stopwatch_ui.restore_last_time_state()
+	elif event.is_action_pressed("redo_deleted_pause_entry"):
+		_stopwatch_ui.redo_deleted_stopwatch_entry_ui()
+	elif event.is_action_pressed("undo_deleted_pause_entry"):
+		_stopwatch_ui.undo_deleted_stopwatch_entry_ui()
 
 
 func _notification(what: int) -> void:
@@ -63,14 +67,17 @@ func _notification(what: int) -> void:
 
 
 func _quit_app() -> void:
-	var save_data := {}
-	save_data[VERSION] = ProjectSettings.get_setting("application/config/version")
+	_stopwatch_ui.pause_stopwatch_if_running()
+	
+	var save_data := {
+		VERSION = ProjectSettings.get_setting("application/config/version")
+	}
 
-	for saveable in Global.tree.get_nodes_in_group(SAVEABLE):
+	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
 		saveable.save(save_data)
 	
 	var file := FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.WRITE, PASS)
 	file.store_string(JSON.stringify(save_data, "", false))
 	file.close()
 
-	Global.tree.quit()
+	GLOBAL.tree.quit()
