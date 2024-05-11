@@ -29,12 +29,16 @@ func _ready() -> void:
 	)
 
 	if not FileAccess.file_exists(SAVE_PATH):
-		print("Couldn't load %s" % SAVE_PATH)
+		print("No file at %s" % SAVE_PATH)
 		return
 	
-	var json = JSON.parse_string(
-		FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.READ, PASS).get_as_text()
-	)
+	var file := FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.READ, PASS)
+	if file == null:
+		print("Couldn't load %s. Error %s" % [SAVE_PATH, FileAccess.get_open_error()])
+		return
+
+	var json = JSON.parse_string(file.get_as_text())
+	file.close()
 	if not json is Dictionary:
 		print("Json object is not a dictionary")
 		return
@@ -65,7 +69,8 @@ func _quit_app() -> void:
 	for saveable in Global.tree.get_nodes_in_group(SAVEABLE):
 		saveable.save(save_data)
 	
-	FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.WRITE, PASS)\
-		.store_string(JSON.stringify(save_data, "", false))
+	var file := FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.WRITE, PASS)
+	file.store_string(JSON.stringify(save_data, "", false))
+	file.close()
 
 	Global.tree.quit()
