@@ -1,9 +1,11 @@
+<img align="left" width="64" height="64" src="https://github.com/LiteFeather1/ltf-stopwatch/blob/v0.8/assets/sprites/Icon.svg" alt="LTF Stopwatch icon">
+
 # LTF Stopwatch
 
 A simple stopwatch using the Godot Engine
 
 <p align="center">
-    <img src="https://github.com/LiteFeather1/ltf-stopwatch/assets/102820899/edcc7c00-8dd4-46f8-8312-442393ba6f18" alt="drawing" width="256"/>
+    <img src="https://github.com/LiteFeather1/ltf-stopwatch/assets/102820899/edcc7c00-8dd4-46f8-8312-442393ba6f18" alt="LTF  Stopwatch Image" width="256"/>
 </p>
 
 ## Features
