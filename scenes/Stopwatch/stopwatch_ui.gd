@@ -46,10 +46,9 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
 
-var _should_tray_be_visible: bool
 var _stopwatch_and_buttons_separation: int
 
-var _entry_tray_tween: Tween
+var _entry_tray_tween := Tween.new()
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
 var _shortest_entry_index: int
@@ -512,8 +511,8 @@ func _copy_menu_toggle_pause_time(index: int) -> void:
 
 func _on_window_size_changed() -> void:
 	# Scale text to fit size
-	var scale_x := GLOBAL.window.size.x / float(GLOBAL.window.max_size.x)
-	var win_size_y := float(GLOBAL.window.size.y)
+	var scale_x := GLOBAL.window.size.x/ float(GLOBAL.window.max_size.x)
+	var win_size_y := GLOBAL.window.size.y
 	var win_max_size_y := float(GLOBAL.window.max_size.y)
 	var min_scale_y := (
 		win_size_y + _stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation
@@ -541,10 +540,12 @@ func _on_window_size_changed() -> void:
 			entry.add_theme_constant_override("separation", separation)
 
 		# Set stopwatch and tray position
-		if _entry_tray_tween:
+		_entry_tray.size.x = size.x * .9
+		_entry_tray.position.x = (size.x - _entry_tray.size.x) * .5
+		if _entry_tray_tween.is_running():
 			return
 
-		var t := inverse_lerp(GLOBAL.window.min_size.y * 1.5, win_max_size_y, win_size_y)
+		var t := inverse_lerp(GLOBAL.window.min_size.y * 2.0, win_max_size_y, win_size_y)
 		_stopwatch_and_buttons.position.y = (size.y - _stopwatch_and_buttons.size.y) * .5\
 			- _stopwatch_and_buttons.pivot_offset.y * t
 		
@@ -564,33 +565,32 @@ func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
 
+
 func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		_stopwatch.get_time_state().paused_times_size() > 0
 		and GLOBAL.window.size.x > _win_x_for_min_h_separation
-		and GLOBAL.window.size.y > GLOBAL.window.min_size.y * 1.5
+		and GLOBAL.window.size.y > GLOBAL.window.min_size.y * 2
 	)
-	if is_vis == _should_tray_be_visible:
+	if is_vis == _entry_tray.visible:
 		return is_vis
-
-	_should_tray_be_visible = is_vis
 
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
 
 	const DUR := .5
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
-	var t := inverse_lerp(
-		GLOBAL.window.min_size.y * 1.5,
-		GLOBAL.window.max_size.y,
-		GLOBAL.window.size.y,
-	)
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	if is_vis:
 		_entry_tray.visible = true
 
 		# Appear animation
 		_entry_tray_tween.set_parallel()
+		var t := inverse_lerp(
+			GLOBAL.window.min_size.y * 1.75,
+			GLOBAL.window.max_size.y,
+			GLOBAL.window.size.y,
+		)
 		_entry_tray_tween.tween_property(
 			_stopwatch_and_buttons,
 			"position:y",
