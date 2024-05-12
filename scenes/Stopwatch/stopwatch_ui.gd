@@ -126,16 +126,16 @@ func _ready() -> void:
 		if _copy_menu_options_mask & options_flags_values[i] != 0:
 			pop_up.set_item_checked(index, true)
 
-	_on_window_size_changed()
 	
 	if _stopwatch.has_started():
 		_set_b_start_continue()
-	
-	var time_state := _stopwatch.get_time_state()
-	if time_state.paused_times_size() > 0:
+
+		var time_state := _stopwatch.get_time_state()
 		_instantiate_stopwatch_entries_ui(time_state.resumed_times_size())
 
 		_find_longest_shortest_times()
+
+	_on_window_size_changed()
 
 
 func restore_last_time_state() -> void:
