@@ -46,6 +46,7 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
 
+var _should_tray_be_visible: bool
 var _stopwatch_and_buttons_separation: int
 
 var _entry_tray_tween: Tween
@@ -563,15 +564,16 @@ func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
 
-
 func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		_stopwatch.get_time_state().paused_times_size() > 0
 		and GLOBAL.window.size.x > _win_x_for_min_h_separation
 		and GLOBAL.window.size.y > GLOBAL.window.min_size.y * 1.5
 	)
-	if is_vis == _entry_tray.visible:
+	if is_vis == _should_tray_be_visible:
 		return is_vis
+
+	_should_tray_be_visible = is_vis
 
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
@@ -616,7 +618,7 @@ func _set_entry_tray_visibility() -> bool:
 		_entry_tray_tween.parallel().tween_property(
 			_entry_tray,
 			"position:y",
-			size.y - _entry_tray_size_range.y,
+			size.y - _entry_tray_size_range.x,
 			DUR,
 		)
 		_entry_tray_tween.parallel().tween_property(_entry_tray, "modulate:a", 0.0, DUR)
