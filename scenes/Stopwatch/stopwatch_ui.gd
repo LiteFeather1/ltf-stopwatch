@@ -47,6 +47,7 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 
 var _stopwatch_and_buttons_separation: int
 
+var _entry_tray_tween: Tween
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
 var _shortest_entry_index: int
@@ -552,10 +553,24 @@ func _set_b_start_continue() -> void:
 func _set_entry_tray_visibility(
 	visibility: bool = GLOBAL.window.size.x > _win_x_for_min_h_separation,
 ) -> bool:
-	if visibility != _entry_tray.visible:
-		_entry_tray.visible = visibility
+	if visibility == _entry_tray.visible:
+		return visibility
 
-		# TODO Animation
+	if _entry_tray_tween:
+		_entry_tray_tween.kill()
+
+	const DUR := .4
+	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	if visibility:
+		_entry_tray.visible = true
+
+		# Appear animation
+		var final_pos := (size.y - _stopwatch_and_buttons.size.y) * .5 - _stopwatch_and_buttons.pivot_offset.y
+		_entry_tray_tween.tween_property(_stopwatch_and_buttons, "position:y", final_pos, DUR)
+		_entry_tray_tween.tween_property(_entry_tray, "modulate:a", 1.0, DUR)
+	else:
+		# TODO Disappear animation
+		pass
 
 	return visibility
 
