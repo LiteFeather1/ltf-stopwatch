@@ -28,6 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gmrt0")
 script = ExtResource("1_fm7if")
+_min_window_size = Vector2i(192, 128)
 _stopwatch_ui = NodePath("VBoxContainer/stopwatch_ui")
 _title_bar_ui = NodePath("VBoxContainer/title_bar_ui")
 
@@ -42,6 +43,7 @@ offset_right = -1.0
 offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
 [node name="title_bar_ui" parent="VBoxContainer" instance=ExtResource("4_uv45h")]
 custom_minimum_size = Vector2(0, 28)
