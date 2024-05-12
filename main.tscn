@@ -47,10 +47,9 @@ grow_vertical = 2
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 
-[node name="stopwatch_ui" parent="VBoxContainer" node_paths=PackedStringArray("_title_bar") instance=ExtResource("2_cujrr")]
+[node name="stopwatch_ui" parent="VBoxContainer" instance=ExtResource("2_cujrr")]
 layout_mode = 2
 size_flags_vertical = 3
-_title_bar = NodePath("../title_bar_ui")
 
 [node name="c_resize_handlers" type="Control" parent="."]
 layout_mode = 1

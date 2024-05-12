@@ -20,8 +20,6 @@ const PAUSE_SPAN := &"Pause Span"
 const LONGEST_SHORTEST := &"Longest/Shortest"
 const SHORTEST_LONGEST := &"Shortest/Longest"
 
-@export var _title_bar: Control
-
 @export var _element_to_scale: Control
 
 @export var _stopwatch: Stopwatch
@@ -74,8 +72,6 @@ func _ready() -> void:
 	_b_clipboard.pressed.connect(_copy_elapsed_time_to_clipboard)
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
-
-	pivot_offset.y += _title_bar.size.y
 
 	# Find min for h separation
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
@@ -511,7 +507,7 @@ func _on_window_size_changed() -> void:
 	var scale_x := GLOBAL.window.size.x / float(GLOBAL.window.max_size.x)
 	var win_size_y := float(GLOBAL.window.size.y)
 	var win_max_size_y := float(GLOBAL.window.max_size.y)
-	var min_scale_y := (win_size_y + _title_bar.size.y + _stopwatch.size.y) / win_max_size_y
+	var min_scale_y := (win_size_y + _stopwatch.size.y + _stopwatch.pivot_offset.y) / win_max_size_y
 	var s := minf(scale_x, maxf((win_size_y / win_max_size_y) * (min_scale_y * 2.0), min_scale_y))
 	_element_to_scale.scale = Vector2(s, s)
 
