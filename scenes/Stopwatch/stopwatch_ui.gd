@@ -540,6 +540,9 @@ func _on_window_size_changed() -> void:
 			entry.add_theme_constant_override("separation", separation)
 
 		# Set stopwatch and tray position
+		if _entry_tray_tween:
+			return
+
 		var t := inverse_lerp(GLOBAL.window.min_size.y * 1.5, win_max_size_y, win_size_y)
 		_stopwatch_and_buttons.position.y = (size.y - _stopwatch_and_buttons.size.y) * .5\
 			- _stopwatch_and_buttons.pivot_offset.y * t
