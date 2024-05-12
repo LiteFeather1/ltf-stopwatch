@@ -6,6 +6,7 @@
 offset_right = 420.0
 offset_bottom = 17.0
 theme_override_constants/separation = 60
+alignment = 1
 script = ExtResource("1_qcgm0")
 _l_pause_span = NodePath("l_pause_span")
 _l_pause_time = NodePath("l_pause_time")
