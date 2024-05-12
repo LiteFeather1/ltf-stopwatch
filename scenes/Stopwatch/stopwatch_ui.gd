@@ -567,12 +567,14 @@ func _set_entry_tray_visibility(
 		_entry_tray.visible = true
 
 		# Appear animation
+		_entry_tray_tween.set_parallel()
 		_entry_tray_tween.tween_property(
 			_stopwatch_and_buttons,
 			"position:y",
 			stopwatch_center - _stopwatch_and_buttons.pivot_offset.y,
 			DUR,
 		)
+		_entry_tray_tween.tween_property(_entry_tray, "position:y", entry_bottom, DUR)
 		_entry_tray_tween.tween_property(_entry_tray, "modulate:a", 1.0, DUR)
 	else:
 		# Disappear animation
