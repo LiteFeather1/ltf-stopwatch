@@ -189,7 +189,7 @@ func restore_last_time_state() -> void:
 	
 	_find_longest_shortest_times()
 
-	_set_entry_tray_visibility(paused_size > 0)
+	_set_entry_tray_visibility()
 	_set_buttons_disabled(not _stopwatch.has_started())
 
 	AL_HoverTipFollow.hide_hover_tip()
@@ -318,7 +318,7 @@ func _reset_pressed() -> void:
 	
 	_stopwatch_tray_entries_ui.clear()
 
-	_set_entry_tray_visibility(false)
+	_set_entry_tray_visibility()
 
 	_longest_entry_index = 0
 	_shortest_entry_index = 0
@@ -560,11 +560,14 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _set_entry_tray_visibility(
-	visibility: bool = GLOBAL.window.size.x > _win_x_for_min_h_separation,
-) -> bool:
-	if visibility == _entry_tray.visible:
-		return visibility
+func _set_entry_tray_visibility() -> bool:
+	var is_vis := (
+		_stopwatch.get_time_state().paused_times_size() > 0
+		and GLOBAL.window.size.x > _win_x_for_min_h_separation
+		and GLOBAL.window.size.y > GLOBAL.window.min_size.y * 1.5
+	)
+	if is_vis == _entry_tray.visible:
+		return is_vis
 
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
@@ -573,7 +576,7 @@ func _set_entry_tray_visibility(
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
 	var entry_bottom := size.y - _entry_tray.size.y
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	if visibility:
+	if is_vis:
 		_entry_tray.visible = true
 
 		# Appear animation
@@ -602,7 +605,7 @@ func _set_entry_tray_visibility(
 			_entry_tray.visible = false
 		)
 
-	return visibility
+	return is_vis
 
 
 func get_h_separation_entry_tray() -> int:
