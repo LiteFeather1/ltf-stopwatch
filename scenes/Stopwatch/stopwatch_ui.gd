@@ -559,18 +559,36 @@ func _set_entry_tray_visibility(
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
 
-	const DUR := .4
+	const DUR := .5
+	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
+	var entry_bottom := size.y - _entry_tray.size.y
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	if visibility:
 		_entry_tray.visible = true
 
 		# Appear animation
-		var final_pos := (size.y - _stopwatch_and_buttons.size.y) * .5 - _stopwatch_and_buttons.pivot_offset.y
-		_entry_tray_tween.tween_property(_stopwatch_and_buttons, "position:y", final_pos, DUR)
+		_entry_tray_tween.tween_property(
+			_stopwatch_and_buttons,
+			"position:y",
+			stopwatch_center - _stopwatch_and_buttons.pivot_offset.y,
+			DUR,
+		)
 		_entry_tray_tween.tween_property(_entry_tray, "modulate:a", 1.0, DUR)
 	else:
-		# TODO Disappear animation
-		pass
+		# Disappear animation
+		_entry_tray_tween.parallel()\
+			.tween_property(_stopwatch_and_buttons, "position:y", stopwatch_center, DUR)
+		_entry_tray_tween.parallel().tween_property(
+			_entry_tray,
+			"position:y",
+			entry_bottom + _stopwatch_and_buttons.pivot_offset.y,
+			DUR,
+		)
+		_entry_tray_tween.parallel().tween_property(_entry_tray, "modulate:a", 0.0, DUR)
+
+		_entry_tray_tween.tween_callback(func() -> void:
+			_entry_tray.visible = false
+		)
 
 	return visibility
 
