@@ -545,7 +545,7 @@ func _on_window_size_changed() -> void:
 		if _entry_tray_tween.is_running():
 			return
 
-		var t := inverse_lerp(GLOBAL.window.min_size.y * 2.0, win_max_size_y, win_size_y)
+		var t := inverse_lerp(_stopwatch_and_buttons.size.y, win_max_size_y, win_size_y)
 		_stopwatch_and_buttons.position.y = (size.y - _stopwatch_and_buttons.size.y) * .5\
 			- _stopwatch_and_buttons.pivot_offset.y * t
 		
@@ -570,7 +570,7 @@ func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		_stopwatch.get_time_state().paused_times_size() > 0
 		and GLOBAL.window.size.x > _win_x_for_min_h_separation
-		and GLOBAL.window.size.y > GLOBAL.window.min_size.y * 2
+		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y
 	)
 	if is_vis == _entry_tray.visible:
 		return is_vis
@@ -587,7 +587,7 @@ func _set_entry_tray_visibility() -> bool:
 		# Appear animation
 		_entry_tray_tween.set_parallel()
 		var t := inverse_lerp(
-			GLOBAL.window.min_size.y * 1.75,
+			_stopwatch_and_buttons.size.y,
 			GLOBAL.window.max_size.y,
 			GLOBAL.window.size.y,
 		)
