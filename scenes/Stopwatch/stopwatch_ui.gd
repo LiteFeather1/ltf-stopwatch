@@ -530,11 +530,18 @@ func _on_window_size_changed() -> void:
 	_b_clipboard.scale = b_scale
 
 	# Change tray h separation
-	if _stopwatch_tray_entries_ui and _set_entry_tray_visibility():
+	if not _stopwatch_tray_entries_ui.is_empty() and _set_entry_tray_visibility():
+		# Set tray separation
 		var separation := get_h_separation_entry_tray()
 		_hbc_tray_heading.add_theme_constant_override("separation", separation)
 		for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
 			entry.add_theme_constant_override("separation", separation)
+
+		# Set stopwatch and tray position
+		var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
+		var t := inverse_lerp(GLOBAL.window.min_size.y, win_max_size_y, win_size_y)
+		_stopwatch_and_buttons.position.y = stopwatch_center\
+			- (_stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation) * t
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
