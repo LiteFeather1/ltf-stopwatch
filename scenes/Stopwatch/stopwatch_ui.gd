@@ -80,6 +80,7 @@ func _ready() -> void:
 	# Find min for h separation
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
 	_win_x_for_min_h_separation = int(label_pause_time.get_theme_font("font").get_string_size(
+		# FIXME this should use the size of the tray instead of suffix and prefix spaces
 		"    %s  %s  %s    " % [
 			TEMPLATE_SHORTEST_ENTRY % 99,
 			label_pause_time.text,
@@ -588,24 +589,31 @@ func _set_entry_tray_visibility() -> bool:
 		_entry_tray_tween.tween_property(
 			_stopwatch_and_buttons,
 			"position:y",
-			stopwatch_center - _stopwatch_and_buttons.pivot_offset.y + t,
+			stopwatch_center - _stopwatch_and_buttons.pivot_offset.y * t,
 			DUR,
 		)
 		var entry_size := lerpf(_entry_tray_size_range.x, _entry_tray_size_range.y, t)
 		_entry_tray_tween.tween_property(_entry_tray, "size:y", entry_size, DUR)
 		var entry_position := size.y - entry_size
-		_entry_tray_tween.tween_property(_entry_tray, "position:y", entry_position, DUR)
 		const DELAY := .2
+		_entry_tray_tween.tween_property(_entry_tray, "position:y", entry_position, DUR)
 		_entry_tray_tween.tween_property(_entry_tray, "modulate:a", 1.0, DUR - DELAY)\
 			.set_delay(DELAY)
 	else:
 		# Disappear animation
 		_entry_tray_tween.parallel()\
 			.tween_property(_stopwatch_and_buttons, "position:y", stopwatch_center, DUR)
+		
+		_entry_tray_tween.parallel().tween_property(
+			_entry_tray,
+			"size:y",
+			_entry_tray_size_range.x,
+			DUR,
+		)
 		_entry_tray_tween.parallel().tween_property(
 			_entry_tray,
 			"position:y",
-			size.y - _entry_tray.size.y + _stopwatch_and_buttons.pivot_offset.y,
+			size.y - _entry_tray_size_range.y,
 			DUR,
 		)
 		_entry_tray_tween.parallel().tween_property(_entry_tray, "modulate:a", 0.0, DUR)
