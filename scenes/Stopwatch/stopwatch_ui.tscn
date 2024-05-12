@@ -104,7 +104,6 @@ layout_mode = 2
 [node name="buttons" type="Control" parent="stopwatch_and_buttons"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-size_flags_horizontal = 0
 size_flags_vertical = 4
 
 [node name="b_start" type="Button" parent="stopwatch_and_buttons/buttons"]
@@ -188,9 +187,8 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -210.0
-offset_top = -123.0
+offset_top = -222.0
 offset_right = 210.0
-offset_bottom = 99.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(210, 0)
@@ -239,7 +237,6 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_ugxop")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="stopwatch_tray_ui"]
-custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
