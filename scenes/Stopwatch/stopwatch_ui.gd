@@ -20,7 +20,7 @@ const PAUSE_SPAN := &"Pause Span"
 const LONGEST_SHORTEST := &"Longest/Shortest"
 const SHORTEST_LONGEST := &"Shortest/Longest"
 
-@export var _element_to_scale: Control
+@export var _stopwatch_and_buttons: VBoxContainer
 
 @export var _stopwatch: Stopwatch
 
@@ -44,6 +44,8 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
 @export var _l_copied_time: Label
+
+var _stopwatch_and_buttons_separation: int
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
@@ -85,6 +87,8 @@ func _ready() -> void:
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
 	).x)
+
+	_stopwatch_and_buttons_separation = _stopwatch_and_buttons.get_theme_constant("separation")
 
 	await get_tree().process_frame
 
@@ -507,9 +511,11 @@ func _on_window_size_changed() -> void:
 	var scale_x := GLOBAL.window.size.x / float(GLOBAL.window.max_size.x)
 	var win_size_y := float(GLOBAL.window.size.y)
 	var win_max_size_y := float(GLOBAL.window.max_size.y)
-	var min_scale_y := (win_size_y + _stopwatch.size.y + _stopwatch.pivot_offset.y) / win_max_size_y
+	var min_scale_y := (
+		win_size_y + _stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation
+	) / win_max_size_y
 	var s := minf(scale_x, maxf((win_size_y / win_max_size_y) * (min_scale_y * 2.0), min_scale_y))
-	_element_to_scale.scale = Vector2(s, s)
+	_stopwatch_and_buttons.scale = Vector2(s, s)
 
 	# Slight scale s_copied
 	_pop_up_scale = clampf(s * 1.025, .7, 1.0)
