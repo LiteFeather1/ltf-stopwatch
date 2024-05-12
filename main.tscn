@@ -28,14 +28,28 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gmrt0")
 script = ExtResource("1_fm7if")
-_stopwatch_ui = NodePath("stopwatch_ui")
-_title_bar_ui = NodePath("title_bar_ui")
+_stopwatch_ui = NodePath("VBoxContainer/stopwatch_ui")
+_title_bar_ui = NodePath("VBoxContainer/title_bar_ui")
 
-[node name="title_bar_ui" parent="." instance=ExtResource("4_uv45h")]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_title_bar") instance=ExtResource("2_cujrr")]
-layout_mode = 1
+[node name="title_bar_ui" parent="VBoxContainer" instance=ExtResource("4_uv45h")]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+
+[node name="stopwatch_ui" parent="VBoxContainer" node_paths=PackedStringArray("_title_bar") instance=ExtResource("2_cujrr")]
+layout_mode = 2
+size_flags_vertical = 3
 _title_bar = NodePath("../title_bar_ui")
 
 [node name="c_resize_handlers" type="Control" parent="."]
