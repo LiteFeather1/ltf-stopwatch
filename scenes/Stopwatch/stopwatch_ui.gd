@@ -39,6 +39,7 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
+@export var _entry_tray_size_range := Vector2(37.0, 220.0)
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
 
 @export_category("Copied Pop Up")
@@ -538,12 +539,11 @@ func _on_window_size_changed() -> void:
 			entry.add_theme_constant_override("separation", separation)
 
 		# Set stopwatch and tray position
-		var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
 		var t := inverse_lerp(GLOBAL.window.min_size.y * 1.5, win_max_size_y, win_size_y)
-		_stopwatch_and_buttons.position.y = stopwatch_center\
+		_stopwatch_and_buttons.position.y = (size.y - _stopwatch_and_buttons.size.y) * .5\
 			- _stopwatch_and_buttons.pivot_offset.y * t
 		
-		_entry_tray.size.y = lerpf(0.0, 222.0, t)
+		_entry_tray.size.y = lerpf(_entry_tray_size_range.x, _entry_tray_size_range.y, t)
 		_entry_tray.position.y = size.y - _entry_tray.size.y
 
 
@@ -574,7 +574,11 @@ func _set_entry_tray_visibility() -> bool:
 
 	const DUR := .5
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
-	var entry_bottom := size.y - _entry_tray.size.y
+	var t := inverse_lerp(
+		GLOBAL.window.min_size.y * 1.5,
+		GLOBAL.window.max_size.y,
+		GLOBAL.window.size.y,
+	)
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	if is_vis:
 		_entry_tray.visible = true
@@ -584,11 +588,16 @@ func _set_entry_tray_visibility() -> bool:
 		_entry_tray_tween.tween_property(
 			_stopwatch_and_buttons,
 			"position:y",
-			stopwatch_center - _stopwatch_and_buttons.pivot_offset.y,
+			stopwatch_center - _stopwatch_and_buttons.pivot_offset.y + t,
 			DUR,
 		)
-		_entry_tray_tween.tween_property(_entry_tray, "position:y", entry_bottom, DUR)
-		_entry_tray_tween.tween_property(_entry_tray, "modulate:a", 1.0, DUR)
+		var entry_size := lerpf(_entry_tray_size_range.x, _entry_tray_size_range.y, t)
+		_entry_tray_tween.tween_property(_entry_tray, "size:y", entry_size, DUR)
+		var entry_position := size.y - entry_size
+		_entry_tray_tween.tween_property(_entry_tray, "position:y", entry_position, DUR)
+		const DELAY := .2
+		_entry_tray_tween.tween_property(_entry_tray, "modulate:a", 1.0, DUR - DELAY)\
+			.set_delay(DELAY)
 	else:
 		# Disappear animation
 		_entry_tray_tween.parallel()\
@@ -596,7 +605,7 @@ func _set_entry_tray_visibility() -> bool:
 		_entry_tray_tween.parallel().tween_property(
 			_entry_tray,
 			"position:y",
-			entry_bottom + _stopwatch_and_buttons.pivot_offset.y,
+			size.y - _entry_tray.size.y + _stopwatch_and_buttons.pivot_offset.y,
 			DUR,
 		)
 		_entry_tray_tween.parallel().tween_property(_entry_tray, "modulate:a", 0.0, DUR)
