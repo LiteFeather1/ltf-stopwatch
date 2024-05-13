@@ -566,10 +566,9 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _tray_appear_animation(t: float) -> void:
+func _tray_animation(t: float) -> void:
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
-	var weight := inverse_lerp(
-		_stopwatch_and_buttons.size.y,
+	var weight := inverse_lerp(_stopwatch_and_buttons.size.y,
 		GLOBAL.window.max_size.y,
 		GLOBAL.window.size.y,
 	)
@@ -598,30 +597,14 @@ func _set_entry_tray_visibility() -> bool:
 		_entry_tray_tween.kill()
 
 	const DUR := .5
-	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	if is_vis:
 		_entry_tray.visible = true
 		# FIXME start and duration are wrong if we start animating on the middle
-		_entry_tray_tween.tween_method(_tray_appear_animation, 0.0, 1.0, DUR)
+		_entry_tray_tween.tween_method(_tray_animation, 0.0, 1.0, DUR)
 	else:
-		# Disappear animation
-		_entry_tray_tween.parallel()\
-			.tween_property(_stopwatch_and_buttons, "position:y", stopwatch_center, DUR)
-		
-		_entry_tray_tween.parallel().tween_property(
-			_entry_tray,
-			"size:y",
-			_entry_tray_size_range.x,
-			DUR,
-		)
-		_entry_tray_tween.parallel().tween_property(
-			_entry_tray,
-			"position:y",
-			size.y - _entry_tray_size_range.x,
-			DUR,
-		)
-		_entry_tray_tween.parallel().tween_property(_entry_tray, "modulate:a", 0.0, DUR)
+		# FIXME start and duration are wrong if we start animating on the middle
+		_entry_tray_tween.tween_method(_tray_animation, 1.0, 0.0, DUR)
 
 		_entry_tray_tween.tween_callback(func() -> void:
 			_entry_tray.visible = false
