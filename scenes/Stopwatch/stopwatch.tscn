@@ -1,18 +1,23 @@
 [gd_scene load_steps=2 format=3 uid="uid://ck0u55igveb4s"]
 
-[ext_resource type="Script" path="res://scenes/stopwatch.gd" id="1_s5has"]
+[ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch.gd" id="1_s5has"]
 
 [node name="stopwatch" type="VBoxContainer" node_paths=PackedStringArray("_l_time")]
 process_mode = 3
 modulate = Color(0.807843, 0.807843, 0.807843, 1)
 anchors_preset = 10
 anchor_right = 1.0
+offset_left = 1.0
+offset_right = -1.0
 offset_bottom = 122.0
 grow_horizontal = 2
+pivot_offset = Vector2(255, 0)
 theme_override_constants/separation = -16
-alignment = 1
 script = ExtResource("1_s5has")
 _l_time = NodePath("l_time")
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2
 
 [node name="l_time" type="RichTextLabel" parent="."]
 layout_mode = 2
@@ -21,6 +26,7 @@ bbcode_enabled = true
 text = "[center]00:00:00.[font_size=48]00[/font_size][/center]"
 fit_content = true
 scroll_active = false
+tab_size = 0
 
 [node name="l_hr_min_sec" type="Label" parent="."]
 layout_mode = 2

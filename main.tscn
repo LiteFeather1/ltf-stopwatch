@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_fm7if"]
 [ext_resource type="Script" path="res://scripts/resize_handler.gd" id="2_3yg2l"]
-[ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/stopwatch_ui.tscn" id="2_cujrr"]
+[ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/Stopwatch/stopwatch_ui.tscn" id="2_cujrr"]
 [ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/title_bar_ui.tscn" id="4_uv45h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmrt0"]
@@ -20,7 +20,7 @@ corner_radius_bottom_left = 16
 corner_detail = 20
 anti_aliasing_size = 2.0
 
-[node name="Main" type="Panel" node_paths=PackedStringArray("_title_bar_ui")]
+[node name="Main" type="Panel" node_paths=PackedStringArray("_stopwatch_ui", "_title_bar_ui")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,14 +28,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gmrt0")
 script = ExtResource("1_fm7if")
-_title_bar_ui = NodePath("title_bar_ui")
+_min_window_size = Vector2i(192, 128)
+_stopwatch_ui = NodePath("VBoxContainer/stopwatch_ui")
+_title_bar_ui = NodePath("VBoxContainer/title_bar_ui")
 
-[node name="title_bar_ui" parent="." instance=ExtResource("4_uv45h")]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="stopwatch_ui" parent="." node_paths=PackedStringArray("_title_bar") instance=ExtResource("2_cujrr")]
-layout_mode = 1
-_title_bar = NodePath("../title_bar_ui")
+[node name="title_bar_ui" parent="VBoxContainer" instance=ExtResource("4_uv45h")]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+
+[node name="stopwatch_ui" parent="VBoxContainer" instance=ExtResource("2_cujrr")]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="c_resize_handlers" type="Control" parent="."]
 layout_mode = 1

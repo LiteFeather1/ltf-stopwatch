@@ -1,6 +1,8 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://b2u5b2xehfur0"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://b2u5b2xehfur0"]
 
 [ext_resource type="FontFile" uid="uid://hrmfuoadomq0" path="res://assets/fonts/space_mono/SpaceMono-Regular.ttf" id="1_u3pcg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tc2sx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kg0wi"]
 bg_color = Color(0, 0, 0, 1)
@@ -25,6 +27,7 @@ Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
 Button/constants/icon_max_width = 16
 Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_u3pcg")
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_tc2sx")
 Label/fonts/font = ExtResource("1_u3pcg")
 Panel/styles/panel = SubResource("StyleBoxFlat_kg0wi")
 RichTextLabel/fonts/normal_font = ExtResource("1_u3pcg")
