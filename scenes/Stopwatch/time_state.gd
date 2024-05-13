@@ -181,9 +181,7 @@ func save(save_data: Dictionary, key: StringName) -> void:
 
 
 func _clear_redo() -> void:
-	if not _redo_deleted_indexes.is_empty():
-			_redo_deleted_indexes.clear()
-
+		_redo_deleted_indexes.clear()
 
 # We could use a command pattern instead of this
 class DeletedEntry extends Object:
@@ -204,7 +202,6 @@ class DeletedEntry extends Object:
 
 
 	func _to_string() -> String:
-		# TODO Add elapsed time
 		return "Index: %d | Elapsed time: %s | Paused time: %s | %s" % [
 			index,
 			Global.seconds_to_time(elapsed_time),

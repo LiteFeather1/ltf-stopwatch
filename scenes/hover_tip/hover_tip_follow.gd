@@ -11,7 +11,7 @@ func _process(_delta: float) -> void:
 
 	# We are only correcting the position if we go out to the left
 	if new_pos.x < _label_padding.x:
-		new_pos.x += -new_pos.x + _label_padding.x
+		new_pos.x -= new_pos.x + _label_padding.x
 
 	position = new_pos
 

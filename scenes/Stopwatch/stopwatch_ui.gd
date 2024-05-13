@@ -64,6 +64,7 @@ var _pop_up_tween: Tween
 
 @onready var _entry_tray_tween := create_tween()
 
+
 func _enter_tree() -> void:
 	add_to_group(Main.SAVEABLE)
 
@@ -91,6 +92,7 @@ func _ready() -> void:
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
 	).x + size.x - _entry_tray.size.x)
+
 	_stopwatch_and_buttons_separation = _stopwatch_and_buttons.get_theme_constant("separation")
 
 	await get_tree().process_frame
@@ -368,8 +370,7 @@ func _copy_menu_tray_entries(
 	var show_elapsed_time := _copy_menu_options_mask & CopyMenuFlags.ELAPSED_TIMES != 0
 	var show_pause_span := _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0
 	var show_longest_shortest := (
-		_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0
-		and resumed_size > 1
+		_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0 and resumed_size > 1
 	)
 
 	if resumed_size == time_state.paused_times_size():
@@ -415,8 +416,13 @@ func _copy_menu_tray_entries(
 
 
 func _copy_menu_simple(_index: int) -> void:
-	_copy_menu_tray_entries("Simple", PackedStringArray(),
-		"#%s  %s%s  %s%s%s", "%s  ", "  %s", "  %s"
+	_copy_menu_tray_entries(
+		"Simple",
+		PackedStringArray(),
+		"#%s  %s%s  %s%s%s",
+		"%s  ",
+		"  %s",
+		"  %s",
 	)
 
 
@@ -453,20 +459,38 @@ func _build_copy_heading(
 
 func _copy_menu_long(_index: int) -> void:
 	var entries_text := PackedStringArray(["".join(_build_copy_heading(
-		"%s  |", "  %s  |", "  %s", "  %s  |", "  |  %s", "  |  %s"
+		"%s  |",
+		"  %s  |",
+		"  %s",
+		"  %s  |",
+		"  |  %s",
+		"  |  %s"
 	))])
 	_copy_menu_tray_entries("Long", entries_text,
-		"#%s          %s|     %s     |     %s%s%s", "|      %s       ", "        |    %s", (
-			"     |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "        |  %s"
-		),
+		"#%s          %s|     %s     |     %s%s%s",
+		"|      %s       ",
+		"        |    %s",
+		"     |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "        |  %s",
 	)
 
 
 func _copy_menu_csv(_index: int) -> void:
-	var entries_text := PackedStringArray(["".join(
-		_build_copy_heading("%s,", "%s,", "%s", "%s,", ",%s", ",%s"
+	var entries_text := PackedStringArray(["".join(_build_copy_heading(
+		"%s,",
+		"%s,",
+		"%s",
+		"%s,",
+		",%s",
+		",%s",
 	))])
-	_copy_menu_tray_entries("CSV", entries_text, "#%s,%s%s,%s%s%s", "%s,", ",%s", ",%s")
+	_copy_menu_tray_entries(
+		"CSV",
+		entries_text,
+		"#%s,%s%s,%s%s%s",
+		"%s,",
+		",%s",
+		",%s"
+	)
 
 
 func _copy_menu_markdown(_index: int) -> void:
@@ -481,8 +505,13 @@ func _copy_menu_markdown(_index: int) -> void:
 	heading[heading_size * 2] =\
 		":-|" if (_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0) else ":-:|"
 
-	_copy_menu_tray_entries("MD Table", PackedStringArray(["".join(heading)]),
-		"|#%s%s|%s|%s|%s%s", "|%s", "%s|", "%s|"
+	_copy_menu_tray_entries(
+		"MD Table",
+		PackedStringArray(["".join(heading)]),
+		"|#%s%s|%s|%s|%s%s",
+		"|%s",
+		"%s|",
+		"%s|",
 	)
 
 
@@ -530,7 +559,6 @@ func _on_window_size_changed() -> void:
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
 
-	# Change tray h separation
 	if not _stopwatch_tray_entries_ui.is_empty() and _set_entry_tray_visibility():
 		# Set tray separation
 		var separation := get_h_separation_entry_tray()
@@ -705,7 +733,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 		var longest_span := -Global.FLOAT_MAX
 		_longest_entry_index = 0
 
-		for i:int in entries_size:
+		for i: int in entries_size:
 			var time_span := time_state.pause_span(i)
 			if time_span >= longest_span and i != _shortest_entry_index:
 				longest_span = time_span

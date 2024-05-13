@@ -55,6 +55,7 @@ func _ready() -> void:
 	)
 
 	await get_tree().process_frame
+	
 	if _previous_window_pinned_size == Vector2i.ZERO:
 		_previous_window_pinned_size = GLOBAL.window.min_size
 
@@ -114,10 +115,12 @@ func _toggle_pin_window(pinning: bool) -> void:
 		GLOBAL.window.size = _previous_window_pinned_size
 
 		var win_id := GLOBAL.window.current_screen
-		var right := DisplayServer.screen_get_position(win_id).x\
-				+ DisplayServer.screen_get_size(win_id).x\
-				- GLOBAL.window.size.x\
-				+ _window_margin_when_pinning.x
+		var right := (
+			DisplayServer.screen_get_position(win_id).x
+			+ DisplayServer.screen_get_size(win_id).x
+			- GLOBAL.window.size.x
+			+ _window_margin_when_pinning.x
+		)
 		
 		GLOBAL.window.position = Vector2i(right, _window_margin_when_pinning.y)
 	else:
@@ -138,7 +141,9 @@ func _minimise_window() -> void:
 
 func _window_size_changed() -> void:
 	await get_tree().process_frame
-	_l_title.visible = _l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x < 0.0
+	_l_title.visible = 0.0 > (
+		_l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x
+	)
 
 
 func _set_minimise_corner_radius(radius: int) -> void:

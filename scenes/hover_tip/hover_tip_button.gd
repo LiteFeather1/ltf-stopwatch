@@ -21,7 +21,7 @@ func show_hover_tip(c: Control, text: String) -> void:
 	var new_x := c.global_position.x + (c.size.x * c_scale.x - size.x) * .5
 	var right := new_x + size.x
 	var out_x := 0.0
-	# This is only checking right checking left wouldn't be to difficult 
+	# This is only checking right checking left wouldn't be to difficult
 	# but it's unnecessary due to the current layout
 	if GLOBAL.window.size.x <= right:
 		out_x = GLOBAL.window.size.x - right - _label_padding.x
