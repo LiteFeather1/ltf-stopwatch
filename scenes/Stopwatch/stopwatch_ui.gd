@@ -208,7 +208,7 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 	
 	var index := time_state.undo_deleted_entry()
 	var new_entry := _instantiate_stopwatch_entry_ui(
-		index, _stopwatch_tray_entries_ui.size() - index, get_h_separation_entry_tray()
+		index, _stopwatch_tray_entries_ui.size() - index
 	)
 	
 	var resumed_size := time_state.resumed_times_size()
@@ -265,7 +265,7 @@ func _on_stopwatch_started() -> void:
 
 
 func _stopwatch_paused() -> void:
-	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0, get_h_separation_entry_tray())
+	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0)
 
 	_set_entry_tray_visibility()
 
@@ -636,7 +636,11 @@ func get_h_separation_entry_tray() -> int:
 	))
 
 
-func _instantiate_stopwatch_entry_ui(insert_at: int, move_to: int, separation: int) -> StopwatchEntryUI:
+func _instantiate_stopwatch_entry_ui(
+	insert_at: int,
+	move_to: int,
+	separation: int = get_h_separation_entry_tray(),
+) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
 
