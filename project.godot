@@ -12,7 +12,7 @@ config_version=5
 
 config/name="LTF Stopwatch"
 config/description="A simple Stopwatch in godot"
-config/version="v0.8"
+config/version="v0.9"
 run/main_scene="res://main.tscn"
 config/auto_accept_quit=false
 config/quit_on_go_back=false
