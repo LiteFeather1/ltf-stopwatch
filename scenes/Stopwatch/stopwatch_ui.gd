@@ -49,6 +49,8 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 var _stopwatch_and_buttons_separation: int
 
 var _entry_tray_tween := Tween.new()
+var _is_entry_tray_visible: bool
+
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
 var _shortest_entry_index: int
@@ -587,12 +589,14 @@ func _tray_animation(t: float) -> void:
 
 func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
-		_stopwatch.get_time_state().paused_times_size() > 0
+		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _win_x_for_min_h_separation
 		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y
 	)
-	if is_vis == _entry_tray.visible:
+	if is_vis == _is_entry_tray_visible:
 		return is_vis
+
+	_is_entry_tray_visible = is_vis
 
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
@@ -670,6 +674,8 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 
 	var time_state := _stopwatch.get_time_state()
 	time_state.delete_entry(index)
+
+	_set_entry_tray_visibility()
 
 	for i: int in range(index, _stopwatch_tray_entries_ui.size()):
 		_stopwatch_tray_entries_ui[i].replace_pause_num("#%d" % (i + 2), str(i + 1))

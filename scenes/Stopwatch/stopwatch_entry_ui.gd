@@ -56,10 +56,12 @@ func _on_mouse_exited() -> void:
 
 func _on_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
-	if mb_event\
-			and mb_event.button_index == MOUSE_BUTTON_LEFT\
-			and mb_event.is_released()\
-			and _is_mouse_inside:
+	if(
+		mb_event
+		and mb_event.button_index == MOUSE_BUTTON_LEFT
+		and mb_event.is_released()
+		and _is_mouse_inside
+	):
 		deleted.emit(self)
 
 		delete_routine()
