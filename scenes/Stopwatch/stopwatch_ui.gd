@@ -82,17 +82,15 @@ func _ready() -> void:
 	# Find min for h separation
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
 	_win_x_for_min_h_separation = int(label_pause_time.get_theme_font("font").get_string_size(
-		# FIXME this should use the size of the tray instead of suffix and prefix spaces
-		"    %s  %s  %s    " % [
-			TEMPLATE_SHORTEST_ENTRY % 99,
+		"%s%s%s" % [
+			TEMPLATE_SHORTEST_ENTRY % 69,
 			label_pause_time.text,
 			_hbc_tray_heading.get_child(2).text,
 		],
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
-	).x)
-
+	).x + size.x - _entry_tray.size.x)
 	_stopwatch_and_buttons_separation = _stopwatch_and_buttons.get_theme_constant("separation")
 
 	await get_tree().process_frame
