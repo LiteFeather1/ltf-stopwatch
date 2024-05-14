@@ -18,15 +18,16 @@ const SAVEABLE := &"saveable"
 func _ready() -> void:
 	_title_bar_ui.close_pressed.connect(_quit_app)
 	
-	GLOBAL.window.min_size = _min_window_size
-	GLOBAL.window.max_size = _max_window_size
-
+	GLOBAL.window.close_requested.connect(_quit_app)
 	GLOBAL.window.focus_entered.connect(func() -> void:
 		GLOBAL.tree.paused = false
 	)
 	GLOBAL.window.focus_exited.connect(func() -> void:
 		GLOBAL.tree.paused = true
 	)
+
+	GLOBAL.window.min_size = _min_window_size
+	GLOBAL.window.max_size = _max_window_size
 
 	if not FileAccess.file_exists(SAVE_PATH):
 		print("No file at %s" % SAVE_PATH)
@@ -59,11 +60,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_stopwatch_ui.redo_deleted_stopwatch_entry_ui()
 	elif event.is_action_pressed("undo_deleted_pause_entry"):
 		_stopwatch_ui.undo_deleted_stopwatch_entry_ui()
-
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		_quit_app()
 
 
 func _quit_app() -> void:
