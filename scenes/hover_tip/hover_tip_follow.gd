@@ -1,13 +1,12 @@
 class_name HoverTipFollow extends HoverTip
 
 
-func _ready() -> void:
-	super()
-	set_process(false)
+func _input(event: InputEvent) -> void:
+	var m_event := event as InputEventMouse
+	if not m_event:
+		return
 
-
-func _process(_delta: float) -> void:
-	var new_pos := get_global_mouse_position() - size
+	var new_pos := m_event.position - size
 
 	# We are only correcting the position if we go out to the left
 	if new_pos.x < _label_padding.x:
@@ -18,7 +17,7 @@ func _process(_delta: float) -> void:
 
 func show_hover_tip(text: String) -> void:
 	_set_text(text)
-	set_process(true)
+	set_process_input(true)
 
 
 func hide_hover_tip() -> void:
@@ -27,4 +26,4 @@ func hide_hover_tip() -> void:
 	else:
 		visible = false
 	
-	set_process(false)
+	set_process_input(false)
