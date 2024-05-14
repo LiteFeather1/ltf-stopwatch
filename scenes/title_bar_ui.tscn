@@ -16,8 +16,8 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbryd"]
 bg_color = Color(0, 0, 0, 0.498039)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
+corner_radius_top_left = 8
+corner_radius_top_right = 8
 
 [sub_resource type="InputEventKey" id="InputEventKey_vfb77"]
 device = -1
@@ -76,7 +76,7 @@ mouse_filter = 2
 theme_override_constants/separation = 8
 
 [node name="Control" type="Control" parent="hbc_title_bar/hbc_title"]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(32, 16)
 layout_mode = 2
 mouse_filter = 2
 
@@ -107,7 +107,7 @@ custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = 4
+theme_override_constants/separation = 2
 
 [node name="b_pin" type="Button" parent="hbc_title_bar/hbc_buttons"]
 custom_minimum_size = Vector2(42, 0)
