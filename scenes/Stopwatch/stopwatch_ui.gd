@@ -195,7 +195,7 @@ func restore_last_time_state() -> void:
 	_set_entry_tray_visibility()
 	_set_buttons_disabled(not _stopwatch.has_started())
 
-	AL_HoverTipFollow.hide_hover_tip()
+	HOVER_TIP_FOLLOW.hide_hover_tip()
 
 
 func undo_deleted_stopwatch_entry_ui() -> void:

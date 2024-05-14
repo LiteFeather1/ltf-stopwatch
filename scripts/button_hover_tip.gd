@@ -21,8 +21,8 @@ func _pressed() -> void:
 
 func show_hover_tip() -> void:
 	if not disabled:
-		AL_HoverTipButton.show_hover_tip(self, _tip_name)
+		HOVER_TIP_BUTTON.show_hover_tip(self, _tip_name)
 
 
 func hide_hover_tip() -> void:
-	AL_HoverTipButton.hide_hover_tip()
+	HOVER_TIP_BUTTON.hide_hover_tip()

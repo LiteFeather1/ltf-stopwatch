@@ -40,13 +40,13 @@ func _ready() -> void:
 
 func _on_mouse_entered() -> void:
 	_is_mouse_inside = true
-	AL_HoverTipFollow.show_hover_tip(_hover_message)
+	HOVER_TIP_FOLLOW.show_hover_tip(_hover_message)
 	hovered.emit(self)
 
 
 func _on_mouse_exited() -> void:
 	_is_mouse_inside = false
-	AL_HoverTipFollow.hide_hover_tip()
+	HOVER_TIP_FOLLOW.hide_hover_tip()
 
 	if modulate == Color.WHITE:
 		_tween.kill()
@@ -94,7 +94,7 @@ func delete_routine() -> void:
 	mouse_exited.disconnect(_on_mouse_exited)
 	gui_input.disconnect(_on_gui_input)
 
-	AL_HoverTipFollow.hide_hover_tip()
+	HOVER_TIP_FOLLOW.hide_hover_tip()
 
 	if _tween:
 		_tween.kill()

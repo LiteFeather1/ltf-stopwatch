@@ -26,8 +26,8 @@ config/windows_native_icon="res://assets/icons/icon_white_bg_black.ico"
 
 [autoload]
 
-AL_HoverTipButton="*res://scenes/hover_tip/hover_tip_button.tscn"
-AL_HoverTipFollow="*res://scenes/hover_tip/hover_tip_follow.tscn"
+HOVER_TIP_BUTTON="*res://scenes/hover_tip/hover_tip_button.tscn"
+HOVER_TIP_FOLLOW="*res://scenes/hover_tip/hover_tip_follow.tscn"
 GLOBAL="*res://scripts/global.gd"
 
 [display]
