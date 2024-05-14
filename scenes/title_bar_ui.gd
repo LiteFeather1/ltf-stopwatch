@@ -35,9 +35,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	set_process(false)
-
-	gui_input.connect(_on_gui_input)
+	set_process_input(false)
 
 	_b_close.pressed.connect(_close_window)
 	_b_pin.toggled.connect(_toggle_pin_window)
@@ -60,8 +58,17 @@ func _ready() -> void:
 		_previous_window_pinned_size = GLOBAL.window.min_size
 
 
-func _process(_delta: float) -> void:
-	GLOBAL.window.position += Vector2i(get_global_mouse_position() - _start_drag_pos)
+func _input(event: InputEvent) -> void:
+	var m_event := event as InputEventMouse
+	if m_event:
+		GLOBAL.window.position += Vector2i(m_event.position - _start_drag_pos)
+
+
+func _gui_input(event: InputEvent) -> void:
+	var mb_event := event as InputEventMouseButton
+	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
+		set_process_input(not is_processing_input())
+		_start_drag_pos = mb_event.position
 
 
 func load(save_data: Dictionary) -> void:
@@ -86,13 +93,6 @@ func save(save_data: Dictionary) -> void:
 		save_data[WINDOW_SIZE] = var_to_str(GLOBAL.window.size)
 		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
 		save_data[WINDOW_POSITION] = var_to_str(GLOBAL.window.position)
-
-
-func _on_gui_input(event: InputEvent) -> void:
-	var mb_event := event as InputEventMouseButton
-	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
-		set_process(not is_processing())
-		_start_drag_pos = get_local_mouse_position()
 
 
 func _close_window() -> void:
