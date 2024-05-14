@@ -3,15 +3,13 @@ class_name ResizeHandler extends Control
 
 var _distance_to_edge: Vector2i
 
-var _mouse_start_pos: Vector2
-var _window_start_pos: Vector2i
-var _window_start_size: Vector2i
+static var _mouse_start_pos: Vector2i
+static var _window_start_pos: Vector2i
+static var _window_start_size: Vector2i
 
 
 func _ready() -> void:
-	set_process(false)
-
-	gui_input.connect(_on_gui_input)
+	set_process_input(false)
 
 	var global_pos := Vector2i(global_position)
 	_distance_to_edge = Vector2i(
@@ -22,12 +20,16 @@ func _ready() -> void:
 	)
 
 
-func _process(_delta: float) -> void:
+func _input(event: InputEvent) -> void:
+	var m_event := event as InputEventMouse
+	if not m_event:
+		return
+
 	var is_diag := (
 		mouse_default_cursor_shape == CURSOR_BDIAGSIZE
 		or mouse_default_cursor_shape == CURSOR_FDIAGSIZE
 	)
-	var mouse_delta: Vector2i = get_global_mouse_position() - _mouse_start_pos
+	var mouse_delta := Vector2i(m_event.position) - _mouse_start_pos
 	var win := GLOBAL.window
 	if mouse_default_cursor_shape == CURSOR_HSIZE or is_diag:
 		if global_position.x < win.size.x / 2.0:
@@ -52,11 +54,10 @@ func _process(_delta: float) -> void:
 			win.size.y = mouse_delta.y + _distance_to_edge.y
 
 
-
-func _on_gui_input(event: InputEvent) -> void:
+func _gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
 	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
-		set_process(not is_processing())
-		_mouse_start_pos = get_local_mouse_position()
+		set_process_input(not is_processing_input())
+		_mouse_start_pos = mb_event.position
 		_window_start_pos = GLOBAL.window.position
 		_window_start_size = GLOBAL.window.size

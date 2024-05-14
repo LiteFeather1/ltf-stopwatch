@@ -10,8 +10,6 @@ var _font_size: int
 
 
 func _ready() -> void:
-	set_process_input(false)
-
 	_delay_to_appear.timeout.connect(_show)
 
 	_font = _l_text.get_theme_font("font")
