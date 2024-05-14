@@ -48,6 +48,7 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 
 var _stopwatch_and_buttons_separation: int
 
+var _entry_tray_tween: Tween
 var _is_entry_tray_visible: bool
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
@@ -61,8 +62,6 @@ var _win_x_for_min_h_separation: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
-
-@onready var _entry_tray_tween := create_tween()
 
 
 func _enter_tree() -> void:
