@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="LTF Stopwatch"
-config/description="A simple Stopwatch in godot"
-config/version="v0.9"
+config/description="A simple Stopwatch made with Godot"
+config/version="0.9"
 run/main_scene="res://main.tscn"
 config/auto_accept_quit=false
 config/quit_on_go_back=false
@@ -21,7 +21,8 @@ boot_splash/bg_color=Color(0.117647, 0.117647, 0.117647, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-config/icon="res://assets/sprites/Icon.svg"
+config/icon="res://assets/icons/icon_white_bg_black.svg"
+config/windows_native_icon="res://assets/icons/icon_white_bg_black.ico"
 
 [autoload]
 
