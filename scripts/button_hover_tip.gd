@@ -9,7 +9,7 @@ func set_tip_name(tip_name: String) -> void:
 
 
 func _ready() -> void:
-	mouse_entered.connect(show_hover_tip)
+	mouse_entered.connect(_show_hover_tip)
 	mouse_exited.connect(hide_hover_tip)
 
 
@@ -19,9 +19,9 @@ func _pressed() -> void:
 		mouse_entered.emit()
 
 
-func show_hover_tip() -> void:
+func _show_hover_tip() -> void:
 	if not disabled:
-		HOVER_TIP_BUTTON.show_hover_tip(self, _tip_name)
+		HOVER_TIP_BUTTON.show_hover_tip(self, _tip_name, shortcut.get_as_text())
 
 
 func hide_hover_tip() -> void:
