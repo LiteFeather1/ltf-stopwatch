@@ -35,8 +35,10 @@ func show_hover_tip(c: Control, text: String, shortcut_text := "") -> void:
 		visible = false
 
 	_simple_text_size = text.length()
-
-	_set_text(text)
+	if Input.is_action_pressed("ctrl"):
+		_set_text(TEMPLATE_SHORTCUT % [text, shortcut_text])
+	else:
+		_set_text(text)
 
 	_shortcut_text = shortcut_text
 
