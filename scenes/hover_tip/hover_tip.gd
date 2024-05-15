@@ -19,9 +19,8 @@ func _ready() -> void:
 func _set_text(text: String) -> void:
 	_l_text.text = text
 
-	var s := _font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, _font_size)
-	size = s + _label_padding
-
+	size = _label_padding\
+		+ _font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, _font_size)
 	_delay_to_appear.paused = false
 	_delay_to_appear.start(_delay_to_appear.wait_time)
 
