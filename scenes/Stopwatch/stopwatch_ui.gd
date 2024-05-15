@@ -308,7 +308,6 @@ func _start_toggled(state: bool) -> void:
 func _reset_pressed() -> void:
 	_b_reset.disabled = true
 	_b_clipboard.disabled = true
-	_b_reset.hide_hover_tip()
 
 	_b_start.button_pressed = false
 	_b_start.icon = _sprite_start
