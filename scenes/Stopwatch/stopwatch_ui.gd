@@ -310,11 +310,11 @@ func _reset_pressed() -> void:
 	_b_clipboard.disabled = true
 	_b_reset.hide_hover_tip()
 
-	_stopwatch.reset()
-
 	_b_start.button_pressed = false
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("start")
+
+	_stopwatch.reset()
 
 	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
 		entry.queue_free()
