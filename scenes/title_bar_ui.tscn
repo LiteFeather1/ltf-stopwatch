@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=21 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://dbow7jib5a2st" path="res://assets/sprites/buttons_title_bar/s_pin_button.svg" id="2_b70b5"]
@@ -34,6 +34,14 @@ keycode = 77
 
 [sub_resource type="Shortcut" id="Shortcut_4h1gf"]
 events = [SubResource("InputEventKey_wnjlu")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_j4peu"]
+device = -1
+ctrl_pressed = true
+keycode = 4194335
+
+[sub_resource type="Shortcut" id="Shortcut_kqhlp"]
+events = [SubResource("InputEventKey_j4peu")]
 
 [node name="title_bar_ui" type="Panel" node_paths=PackedStringArray("_l_title", "_b_close", "_b_minimise", "_b_pin")]
 anchors_preset = 10
@@ -148,6 +156,7 @@ focus_mode = 0
 theme_override_styles/normal = ExtResource("7_8trta")
 theme_override_styles/hover = ExtResource("8_a0bhh")
 theme_override_styles/pressed = ExtResource("9_w7txe")
+shortcut = SubResource("Shortcut_kqhlp")
 shortcut_in_tooltip = false
 icon = ExtResource("13_1ngmv")
 icon_alignment = 1
