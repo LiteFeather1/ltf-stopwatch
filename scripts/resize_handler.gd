@@ -49,6 +49,7 @@ func _gui_input(event: InputEvent) -> void:
 
 func _horizontal_resize(x_delta: int) -> void:
 	var win := GLOBAL.window
+	
 	if global_position.x < win.size.x * .5:
 		if (
 			(win.size.x != win.max_size.x or x_delta > 0)

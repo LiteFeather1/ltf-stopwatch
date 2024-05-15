@@ -141,6 +141,7 @@ func _minimise_window() -> void:
 
 func _window_size_changed() -> void:
 	await get_tree().process_frame
+	
 	_l_title.visible = 0.0 > (
 		_l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x
 	)
