@@ -3,6 +3,7 @@ class_name Main extends Panel
 
 const SAVE_PATH := &"user://ltf_stopwatch.json"
 const PASS := &"744967c4-6e81-4947-a1f4-06626abc615b"
+
 const VERSION := &"version"
 const SAVEABLE := &"saveable"
 
@@ -32,23 +33,22 @@ func _ready() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		print("No file at %s" % SAVE_PATH)
 		return
-	
+
 	var file := FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.READ, PASS)
 	if file == null:
 		print("Couldn't load %s. Error %s" % [SAVE_PATH, FileAccess.get_open_error()])
 		return
 
-	var json = JSON.parse_string(file.get_as_text())
+	var save_data: Dictionary = JSON.parse_string(file.get_as_text())
 	file.close()
-	if not json is Dictionary:
-		print("Json object is not a dictionary")
-		return
-	
-	var save_data: Dictionary = json
 
 	if VERSION in save_data:
-		print("Loaded %s version: %s" % [SAVE_PATH, save_data[VERSION]])
-	
+		if save_data[VERSION] == ProjectSettings.get_setting("application/config/version"):
+			print("Loaded %s version: %s" % [SAVE_PATH, save_data[VERSION]])
+		else:
+			print("Tried to load old version of save")
+			return
+
 	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
 		saveable.load(save_data)
 
