@@ -50,7 +50,7 @@ func _ready() -> void:
 			return
 
 	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
-		saveable.load(save_data)
+		saveable.load(save_data[saveable.NAME])
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -69,7 +69,7 @@ func _quit_app() -> void:
 	save_data[VERSION] = ProjectSettings.get_setting("application/config/version")
 
 	for saveable in GLOBAL.tree.get_nodes_in_group(SAVEABLE):
-		saveable.save(save_data)
+		save_data[saveable.NAME] = saveable.save()
 	
 	var file := FileAccess.open_encrypted_with_pass(SAVE_PATH, FileAccess.WRITE, PASS)
 	file.store_string(JSON.stringify(save_data, "", false))
