@@ -4,11 +4,11 @@ class_name TimeState extends Object
 const NIL_PAUSE_TEXT := &"--:--:--"
 const NIL_PAUSE_TEXT_SPACED := &" -- : -- : -- "
 
-const TO_SAVE_KEYS: Array[StringName] = [
-	&"elapsed_time",
-	&"_paused_times",
-	&"_elapsed_times",
-	&"_resumed_times",
+const SAVE_KEYS: PackedStringArray = [
+	"elapsed_time",
+	"_paused_times",
+	"_elapsed_times",
+	"_resumed_times",
 ]
 
 var elapsed_time: float = 0.0
@@ -160,15 +160,16 @@ func redo_deleted_entry() -> int:
 
 
 func load(save_dict: Dictionary) -> void:
-	for key: StringName in TO_SAVE_KEYS:
+	for key: String in SAVE_KEYS:
 		self[key] = save_dict[key]
 
 
-func save(save_data: Dictionary, dict_key: StringName) -> void:
+func save() -> Dictionary:
 	var save_dict = {}
-	for key: StringName in TO_SAVE_KEYS:
+	for key: String in SAVE_KEYS:
 		save_dict[key] = self[key]
-	save_data[dict_key] = save_dict
+	
+	return save_dict
 
 
 func _clear_redo() -> void:

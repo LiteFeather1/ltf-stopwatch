@@ -5,8 +5,10 @@ signal started()
 signal paused()
 signal resumed()
 
-const TIME_STATE := &"time_state"
-const LAST_TIME_STATE := &"last_time_state"
+const TIME_STATE_SAVE_KEYS: PackedStringArray = [
+	"_time_state",
+	"_last_time_state",
+]
 
 @export_multiline var _time_text_template := "[center]%02d:%02d:%02d.[font_size=48]%02d[/font_size][/center]"
 
@@ -84,15 +86,15 @@ func restore_last_time_state() -> void:
 
 
 func load(save_data: Dictionary) -> void:
-	_try_init(_time_state, save_data, TIME_STATE)
-	_try_init(_last_time_state, save_data, LAST_TIME_STATE)
+	for key: String in TIME_STATE_SAVE_KEYS:
+		self[key].load(save_data[key])
 
 	_set_time()
 
 
 func save(save_data: Dictionary) -> void:
-	_time_state.save(save_data, TIME_STATE)
-	_last_time_state.save(save_data, LAST_TIME_STATE)
+	for key: String in TIME_STATE_SAVE_KEYS:
+		save_data[key] = self[key].save()
 
 
 func _try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
