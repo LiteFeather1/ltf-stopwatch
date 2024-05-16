@@ -91,12 +91,12 @@ func _gui_input(event: InputEvent) -> void:
 		_start_drag_pos = mb_event.position
 
 
-func load(save_data: Dictionary) -> void:
+func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
-		self[key] = str_to_var(save_data[key])
+		self[key] = str_to_var(save_dict[key])
 
 
-func save(save_data: Dictionary) -> void:
+func save() -> Dictionary:
 	if _b_pin.button_pressed:
 		_window_pinned_position = GLOBAL.window.position
 		_window_pinned_size = GLOBAL.window.size
@@ -104,8 +104,10 @@ func save(save_data: Dictionary) -> void:
 		_window_position = GLOBAL.window.position
 		_window_size = GLOBAL.window.size
 
+	var save_dict := {}
 	for key: String in SAVE_KEYS:
-		save_data[key] = var_to_str(self[key])
+		save_dict[key] = var_to_str(self[key])
+	return save_dict
 
 
 func _close_window() -> void:
