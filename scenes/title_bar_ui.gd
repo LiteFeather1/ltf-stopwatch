@@ -4,9 +4,11 @@ class_name TitleBarUI extends Panel
 signal close_pressed()
 
 
-const WINDOW_SIZE := &"window_size"
-const WINDOW_PINNED_SIZE := &"window_pinnned_size"
-const WINDOW_POSITION := &"window_position"
+const SAVE_KEYS: PackedStringArray = [
+	"_window_position",
+	"_window_size",
+	"_window_pinned_size",
+]
 
 const HOVER := &"hover"
 const PRESSED := &"pressed"
@@ -25,9 +27,9 @@ const PRESSED := &"pressed"
 
 var _start_drag_pos: Vector2
 
-var _previous_window_size: Vector2i
-var _previous_window_pinned_size: Vector2i
-var _previous_window_position: Vector2i
+var _window_position: Vector2i = Vector2i(-1, 1)
+var _window_size: Vector2i
+var _window_pinned_size: Vector2i
 
 
 func _enter_tree() -> void:
@@ -54,8 +56,12 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 	
-	if _previous_window_pinned_size == Vector2i.ZERO:
-		_previous_window_pinned_size = GLOBAL.window.min_size
+	if _window_position.x != -1:
+		GLOBAL.window.position = _window_position
+		GLOBAL.window.size = _window_size
+	else:
+		_window_pinned_size = GLOBAL.window.min_size
+
 
 
 func _input(event: InputEvent) -> void:
@@ -72,27 +78,19 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func load(save_data: Dictionary) -> void:
-	if save_data.has(WINDOW_SIZE):
-		_previous_window_size = str_to_var(save_data[WINDOW_SIZE])
-		GLOBAL.window.size = _previous_window_size
-
-	_previous_window_pinned_size = str_to_var(save_data[WINDOW_PINNED_SIZE])\
-		if save_data.has(WINDOW_PINNED_SIZE) else GLOBAL.window.min_size
-	
-	if save_data.has(WINDOW_POSITION):
-		_previous_window_position = str_to_var(save_data[WINDOW_POSITION])
-		GLOBAL.window.position = _previous_window_position
+	for key: String in SAVE_KEYS:
+		self[key] = str_to_var(save_data[key])
 
 
 func save(save_data: Dictionary) -> void:
 	if _b_pin.button_pressed:
-		save_data[WINDOW_SIZE] = var_to_str(_previous_window_size)
-		save_data[WINDOW_PINNED_SIZE] = var_to_str(GLOBAL.window.size)
-		save_data[WINDOW_POSITION] = var_to_str(_previous_window_position)
+		_window_pinned_size = GLOBAL.window.size
 	else:
-		save_data[WINDOW_SIZE] = var_to_str(GLOBAL.window.size)
-		save_data[WINDOW_PINNED_SIZE] = var_to_str(_previous_window_pinned_size)
-		save_data[WINDOW_POSITION] = var_to_str(GLOBAL.window.position)
+		_window_position = GLOBAL.window.position
+		_window_size = GLOBAL.window.size
+
+	for key: String in SAVE_KEYS:
+		save_data[key] = var_to_str(self[key])
 
 
 func _close_window() -> void:
@@ -109,10 +107,10 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 		_set_minimise_corner_radius(_b_close.get_theme_stylebox(HOVER).corner_radius_top_right)
 
-		_previous_window_position = GLOBAL.window.position
+		_window_position = GLOBAL.window.position
 
-		_previous_window_size = GLOBAL.window.size
-		GLOBAL.window.size = _previous_window_pinned_size
+		_window_size = GLOBAL.window.size
+		GLOBAL.window.size = _window_pinned_size
 
 		var win_id := GLOBAL.window.current_screen
 		var right := (
@@ -129,10 +127,10 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 		_set_minimise_corner_radius(_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_left)
 
-		_previous_window_pinned_size = GLOBAL.window.size
-		GLOBAL.window.size = _previous_window_size
+		_window_pinned_size = GLOBAL.window.size
+		GLOBAL.window.size = _window_size
 		
-		GLOBAL.window.position = _previous_window_position
+		GLOBAL.window.position = _window_position
 
 
 func _minimise_window() -> void:
