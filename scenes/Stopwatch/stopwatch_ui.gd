@@ -249,14 +249,16 @@ func pause_stopwatch_if_running() -> void:
 		_stopwatch.set_state(false)
 
 
-func load(save_data: Dictionary) -> void:
+func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
-		self[key] = save_data[key]
+		self[key] = save_dict[key]
 
 
-func save(save_data: Dictionary) -> void:
+func save() -> Dictionary:
+	var save_dict := {}
 	for key: String in SAVE_KEYS:
-		save_data[key] = self[key]
+		save_dict[key] = self[key]
+	return save_dict
 
 
 func _set_buttons_disabled(state: bool) -> void:
