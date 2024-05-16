@@ -7,6 +7,8 @@ enum CopyMenuFlags {
 	LONGEST_SHORTEST = 1 << 2,
 }
 
+const NAME := &"StopwatchUI"
+
 const TEMPLATE_LONGEST_ENTRY := &"#%d Longest"
 const TEMPLATE_SHORTEST_ENTRY := &"#%d Shortest"
 

@@ -5,6 +5,8 @@ signal started()
 signal paused()
 signal resumed()
 
+const NAME := &"Stopwatch"
+
 const TIME_STATE_SAVE_KEYS: PackedStringArray = [
 	"_time_state",
 	"_last_time_state",

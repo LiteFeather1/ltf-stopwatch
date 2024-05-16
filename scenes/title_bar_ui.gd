@@ -4,6 +4,8 @@ class_name TitleBarUI extends Panel
 signal close_pressed()
 
 
+const NAME := &"TitleBarUI"
+
 const SAVE_KEYS: PackedStringArray = [
 	"_window_position",
 	"_window_size",
