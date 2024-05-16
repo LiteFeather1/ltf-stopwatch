@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://b2u5b2xehfur0"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://b2u5b2xehfur0"]
 
 [ext_resource type="FontFile" uid="uid://hrmfuoadomq0" path="res://assets/fonts/space_mono/SpaceMono-Regular.ttf" id="1_u3pcg"]
+[ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="2_rjol7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tc2sx"]
 
@@ -10,6 +11,19 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1ink"]
+bg_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.270588, 0.270588, 0.270588, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
@@ -30,9 +44,10 @@ Button/fonts/font = ExtResource("1_u3pcg")
 HSeparator/styles/separator = SubResource("StyleBoxEmpty_tc2sx")
 Label/fonts/font = ExtResource("1_u3pcg")
 Panel/styles/panel = SubResource("StyleBoxFlat_kg0wi")
-PopupMenu/font_sizes/font_separator_size = 14
-PopupMenu/font_sizes/font_size = 14
-PopupMenu/fonts/font = ExtResource("1_u3pcg")
-PopupMenu/fonts/font_separator = ExtResource("1_u3pcg")
+PopupMenu/font_sizes/font_separator_size = 13
+PopupMenu/font_sizes/font_size = 13
+PopupMenu/fonts/font = ExtResource("2_rjol7")
+PopupMenu/fonts/font_separator = ExtResource("2_rjol7")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_h1ink")
 RichTextLabel/fonts/normal_font = ExtResource("1_u3pcg")
 VSeparator/styles/separator = SubResource("StyleBoxEmpty_h5osr")

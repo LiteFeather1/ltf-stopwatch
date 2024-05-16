@@ -117,7 +117,7 @@ func _ready() -> void:
 		pop_up.add_item(ITEMS[i], i)
 		_menu_copy_id_to_callable[i] = items_calls[i]
 
-	pop_up.add_separator("| Options |")
+	pop_up.add_separator(" | Options | ")
 
 	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
 	var options_calls := [
