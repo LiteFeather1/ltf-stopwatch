@@ -1,13 +1,15 @@
 class_name TimeState extends Object
 
 
-const ELAPSED_TIME := &"elapsed_time"
-const PAUSED_TIMES := &"paused_times"
-const ELAPSED_TIMES := &"elapsed_times"
-const RESUMED_TIMES := &"resumed_times"
-
 const NIL_PAUSE_TEXT := &"--:--:--"
 const NIL_PAUSE_TEXT_SPACED := &" -- : -- : -- "
+
+const TO_SAVE_KEYS: Array[StringName] = [
+	&"elapsed_time",
+	&"_paused_times",
+	&"_elapsed_times",
+	&"_resumed_times",
+]
 
 var elapsed_time: float = 0.0
 
@@ -157,27 +159,16 @@ func redo_deleted_entry() -> int:
 	return _redo_deleted_indexes[_redo_deleted_indexes.size() - 1]
 
 
-func load(save_data: Dictionary) -> void:
-	if save_data.has(ELAPSED_TIME):
-		elapsed_time = save_data[ELAPSED_TIME]
-	
-	if save_data.has(PAUSED_TIMES):
-		_paused_times = save_data[PAUSED_TIMES]
-	
-	if save_data.has(ELAPSED_TIMES):
-		_elapsed_times = save_data[ELAPSED_TIMES]
-
-	if save_data.has(RESUMED_TIMES):
-		_resumed_times = save_data[RESUMED_TIMES]
+func load(save_dict: Dictionary) -> void:
+	for key: StringName in TO_SAVE_KEYS:
+		self[key] = save_dict[key]
 
 
-func save(save_data: Dictionary, key: StringName) -> void:
-	save_data[key] = {
-		ELAPSED_TIME: elapsed_time,
-		PAUSED_TIMES: _paused_times,
-		ELAPSED_TIMES: _elapsed_times,
-		RESUMED_TIMES: _resumed_times,
-	}
+func save(save_data: Dictionary, dict_key: StringName) -> void:
+	var save_dict = {}
+	for key: StringName in TO_SAVE_KEYS:
+		save_dict[key] = self[key]
+	save_data[dict_key] = save_dict
 
 
 func _clear_redo() -> void:
