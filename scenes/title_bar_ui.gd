@@ -7,6 +7,7 @@ signal close_pressed()
 const SAVE_KEYS: PackedStringArray = [
 	"_window_position",
 	"_window_size",
+	"_window_pinned_position",
 	"_window_pinned_size",
 ]
 
@@ -29,6 +30,7 @@ var _start_drag_pos: Vector2
 
 var _window_position: Vector2i = Vector2i(-1, 1)
 var _window_size: Vector2i
+var _window_pinned_position: Vector2i
 var _window_pinned_size: Vector2i
 
 
@@ -84,6 +86,7 @@ func load(save_data: Dictionary) -> void:
 
 func save(save_data: Dictionary) -> void:
 	if _b_pin.button_pressed:
+		_window_pinned_position = GLOBAL.window.position
 		_window_pinned_size = GLOBAL.window.size
 	else:
 		_window_position = GLOBAL.window.position
@@ -108,9 +111,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 		_set_minimise_corner_radius(_b_close.get_theme_stylebox(HOVER).corner_radius_top_right)
 
 		_window_position = GLOBAL.window.position
-
 		_window_size = GLOBAL.window.size
-		GLOBAL.window.size = _window_pinned_size
 
 		var win_id := GLOBAL.window.current_screen
 		var right := (
@@ -121,16 +122,18 @@ func _toggle_pin_window(pinning: bool) -> void:
 		)
 		
 		GLOBAL.window.position = Vector2i(right, _window_margin_when_pinning.y)
+		GLOBAL.window.size = _window_pinned_size
 	else:
 		_b_pin.icon = _sprite_pin
 		_b_pin.set_tip_name("pin")
 
 		_set_minimise_corner_radius(_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_left)
 
+		_window_pinned_position = GLOBAL.window.position
 		_window_pinned_size = GLOBAL.window.size
-		GLOBAL.window.size = _window_size
 		
 		GLOBAL.window.position = _window_position
+		GLOBAL.window.size = _window_size
 
 
 func _minimise_window() -> void:
