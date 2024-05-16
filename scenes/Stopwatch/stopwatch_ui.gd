@@ -7,8 +7,6 @@ enum CopyMenuFlags {
 	LONGEST_SHORTEST = 1 << 2,
 }
 
-const COPY_MENU_OPTIONS := &"copy_menu_options"
-
 const TEMPLATE_LONGEST_ENTRY := &"#%d Longest"
 const TEMPLATE_SHORTEST_ENTRY := &"#%d Shortest"
 
@@ -19,6 +17,10 @@ const ELAPSED_TIME := &"Elapsed Time"
 const PAUSE_SPAN := &"Pause Span"
 const LONGEST_SHORTEST := &"Longest/Shortest"
 const SHORTEST_LONGEST := &"Shortest/Longest"
+
+const SAVE_KEYS: PackedStringArray = [
+	&"_copy_menu_options_mask",
+]
 
 @export var _stopwatch_and_buttons: VBoxContainer
 
@@ -246,12 +248,13 @@ func pause_stopwatch_if_running() -> void:
 
 
 func load(save_data: Dictionary) -> void:
-	if save_data.has(COPY_MENU_OPTIONS):
-		_copy_menu_options_mask = save_data[COPY_MENU_OPTIONS]
+	for key: String in SAVE_KEYS:
+		self[key] = save_data[key]
 
 
 func save(save_data: Dictionary) -> void:
-	save_data[COPY_MENU_OPTIONS] = _copy_menu_options_mask
+	for key: String in SAVE_KEYS:
+		save_data[key] = self[key]
 
 
 func _set_buttons_disabled(state: bool) -> void:
