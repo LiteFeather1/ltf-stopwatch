@@ -1,7 +1,9 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://b2u5b2xehfur0"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://b2u5b2xehfur0"]
 
 [ext_resource type="FontFile" uid="uid://hrmfuoadomq0" path="res://assets/fonts/space_mono/SpaceMono-Regular.ttf" id="1_u3pcg"]
 [ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="2_rjol7"]
+[ext_resource type="Texture2D" uid="uid://di411ik4158j6" path="res://assets/sprites/checks/checked.svg" id="3_ui3wj"]
+[ext_resource type="Texture2D" uid="uid://dmgsoqb5n02a7" path="res://assets/sprites/checks/unchecked.svg" id="4_xvuhg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tc2sx"]
 
@@ -42,8 +44,6 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slogr"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
 [resource]
@@ -63,14 +63,20 @@ Button/fonts/font = ExtResource("1_u3pcg")
 HSeparator/styles/separator = SubResource("StyleBoxEmpty_tc2sx")
 Label/fonts/font = ExtResource("1_u3pcg")
 Panel/styles/panel = SubResource("StyleBoxFlat_kg0wi")
+PopupMenu/colors/font_color = Color(0.968627, 0.968627, 0.992157, 1)
+PopupMenu/colors/font_hover_color = Color(0.968627, 0.968627, 0.968627, 1)
+PopupMenu/colors/font_separator_color = Color(0.875, 0.875, 0.875, 1)
+PopupMenu/constants/h_separation = 4
+PopupMenu/constants/v_separation = 6
 PopupMenu/font_sizes/font_separator_size = 13
 PopupMenu/font_sizes/font_size = 13
 PopupMenu/fonts/font = ExtResource("2_rjol7")
 PopupMenu/fonts/font_separator = ExtResource("2_rjol7")
+PopupMenu/icons/checked = ExtResource("3_ui3wj")
+PopupMenu/icons/unchecked = ExtResource("4_xvuhg")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_gc8ml")
 PopupMenu/styles/labeled_separator_left = SubResource("StyleBoxLine_o7ans")
 PopupMenu/styles/labeled_separator_right = SubResource("StyleBoxLine_or2gc")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_h1ink")
-PopupMenu/styles/separator = SubResource("StyleBoxFlat_slogr")
 RichTextLabel/fonts/normal_font = ExtResource("1_u3pcg")
 VSeparator/styles/separator = SubResource("StyleBoxEmpty_h5osr")
