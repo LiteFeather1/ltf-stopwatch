@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://b2u5b2xehfur0"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://b2u5b2xehfur0"]
 
 [ext_resource type="FontFile" uid="uid://hrmfuoadomq0" path="res://assets/fonts/space_mono/SpaceMono-Regular.ttf" id="1_u3pcg"]
 [ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="2_rjol7"]
@@ -12,6 +12,23 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gc8ml"]
+bg_color = Color(0.227451, 0.45098, 0.611765, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_o7ans"]
+color = Color(0.270588, 0.270588, 0.270588, 1)
+grow_begin = 0.0
+grow_end = 0.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_or2gc"]
+color = Color(0.270588, 0.270588, 0.270588, 1)
+grow_begin = 0.0
+grow_end = 0.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1ink"]
 bg_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 border_width_left = 1
@@ -24,6 +41,8 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slogr"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
@@ -48,6 +67,10 @@ PopupMenu/font_sizes/font_separator_size = 13
 PopupMenu/font_sizes/font_size = 13
 PopupMenu/fonts/font = ExtResource("2_rjol7")
 PopupMenu/fonts/font_separator = ExtResource("2_rjol7")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_gc8ml")
+PopupMenu/styles/labeled_separator_left = SubResource("StyleBoxLine_o7ans")
+PopupMenu/styles/labeled_separator_right = SubResource("StyleBoxLine_or2gc")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_h1ink")
+PopupMenu/styles/separator = SubResource("StyleBoxFlat_slogr")
 RichTextLabel/fonts/normal_font = ExtResource("1_u3pcg")
 VSeparator/styles/separator = SubResource("StyleBoxEmpty_h5osr")
