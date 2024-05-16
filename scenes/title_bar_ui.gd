@@ -62,6 +62,16 @@ func _ready() -> void:
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size
 	else:
+		var win_id := GLOBAL.window.current_screen
+		_window_pinned_position = Vector2i(
+			(
+				DisplayServer.screen_get_position(win_id).x
+				+ DisplayServer.screen_get_size(win_id).x
+				- GLOBAL.window.min_size.x
+				+ _window_margin_when_pinning.x
+			),
+			_window_margin_when_pinning.y,
+		)
 		_window_pinned_size = GLOBAL.window.min_size
 
 
@@ -113,15 +123,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 		_window_position = GLOBAL.window.position
 		_window_size = GLOBAL.window.size
 
-		var win_id := GLOBAL.window.current_screen
-		var right := (
-			DisplayServer.screen_get_position(win_id).x
-			+ DisplayServer.screen_get_size(win_id).x
-			- GLOBAL.window.size.x
-			+ _window_margin_when_pinning.x
-		)
-		
-		GLOBAL.window.position = Vector2i(right, _window_margin_when_pinning.y)
+		GLOBAL.window.position = _window_pinned_position
 		GLOBAL.window.size = _window_pinned_size
 	else:
 		_b_pin.icon = _sprite_pin
