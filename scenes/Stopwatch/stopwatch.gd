@@ -87,16 +87,18 @@ func restore_last_time_state() -> void:
 	_set_time()
 
 
-func load(save_data: Dictionary) -> void:
+func load(save_dict: Dictionary) -> void:
 	for key: String in TIME_STATE_SAVE_KEYS:
-		self[key].load(save_data[key])
+		self[key].load(save_dict[key])
 
 	_set_time()
 
 
-func save(save_data: Dictionary) -> void:
+func save() -> Dictionary:
+	var save_dict := {}
 	for key: String in TIME_STATE_SAVE_KEYS:
-		save_data[key] = self[key].save()
+		save_dict[key] = self[key].save()
+	return save_dict
 
 
 func _try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
