@@ -118,7 +118,6 @@ theme_override_constants/separation = 16
 
 [node name="stopwatch" parent="stopwatch_and_buttons" instance=ExtResource("2_m0v6e")]
 layout_mode = 2
-mouse_filter = 2
 
 [node name="buttons" type="Control" parent="stopwatch_and_buttons"]
 custom_minimum_size = Vector2(0, 64)

@@ -209,7 +209,7 @@ func restore_last_time_state() -> void:
 	_find_longest_shortest_times()
 
 	_set_entry_tray_visibility()
-	_set_buttons_disabled(false)
+	_set_buttons_disabled(not _stopwatch.has_started())
 
 	HOVER_TIP_FOLLOW.hide_hover_tip()
 
