@@ -17,6 +17,8 @@ run/main_scene="res://main.tscn"
 config/auto_accept_quit=false
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.2", "GL Compatibility")
+run/max_fps=60
+run/delta_smoothing=false
 boot_splash/bg_color=Color(0.117647, 0.117647, 0.117647, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
@@ -30,6 +32,10 @@ HOVER_TIP_BUTTON="*res://scenes/hover_tip/hover_tip_button.tscn"
 HOVER_TIP_FOLLOW="*res://scenes/hover_tip/hover_tip_follow.tscn"
 GLOBAL="*res://scripts/global.gd"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/size/viewport_width=512
@@ -40,6 +46,7 @@ window/size/window_width_override=512
 window/size/window_height_override=512
 window/subwindows/embed_subwindows=false
 window/per_pixel_transparency/allowed=true
+window/vsync/vsync_mode=0
 
 [filesystem]
 
