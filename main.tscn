@@ -52,9 +52,6 @@ layout_mode = 2
 [node name="stopwatch_ui" parent="VBoxContainer" instance=ExtResource("2_cujrr")]
 layout_mode = 2
 size_flags_vertical = 3
-_copy_menu_items_icons = null
-_entry_tray_size_range = null
-_tray_h_separation_range = null
 
 [node name="c_resize_handlers" type="Control" parent="."]
 layout_mode = 1
