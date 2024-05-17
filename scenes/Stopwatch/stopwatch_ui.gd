@@ -118,7 +118,12 @@ func _ready() -> void:
 		pop_up.add_icon_item(_copy_menu_items_icons[i], ITEMS[i], i)
 		_menu_copy_id_to_callable[i] = items_calls[i]
 
-	pop_up.add_separator(" | Options | ")
+	var sub_popup_menu := PopupMenu.new()
+	pop_up.add_child(sub_popup_menu)
+	const SUB_MENU_NAME := &"options"
+	sub_popup_menu.name = SUB_MENU_NAME
+	sub_popup_menu.id_pressed.connect(_on_copy_menu_id_pressed)
+	pop_up.add_submenu_item("Options", SUB_MENU_NAME, items_size)
 
 	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
 	var options_calls := [
@@ -131,9 +136,9 @@ func _ready() -> void:
 		var index := i + items_size + 1
 		_menu_copy_id_to_callable[index] = options_calls[i]
 
-		pop_up.add_check_item(OPTIONS[i], index)
+		sub_popup_menu.add_check_item(OPTIONS[i], index)
 		if _copy_menu_options_mask & options_flags_values[i] != 0:
-			pop_up.set_item_checked(index, true)
+			sub_popup_menu.set_item_checked(i, true)
 
 	
 	if _stopwatch.has_started():
