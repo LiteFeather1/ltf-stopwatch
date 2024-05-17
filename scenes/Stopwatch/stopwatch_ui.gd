@@ -43,6 +43,7 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
+@export var _copy_menu_items_icons: Array[Texture2D]
 @export var _entry_tray_size_range := Vector2(37.0, 220.0)
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
 
@@ -105,7 +106,7 @@ func _ready() -> void:
 	pop_up.hide_on_checkable_item_selection = false
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
-	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy Markdown Table"]
+	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy MD Table"]
 	var items_calls := [
 		_copy_menu_simple,
 		_copy_menu_long,
@@ -114,7 +115,7 @@ func _ready() -> void:
 	]
 	var items_size := ITEMS.size()
 	for i: int in items_size:
-		pop_up.add_item(ITEMS[i], i)
+		pop_up.add_icon_item(_copy_menu_items_icons[i], ITEMS[i], i)
 		_menu_copy_id_to_callable[i] = items_calls[i]
 
 	pop_up.add_separator(" | Options | ")

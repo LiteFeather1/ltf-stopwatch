@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=28 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -8,9 +8,13 @@
 [ext_resource type="StyleBox" uid="uid://304vsl0vl4f7" path="res://resources/themes/start_button/hover_start_button.tres" id="4_45roa"]
 [ext_resource type="PackedScene" uid="uid://ckdwpgw2ltoie" path="res://scenes/Stopwatch/stopwatch_entry_ui.tscn" id="4_ta478"]
 [ext_resource type="StyleBox" uid="uid://c6qgu7uipl4b8" path="res://resources/themes/start_button/pressed_start_button.tres" id="5_6sw6k"]
+[ext_resource type="Texture2D" uid="uid://byrublkmw26sj" path="res://assets/sprites/icons_copy_menu/icon_copy_simple.svg" id="5_dyfse"]
+[ext_resource type="Texture2D" uid="uid://cog6wqvd7ndkt" path="res://assets/sprites/icons_copy_menu/icon_copy_long.svg" id="6_hmfcl"]
 [ext_resource type="Texture2D" uid="uid://cdpk0okppa7wy" path="res://assets/sprites/buttons_stopwatch/s_play_button.svg" id="6_qv58p"]
+[ext_resource type="Texture2D" uid="uid://br74niymvgorg" path="res://assets/sprites/icons_copy_menu/icon_copy_csv.svg" id="7_i2gau"]
 [ext_resource type="StyleBox" uid="uid://b2w2qcwr68abt" path="res://resources/themes/stopwatch_buttons/normal_stopwatch_button.tres" id="7_ib2lm"]
 [ext_resource type="StyleBox" uid="uid://b5bv3bbdsyxvb" path="res://resources/themes/stopwatch_buttons/hover_stopwatch_button.tres" id="8_mdogp"]
+[ext_resource type="Texture2D" uid="uid://cxwu7j6scmqdd" path="res://assets/sprites/icons_copy_menu/icon_copy_md.svg" id="8_teunh"]
 [ext_resource type="StyleBox" uid="uid://cp6snfsie0odu" path="res://resources/themes/stopwatch_buttons/pressed_stopwatch_button.tres" id="9_gkr5i"]
 [ext_resource type="StyleBox" uid="uid://h0eenhgoac4d" path="res://resources/themes/stopwatch_buttons/disabled_stopwatch_button.tres" id="10_y3bwx"]
 [ext_resource type="Texture2D" uid="uid://b12aiw15pcoh1" path="res://assets/sprites/buttons_stopwatch/s_copy_to_clipboard.svg" id="11_1p55s"]
@@ -77,6 +81,7 @@ _tray_container = NodePath("stopwatch_tray_ui/ScrollContainer/vbc_tray_container
 _copy_menu_button = NodePath("stopwatch_tray_ui/hbx_tray_heading/Label/menu_button_copy_tray")
 _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
 _hbc_tray_heading = NodePath("stopwatch_tray_ui/hbx_tray_heading")
+_copy_menu_items_icons = Array[Texture2D]([ExtResource("5_dyfse"), ExtResource("6_hmfcl"), ExtResource("7_i2gau"), ExtResource("8_teunh")])
 _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
