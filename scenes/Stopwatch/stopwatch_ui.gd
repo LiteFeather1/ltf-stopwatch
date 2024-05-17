@@ -368,8 +368,8 @@ func _copy_elapsed_time_to_clipboard() -> void:
 	_set_clipboard(time, time)
 
 
-func _on_copy_menu_id_pressed(index: int) -> void:
-	_copy_menu_callables[index].call(index)
+func _on_copy_menu_id_pressed(id: int) -> void:
+	_copy_menu_callables[id].call()
 
 
 func _copy_menu_tray_entries(
@@ -432,7 +432,7 @@ func _copy_menu_tray_entries(
 	_set_clipboard("\n".join(entries_text), message)
 
 
-func _copy_menu_simple(_index: int) -> void:
+func _copy_menu_simple() -> void:
 	_copy_menu_tray_entries(
 		"Simple",
 		PackedStringArray(),
@@ -474,7 +474,7 @@ func _build_copy_heading(
 	return heading
 
 
-func _copy_menu_long(_index: int) -> void:
+func _copy_menu_long() -> void:
 	var entries_text := PackedStringArray(["".join(_build_copy_heading(
 		"%s  |",
 		"  %s  |",
@@ -491,7 +491,7 @@ func _copy_menu_long(_index: int) -> void:
 	)
 
 
-func _copy_menu_csv(_index: int) -> void:
+func _copy_menu_csv() -> void:
 	var entries_text := PackedStringArray(["".join(_build_copy_heading(
 		"%s,",
 		"%s,",
@@ -510,7 +510,7 @@ func _copy_menu_csv(_index: int) -> void:
 	)
 
 
-func _copy_menu_markdown(_index: int) -> void:
+func _copy_menu_markdown() -> void:
 	var heading := _build_copy_heading("|%s", "|%s", "|%s|", "|%s", "%s|", "%s|")
 	var heading_size := heading.size()
 	heading.resize(heading_size * 2 + 1)
