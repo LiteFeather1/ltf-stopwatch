@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=31 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -53,6 +53,8 @@ events = [SubResource("InputEventKey_limys")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os5fx"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Shortcut" id="Shortcut_567eh"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_ugxop"]
 color = Color(0.290196, 0.290196, 0.290196, 1)
@@ -229,9 +231,12 @@ offset_right = 12.0
 offset_bottom = 12.5
 grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_os5fx")
+shortcut = SubResource("Shortcut_567eh")
 flat = false
 icon_alignment = 1
 switch_on_hover = true
+script = ExtResource("3_wkdtx")
+_tip_name = "Copy Menu"
 
 [node name="TextureRect" type="TextureRect" parent="stopwatch_tray_ui/hbx_tray_heading/Label/menu_button_copy_tray"]
 layout_mode = 1
