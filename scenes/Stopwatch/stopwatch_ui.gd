@@ -209,7 +209,7 @@ func restore_last_time_state() -> void:
 	_find_longest_shortest_times()
 
 	_set_entry_tray_visibility()
-	_set_buttons_disabled(not _stopwatch.has_started())
+	_set_buttons_disabled(false)
 
 	HOVER_TIP_FOLLOW.hide_hover_tip()
 
@@ -273,9 +273,14 @@ func save() -> Dictionary:
 	return save_dict
 
 
+func _set_button_state(button: Button, state: bool) -> void:
+	button.disabled = state
+	button.mouse_default_cursor_shape = CURSOR_FORBIDDEN if state else CURSOR_POINTING_HAND
+
+
 func _set_buttons_disabled(state: bool) -> void:
-	_b_reset.disabled = state
-	_b_clipboard.disabled = state
+	_set_button_state(_b_reset, state)
+	_set_button_state(_b_clipboard, state)
 
 
 func _on_stopwatch_started() -> void:
@@ -325,8 +330,7 @@ func _start_toggled(state: bool) -> void:
 
 
 func _reset_pressed() -> void:
-	_b_reset.disabled = true
-	_b_clipboard.disabled = true
+	_set_buttons_disabled(true)
 
 	_b_start.button_pressed = false
 	_b_start.icon = _sprite_start
