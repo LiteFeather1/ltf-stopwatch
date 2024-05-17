@@ -60,10 +60,12 @@ var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
 var _shortest_entry_index: int
 
-var _menu_copy_id_to_callable: Dictionary
-var _options_menu_callables: Array
-var _options_menu_popup: PopupMenu
 var _copy_menu_options_mask: int
+
+var _copy_menu_callables: Array
+
+var _options_menu_popup: PopupMenu
+var _options_menu_callables: Array
 
 var _win_x_for_min_h_separation: int
 
@@ -115,9 +117,10 @@ func _ready() -> void:
 		_copy_menu_markdown,
 	]
 	var items_size := ITEMS.size()
+	_copy_menu_callables.resize(items_size)
 	for i: int in items_size:
 		pop_up.add_icon_item(_copy_menu_items_icons[i], ITEMS[i], i)
-		_menu_copy_id_to_callable[i] = items_calls[i]
+		_copy_menu_callables[i] = items_calls[i]
 
 	_options_menu_popup = PopupMenu.new()
 	_options_menu_popup.hide_on_checkable_item_selection = false
@@ -366,7 +369,7 @@ func _copy_elapsed_time_to_clipboard() -> void:
 
 
 func _on_copy_menu_id_pressed(index: int) -> void:
-	_menu_copy_id_to_callable[index].call(index)
+	_copy_menu_callables[index].call(index)
 
 
 func _copy_menu_tray_entries(
