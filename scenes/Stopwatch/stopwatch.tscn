@@ -12,15 +12,18 @@ offset_right = -1.0
 offset_bottom = 122.0
 grow_horizontal = 2
 pivot_offset = Vector2(255, 0)
+mouse_filter = 2
 theme_override_constants/separation = -16
 script = ExtResource("1_s5has")
 _l_time = NodePath("l_time")
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="l_time" type="RichTextLabel" parent="."]
 layout_mode = 2
+mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
 text = "[center]00:00:00.[font_size=48]00[/font_size][/center]"

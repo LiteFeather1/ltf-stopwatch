@@ -51,6 +51,7 @@ offset_top = 1.0
 offset_right = -1.0
 offset_bottom = 29.0
 grow_horizontal = 2
+mouse_default_cursor_shape = 13
 theme_override_styles/panel = SubResource("StyleBoxFlat_mbryd")
 script = ExtResource("1_8lk40")
 _l_title = NodePath("hbc_title_bar/hbc_title/l_title")
