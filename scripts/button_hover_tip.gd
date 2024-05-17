@@ -1,4 +1,4 @@
-class_name ButtonHoverTip extends Button
+class_name ButtonHoverTip extends BaseButton
 
 
 @export var _tip_name: String = "tip"
