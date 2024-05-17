@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=13 format=3 uid="uid://b2u5b2xehfur0"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://b2u5b2xehfur0"]
 
 [ext_resource type="FontFile" uid="uid://hrmfuoadomq0" path="res://assets/fonts/space_mono/SpaceMono-Regular.ttf" id="1_u3pcg"]
 [ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="2_rjol7"]
@@ -45,6 +45,36 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wklb"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhyk2"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tubo"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tqfin"]
+bg_color = Color(0.0941176, 0.0941176, 0.0941176, 0)
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.0941176, 0.0941176, 0.0941176, 0)
+border_blend = true
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+corner_detail = 20
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5osr"]
 
 [resource]
@@ -83,4 +113,8 @@ PopupMenu/styles/labeled_separator_left = SubResource("StyleBoxLine_o7ans")
 PopupMenu/styles/labeled_separator_right = SubResource("StyleBoxLine_or2gc")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_h1ink")
 RichTextLabel/fonts/normal_font = ExtResource("1_u3pcg")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_2wklb")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_qhyk2")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_1tubo")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_tqfin")
 VSeparator/styles/separator = SubResource("StyleBoxEmpty_h5osr")
