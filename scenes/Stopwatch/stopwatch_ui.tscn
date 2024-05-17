@@ -225,7 +225,6 @@ offset_right = 14.0
 offset_bottom = 14.0
 grow_vertical = 2
 icon = ExtResource("11_1p55s")
-switch_on_hover = true
 
 [node name="Label2" type="Label" parent="stopwatch_tray_ui/hbx_tray_heading"]
 custom_minimum_size = Vector2(100, 0)

@@ -61,6 +61,8 @@ var _longest_entry_index: int
 var _shortest_entry_index: int
 
 var _menu_copy_id_to_callable: Dictionary
+var _options_menu_callables: Array
+var _options_menu_popup: PopupMenu
 var _copy_menu_options_mask: int
 
 var _win_x_for_min_h_separation: int
@@ -103,7 +105,6 @@ func _ready() -> void:
 
 	# Set up copy menu tray
 	var pop_up := _copy_menu_button.get_popup()
-	pop_up.hide_on_checkable_item_selection = false
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
 
 	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy MD Table"]
@@ -118,11 +119,12 @@ func _ready() -> void:
 		pop_up.add_icon_item(_copy_menu_items_icons[i], ITEMS[i], i)
 		_menu_copy_id_to_callable[i] = items_calls[i]
 
-	var sub_popup_menu := PopupMenu.new()
-	pop_up.add_child(sub_popup_menu)
+	_options_menu_popup = PopupMenu.new()
+	_options_menu_popup.hide_on_checkable_item_selection = false
 	const SUB_MENU_NAME := &"options"
-	sub_popup_menu.name = SUB_MENU_NAME
-	sub_popup_menu.id_pressed.connect(_on_copy_menu_id_pressed)
+	_options_menu_popup.name = SUB_MENU_NAME
+	pop_up.add_child(_options_menu_popup)
+	_options_menu_popup.id_pressed.connect(_on_options_menu_id_pressed)
 	pop_up.add_submenu_item("Options", SUB_MENU_NAME, items_size)
 
 	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
@@ -132,13 +134,14 @@ func _ready() -> void:
 		_copy_menu_toggle_shortest_longest,
 	]
 	var options_flags_values := CopyMenuFlags.values()
-	for i: int in OPTIONS.size():
-		var index := i + items_size + 1
-		_menu_copy_id_to_callable[index] = options_calls[i]
+	var options_size := OPTIONS.size()
+	_options_menu_callables.resize(options_size)
+	for i: int in options_size:
+		_options_menu_callables[i] = options_calls[i]
 
-		sub_popup_menu.add_check_item(OPTIONS[i], index)
+		_options_menu_popup.add_check_item(OPTIONS[i], i)
 		if _copy_menu_options_mask & options_flags_values[i] != 0:
-			sub_popup_menu.set_item_checked(i, true)
+			_options_menu_popup.set_item_checked(i, true)
 
 	
 	if _stopwatch.has_started():
@@ -526,9 +529,13 @@ func _copy_menu_markdown(_index: int) -> void:
 	)
 
 
+func _on_options_menu_id_pressed(id: int) -> void:
+	_options_menu_callables[id].call(id)
+
+
 func _copy_menu_toggle_options(index: int, flag: int) -> void:
 	var is_option_checked := _copy_menu_options_mask & flag != 0
-	_copy_menu_button.get_popup().set_item_checked(index, not is_option_checked)
+	_options_menu_popup.set_item_checked(index, not is_option_checked)
 
 	if is_option_checked:
 		_copy_menu_options_mask = _copy_menu_options_mask & ~flag
@@ -536,16 +543,16 @@ func _copy_menu_toggle_options(index: int, flag: int) -> void:
 		_copy_menu_options_mask = _copy_menu_options_mask | flag
 
 
-func _copy_menu_toggle_elapsed_time(index: int) -> void:
-	_copy_menu_toggle_options(index, CopyMenuFlags.ELAPSED_TIMES)
+func _copy_menu_toggle_elapsed_time(id: int) -> void:
+	_copy_menu_toggle_options(id, CopyMenuFlags.ELAPSED_TIMES)
 
 
-func _copy_menu_toggle_shortest_longest(index: int) -> void:
-	_copy_menu_toggle_options(index, CopyMenuFlags.LONGEST_SHORTEST)
+func _copy_menu_toggle_shortest_longest(id: int) -> void:
+	_copy_menu_toggle_options(id, CopyMenuFlags.LONGEST_SHORTEST)
 
 
-func _copy_menu_toggle_pause_time(index: int) -> void:
-	_copy_menu_toggle_options(index, CopyMenuFlags.PAUSE_SPANS)
+func _copy_menu_toggle_pause_time(id: int) -> void:
+	_copy_menu_toggle_options(id, CopyMenuFlags.PAUSE_SPANS)
 
 
 func _on_window_size_changed() -> void:
