@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=29 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -49,6 +49,9 @@ keycode = 67
 
 [sub_resource type="Shortcut" id="Shortcut_ysi7m"]
 events = [SubResource("InputEventKey_limys")]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os5fx"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_ugxop"]
 color = Color(0.290196, 0.290196, 0.290196, 1)
@@ -219,13 +222,15 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -14.0
+offset_left = -16.0
 offset_top = -14.0
-offset_right = 14.0
+offset_right = 12.0
 offset_bottom = 14.0
 grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_os5fx")
 icon = ExtResource("11_1p55s")
 flat = false
+icon_alignment = 1
 switch_on_hover = true
 
 [node name="Label2" type="Label" parent="stopwatch_tray_ui/hbx_tray_heading"]
