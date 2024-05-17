@@ -18,8 +18,12 @@ const PRESSED := &"pressed"
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
+@export_category("Title and icon")
 @export var _l_title: Label
+@export var _icon: Control
 
+@export_category("Buttons")
+@export var _hbc_buttons: HBoxContainer
 @export var _b_close: Button
 @export var _b_minimise: Button
 
@@ -29,7 +33,6 @@ const PRESSED := &"pressed"
 @export var _sprite_unpin: Texture2D
 
 var _start_drag_pos: Vector2
-
 var _window_position: Vector2i = Vector2i(-1, 1)
 var _window_size: Vector2i
 var _window_pinned_position: Vector2i
@@ -48,8 +51,6 @@ func _ready() -> void:
 	_b_minimise.pressed.connect(_minimise_window)
 
 	GLOBAL.window.size_changed.connect(_window_size_changed)
-
-	_l_title.text = ProjectSettings.get_setting("application/config/name")
 
 	_b_minimise.add_theme_stylebox_override(
 		HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate()
@@ -140,6 +141,8 @@ func _toggle_pin_window(pinning: bool) -> void:
 		
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size
+	
+	_window_size_changed()
 
 
 func _minimise_window() -> void:
@@ -147,10 +150,8 @@ func _minimise_window() -> void:
 
 
 func _window_size_changed() -> void:
-	await get_tree().process_frame
-	
-	_l_title.visible = 0.0 > (
-		_l_title.global_position.x + _l_title.size.x - _b_pin.global_position.x
+	_l_title.visible = (
+		_l_title.size.x < GLOBAL.window.size.x - _hbc_buttons.size.x - _icon.size.x - 12.0
 	)
 
 

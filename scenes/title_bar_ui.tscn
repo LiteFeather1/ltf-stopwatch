@@ -43,7 +43,7 @@ keycode = 4194335
 [sub_resource type="Shortcut" id="Shortcut_kqhlp"]
 events = [SubResource("InputEventKey_j4peu")]
 
-[node name="title_bar_ui" type="Panel" node_paths=PackedStringArray("_l_title", "_b_close", "_b_minimise", "_b_pin")]
+[node name="title_bar_ui" type="Panel" node_paths=PackedStringArray("_l_title", "_icon", "_hbc_buttons", "_b_close", "_b_minimise", "_b_pin")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1.0
@@ -55,6 +55,8 @@ mouse_default_cursor_shape = 13
 theme_override_styles/panel = SubResource("StyleBoxFlat_mbryd")
 script = ExtResource("1_8lk40")
 _l_title = NodePath("hbc_title_bar/hbc_title/l_title")
+_icon = NodePath("hbc_title_bar/hbc_title/Control/tr_icon")
+_hbc_buttons = NodePath("hbc_title_bar/hbc_buttons")
 _b_close = NodePath("hbc_title_bar/hbc_buttons/b_close_window")
 _b_minimise = NodePath("hbc_title_bar/hbc_buttons/b_minimise_window")
 _b_pin = NodePath("hbc_title_bar/hbc_buttons/b_pin")
