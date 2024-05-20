@@ -614,7 +614,11 @@ func _on_window_size_changed() -> void:
 			- _stopwatch_and_buttons.pivot_offset.y * t
 		
 		_entry_tray.size.y = lerpf(_entry_tray_size_range.x, _entry_tray_size_range.y, t)
-		_entry_tray.position.y = size.y - _entry_tray.size.y
+		_entry_tray.position.y = (
+			_stopwatch_and_buttons.position.y
+			+ _stopwatch_and_buttons.size.y
+			+ _stopwatch_and_buttons_separation
+		)
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
