@@ -54,6 +54,7 @@ const SAVE_KEYS: PackedStringArray = [
 var _stopwatch_and_buttons_separation: int
 
 var _entry_tray_tween: Tween
+var _entry_tray_heading_height: float # this should be the text + the line plus 2 separation
 var _is_entry_tray_visible: bool
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
@@ -88,6 +89,14 @@ func _ready() -> void:
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
+	_stopwatch_and_buttons_separation = _stopwatch_and_buttons.get_theme_constant("separation")
+
+	_entry_tray_heading_height = (
+		_entry_tray.get_theme_constant("separation") * 2
+		+ _hbc_tray_heading.size.y * 2.0
+		+ _entry_tray.get_child(1).size.y # HSeparator
+	)
+
 	# Find min for h separation
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
 	_win_x_for_min_h_separation = int(label_pause_time.get_theme_font("font").get_string_size(
@@ -100,8 +109,6 @@ func _ready() -> void:
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
 	).x + size.x - _entry_tray.size.x)
-
-	_stopwatch_and_buttons_separation = _stopwatch_and_buttons.get_theme_constant("separation")
 
 	await get_tree().process_frame
 
@@ -591,13 +598,18 @@ func _on_window_size_changed() -> void:
 		for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
 			entry.add_theme_constant_override("separation", separation)
 
-		# Set stopwatch and tray position
+		# set entry tray x size and position
 		_entry_tray.size.x = size.x * .9
 		_entry_tray.position.x = (size.x - _entry_tray.size.x) * .5
 		if _entry_tray_tween.is_running():
 			return
 
-		var t := inverse_lerp(_stopwatch_and_buttons.size.y, win_max_size_y, win_size_y)
+		# Set stopwatch and tray position
+		var t := inverse_lerp(
+			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
+			win_max_size_y,
+			win_size_y
+		)
 		_stopwatch_and_buttons.position.y = (size.y - _stopwatch_and_buttons.size.y) * .5\
 			- _stopwatch_and_buttons.pivot_offset.y * t
 		
@@ -621,7 +633,7 @@ func _set_b_start_continue() -> void:
 func _tray_animation(t: float) -> void:
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
 	var weight := inverse_lerp(
-		_stopwatch_and_buttons.size.y,
+		_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
 		GLOBAL.window.max_size.y,
 		GLOBAL.window.size.y,
 	)
@@ -641,7 +653,7 @@ func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _win_x_for_min_h_separation
-		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y
+		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y + _entry_tray_heading_height
 	)
 	if is_vis == _is_entry_tray_visible:
 		return is_vis
