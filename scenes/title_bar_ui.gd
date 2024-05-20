@@ -141,8 +141,6 @@ func _toggle_pin_window(pinning: bool) -> void:
 		
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size
-	
-	_window_size_changed()
 
 
 func _minimise_window() -> void:
