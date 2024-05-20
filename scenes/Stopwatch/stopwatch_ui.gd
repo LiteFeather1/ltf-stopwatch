@@ -67,7 +67,7 @@ var _copy_menu_callables: Array
 var _options_menu_popup: PopupMenu
 var _options_menu_callables: Array
 
-var _win_x_for_min_h_separation: int
+var _width_for_min_h_separation: int
 
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
@@ -98,7 +98,7 @@ func _ready() -> void:
 
 	# Find min for h separation
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
-	_win_x_for_min_h_separation = int(label_pause_time.get_theme_font("font").get_string_size(
+	_width_for_min_h_separation = int(label_pause_time.get_theme_font("font").get_string_size(
 		"%s%s%s" % [
 			TEMPLATE_SHORTEST_ENTRY % 69,
 			label_pause_time.text,
@@ -570,13 +570,13 @@ func _copy_menu_toggle_pause_time(id: int) -> void:
 
 func _on_window_size_changed() -> void:
 	# Scale text to fit size
-	var scale_x := GLOBAL.window.size.x/ float(GLOBAL.window.max_size.x)
-	var win_size_y := GLOBAL.window.size.y
-	var win_max_size_y := float(GLOBAL.window.max_size.y)
+	var scale_x := GLOBAL.window.size.x / float(GLOBAL.window.max_size.x)
+	var win_height := GLOBAL.window.size.y
+	var win_max_height := float(GLOBAL.window.max_size.y)
 	var min_scale_y := (
-		win_size_y + _stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation
-	) / win_max_size_y
-	var s := minf(scale_x, maxf((win_size_y / win_max_size_y) * (min_scale_y * 3.0), min_scale_y))
+		win_height + _stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation
+	) / win_max_height
+	var s := minf(scale_x, maxf((win_height / win_max_height) * (min_scale_y * 3.0), min_scale_y))
 	_stopwatch_and_buttons.scale = Vector2(s, s)
 
 	# Slight scale s_copied
@@ -608,8 +608,8 @@ func _on_window_size_changed() -> void:
 			(size.y - _stopwatch_and_buttons.size.y) * .5
 			- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
 				_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
-				win_max_size_y,
-				win_size_y,
+				win_max_height,
+				win_height,
 			)
 		)
 		
@@ -619,7 +619,7 @@ func _on_window_size_changed() -> void:
 			+ _stopwatch_and_buttons_separation
 		)
 
-		_entry_tray.size.y = win_size_y - _entry_tray.position.y - _entry_tray_heading_height * .75
+		_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
@@ -664,7 +664,7 @@ func _tray_animation(t: float) -> void:
 func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
-		and GLOBAL.window.size.x > _win_x_for_min_h_separation
+		and GLOBAL.window.size.x > _width_for_min_h_separation
 		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y + _entry_tray_heading_height * 2.0
 	)
 	if is_vis == _is_entry_tray_visible:
@@ -704,7 +704,7 @@ func get_h_separation_entry_tray() -> int:
 	return int(remap(
 		GLOBAL.window.size.x,
 		GLOBAL.window.max_size.x,
-		_win_x_for_min_h_separation,
+		_width_for_min_h_separation,
 		_tray_h_separation_range.x,
 		_tray_h_separation_range.y,
 	))
