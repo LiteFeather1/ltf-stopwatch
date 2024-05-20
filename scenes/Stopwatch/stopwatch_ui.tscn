@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=28 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -18,38 +18,11 @@
 [ext_resource type="StyleBox" uid="uid://cp6snfsie0odu" path="res://resources/themes/stopwatch_buttons/pressed_stopwatch_button.tres" id="9_gkr5i"]
 [ext_resource type="StyleBox" uid="uid://h0eenhgoac4d" path="res://resources/themes/stopwatch_buttons/disabled_stopwatch_button.tres" id="10_y3bwx"]
 [ext_resource type="Texture2D" uid="uid://b12aiw15pcoh1" path="res://assets/sprites/buttons_stopwatch/s_copy_to_clipboard.svg" id="11_1p55s"]
+[ext_resource type="Shortcut" uid="uid://ft74fth63eke" path="res://resources/shortcuts/stopwatch_ui/shortcut_start.tres" id="13_d6phs"]
 [ext_resource type="Texture2D" uid="uid://cdcm8yx1ah58x" path="res://assets/sprites/buttons_stopwatch/s_button_reset.svg" id="13_iq6nj"]
+[ext_resource type="Shortcut" uid="uid://d04h32se544ud" path="res://resources/shortcuts/stopwatch_ui/shortcut_reset.tres" id="19_8k2wm"]
 [ext_resource type="Texture2D" uid="uid://drl6omo8k8ljr" path="res://assets/sprites/icons_copy_menu/copy_menu_button.svg" id="20_cto6y"]
-
-[sub_resource type="InputEventKey" id="InputEventKey_f1pn7"]
-device = -1
-ctrl_pressed = true
-keycode = 32
-unicode = 32
-
-[sub_resource type="InputEventKey" id="InputEventKey_e7n4a"]
-device = -1
-ctrl_pressed = true
-keycode = 4194309
-
-[sub_resource type="Shortcut" id="Shortcut_m2i2w"]
-events = [SubResource("InputEventKey_f1pn7"), SubResource("InputEventKey_e7n4a")]
-
-[sub_resource type="InputEventKey" id="InputEventKey_1xko1"]
-device = -1
-ctrl_pressed = true
-keycode = 82
-
-[sub_resource type="Shortcut" id="Shortcut_eqit1"]
-events = [SubResource("InputEventKey_1xko1")]
-
-[sub_resource type="InputEventKey" id="InputEventKey_limys"]
-device = -1
-ctrl_pressed = true
-keycode = 67
-
-[sub_resource type="Shortcut" id="Shortcut_ysi7m"]
-events = [SubResource("InputEventKey_limys")]
+[ext_resource type="Shortcut" uid="uid://bwb4wndtu1kmc" path="res://resources/shortcuts/stopwatch_ui/shortcut_copy_to_clipboard.tres" id="21_wmplc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os5fx"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -143,7 +116,7 @@ theme_override_styles/normal = ExtResource("3_mhuhl")
 theme_override_styles/hover = ExtResource("4_45roa")
 theme_override_styles/pressed = ExtResource("5_6sw6k")
 toggle_mode = true
-shortcut = SubResource("Shortcut_m2i2w")
+shortcut = ExtResource("13_d6phs")
 shortcut_in_tooltip = false
 icon = ExtResource("6_qv58p")
 icon_alignment = 1
@@ -166,7 +139,7 @@ theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/pressed = ExtResource("9_gkr5i")
 theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
-shortcut = SubResource("Shortcut_eqit1")
+shortcut = ExtResource("19_8k2wm")
 shortcut_in_tooltip = false
 icon = ExtResource("13_iq6nj")
 icon_alignment = 1
@@ -189,7 +162,7 @@ theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/pressed = ExtResource("9_gkr5i")
 theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
-shortcut = SubResource("Shortcut_ysi7m")
+shortcut = ExtResource("21_wmplc")
 shortcut_in_tooltip = false
 text = "
 "
