@@ -23,8 +23,8 @@ boot_splash/bg_color=Color(0.117647, 0.117647, 0.117647, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-config/icon="res://assets/icons/icon_white_bg_black.svg"
-config/windows_native_icon="res://assets/icons/icon_white_bg_black.ico"
+config/icon="res://assets/icons/application_icon.svg"
+config/windows_native_icon="res://assets/icons/application_icon.ico"
 
 [autoload]
 
