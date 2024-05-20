@@ -605,20 +605,22 @@ func _on_window_size_changed() -> void:
 			return
 
 		# Set stopwatch and tray position
-		var t := inverse_lerp(
-			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
-			win_max_size_y,
-			win_size_y
+		_stopwatch_and_buttons.position.y = (
+			(size.y - _stopwatch_and_buttons.size.y) * .5
+			- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
+				_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
+				win_max_size_y,
+				win_size_y,
+			)
 		)
-		_stopwatch_and_buttons.position.y = (size.y - _stopwatch_and_buttons.size.y) * .5\
-			- _stopwatch_and_buttons.pivot_offset.y * t
 		
-		_entry_tray.size.y = lerpf(_entry_tray_size_range.x, _entry_tray_size_range.y, t)
 		_entry_tray.position.y = (
 			_stopwatch_and_buttons.position.y
 			+ _stopwatch_and_buttons.size.y
 			+ _stopwatch_and_buttons_separation
 		)
+
+		_entry_tray.size.y = win_size_y - _entry_tray.position.y - _entry_tray_heading_height * .75
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
