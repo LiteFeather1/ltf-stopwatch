@@ -577,7 +577,7 @@ func _on_window_size_changed() -> void:
 	var min_scale_y := (
 		win_size_y + _stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation
 	) / win_max_size_y
-	var s := minf(scale_x, maxf((win_size_y / win_max_size_y) * (min_scale_y * 2.0), min_scale_y))
+	var s := minf(scale_x, maxf((win_size_y / win_max_size_y) * (min_scale_y * 3.0), min_scale_y))
 	_stopwatch_and_buttons.scale = Vector2(s, s)
 
 	# Slight scale s_copied
