@@ -112,7 +112,7 @@ offset_right = 256.0
 offset_bottom = 96.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(256, 98)
+pivot_offset = Vector2(256, 90)
 mouse_filter = 2
 theme_override_constants/separation = 4
 

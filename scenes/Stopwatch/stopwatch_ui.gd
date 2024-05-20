@@ -44,7 +44,6 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
 @export var _copy_menu_items_icons: Array[Texture2D]
-@export var _entry_tray_size_range := Vector2(37.0, 220.0)
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
 
 @export_category("Copied Pop Up")
@@ -638,28 +637,35 @@ func _set_b_start_continue() -> void:
 
 func _tray_animation(t: float) -> void:
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
-	var weight := inverse_lerp(
-		_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
-		GLOBAL.window.max_size.y,
-		GLOBAL.window.size.y,
-	)
+	var win_height := float(GLOBAL.window.size.y)
 	_stopwatch_and_buttons.position.y = lerpf(
 		stopwatch_center,
-		stopwatch_center - _stopwatch_and_buttons.pivot_offset.y * weight,
+		stopwatch_center - _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
+			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
+			GLOBAL.window.max_size.y,
+			win_height,
+		),
 		t,
 	)
 
-	var entry_size := lerpf(_entry_tray_size_range.x, _entry_tray_size_range.y, weight)
-	_entry_tray.size.y = lerpf(_entry_tray_size_range.x, entry_size, t)
-	_entry_tray.position.y = lerpf(size.y - _entry_tray_size_range.x, size.y - entry_size, t)
 	_entry_tray.modulate.a = t;
+	_entry_tray.position.y = lerpf(
+		win_height + (_entry_tray_heading_height * 2.0),
+		_stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y,
+		t,
+	)
+	_entry_tray.size.y = lerpf(
+		0,
+		win_height - _entry_tray.position.y - _entry_tray_heading_height * .75,
+		t,
+	)
 
 
 func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _win_x_for_min_h_separation
-		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y + _entry_tray_heading_height
+		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y + _entry_tray_heading_height * 2.0
 	)
 	if is_vis == _is_entry_tray_visible:
 		return is_vis
