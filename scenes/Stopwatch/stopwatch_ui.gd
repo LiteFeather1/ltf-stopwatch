@@ -590,36 +590,42 @@ func _on_window_size_changed() -> void:
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
 
-	if not _stopwatch_tray_entries_ui.is_empty() and _set_entry_tray_visibility():
-		# Set tray separation
-		var separation := get_h_separation_entry_tray()
-		_hbc_tray_heading.add_theme_constant_override("separation", separation)
-		for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
-			entry.add_theme_constant_override("separation", separation)
+	if _stopwatch_tray_entries_ui.is_empty():
+		return
 
-		# set entry tray x size and position
-		_entry_tray.size.x = size.x * .9
-		_entry_tray.position.x = (size.x - _entry_tray.size.x) * .5
-		if _entry_tray_tween.is_running():
-			return
+	# Set entry tray x size and position
+	_entry_tray.size.x = size.x * .9
+	_entry_tray.position.x = (size.x - _entry_tray.size.x) * .5
 
-		# Set stopwatch and tray position
-		_stopwatch_and_buttons.position.y = (
-			(size.y - _stopwatch_and_buttons.size.y) * .5
-			- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
-				_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
-				win_max_height,
-				win_height,
-			)
+	if not _set_entry_tray_visibility():
+		return
+
+	# Set tray separation
+	var separation := get_h_separation_entry_tray()
+	_hbc_tray_heading.add_theme_constant_override("separation", separation)
+	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
+		entry.add_theme_constant_override("separation", separation)
+
+	if _entry_tray_tween.is_running():
+		return
+
+	# Set stopwatch and tray position
+	_stopwatch_and_buttons.position.y = (
+		(size.y - _stopwatch_and_buttons.size.y) * .5
+		- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
+			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
+			win_max_height,
+			win_height,
 		)
-		
-		_entry_tray.position.y = (
-			_stopwatch_and_buttons.position.y
-			+ _stopwatch_and_buttons.size.y
-			+ _stopwatch_and_buttons_separation
-		)
+	)
+	
+	_entry_tray.position.y = (
+		_stopwatch_and_buttons.position.y
+		+ _stopwatch_and_buttons.size.y
+		+ _stopwatch_and_buttons_separation
+	)
 
-		_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
+	_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
@@ -675,7 +681,7 @@ func _set_entry_tray_visibility() -> bool:
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
 
-	const DUR := .33
+	const DUR := .5
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	if is_vis:
 		_entry_tray.visible = true
