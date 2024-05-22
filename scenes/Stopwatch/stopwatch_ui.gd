@@ -619,7 +619,7 @@ func _on_window_size_changed() -> void:
 		return
 
 	# Set stopwatch and tray position and size
-	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _entry_tray_y_pos_offset()
+	_entry_tray.position.y = _entry_tray_y_position(_stopwatch_and_buttons.position.y)
 
 	if _is_entry_tray_folded:
 		return
@@ -653,9 +653,10 @@ func _stopwatch_upper_position() -> float:
 	)
 
 
-func _entry_tray_y_pos_offset() -> float:
+func _entry_tray_y_position(stopwatch_height: float) -> float:
 	return (
-		_entry_tray_heading_height * 0.33
+		stopwatch_height
+		+ _entry_tray_heading_height * 0.33
 		+ _stopwatch.size.y * _stopwatch_and_buttons.scale.y
 		+ _b_start.size.y * _b_start.scale.y
 	)
@@ -688,18 +689,19 @@ func _tray_animation(t: float, to_y_pos: float) -> void:
 func _tray_disappear_unfolded_animation(t: float) -> void:
 	var stopwatch_upper_pos := _stopwatch_upper_position()
 	_tray_stopwatch_animation(t, stopwatch_upper_pos)
-	_tray_animation(t, _entry_tray_y_pos_offset() + stopwatch_upper_pos)
+	_tray_animation(t, _entry_tray_y_position(stopwatch_upper_pos))
 
 
 func _tray_disappear_folded_animation(t: float) -> void:
-	_tray_animation(t, _entry_tray_y_pos_offset() + (size.y - _stopwatch_and_buttons.size.y) * .5)
+	_tray_animation(t, _entry_tray_y_position((size.y - _stopwatch_and_buttons.size.y) * .5))
 
 
 func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _width_for_min_h_separation
-		and GLOBAL.window.size.y > _entry_tray_y_pos_offset() + _entry_tray_heading_height * 1.75
+		# HACK
+		and GLOBAL.window.size.y > _entry_tray_y_position(_entry_tray_heading_height * 1.75)
 	)
 	if is_vis == _is_entry_tray_visible:
 		return is_vis
@@ -740,7 +742,7 @@ func _set_entry_tray_visibility() -> bool:
 
 func _fold_tray_animation(t: float) -> void:
 	_tray_stopwatch_animation(t, _stopwatch_upper_position())
-	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _entry_tray_y_pos_offset()
+	_entry_tray.position.y = _entry_tray_y_position(_stopwatch_and_buttons.position.y)
 	_c_icon_fold_tray.rotation = lerp_angle(0.0, deg_to_rad(90.0), t)
 
 
