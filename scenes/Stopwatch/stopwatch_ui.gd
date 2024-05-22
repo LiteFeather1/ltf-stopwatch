@@ -57,6 +57,7 @@ var _stopwatch_and_buttons_separation: int
 var _entry_tray_tween: Tween
 var _entry_tray_heading_height: float
 var _is_entry_tray_visible: bool
+# TODO save this
 var _is_entry_tray_folded: bool
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
@@ -623,7 +624,7 @@ func _on_window_size_changed() -> void:
 	if _is_entry_tray_folded:
 		return
 
-	_stopwatch_and_buttons.position.y = _stopwatch_y_pos()
+	_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
 	
 	_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
 
@@ -641,7 +642,7 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _stopwatch_y_pos() -> float:
+func _stopwatch_upper_position() -> float:
 	return (
 		(size.y - _stopwatch_and_buttons.size.y) * .5
 		- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
@@ -685,9 +686,9 @@ func _tray_animation(t: float, to_y_pos: float) -> void:
 
 
 func _tray_disappear_unfolded_animation(t: float) -> void:
-	var stopwatch_end_y_pos := _stopwatch_y_pos()
-	_tray_stopwatch_animation(t, stopwatch_end_y_pos)
-	_tray_animation(t, _entry_tray_y_pos_offset() + stopwatch_end_y_pos)
+	var stopwatch_upper_pos := _stopwatch_upper_position()
+	_tray_stopwatch_animation(t, stopwatch_upper_pos)
+	_tray_animation(t, _entry_tray_y_pos_offset() + stopwatch_upper_pos)
 
 
 func _tray_disappear_folded_animation(t: float) -> void:
@@ -738,7 +739,7 @@ func _set_entry_tray_visibility() -> bool:
 
 
 func _fold_tray_animation(t: float) -> void:
-	_tray_stopwatch_animation(t, _stopwatch_y_pos())
+	_tray_stopwatch_animation(t, _stopwatch_upper_position())
 	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _entry_tray_y_pos_offset()
 	_c_icon_fold_tray.rotation = lerp_angle(0.0, deg_to_rad(90.0), t)
 
