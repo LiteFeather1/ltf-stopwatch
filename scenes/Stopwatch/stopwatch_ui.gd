@@ -610,14 +610,7 @@ func _on_window_size_changed() -> void:
 		return
 
 	# Set stopwatch and tray position
-	_stopwatch_and_buttons.position.y = (
-		(size.y - _stopwatch_and_buttons.size.y) * .5
-		- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
-			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
-			win_max_height,
-			win_height,
-		)
-	)
+	_stopwatch_and_buttons.position.y = _stopwatch_y_pos()
 	
 	_entry_tray.position.y = (
 		_stopwatch_and_buttons.position.y
@@ -640,19 +633,28 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _tray_stopwatch_animation(t: float) -> void:
-	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
-	var win_height := float(GLOBAL.window.size.y)
-	_stopwatch_and_buttons.position.y = lerpf(
-		stopwatch_center,
-		stopwatch_center - _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
-			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
+func _stopwatch_y_pos() -> float:
+	return (
+		(size.y - _stopwatch_and_buttons.size.y) * .5
+		- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
+			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height *.5),
 			GLOBAL.window.max_size.y,
-			win_height,
-		),
+			GLOBAL.window.size.y,
+		)
+	)
+
+
+func _tray_stopwatch_animation(
+	t: float,
+	stopwatch_end_y_pos: float = _stopwatch_y_pos(),
+) -> void:
+	_stopwatch_and_buttons.position.y = lerpf(
+		(size.y - _stopwatch_and_buttons.size.y) * .5,
+		stopwatch_end_y_pos,
 		t,
 	)
 
+	var win_height := float(GLOBAL.window.size.y)
 	_entry_tray.size.y = lerpf(
 		0.0,
 		win_height - _entry_tray.position.y - _entry_tray_heading_height * .75,
