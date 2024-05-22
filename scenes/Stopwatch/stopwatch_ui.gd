@@ -45,6 +45,7 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _hbc_tray_heading: HBoxContainer
 @export var _copy_menu_items_icons: Array[Texture2D]
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
+@export var _b_toggle_fold_tray: ButtonHoverTip
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
@@ -55,6 +56,7 @@ var _stopwatch_and_buttons_separation: int
 var _entry_tray_tween: Tween
 var _entry_tray_heading_height: float
 var _is_entry_tray_visible: bool
+var _is_entry_tray_folded: bool
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
@@ -85,6 +87,8 @@ func _ready() -> void:
 	_b_start.toggled.connect(_start_toggled)
 	_b_reset.pressed.connect(_reset_pressed)
 	_b_clipboard.pressed.connect(_copy_elapsed_time_to_clipboard)
+
+	_b_toggle_fold_tray.pressed.connect(_toggle_fold_tray)
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
@@ -724,19 +728,22 @@ func _fold_tray_animation(t: float) -> void:
 	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y
 
 
-func _toggle_fold_tray(state: bool) -> void:
+func _toggle_fold_tray() -> void:
+	_is_entry_tray_folded = not _is_entry_tray_folded
+
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
 
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_ELASTIC)
-	const DUR := .4
-	if state:
-		# FIXME duration and start value are incorrect
-		_entry_tray_tween.tween_method(_fold_tray_animation, 0.0, 1.0, DUR)
-	else:
+	const DUR := .5
+	if _is_entry_tray_folded:
+		_b_toggle_fold_tray.set_tip_name("unfold tray")
 		# FIXME duration and start value are incorrect
 		_entry_tray_tween.tween_method(_fold_tray_animation, 1.0, 0.0, DUR)
-		pass
+	else:
+		_b_toggle_fold_tray.set_tip_name("fold tray")
+		# FIXME duration and start value are incorrect
+		_entry_tray_tween.tween_method(_fold_tray_animation, 0.0, 1.0, DUR)
 
 
 func _get_h_separation_entry_tray() -> int:
