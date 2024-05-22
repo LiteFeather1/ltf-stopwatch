@@ -640,7 +640,7 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _tray_stopwatch_animation(t: float, tray_start_pos: float, tray_end_pos: float) -> void:
+func _tray_stopwatch_animation(t: float) -> void:
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
 	var win_height := float(GLOBAL.window.size.y)
 	_stopwatch_and_buttons.position.y = lerpf(
@@ -653,7 +653,6 @@ func _tray_stopwatch_animation(t: float, tray_start_pos: float, tray_end_pos: fl
 		t,
 	)
 
-	_entry_tray.position.y = lerpf(tray_start_pos, tray_end_pos, t)
 	_entry_tray.size.y = lerpf(
 		0.0,
 		win_height - _entry_tray.position.y - _entry_tray_heading_height * .75,
@@ -662,10 +661,12 @@ func _tray_stopwatch_animation(t: float, tray_start_pos: float, tray_end_pos: fl
 
 
 func _tray_disappear_animation(t: float) -> void:
-	_tray_stopwatch_animation(
-		t,
+	_tray_stopwatch_animation(t)
+	_entry_tray.position.y = lerpf(
 		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0),
+		# FIXME incorrect end pos
 		_stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y,
+		t,
 	)
 	_entry_tray.modulate.a = t;
 
@@ -710,8 +711,8 @@ func _set_entry_tray_visibility() -> bool:
 
 
 func _fold_tray_animation(t: float) -> void:
-	var tray_pos := _stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y
-	_tray_stopwatch_animation(t, tray_pos, tray_pos)
+	_tray_stopwatch_animation(t)
+	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y
 
 
 func _toggle_fold_tray(state: bool) -> void:
