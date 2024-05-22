@@ -615,12 +615,7 @@ func _on_window_size_changed() -> void:
 	# Set stopwatch and tray position
 	_stopwatch_and_buttons.position.y = _stopwatch_y_pos()
 	
-	_entry_tray.position.y = (
-		_stopwatch_and_buttons.position.y
-		+ _entry_tray_heading_height * .25
-		+ _stopwatch.size.y * s
-		+ _b_start.size.y * b_s
-	)
+	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _entry_tray_y_pos_offset()
 	_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
 
 
@@ -645,6 +640,14 @@ func _stopwatch_y_pos() -> float:
 			GLOBAL.window.max_size.y,
 			GLOBAL.window.size.y,
 		)
+	)
+
+
+func _entry_tray_y_pos_offset() -> float:
+	return (
+		_entry_tray_heading_height * 0.25
+		+ _stopwatch.size.y * _stopwatch_and_buttons.scale.y
+		+ _b_start.size.y * _b_start.scale.y
 	)
 
 
