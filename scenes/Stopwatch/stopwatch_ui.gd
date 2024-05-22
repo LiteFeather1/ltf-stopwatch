@@ -663,11 +663,11 @@ func _tray_stopwatch_animation(
 
 
 func _tray_disappear_animation(t: float) -> void:
-	_tray_stopwatch_animation(t)
+	var stopwatch_end_y_pos := _stopwatch_y_pos()
+	_tray_stopwatch_animation(t, stopwatch_end_y_pos)
 	_entry_tray.position.y = lerpf(
 		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0),
-		# FIXME incorrect end pos
-		_stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y,
+		stopwatch_end_y_pos + _stopwatch_and_buttons.size.y,
 		t,
 	)
 	_entry_tray.modulate.a = t;
