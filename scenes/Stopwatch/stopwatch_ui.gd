@@ -163,6 +163,9 @@ func _ready() -> void:
 
 	_on_window_size_changed()
 
+	_entry_tray.size.x = GLOBAL.window.size.x * .9
+	_entry_tray.position.x = (size.x - _entry_tray.size.x) * .5
+
 
 func restore_last_time_state() -> void:
 	# Pauses stopwatch if running
