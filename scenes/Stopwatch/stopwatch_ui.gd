@@ -690,7 +690,11 @@ func _tray_animation(t: float, to_y_pos: float) -> void:
 func _tray_disappear_unfolded_animation(t: float) -> void:
 	var stopwatch_end_y_pos := _stopwatch_y_pos()
 	_tray_stopwatch_animation(t, stopwatch_end_y_pos)
-	_tray_animation(t, stopwatch_end_y_pos - _entry_tray_y_pos_offset())
+	_tray_animation(t, _entry_tray_y_pos_offset() + stopwatch_end_y_pos)
+
+
+func _tray_disappear_folded_animation(t: float) -> void:
+	_tray_animation(t, _entry_tray_y_pos_offset() + (size.y - _stopwatch_and_buttons.size.y) * .5)
 
 
 func _set_entry_tray_visibility() -> bool:
@@ -708,18 +712,22 @@ func _set_entry_tray_visibility() -> bool:
 		_entry_tray_tween.kill()
 
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	var animation := (
+		_tray_disappear_folded_animation if _is_entry_tray_folded
+			else _tray_disappear_unfolded_animation
+	)
 	const DUR := .5
 	if is_vis:
 		_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
-			_tray_disappear_unfolded_animation,
+			animation,
 			_entry_tray.modulate.a,
 			1.0,
 			DUR - (DUR * _entry_tray.modulate.a),
 		)
 	else:
 		_entry_tray_tween.tween_method(
-			_tray_disappear_unfolded_animation,
+			animation,
 			_entry_tray.modulate.a,
 			0.0,
 			DUR * _entry_tray.modulate.a,
@@ -734,6 +742,7 @@ func _set_entry_tray_visibility() -> bool:
 
 func _fold_tray_animation(t: float) -> void:
 	_tray_stopwatch_animation(t)
+	# FIXME this is not close to the stopwatch
 	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y
 	_c_icon_fold_tray.rotation = lerp_angle(0.0, deg_to_rad(90.0), t)
 
