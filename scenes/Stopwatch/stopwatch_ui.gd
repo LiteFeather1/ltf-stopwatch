@@ -660,10 +660,7 @@ func _entry_tray_y_pos_offset() -> float:
 	)
 
 
-func _tray_stopwatch_animation(
-	t: float,
-	stopwatch_end_y_pos: float = _stopwatch_y_pos(),
-) -> void:
+func _tray_stopwatch_animation(t: float, stopwatch_end_y_pos: float) -> void:
 	_stopwatch_and_buttons.position.y = lerpf(
 		(size.y - _stopwatch_and_buttons.size.y) * .5,
 		stopwatch_end_y_pos,
@@ -741,7 +738,7 @@ func _set_entry_tray_visibility() -> bool:
 
 
 func _fold_tray_animation(t: float) -> void:
-	_tray_stopwatch_animation(t)
+	_tray_stopwatch_animation(t, _stopwatch_y_pos())
 	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _entry_tray_y_pos_offset()
 	_c_icon_fold_tray.rotation = lerp_angle(0.0, deg_to_rad(90.0), t)
 
@@ -753,15 +750,14 @@ func _toggle_fold_tray() -> void:
 		_entry_tray_tween.kill()
 
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_ELASTIC)
+	var inverse_t := inverse_lerp(0.0, deg_to_rad(90.0), _c_icon_fold_tray.rotation)
 	const DUR := .5
 	if _is_entry_tray_folded:
 		_b_toggle_fold_tray.set_tip_name("unfold tray")
-		# FIXME duration and start value are incorrect
-		_entry_tray_tween.tween_method(_fold_tray_animation, 1.0, 0.0, DUR)
+		_entry_tray_tween.tween_method(_fold_tray_animation, inverse_t, 0.0, DUR * inverse_t)
 	else:
 		_b_toggle_fold_tray.set_tip_name("fold tray")
-		# FIXME duration and start value are incorrect
-		_entry_tray_tween.tween_method(_fold_tray_animation, 0.0, 1.0, DUR)
+		_entry_tray_tween.tween_method(_fold_tray_animation, inverse_t, 1.0, DUR - (DUR * inverse_t))
 
 
 func _get_h_separation_entry_tray() -> int:
