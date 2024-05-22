@@ -46,6 +46,7 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _copy_menu_items_icons: Array[Texture2D]
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
 @export var _b_toggle_fold_tray: ButtonHoverTip
+@export var _c_icon_fold_tray: Control
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
@@ -726,6 +727,7 @@ func _set_entry_tray_visibility() -> bool:
 func _fold_tray_animation(t: float) -> void:
 	_tray_stopwatch_animation(t)
 	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y
+	_c_icon_fold_tray.rotation = lerp_angle(0.0, deg_to_rad(90.0), t)
 
 
 func _toggle_fold_tray() -> void:
