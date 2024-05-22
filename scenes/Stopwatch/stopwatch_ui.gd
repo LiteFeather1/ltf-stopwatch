@@ -617,10 +617,14 @@ func _on_window_size_changed() -> void:
 	if _entry_tray_tween.is_running():
 		return
 
-	# Set stopwatch and tray position
+	# Set stopwatch and tray position and size
+	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _entry_tray_y_pos_offset()
+
+	if _is_entry_tray_folded:
+		return
+
 	_stopwatch_and_buttons.position.y = _stopwatch_y_pos()
 	
-	_entry_tray.position.y = _stopwatch_and_buttons.position.y + _entry_tray_y_pos_offset()
 	_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
 
 
