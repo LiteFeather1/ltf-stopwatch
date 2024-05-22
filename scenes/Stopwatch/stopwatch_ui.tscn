@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=31 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -23,6 +23,7 @@
 [ext_resource type="Shortcut" uid="uid://d04h32se544ud" path="res://resources/shortcuts/stopwatch_ui/shortcut_reset.tres" id="19_8k2wm"]
 [ext_resource type="Texture2D" uid="uid://drl6omo8k8ljr" path="res://assets/sprites/icons_copy_menu/copy_menu_button.svg" id="20_cto6y"]
 [ext_resource type="Shortcut" uid="uid://bwb4wndtu1kmc" path="res://resources/shortcuts/stopwatch_ui/shortcut_copy_to_clipboard.tres" id="21_wmplc"]
+[ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="23_i6ndx"]
 [ext_resource type="Shortcut" uid="uid://fsc6dr5lfjcp" path="res://resources/shortcuts/stopwatch_ui/stopwatch_toggle_tray.tres" id="24_7isgv"]
 [ext_resource type="Texture2D" uid="uid://dckkc0ig18fnj" path="res://assets/sprites/buttons_stopwatch/s_button_toggle_tray.svg" id="24_wc2h0"]
 
@@ -200,8 +201,10 @@ theme_override_constants/separation = 60
 alignment = 1
 
 [node name="Label" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "  Pauses"
 
@@ -243,14 +246,18 @@ expand_mode = 2
 stretch_mode = 4
 
 [node name="Label2" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "Pause Time"
 
 [node name="Label3" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "Resume Time"
 
