@@ -744,6 +744,9 @@ func _fold_tray_animation(t: float) -> void:
 
 
 func _toggle_fold_tray() -> void:
+	if not _is_entry_tray_visible:
+		return
+
 	_is_entry_tray_folded = not _is_entry_tray_folded
 
 	if _entry_tray_tween:
@@ -751,7 +754,7 @@ func _toggle_fold_tray() -> void:
 
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_ELASTIC)
 	var inverse_t := inverse_lerp(0.0, deg_to_rad(90.0), _c_icon_fold_tray.rotation)
-	const DUR := .5
+	const DUR := .4
 	if _is_entry_tray_folded:
 		_b_toggle_fold_tray.set_tip_name("unfold tray")
 		_entry_tray_tween.tween_method(_fold_tray_animation, inverse_t, 0.0, DUR * inverse_t)
