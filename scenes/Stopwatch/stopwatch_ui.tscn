@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=30 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -23,6 +23,7 @@
 [ext_resource type="Shortcut" uid="uid://d04h32se544ud" path="res://resources/shortcuts/stopwatch_ui/shortcut_reset.tres" id="19_8k2wm"]
 [ext_resource type="Texture2D" uid="uid://drl6omo8k8ljr" path="res://assets/sprites/icons_copy_menu/copy_menu_button.svg" id="20_cto6y"]
 [ext_resource type="Shortcut" uid="uid://bwb4wndtu1kmc" path="res://resources/shortcuts/stopwatch_ui/shortcut_copy_to_clipboard.tres" id="21_wmplc"]
+[ext_resource type="Shortcut" uid="uid://fsc6dr5lfjcp" path="res://resources/shortcuts/stopwatch_ui/stopwatch_toggle_tray.tres" id="24_7isgv"]
 [ext_resource type="Texture2D" uid="uid://dckkc0ig18fnj" path="res://assets/sprites/buttons_stopwatch/s_button_toggle_tray.svg" id="24_wc2h0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os5fx"]
@@ -265,6 +266,7 @@ grow_horizontal = 0
 grow_vertical = 2
 pivot_offset = Vector2(8, 8)
 focus_mode = 0
+shortcut = ExtResource("24_7isgv")
 shortcut_in_tooltip = false
 icon_alignment = 1
 script = ExtResource("3_wkdtx")
