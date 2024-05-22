@@ -645,7 +645,7 @@ func _stopwatch_y_pos() -> float:
 
 func _entry_tray_y_pos_offset() -> float:
 	return (
-		_entry_tray_heading_height * 0.25
+		_entry_tray_heading_height * 0.5
 		+ _stopwatch.size.y * _stopwatch_and_buttons.scale.y
 		+ _b_start.size.y * _b_start.scale.y
 	)
@@ -674,7 +674,7 @@ func _tray_disappear_animation(t: float) -> void:
 	_tray_stopwatch_animation(t, stopwatch_end_y_pos)
 	_entry_tray.position.y = lerpf(
 		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0),
-		stopwatch_end_y_pos + _stopwatch_and_buttons.size.y,
+		stopwatch_end_y_pos + _entry_tray_y_pos_offset(),
 		t,
 	)
 	_entry_tray.modulate.a = t;
