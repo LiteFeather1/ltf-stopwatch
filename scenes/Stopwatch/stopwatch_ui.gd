@@ -678,15 +678,19 @@ func _tray_stopwatch_animation(
 	)
 
 
-func _tray_disappear_animation(t: float) -> void:
-	var stopwatch_end_y_pos := _stopwatch_y_pos()
-	_tray_stopwatch_animation(t, stopwatch_end_y_pos)
+func _tray_animation(t: float, to_y_pos: float) -> void:
 	_entry_tray.position.y = lerpf(
 		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0),
-		stopwatch_end_y_pos + _entry_tray_y_pos_offset(),
+		to_y_pos,
 		t,
 	)
-	_entry_tray.modulate.a = t;
+	_entry_tray.modulate.a = t
+
+
+func _tray_disappear_unfolded_animation(t: float) -> void:
+	var stopwatch_end_y_pos := _stopwatch_y_pos()
+	_tray_stopwatch_animation(t, stopwatch_end_y_pos)
+	_tray_animation(t, stopwatch_end_y_pos - _entry_tray_y_pos_offset())
 
 
 func _set_entry_tray_visibility() -> bool:
@@ -708,14 +712,14 @@ func _set_entry_tray_visibility() -> bool:
 	if is_vis:
 		_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
-			_tray_disappear_animation,
+			_tray_disappear_unfolded_animation,
 			_entry_tray.modulate.a,
 			1.0,
 			DUR - (DUR * _entry_tray.modulate.a),
 		)
 	else:
 		_entry_tray_tween.tween_method(
-			_tray_disappear_animation,
+			_tray_disappear_unfolded_animation,
 			_entry_tray.modulate.a,
 			0.0,
 			DUR * _entry_tray.modulate.a,
