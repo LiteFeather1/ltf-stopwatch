@@ -709,6 +709,20 @@ func _set_entry_tray_visibility() -> bool:
 	return is_vis
 
 
+func _fold_tray_animation(t: float) -> void:
+	var tray_pos := _stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y
+	_tray_stopwatch_animation(t, tray_pos, tray_pos)
+
+
+func _toggle_fold_tray(state: bool) -> void:
+	if state:
+		# TODO fold animation
+		pass
+	else:
+		# TODO unfold animation
+		pass
+
+
 func _get_h_separation_entry_tray() -> int:
 	return int(remap(
 		GLOBAL.window.size.x,
