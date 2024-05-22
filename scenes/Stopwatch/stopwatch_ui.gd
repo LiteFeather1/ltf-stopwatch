@@ -601,7 +601,7 @@ func _on_window_size_changed() -> void:
 		return
 
 	# Set tray separation
-	var separation := get_h_separation_entry_tray()
+	var separation := _get_h_separation_entry_tray()
 	_hbc_tray_heading.add_theme_constant_override("separation", separation)
 	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
 		entry.add_theme_constant_override("separation", separation)
@@ -624,7 +624,6 @@ func _on_window_size_changed() -> void:
 		+ _stopwatch_and_buttons.size.y
 		+ _stopwatch_and_buttons_separation
 	)
-
 	_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
 
 
@@ -641,7 +640,7 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _tray_animation(t: float) -> void:
+func _tray_stopwatch_animation(t: float, tray_start_pos: float, tray_end_pos: float) -> void:
 	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
 	var win_height := float(GLOBAL.window.size.y)
 	_stopwatch_and_buttons.position.y = lerpf(
@@ -654,17 +653,21 @@ func _tray_animation(t: float) -> void:
 		t,
 	)
 
-	_entry_tray.modulate.a = t;
-	_entry_tray.position.y = lerpf(
-		win_height + (_entry_tray_heading_height * 2.0),
-		_stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y,
-		t,
-	)
+	_entry_tray.position.y = lerpf(tray_start_pos, tray_end_pos, t)
 	_entry_tray.size.y = lerpf(
-		0,
+		0.0,
 		win_height - _entry_tray.position.y - _entry_tray_heading_height * .75,
 		t,
 	)
+
+
+func _tray_disappear_animation(t: float) -> void:
+	_tray_stopwatch_animation(
+		t,
+		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0),
+		_stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y,
+	)
+	_entry_tray.modulate.a = t;
 
 
 func _set_entry_tray_visibility() -> bool:
@@ -686,14 +689,14 @@ func _set_entry_tray_visibility() -> bool:
 	if is_vis:
 		_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
-			_tray_animation,
+			_tray_disappear_animation,
 			_entry_tray.modulate.a,
 			1.0,
 			DUR - (DUR * _entry_tray.modulate.a),
 		)
 	else:
 		_entry_tray_tween.tween_method(
-			_tray_animation,
+			_tray_disappear_animation,
 			_entry_tray.modulate.a,
 			0.0,
 			DUR * _entry_tray.modulate.a,
@@ -706,7 +709,7 @@ func _set_entry_tray_visibility() -> bool:
 	return is_vis
 
 
-func get_h_separation_entry_tray() -> int:
+func _get_h_separation_entry_tray() -> int:
 	return int(remap(
 		GLOBAL.window.size.x,
 		GLOBAL.window.max_size.x,
@@ -719,7 +722,7 @@ func get_h_separation_entry_tray() -> int:
 func _instantiate_stopwatch_entry_ui(
 	insert_at: int,
 	move_to: int,
-	separation: int = get_h_separation_entry_tray(),
+	separation: int = _get_h_separation_entry_tray(),
 ) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
@@ -742,7 +745,7 @@ func _instantiate_stopwatch_entry_ui(
 
 func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> void:
 	var time_state := _stopwatch.get_time_state()
-	var separation := get_h_separation_entry_tray()
+	var separation := _get_h_separation_entry_tray()
 	for i: int in amount:
 		var index := index_offset + i
 		_instantiate_stopwatch_entry_ui(i + index_offset, 0, separation)\
