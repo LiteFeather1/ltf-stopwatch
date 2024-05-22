@@ -684,8 +684,8 @@ func _set_entry_tray_visibility() -> bool:
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
 
-	const DUR := .5
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	const DUR := .5
 	if is_vis:
 		_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
@@ -715,11 +715,17 @@ func _fold_tray_animation(t: float) -> void:
 
 
 func _toggle_fold_tray(state: bool) -> void:
+	if _entry_tray_tween:
+		_entry_tray_tween.kill()
+
+	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_ELASTIC)
+	const DUR := .4
 	if state:
-		# TODO fold animation
-		pass
+		# FIXME duration and start value are incorrect
+		_entry_tray_tween.tween_method(_fold_tray_animation, 0.0, 1.0, DUR)
 	else:
-		# TODO unfold animation
+		# FIXME duration and start value are incorrect
+		_entry_tray_tween.tween_method(_fold_tray_animation, 1.0, 0.0, DUR)
 		pass
 
 
