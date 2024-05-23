@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://epiwbvhugdog"
-path="res://.godot/imported/icon_white.svg-a47f73de8ea8294a32d89a8be6db1aca.ctex"
+uid="uid://dckkc0ig18fnj"
+path="res://.godot/imported/s_button_toggle_tray.svg-76d58e477518467107773eb7c975c392.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/icon_white.svg"
-dest_files=["res://.godot/imported/icon_white.svg-a47f73de8ea8294a32d89a8be6db1aca.ctex"]
+source_file="res://assets/sprites/buttons_stopwatch/s_button_toggle_tray.svg"
+dest_files=["res://.godot/imported/s_button_toggle_tray.svg-76d58e477518467107773eb7c975c392.ctex"]
 
 [params]
 

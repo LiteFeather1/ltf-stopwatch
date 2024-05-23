@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=31 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -23,6 +23,9 @@
 [ext_resource type="Shortcut" uid="uid://d04h32se544ud" path="res://resources/shortcuts/stopwatch_ui/shortcut_reset.tres" id="19_8k2wm"]
 [ext_resource type="Texture2D" uid="uid://drl6omo8k8ljr" path="res://assets/sprites/icons_copy_menu/copy_menu_button.svg" id="20_cto6y"]
 [ext_resource type="Shortcut" uid="uid://bwb4wndtu1kmc" path="res://resources/shortcuts/stopwatch_ui/shortcut_copy_to_clipboard.tres" id="21_wmplc"]
+[ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="23_i6ndx"]
+[ext_resource type="Shortcut" uid="uid://fsc6dr5lfjcp" path="res://resources/shortcuts/stopwatch_ui/stopwatch_toggle_tray.tres" id="24_7isgv"]
+[ext_resource type="Texture2D" uid="uid://dckkc0ig18fnj" path="res://assets/sprites/buttons_stopwatch/s_button_toggle_tray.svg" id="24_wc2h0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os5fx"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -42,7 +45,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_copy_menu_button", "_hbc_tray_heading", "_copied_pop_up", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,6 +71,8 @@ _copy_menu_button = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label/menu_butt
 _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
 _hbc_tray_heading = NodePath("stopwatch_tray_ui/hbc_tray_heading")
 _copy_menu_items_icons = Array[Texture2D]([ExtResource("5_dyfse"), ExtResource("6_hmfcl"), ExtResource("7_i2gau"), ExtResource("8_teunh")])
+_b_toggle_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray")
+_c_icon_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray/tr_toggle_icons")
 _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
@@ -196,8 +201,10 @@ theme_override_constants/separation = 60
 alignment = 1
 
 [node name="Label" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "  Pauses"
 
@@ -239,16 +246,60 @@ expand_mode = 2
 stretch_mode = 4
 
 [node name="Label2" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "Pause Time"
 
 [node name="Label3" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "Resume Time"
+
+[node name="b_toggle_entry_tray" type="Button" parent="stopwatch_tray_ui/hbc_tray_heading/Label3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(12, 12)
+focus_mode = 0
+shortcut = ExtResource("24_7isgv")
+shortcut_in_tooltip = false
+icon_alignment = 1
+script = ExtResource("3_wkdtx")
+_tip_name = "fold tray"
+
+[node name="tr_toggle_icons" type="TextureRect" parent="stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+pivot_offset = Vector2(8, 8)
+mouse_filter = 2
+texture = ExtResource("24_wc2h0")
+expand_mode = 1
 
 [node name="HSeparator" type="HSeparator" parent="stopwatch_tray_ui"]
 layout_mode = 2

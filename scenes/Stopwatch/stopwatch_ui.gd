@@ -20,8 +20,11 @@ const PAUSE_SPAN := &"Pause Span"
 const LONGEST_SHORTEST := &"Longest/Shortest"
 const SHORTEST_LONGEST := &"Shortest/Longest"
 
+const TRAY_DISAPPEAR_DUR := .5
+
 const SAVE_KEYS: PackedStringArray = [
 	&"_copy_menu_options_mask",
+	&"_is_entry_tray_folded",
 ]
 
 @export var _stopwatch_and_buttons: VBoxContainer
@@ -45,6 +48,8 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _hbc_tray_heading: HBoxContainer
 @export var _copy_menu_items_icons: Array[Texture2D]
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
+@export var _b_toggle_fold_tray: ButtonHoverTip
+@export var _c_icon_fold_tray: Control
 
 @export_category("Copied Pop Up")
 @export var _copied_pop_up: Control
@@ -53,8 +58,9 @@ const SAVE_KEYS: PackedStringArray = [
 var _stopwatch_and_buttons_separation: int
 
 var _entry_tray_tween: Tween
-var _entry_tray_heading_height: float # this should be the text + the line plus 2 separation
+var _entry_tray_heading_height: float
 var _is_entry_tray_visible: bool
+var _is_entry_tray_folded: bool
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
@@ -85,6 +91,8 @@ func _ready() -> void:
 	_b_start.toggled.connect(_start_toggled)
 	_b_reset.pressed.connect(_reset_pressed)
 	_b_clipboard.pressed.connect(_copy_elapsed_time_to_clipboard)
+
+	_b_toggle_fold_tray.pressed.connect(_toggle_fold_tray)
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
@@ -162,6 +170,13 @@ func _ready() -> void:
 		_find_longest_shortest_times()
 
 	_on_window_size_changed()
+
+	_entry_tray.size.x = GLOBAL.window.size.x * .9
+	_entry_tray.position.x = (size.x - _entry_tray.size.x) * .5
+
+	if _is_entry_tray_folded:
+		create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE).set_parallel()\
+			.tween_property(_c_icon_fold_tray, "rotation", 0.0, TRAY_DISAPPEAR_DUR)
 
 
 func restore_last_time_state() -> void:
@@ -601,30 +616,21 @@ func _on_window_size_changed() -> void:
 		return
 
 	# Set tray separation
-	var separation := get_h_separation_entry_tray()
-	_hbc_tray_heading.add_theme_constant_override("separation", separation)
+	var h_separation := _get_h_separation_entry_tray()
+	_hbc_tray_heading.add_theme_constant_override("separation", h_separation)
 	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
-		entry.add_theme_constant_override("separation", separation)
+		entry.add_theme_constant_override("separation", h_separation)
 
 	if _entry_tray_tween.is_running():
 		return
 
-	# Set stopwatch and tray position
-	_stopwatch_and_buttons.position.y = (
-		(size.y - _stopwatch_and_buttons.size.y) * .5
-		- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
-			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
-			win_max_height,
-			win_height,
-		)
-	)
-	
-	_entry_tray.position.y = (
-		_stopwatch_and_buttons.position.y
-		+ _stopwatch_and_buttons.size.y
-		+ _stopwatch_and_buttons_separation
-	)
+	_entry_tray.position.y = _entry_tray_y_position(_stopwatch_and_buttons.position.y)
 
+	if _is_entry_tray_folded:
+		return
+
+	_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
+	
 	_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
 
 
@@ -641,37 +647,60 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _tray_animation(t: float) -> void:
-	var stopwatch_center := (size.y - _stopwatch_and_buttons.size.y) * .5
-	var win_height := float(GLOBAL.window.size.y)
-	_stopwatch_and_buttons.position.y = lerpf(
-		stopwatch_center,
-		stopwatch_center - _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
-			_stopwatch_and_buttons.size.y + (_entry_tray_heading_height * .5),
+func _stopwatch_upper_position() -> float:
+	return (
+		(size.y - _stopwatch_and_buttons.size.y) * .5
+		- _stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
+			_stopwatch_and_buttons.size.y,
 			GLOBAL.window.max_size.y,
-			win_height,
-		),
-		t,
+			GLOBAL.window.size.y,
+		)
 	)
 
-	_entry_tray.modulate.a = t;
-	_entry_tray.position.y = lerpf(
-		win_height + (_entry_tray_heading_height * 2.0),
-		_stopwatch_and_buttons.position.y + _stopwatch_and_buttons.size.y,
-		t,
+
+func _entry_tray_y_position(stopwatch_height: float) -> float:
+	return (
+		stopwatch_height
+		+ _entry_tray_heading_height * 0.33
+		+ _stopwatch.size.y * _stopwatch_and_buttons.scale.y
+		+ _b_start.size.y * _b_start.scale.y
 	)
+
+
+func _tray_stopwatch_animation(t: float, stopwatch_end_y_pos: float) -> void:
+	_stopwatch_and_buttons.position.y = lerpf(
+		(size.y - _stopwatch_and_buttons.size.y) * .5, stopwatch_end_y_pos,t
+	)
+
+	var win_height := float(GLOBAL.window.size.y)
 	_entry_tray.size.y = lerpf(
-		0,
-		win_height - _entry_tray.position.y - _entry_tray_heading_height * .75,
-		t,
+		0.0, win_height - _entry_tray.position.y - _entry_tray_heading_height * .75, t
 	)
+
+
+func _tray_animation(t: float, to_y_pos: float) -> void:
+	_entry_tray.position.y = lerpf(
+		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0), to_y_pos, t
+	)
+	_entry_tray.modulate.a = t
+
+
+func _tray_disappear_unfolded_animation(t: float) -> void:
+	var stopwatch_upper_pos := _stopwatch_upper_position()
+	_tray_stopwatch_animation(t, stopwatch_upper_pos)
+	_tray_animation(t, _entry_tray_y_position(stopwatch_upper_pos))
+
+
+func _tray_disappear_folded_animation(t: float) -> void:
+	_tray_animation(t, _entry_tray_y_position((size.y - _stopwatch_and_buttons.size.y) * .5))
 
 
 func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _width_for_min_h_separation
-		and GLOBAL.window.size.y > _stopwatch_and_buttons.size.y + _entry_tray_heading_height * 2.0
+		# HACK This could be better calculated IE
+		and GLOBAL.window.size.y > _entry_tray_y_position(_entry_tray_heading_height * 1.75)
 	)
 	if is_vis == _is_entry_tray_visible:
 		return is_vis
@@ -681,22 +710,20 @@ func _set_entry_tray_visibility() -> bool:
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
 
-	const DUR := .5
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	var animation := _tray_disappear_folded_animation if _is_entry_tray_folded\
+		else _tray_disappear_unfolded_animation
 	if is_vis:
 		_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
-			_tray_animation,
+			animation,
 			_entry_tray.modulate.a,
 			1.0,
-			DUR - (DUR * _entry_tray.modulate.a),
+			TRAY_DISAPPEAR_DUR - (TRAY_DISAPPEAR_DUR * _entry_tray.modulate.a),
 		)
 	else:
 		_entry_tray_tween.tween_method(
-			_tray_animation,
-			_entry_tray.modulate.a,
-			0.0,
-			DUR * _entry_tray.modulate.a,
+			animation, _entry_tray.modulate.a, 0.0, TRAY_DISAPPEAR_DUR * _entry_tray.modulate.a,
 		)
 
 		_entry_tray_tween.tween_callback(func() -> void:
@@ -706,7 +733,33 @@ func _set_entry_tray_visibility() -> bool:
 	return is_vis
 
 
-func get_h_separation_entry_tray() -> int:
+func _fold_tray_animation(t: float) -> void:
+	_tray_stopwatch_animation(t, _stopwatch_upper_position())
+	_entry_tray.position.y = _entry_tray_y_position(_stopwatch_and_buttons.position.y)
+	_c_icon_fold_tray.rotation = lerp_angle(0.0, deg_to_rad(90.0), t)
+
+
+func _toggle_fold_tray() -> void:
+	if not _is_entry_tray_visible:
+		return
+
+	_is_entry_tray_folded = not _is_entry_tray_folded
+
+	if _entry_tray_tween:
+		_entry_tray_tween.kill()
+
+	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_ELASTIC)
+	var inverse_t := inverse_lerp(0.0, deg_to_rad(90.0), _c_icon_fold_tray.rotation)
+	const DUR := .4
+	if _is_entry_tray_folded:
+		_b_toggle_fold_tray.set_tip_name("unfold tray")
+		_entry_tray_tween.tween_method(_fold_tray_animation, inverse_t, 0.0, DUR * inverse_t)
+	else:
+		_b_toggle_fold_tray.set_tip_name("fold tray")
+		_entry_tray_tween.tween_method(_fold_tray_animation, inverse_t, 1.0, DUR - (DUR * inverse_t))
+
+
+func _get_h_separation_entry_tray() -> int:
 	return int(remap(
 		GLOBAL.window.size.x,
 		GLOBAL.window.max_size.x,
@@ -719,7 +772,7 @@ func get_h_separation_entry_tray() -> int:
 func _instantiate_stopwatch_entry_ui(
 	insert_at: int,
 	move_to: int,
-	separation: int = get_h_separation_entry_tray(),
+	separation: int = _get_h_separation_entry_tray(),
 ) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
@@ -742,7 +795,7 @@ func _instantiate_stopwatch_entry_ui(
 
 func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> void:
 	var time_state := _stopwatch.get_time_state()
-	var separation := get_h_separation_entry_tray()
+	var separation := _get_h_separation_entry_tray()
 	for i: int in amount:
 		var index := index_offset + i
 		_instantiate_stopwatch_entry_ui(i + index_offset, 0, separation)\
