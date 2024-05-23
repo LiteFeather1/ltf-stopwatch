@@ -714,15 +714,17 @@ func _set_entry_tray_visibility() -> bool:
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	var animation := _tray_disappear_folded_animation if _is_entry_tray_folded\
 		else _tray_disappear_unfolded_animation
-	const DUR := .5
 	if is_vis:
 		_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
-			animation, _entry_tray.modulate.a, 1.0, DUR - (DUR * _entry_tray.modulate.a)
+			animation,
+			_entry_tray.modulate.a,
+			1.0,
+			TRAY_DISAPPEAR_DUR - (TRAY_DISAPPEAR_DUR * _entry_tray.modulate.a),
 		)
 	else:
 		_entry_tray_tween.tween_method(
-			animation, _entry_tray.modulate.a, 0.0, DUR * _entry_tray.modulate.a,
+			animation, _entry_tray.modulate.a, 0.0, TRAY_DISAPPEAR_DUR * _entry_tray.modulate.a,
 		)
 
 		_entry_tray_tween.tween_callback(func() -> void:
