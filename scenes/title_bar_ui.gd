@@ -16,7 +16,11 @@ const SAVE_KEYS: PackedStringArray = [
 const HOVER := &"hover"
 const PRESSED := &"pressed"
 
+const LONG_TITLE := &"LTF Stopwatch"
+const SHORT_TITLE := &"LTF"
+
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
+@export var _l_title: Label
 
 @export_category("Buttons")
 @export var _b_close: Button
@@ -26,6 +30,8 @@ const PRESSED := &"pressed"
 @export var _b_pin: ButtonHoverTip
 @export var _sprite_pin: Texture2D
 @export var _sprite_unpin: Texture2D
+
+var _width_for_short_title: float
 
 var _start_drag_pos: Vector2
 var _window_position: Vector2i = Vector2i(-1, 1)
@@ -52,6 +58,10 @@ func _ready() -> void:
 		PRESSED, _b_minimise.get_theme_stylebox(PRESSED).duplicate()
 	)
 
+	_width_for_short_title = _l_title.get_theme_font("font").get_string_size(
+		_l_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _l_title.get_theme_font_size("font_size"),
+	).x + 2.0
+
 	if _window_position.x != -1:
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size
@@ -66,7 +76,6 @@ func _ready() -> void:
 			_window_margin_when_pinning.y,
 		)
 		_window_pinned_size = GLOBAL.window.min_size
-
 
 
 func _input(event: InputEvent) -> void:
@@ -120,7 +129,14 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 		GLOBAL.window.position = _window_pinned_position
 		GLOBAL.window.size = _window_pinned_size
+		GLOBAL.window.size_changed.connect(_on_window_size_changed)
+
+		# We await a small delay cuz the ui sizing takes time to update
+		await GLOBAL.tree.create_timer(.0001).timeout
+		_on_window_size_changed()
 	else:
+		_l_title.text = LONG_TITLE
+		GLOBAL.window.size_changed.disconnect(_on_window_size_changed)
 		_b_pin.icon = _sprite_pin
 		_b_pin.set_tip_name("pin")
 
@@ -135,6 +151,13 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 func _minimise_window() -> void:
 	GLOBAL.window.mode = Window.MODE_MINIMIZED
+
+
+func _on_window_size_changed() -> void:
+	if _l_title.size.x < _width_for_short_title:
+		_l_title.text = SHORT_TITLE
+	else:
+		_l_title.text = LONG_TITLE
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
