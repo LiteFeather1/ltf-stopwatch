@@ -20,6 +20,8 @@ const PAUSE_SPAN := &"Pause Span"
 const LONGEST_SHORTEST := &"Longest/Shortest"
 const SHORTEST_LONGEST := &"Shortest/Longest"
 
+const TRAY_DISAPPEAR_DUR := .5
+
 const SAVE_KEYS: PackedStringArray = [
 	&"_copy_menu_options_mask",
 	&"_is_entry_tray_folded",
@@ -172,6 +174,10 @@ func _ready() -> void:
 
 	_entry_tray.size.x = GLOBAL.window.size.x * .9
 	_entry_tray.position.x = (size.x - _entry_tray.size.x) * .5
+
+	if _is_entry_tray_folded:
+		create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE).set_parallel()\
+			.tween_property(_c_icon_fold_tray, "rotation", 0.0, TRAY_DISAPPEAR_DUR)
 
 
 func restore_last_time_state() -> void:
