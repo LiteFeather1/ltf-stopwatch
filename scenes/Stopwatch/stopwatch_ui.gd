@@ -22,6 +22,7 @@ const SHORTEST_LONGEST := &"Shortest/Longest"
 
 const SAVE_KEYS: PackedStringArray = [
 	&"_copy_menu_options_mask",
+	&"_is_entry_tray_folded",
 ]
 
 @export var _stopwatch_and_buttons: VBoxContainer
