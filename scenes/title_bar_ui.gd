@@ -16,8 +16,8 @@ const SAVE_KEYS: PackedStringArray = [
 const HOVER := &"hover"
 const PRESSED := &"pressed"
 
-const LONG_TITLE := &"LTF Stopwatch"
-const SHORT_TITLE := &"LTF"
+const LONG_TITLE := "LTF Stopwatch"
+const SHORT_TITLE := "LTF"
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 @export var _l_title: Label
@@ -132,7 +132,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 		GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
 		# We await a small delay cuz the ui sizing takes time to update
-		await GLOBAL.tree.create_timer(.0001).timeout
+		await GLOBAL.tree.create_timer(.00001).timeout
 		_on_window_size_changed()
 	else:
 		_l_title.text = LONG_TITLE
@@ -153,11 +153,16 @@ func _minimise_window() -> void:
 	GLOBAL.window.mode = Window.MODE_MINIMIZED
 
 
+func _set_title(text: String) -> void:
+	if _l_title.text[_l_title.text.length() - 1] != text[text.length() - 1]:
+		_l_title.text = text
+
+
 func _on_window_size_changed() -> void:
 	if _l_title.size.x < _width_for_short_title:
-		_l_title.text = SHORT_TITLE
+		_set_title(SHORT_TITLE)
 	else:
-		_l_title.text = LONG_TITLE
+		_set_title(LONG_TITLE)
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
