@@ -617,15 +617,14 @@ func _on_window_size_changed() -> void:
 		return
 
 	# Set tray separation
-	var separation := _get_h_separation_entry_tray()
-	_hbc_tray_heading.add_theme_constant_override("separation", separation)
+	var h_separation := _get_h_separation_entry_tray()
+	_hbc_tray_heading.add_theme_constant_override("separation", h_separation)
 	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
-		entry.add_theme_constant_override("separation", separation)
+		entry.add_theme_constant_override("separation", h_separation)
 
 	if _entry_tray_tween.is_running():
 		return
 
-	# Set stopwatch and tray position and size
 	_entry_tray.position.y = _entry_tray_y_position(_stopwatch_and_buttons.position.y)
 
 	if _is_entry_tray_folded:
@@ -671,24 +670,18 @@ func _entry_tray_y_position(stopwatch_height: float) -> float:
 
 func _tray_stopwatch_animation(t: float, stopwatch_end_y_pos: float) -> void:
 	_stopwatch_and_buttons.position.y = lerpf(
-		(size.y - _stopwatch_and_buttons.size.y) * .5,
-		stopwatch_end_y_pos,
-		t,
+		(size.y - _stopwatch_and_buttons.size.y) * .5, stopwatch_end_y_pos,t
 	)
 
 	var win_height := float(GLOBAL.window.size.y)
 	_entry_tray.size.y = lerpf(
-		0.0,
-		win_height - _entry_tray.position.y - _entry_tray_heading_height * .75,
-		t,
+		0.0, win_height - _entry_tray.position.y - _entry_tray_heading_height * .75, t
 	)
 
 
 func _tray_animation(t: float, to_y_pos: float) -> void:
 	_entry_tray.position.y = lerpf(
-		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0),
-		to_y_pos,
-		t,
+		GLOBAL.window.size.y + (_entry_tray_heading_height * 2.0), to_y_pos, t
 	)
 	_entry_tray.modulate.a = t
 
@@ -707,7 +700,7 @@ func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _width_for_min_h_separation
-		# HACK
+		# HACK This could be better calculated IE
 		and GLOBAL.window.size.y > _entry_tray_y_position(_entry_tray_heading_height * 1.75)
 	)
 	if is_vis == _is_entry_tray_visible:
@@ -719,25 +712,17 @@ func _set_entry_tray_visibility() -> bool:
 		_entry_tray_tween.kill()
 
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	var animation := (
-		_tray_disappear_folded_animation if _is_entry_tray_folded
-			else _tray_disappear_unfolded_animation
-	)
+	var animation := _tray_disappear_folded_animation if _is_entry_tray_folded\
+		else _tray_disappear_unfolded_animation
 	const DUR := .5
 	if is_vis:
 		_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
-			animation,
-			_entry_tray.modulate.a,
-			1.0,
-			DUR - (DUR * _entry_tray.modulate.a),
+			animation, _entry_tray.modulate.a, 1.0, DUR - (DUR * _entry_tray.modulate.a)
 		)
 	else:
 		_entry_tray_tween.tween_method(
-			animation,
-			_entry_tray.modulate.a,
-			0.0,
-			DUR * _entry_tray.modulate.a,
+			animation, _entry_tray.modulate.a, 0.0, DUR * _entry_tray.modulate.a,
 		)
 
 		_entry_tray_tween.tween_callback(func() -> void:
