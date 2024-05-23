@@ -60,7 +60,6 @@ var _stopwatch_and_buttons_separation: int
 var _entry_tray_tween: Tween
 var _entry_tray_heading_height: float
 var _is_entry_tray_visible: bool
-# TODO save this
 var _is_entry_tray_folded: bool
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
