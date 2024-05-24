@@ -21,6 +21,7 @@ const PRESSED := &"pressed"
 @export_category("Title")
 @export var _l_title: Label
 @export var _long_title := "LTF Stopwatch"
+@export var _mid_title := "LTF Stop"
 @export var _short_title := "LTF S"
 
 @export_category("Buttons")
@@ -32,6 +33,7 @@ const PRESSED := &"pressed"
 @export var _sprite_pin: Texture2D
 @export var _sprite_unpin: Texture2D
 
+var _width_for_mid_title: float
 var _width_for_short_title: float
 
 var _start_drag_pos: Vector2
@@ -61,8 +63,15 @@ func _ready() -> void:
 		PRESSED, _b_minimise.get_theme_stylebox(PRESSED).duplicate()
 	)
 
-	_width_for_short_title = _l_title.get_theme_font("font").get_string_size(
-		_l_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _l_title.get_theme_font_size("font_size"),
+	var font := _l_title.get_theme_font("font")
+	var font_size := _l_title.get_theme_font_size("font_size")
+
+	_width_for_mid_title = font.get_string_size(
+		_long_title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size,
+	).x + 2.0
+
+	_width_for_short_title = font.get_string_size(
+		_mid_title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
 	).x + 2.0
 
 	if _window_position.x != -1:
@@ -161,6 +170,8 @@ func _set_title(text: String) -> void:
 func _on_window_size_changed() -> void:
 	if _l_title.size.x < _width_for_short_title:
 		_set_title(_short_title)
+	elif _l_title.size.x < _width_for_mid_title:
+		_set_title(_mid_title)
 	else:
 		_set_title(_long_title)
 
