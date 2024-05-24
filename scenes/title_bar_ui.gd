@@ -77,6 +77,8 @@ func _ready() -> void:
 		_l_title.text.substr(0, _mid_title_length), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
 	).x + 2.0
 
+	await GLOBAL.tree.process_frame
+
 	if _window_position.x != -1:
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size

@@ -55,10 +55,14 @@ func show_hover_tip(c: Control, text: String, shortcut_text := "") -> void:
 		out_x = GLOBAL.window.size.x - right - _label_padding.x
 		new_x += out_x
 
-	var new_y := c.global_position.y + c.size.y * c_scale.y - _dent.position.y + _dent.size.y * .5
-	var bot := new_y + size.y
-	if GLOBAL.window.size.y <= bot:
-		new_y += GLOBAL.window.size.y - bot - _label_padding.y
+	var dent_half_height := _dent.size.y * .5
+	const PADDING := 2.0
+	var new_y := c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + PADDING
+	if GLOBAL.window.size.y <= new_y + size.y:
+		new_y = c.global_position.y - size.y - _dent.size.y - PADDING
+		_dent.position.y = size.y - dent_half_height
+	else:
+		_dent.position.y = -dent_half_height
 
 	position = Vector2(new_x, new_y)
 
