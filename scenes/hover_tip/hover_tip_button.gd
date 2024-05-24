@@ -25,10 +25,16 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var old_size := size
 	if event.is_action_pressed("ctrl"):
 		_set_text(TEMPLATE_SHORTCUT % [_l_text.text, _shortcut_text])
-		old_size.y += (_dent.size.y * 2.0) + (PADDING * 1.5)
+		old_size.y += (
+			((_dent.size.y * 2.0) + (PADDING * 1.5))
+			* (1.0 if (_dent.anchor_top < 1.0) else -1.0)
+		)
 	elif event.is_action_released("ctrl"):
 		_set_text(_l_text.text.substr(0, _simple_text_size))
-		old_size.y -= (_dent.size.y * 2.0) + (PADDING * 1.5)
+		old_size.y -= (
+			((_dent.size.y * 2.0) + (PADDING * 1.5))
+			* (1.0 if _dent.anchor_top < 1.0 else -1.0)
+		)
 	
 	position -= (size - old_size) * .5
 
