@@ -20,9 +20,9 @@ const PRESSED := &"pressed"
 
 @export_category("Title")
 @export var _l_title: Label
-@export var _long_title := "LTF Stopwatch"
-@export var _mid_title := "LTF Stop"
-@export var _short_title := "LTF S"
+@export var _long_title: StringName = &"LTF Stopwatch"
+@export var _mid_title: StringName= &"LTF Stop"
+@export var _short_title: StringName = &"LTF S"
 
 @export_category("Buttons")
 @export var _b_close: Button
@@ -162,18 +162,13 @@ func _minimise_window() -> void:
 	GLOBAL.window.mode = Window.MODE_MINIMIZED
 
 
-func _set_title(text: String) -> void:
-	if _l_title.text[_l_title.text.length() - 1] != text[text.length() - 1]:
-		_l_title.text = text
-
-
 func _on_window_size_changed() -> void:
 	if _l_title.size.x < _width_for_short_title:
-		_set_title(_short_title)
+		_l_title.visible_ratio = float(_short_title.length()) / _long_title.length()
 	elif _l_title.size.x < _width_for_mid_title:
-		_set_title(_mid_title)
+		_l_title.visible_ratio = float(_mid_title.length()) / _long_title.length()
 	else:
-		_set_title(_long_title)
+		_l_title.visible_ratio = 1.0
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
