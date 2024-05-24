@@ -1,6 +1,7 @@
 class_name TitleBarUI extends Panel
 
 
+signal pin_toggled(state: bool)
 signal close_pressed()
 
 
@@ -154,6 +155,8 @@ func _toggle_pin_window(pinning: bool) -> void:
 		
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size
+
+	pin_toggled.emit(pinning)
 
 	# We await a small delay cuz the ui sizing takes time to update
 	await GLOBAL.tree.create_timer(.00001).timeout

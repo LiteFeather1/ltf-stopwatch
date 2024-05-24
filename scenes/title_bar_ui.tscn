@@ -18,7 +18,7 @@
 [ext_resource type="Shortcut" uid="uid://drp1v76joiq6v" path="res://resources/shortcuts/title_bar_ui/shortcut_close_window.tres" id="15_xh8yy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbryd"]
-bg_color = Color(0, 0, 0, 0.498039)
+bg_color = Color(0, 0, 0, 0.25)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 
