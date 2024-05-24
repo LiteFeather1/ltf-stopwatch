@@ -17,7 +17,7 @@ const HOVER := &"hover"
 const PRESSED := &"pressed"
 
 const LONG_TITLE := "LTF Stopwatch"
-const SHORT_TITLE := "LTF"
+const SHORT_TITLE := "LTF S"
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 @export var _l_title: Label
