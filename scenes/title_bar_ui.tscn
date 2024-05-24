@@ -91,6 +91,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 12
 text = "LTF Stopwatch"
+text_overrun_behavior = 1
 
 [node name="hbc_buttons" type="HBoxContainer" parent="hbc_title_bar"]
 custom_minimum_size = Vector2(0, 28)

@@ -20,9 +20,8 @@ const PRESSED := &"pressed"
 
 @export_category("Title")
 @export var _l_title: Label
-@export var _long_title: StringName = &"LTF Stopwatch"
-@export var _mid_title: StringName= &"LTF Stop"
-@export var _short_title: StringName = &"LTF S"
+@export var _mid_title_length: int = 8
+@export var _short_title_length: int = 5
 
 @export_category("Buttons")
 @export var _b_close: Button
@@ -33,6 +32,7 @@ const PRESSED := &"pressed"
 @export var _sprite_pin: Texture2D
 @export var _sprite_unpin: Texture2D
 
+var _long_title_length: float
 var _width_for_mid_title: float
 var _width_for_short_title: float
 
@@ -63,15 +63,17 @@ func _ready() -> void:
 		PRESSED, _b_minimise.get_theme_stylebox(PRESSED).duplicate()
 	)
 
+	_long_title_length = _l_title.text.length()
+
 	var font := _l_title.get_theme_font("font")
 	var font_size := _l_title.get_theme_font_size("font_size")
 
 	_width_for_mid_title = font.get_string_size(
-		_long_title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size,
+		_l_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size,
 	).x + 2.0
 
 	_width_for_short_title = font.get_string_size(
-		_mid_title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
+		_l_title.text.substr(0, _mid_title_length), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
 	).x + 2.0
 
 	if _window_position.x != -1:
@@ -164,9 +166,9 @@ func _minimise_window() -> void:
 
 func _on_window_size_changed() -> void:
 	if _l_title.size.x < _width_for_short_title:
-		_l_title.visible_ratio = float(_short_title.length()) / _long_title.length()
+		_l_title.visible_ratio = _short_title_length / _long_title_length
 	elif _l_title.size.x < _width_for_mid_title:
-		_l_title.visible_ratio = float(_mid_title.length()) / _long_title.length()
+		_l_title.visible_ratio = _mid_title_length / _long_title_length
 	else:
 		_l_title.visible_ratio = 1.0
 
