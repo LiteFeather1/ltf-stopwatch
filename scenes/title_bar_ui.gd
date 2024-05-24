@@ -16,11 +16,12 @@ const SAVE_KEYS: PackedStringArray = [
 const HOVER := &"hover"
 const PRESSED := &"pressed"
 
-const LONG_TITLE := "LTF Stopwatch"
-const SHORT_TITLE := "LTF S"
-
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
+
+@export_category("Title")
 @export var _l_title: Label
+@export var _long_title := "LTF Stopwatch"
+@export var _short_title := "LTF S"
 
 @export_category("Buttons")
 @export var _b_close: Button
@@ -50,6 +51,8 @@ func _ready() -> void:
 	_b_close.pressed.connect(_close_window)
 	_b_pin.toggled.connect(_toggle_pin_window)
 	_b_minimise.pressed.connect(_minimise_window)
+
+	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
 	_b_minimise.add_theme_stylebox_override(
 		HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate()
@@ -129,14 +132,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 		GLOBAL.window.position = _window_pinned_position
 		GLOBAL.window.size = _window_pinned_size
-		GLOBAL.window.size_changed.connect(_on_window_size_changed)
-
-		# We await a small delay cuz the ui sizing takes time to update
-		await GLOBAL.tree.create_timer(.00001).timeout
-		_on_window_size_changed()
 	else:
-		_l_title.text = LONG_TITLE
-		GLOBAL.window.size_changed.disconnect(_on_window_size_changed)
 		_b_pin.icon = _sprite_pin
 		_b_pin.set_tip_name("pin")
 
@@ -147,6 +143,10 @@ func _toggle_pin_window(pinning: bool) -> void:
 		
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size
+
+	# We await a small delay cuz the ui sizing takes time to update
+	await GLOBAL.tree.create_timer(.00001).timeout
+	_on_window_size_changed()
 
 
 func _minimise_window() -> void:
@@ -160,9 +160,9 @@ func _set_title(text: String) -> void:
 
 func _on_window_size_changed() -> void:
 	if _l_title.size.x < _width_for_short_title:
-		_set_title(SHORT_TITLE)
+		_set_title(_short_title)
 	else:
-		_set_title(LONG_TITLE)
+		_set_title(_long_title)
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
