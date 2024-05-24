@@ -3,6 +3,8 @@ class_name HoverTipButton extends HoverTip
 
 const TEMPLATE_SHORTCUT := "%s\n%s"
 
+const PADDING := 2.0
+
 @export var _animation_duration := .15
 
 @export var _dent: Control
@@ -20,13 +22,15 @@ func _ready() -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	var old_size_x := size.x
+	var old_size := size
 	if event.is_action_pressed("ctrl"):
 		_set_text(TEMPLATE_SHORTCUT % [_l_text.text, _shortcut_text])
+		old_size.y += (_dent.size.y * 2.0) + (PADDING * 1.5)
 	elif event.is_action_released("ctrl"):
 		_set_text(_l_text.text.substr(0, _simple_text_size))
+		old_size.y -= (_dent.size.y * 2.0) + (PADDING * 1.5)
 	
-	position.x -= (size.x - old_size_x) * .5
+	position -= (size - old_size) * .5
 
 
 func show_hover_tip(c: Control, text: String, shortcut_text := "") -> void:
@@ -55,7 +59,6 @@ func show_hover_tip(c: Control, text: String, shortcut_text := "") -> void:
 		out_x = GLOBAL.window.size.x - right - _label_padding.x
 		new_x += out_x
 
-	const PADDING := 2.0
 	var new_y := c.global_position.y + (c.size.y * c_scale.y) + _dent.size.y + PADDING
 	if GLOBAL.window.size.y <= new_y + size.y:
 		new_y = c.global_position.y - size.y - _dent.size.y - PADDING
@@ -63,7 +66,7 @@ func show_hover_tip(c: Control, text: String, shortcut_text := "") -> void:
 		_dent.anchor_bottom = 1.0
 	else:
 		_dent.anchor_top = 0.0
-		_dent.achor_bottom = 0.0
+		_dent.anchor_bottom = 0.0
 
 	position = Vector2(new_x, new_y)
 
