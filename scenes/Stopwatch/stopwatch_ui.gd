@@ -42,7 +42,7 @@ const SAVE_KEYS: PackedStringArray = [
 @export_category("Entry tray")
 @export var _scene_stopwatch_entry_ui: PackedScene
 @export var _entry_tray: VBoxContainer
-@export var _tray_container: Control
+@export var _tray_container: VBoxContainer
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
@@ -57,12 +57,14 @@ const SAVE_KEYS: PackedStringArray = [
 
 var _stopwatch_and_buttons_separation: int
 
-var _entry_tray_tween: Tween
+var _entry_tray_separation: int
 var _entry_tray_heading_height: float
 var _entry_height: float
 var _window_height_to_disappear_tray: float
+
 var _is_entry_tray_visible: bool
 var _is_entry_tray_folded: bool
+var _entry_tray_tween: Tween
 
 var _stopwatch_tray_entries_ui: Array[StopwatchEntryUI]
 var _longest_entry_index: int
@@ -99,6 +101,8 @@ func _ready() -> void:
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
 	_stopwatch_and_buttons_separation = _stopwatch_and_buttons.get_theme_constant("separation")
+
+	_entry_tray_separation = _tray_container.get_theme_constant("separation")
 
 	_entry_tray_heading_height = (
 		_entry_tray.get_theme_constant("separation") * 2.0
@@ -645,7 +649,7 @@ func _on_window_size_changed() -> void:
 
 	_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
 	
-	_entry_tray.size.y = win_height - _entry_tray.position.y - _entry_tray_heading_height * .75
+	_entry_tray.size.y = _max_entry_tray_size_y()
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
@@ -681,15 +685,16 @@ func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
 	)
 
 
+func _max_entry_tray_size_y() -> float:
+	return size.y - _entry_tray.position.y - _entry_tray_separation
+
+
 func _tray_stopwatch_animation(t: float, stopwatch_end_y_pos: float) -> void:
 	_stopwatch_and_buttons.position.y = lerpf(
 		(size.y - _stopwatch_and_buttons.size.y) * .5, stopwatch_end_y_pos,t
 	)
 
-	var win_height := float(GLOBAL.window.size.y)
-	_entry_tray.size.y = lerpf(
-		0.0, win_height - _entry_tray.position.y - _entry_tray_heading_height * .75, t
-	)
+	_entry_tray.size.y = lerpf(0.0, _max_entry_tray_size_y(), t)
 
 
 func _tray_animation(t: float, to_y_pos: float) -> void:
