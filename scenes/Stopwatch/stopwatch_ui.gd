@@ -306,23 +306,20 @@ func pause_stopwatch_if_running() -> void:
 
 
 func fix_stopwatch_tray_positioning() -> void:
-	if _entry_tray_tween.is_running():
+	if not _vbc_entry_tray.visible or _entry_tray_tween.is_running():
 		return
 	
 	_set_entry_tray_size_and_position_x.call_deferred()
 	
+	await GLOBAL.tree.create_timer(.000001).timeout
+	
 	if _is_entry_tray_folded:
-		await GLOBAL.tree.create_timer(.00001).timeout
 		_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
 		return
 
-	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	_entry_tray_tween.tween_method(
-		_tray_disappear_unfolded_animation,
-		0.0,
-		1.0,
-		TRAY_DISAPPEAR_DUR * .5,
-	)
+	_vbc_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
+	_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
+	_vbc_entry_tray.size.y = _max_entry_tray_size_y(_vbc_entry_tray.position.y)
 
 
 func load(save_dict: Dictionary) -> void:

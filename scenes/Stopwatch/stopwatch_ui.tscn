@@ -46,6 +46,7 @@ grow_end = 0.0
 thickness = 2
 
 [node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

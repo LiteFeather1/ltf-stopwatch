@@ -161,7 +161,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 	pin_toggled.emit(pinning)
 
 	# We await a small delay cuz the ui sizing takes time to update
-	await GLOBAL.tree.create_timer(.00001).timeout
+	await GLOBAL.tree.create_timer(.000001).timeout
 	_on_window_size_changed()
 
 
