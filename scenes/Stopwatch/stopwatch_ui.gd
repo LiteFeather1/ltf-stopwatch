@@ -133,6 +133,7 @@ func _ready() -> void:
 	_window_height_to_disappear_tray = (
 		_entry_tray_heading_height
 		+ _entry_height
+		+ _entry_tray_separation
 		+ _vbc_stopwatch_and_buttons.size.y
 		+ (parent_height - size.y) # Title bar size
 	)
@@ -684,9 +685,10 @@ func _stopwatch_upper_position() -> float:
 func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
 	return (
 		stopwatch_y_pos
-		+ _entry_tray_heading_height * 0.33
-		+ _stopwatch.size.y * _vbc_stopwatch_and_buttons.scale.y
-		+ _b_start.size.y * _b_start.scale.y
+		+ _entry_tray_separation
+		+ (_vbc_stopwatch_and_buttons.size.y * .5 * (
+			_vbc_stopwatch_and_buttons.scale.y + _b_start.scale.y
+		))
 	)
 
 
