@@ -195,7 +195,7 @@ func _ready() -> void:
 
 	_on_window_size_changed()
 
-	_set_entry_tray_size_and_position_x()
+	_set_entry_tray_size_and_position_x.call_deferred()
 
 	if _is_entry_tray_folded:
 		create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE).set_parallel()\
@@ -318,6 +318,8 @@ func fix_stopwatch_tray_positioning() -> void:
 		1.0,
 		TRAY_DISAPPEAR_DUR * .5,
 	)
+
+	_set_entry_tray_size_and_position_x.call_deferred()
 
 
 func load(save_dict: Dictionary) -> void:
@@ -687,6 +689,7 @@ func _stopwatch_upper_position() -> float:
 	return (size.y - _vbc_stopwatch_and_buttons.size.y) * (
 		.0 if GLOBAL.window.always_on_top else .25
 	)
+
 
 func _set_entry_tray_size_and_position_x() -> void:
 	_vbc_entry_tray.size.x = size.x * .9
