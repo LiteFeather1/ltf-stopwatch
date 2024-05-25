@@ -654,7 +654,7 @@ func _on_window_size_changed() -> void:
 		return
 
 	_vbc_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
-	
+
 	_vbc_entry_tray.size.y = _max_entry_tray_size_y()
 
 
@@ -672,13 +672,8 @@ func _set_b_start_continue() -> void:
 
 
 func _stopwatch_upper_position() -> float:
-	return (
-		(size.y - _vbc_stopwatch_and_buttons.size.y) * .5
-		- _vbc_stopwatch_and_buttons.pivot_offset.y * inverse_lerp(
-			_vbc_stopwatch_and_buttons.size.y,
-			GLOBAL.window.max_size.y,
-			GLOBAL.window.size.y,
-		)
+	return (size.y - _vbc_stopwatch_and_buttons.size.y) * (
+		.0 if GLOBAL.window.always_on_top else .25
 	)
 
 
