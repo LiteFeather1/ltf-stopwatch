@@ -195,8 +195,7 @@ func _ready() -> void:
 
 	_on_window_size_changed()
 
-	_vbc_entry_tray.size.x = GLOBAL.window.size.x * .9
-	_vbc_entry_tray.position.x = (size.x - _vbc_entry_tray.size.x) * .5
+	_set_entry_tray_size_and_position_x()
 
 	if _is_entry_tray_folded:
 		create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE).set_parallel()\
@@ -647,9 +646,7 @@ func _on_window_size_changed() -> void:
 	if _stopwatch_tray_entries_ui.is_empty():
 		return
 
-	# Set entry tray x size and position
-	_vbc_entry_tray.size.x = size.x * .9
-	_vbc_entry_tray.position.x = (size.x - _vbc_entry_tray.size.x) * .5
+	_set_entry_tray_size_and_position_x()
 
 	if not _set_entry_tray_visibility():
 		return
@@ -690,6 +687,10 @@ func _stopwatch_upper_position() -> float:
 	return (size.y - _vbc_stopwatch_and_buttons.size.y) * (
 		.0 if GLOBAL.window.always_on_top else .25
 	)
+
+func _set_entry_tray_size_and_position_x() -> void:
+	_vbc_entry_tray.size.x = size.x * .9
+	_vbc_entry_tray.position.x = (size.x - _vbc_entry_tray.size.x) * .5
 
 
 func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
