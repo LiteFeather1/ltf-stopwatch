@@ -45,7 +45,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_entry_tray", "_tray_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -65,8 +65,8 @@ _b_start = NodePath("stopwatch_and_buttons/buttons/b_start")
 _sprite_start = ExtResource("6_qv58p")
 _sprite_pause = ExtResource("3_fs0r6")
 _scene_stopwatch_entry_ui = ExtResource("4_ta478")
-_entry_tray = NodePath("stopwatch_tray_ui")
-_tray_container = NodePath("stopwatch_tray_ui/ScrollContainer/vbc_tray_container")
+_vbc_entry_tray = NodePath("stopwatch_tray_ui")
+_vbc_entry_container = NodePath("stopwatch_tray_ui/ScrollContainer/vbc_entry_container")
 _copy_menu_button = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray")
 _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
 _hbc_tray_heading = NodePath("stopwatch_tray_ui/hbc_tray_heading")
@@ -310,7 +310,7 @@ layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="vbc_tray_container" type="VBoxContainer" parent="stopwatch_tray_ui/ScrollContainer"]
+[node name="vbc_entry_container" type="VBoxContainer" parent="stopwatch_tray_ui/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
