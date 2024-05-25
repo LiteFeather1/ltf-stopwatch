@@ -59,6 +59,8 @@ var _stopwatch_and_buttons_separation: int
 
 var _entry_tray_tween: Tween
 var _entry_tray_heading_height: float
+var _entry_height: float
+var _window_height_to_disappear_tray: float
 var _is_entry_tray_visible: bool
 var _is_entry_tray_folded: bool
 
@@ -99,25 +101,37 @@ func _ready() -> void:
 	_stopwatch_and_buttons_separation = _stopwatch_and_buttons.get_theme_constant("separation")
 
 	_entry_tray_heading_height = (
-		_entry_tray.get_theme_constant("separation") * 2
+		_entry_tray.get_theme_constant("separation") * 2.0
 		+ _hbc_tray_heading.size.y * 2.0
 		+ _entry_tray.get_child(1).size.y # HSeparator
 	)
 
-	# Find min for h separation
+	var temp_entry := _scene_stopwatch_entry_ui.instantiate()
+	_entry_height = temp_entry.size.y
+	temp_entry.free()
+
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
 	_width_for_min_h_separation = int(label_pause_time.get_theme_font("font").get_string_size(
 		"%s%s%s" % [
 			TEMPLATE_SHORTEST_ENTRY % 69,
 			label_pause_time.text,
-			_hbc_tray_heading.get_child(2).text,
+			_hbc_tray_heading.get_child(2).text, # Resumed Label
 		],
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
 	).x + size.x - _entry_tray.size.x)
 
+	var parent_height := get_parent_area_size().y
+
 	await get_tree().process_frame
+
+	_window_height_to_disappear_tray = (
+		_entry_tray_heading_height
+		+ _entry_height
+		+ _stopwatch_and_buttons.size.y
+		+ (parent_height - size.y) # Title bar size
+	)
 
 	# Set up copy menu tray
 	var pop_up := _copy_menu_button.get_popup()
@@ -658,9 +672,9 @@ func _stopwatch_upper_position() -> float:
 	)
 
 
-func _entry_tray_y_position(stopwatch_height: float) -> float:
+func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
 	return (
-		stopwatch_height
+		stopwatch_y_pos
 		+ _entry_tray_heading_height * 0.33
 		+ _stopwatch.size.y * _stopwatch_and_buttons.scale.y
 		+ _b_start.size.y * _b_start.scale.y
@@ -699,8 +713,9 @@ func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _width_for_min_h_separation
-		# HACK This could be better calculated IE
-		and GLOBAL.window.size.y > _entry_tray_y_position(_entry_tray_heading_height * 1.75)
+		and GLOBAL.window.size.y > _window_height_to_disappear_tray * (
+			_stopwatch_and_buttons.scale.y + _b_start.scale.y
+		) * .5
 	)
 	if is_vis == _is_entry_tray_visible:
 		return is_vis
