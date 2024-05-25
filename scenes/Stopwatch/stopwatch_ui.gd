@@ -325,7 +325,6 @@ func fix_stopwatch_tray_positioning() -> void:
 	)
 
 
-
 func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
 		self[key] = save_dict[key]
@@ -673,7 +672,7 @@ func _on_window_size_changed() -> void:
 	_vbc_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
 	_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
 
-	_vbc_entry_tray.size.y = _max_entry_tray_size_y()
+	_vbc_entry_tray.size.y = _max_entry_tray_size_y(_vbc_entry_tray.position.y)
 
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
@@ -710,16 +709,20 @@ func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
 	)
 
 
-func _max_entry_tray_size_y() -> float:
-	return size.y - _vbc_entry_tray.position.y - _entry_tray_separation
+func _max_entry_tray_size_y(entry_tray_y_position: float) -> float:
+	return size.y - entry_tray_y_position - _entry_tray_separation
 
 
-func _tray_stopwatch_animation(t: float, stopwatch_end_y_pos: float) -> void:
+func _tray_stopwatch_animation(
+	t: float,
+	stopwatch_end_y_pos: float,
+	tray_end_y_pos: float,
+) -> void:
 	_vbc_stopwatch_and_buttons.position.y = lerpf(
-		(size.y - _vbc_stopwatch_and_buttons.size.y) * .5, stopwatch_end_y_pos,t
+		(size.y - _vbc_stopwatch_and_buttons.size.y) * .5, stopwatch_end_y_pos, t
 	)
 
-	_vbc_entry_tray.size.y = lerpf(0.0, _max_entry_tray_size_y(), t)
+	_vbc_entry_tray.size.y = lerpf(0.0, _max_entry_tray_size_y(tray_end_y_pos), t)
 
 
 func _tray_animation(t: float, to_y_pos: float) -> void:
@@ -731,8 +734,9 @@ func _tray_animation(t: float, to_y_pos: float) -> void:
 
 func _tray_disappear_unfolded_animation(t: float) -> void:
 	var stopwatch_upper_pos := _stopwatch_upper_position()
-	_tray_stopwatch_animation(t, stopwatch_upper_pos)
-	_tray_animation(t, _entry_tray_y_position(stopwatch_upper_pos))
+	var tray_end_y_pos := _entry_tray_y_position(stopwatch_upper_pos)
+	_tray_stopwatch_animation(t, stopwatch_upper_pos, tray_end_y_pos)
+	_tray_animation(t, tray_end_y_pos)
 
 
 func _tray_disappear_folded_animation(t: float) -> void:
@@ -782,7 +786,8 @@ func _set_entry_tray_visibility() -> bool:
 
 
 func _fold_tray_animation(t: float) -> void:
-	_tray_stopwatch_animation(t, _stopwatch_upper_position())
+	var stopwatch_end_y_pos := _stopwatch_upper_position()
+	_tray_stopwatch_animation(t, stopwatch_end_y_pos, _entry_tray_y_position(stopwatch_end_y_pos))
 	_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
 	_c_icon_fold_tray.rotation = lerp_angle(0.0, deg_to_rad(90.0), t)
 
