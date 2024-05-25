@@ -45,7 +45,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,11 +57,11 @@ grow_vertical = 2
 pivot_offset = Vector2(256, 256)
 mouse_filter = 2
 script = ExtResource("1_t7xu2")
-_stopwatch_and_buttons = NodePath("stopwatch_and_buttons")
-_stopwatch = NodePath("stopwatch_and_buttons/stopwatch")
-_b_reset = NodePath("stopwatch_and_buttons/buttons/b_reset")
-_b_clipboard = NodePath("stopwatch_and_buttons/buttons/b_clipboard")
-_b_start = NodePath("stopwatch_and_buttons/buttons/b_start")
+_vbc_stopwatch_and_buttons = NodePath("vbc_stopwatch_and_buttons")
+_stopwatch = NodePath("vbc_stopwatch_and_buttons/stopwatch")
+_b_reset = NodePath("vbc_stopwatch_and_buttons/buttons/b_reset")
+_b_clipboard = NodePath("vbc_stopwatch_and_buttons/buttons/b_clipboard")
+_b_start = NodePath("vbc_stopwatch_and_buttons/buttons/b_start")
 _sprite_start = ExtResource("6_qv58p")
 _sprite_pause = ExtResource("3_fs0r6")
 _scene_stopwatch_entry_ui = ExtResource("4_ta478")
@@ -76,7 +76,7 @@ _c_icon_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle
 _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
-[node name="stopwatch_and_buttons" type="VBoxContainer" parent="."]
+[node name="vbc_stopwatch_and_buttons" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(512, 196)
 layout_mode = 1
 anchors_preset = 8
@@ -94,15 +94,15 @@ pivot_offset = Vector2(256, 90)
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="stopwatch" parent="stopwatch_and_buttons" instance=ExtResource("2_m0v6e")]
+[node name="stopwatch" parent="vbc_stopwatch_and_buttons" instance=ExtResource("2_m0v6e")]
 layout_mode = 2
 
-[node name="buttons" type="Control" parent="stopwatch_and_buttons"]
+[node name="buttons" type="Control" parent="vbc_stopwatch_and_buttons"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="b_start" type="Button" parent="stopwatch_and_buttons/buttons"]
+[node name="b_start" type="Button" parent="vbc_stopwatch_and_buttons/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 95.5
@@ -128,7 +128,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "start"
 
-[node name="b_reset" type="Button" parent="stopwatch_and_buttons/buttons"]
+[node name="b_reset" type="Button" parent="vbc_stopwatch_and_buttons/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 223.5
@@ -151,7 +151,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "reset"
 
-[node name="b_clipboard" type="Button" parent="stopwatch_and_buttons/buttons"]
+[node name="b_clipboard" type="Button" parent="vbc_stopwatch_and_buttons/buttons"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 351.5
