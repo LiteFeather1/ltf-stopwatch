@@ -72,6 +72,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:
 	get_theme_stylebox("panel").bg_color = _pinned_colour if pinning else _normal_colour
+	_stopwatch_ui.fix_stopwatch_tray_positioning()
 
 
 func _quit_app() -> void:
