@@ -667,7 +667,7 @@ func _on_window_size_changed() -> void:
 		return
 
 	if _is_entry_tray_folded:
-		_vbc_entry_tray.position.y = _stopwatch_upper_position()
+		_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
 		return
 
 	_vbc_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
