@@ -77,20 +77,20 @@ _copied_pop_up = NodePath("l_copied_pop_up")
 _l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
 
 [node name="vbc_stopwatch_and_buttons" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(512, 196)
+custom_minimum_size = Vector2(510, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -256.0
-offset_top = -100.0
-offset_right = 256.0
-offset_bottom = 96.0
+offset_left = -255.0
+offset_top = -96.5
+offset_right = 255.0
+offset_bottom = 99.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(256, 90)
+pivot_offset = Vector2(256, 80)
 mouse_filter = 2
 theme_override_constants/separation = 4
 

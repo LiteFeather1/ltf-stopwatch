@@ -137,6 +137,11 @@ func _ready() -> void:
 		+ (parent_height - size.y) # Title bar size
 	)
 
+	_vbc_stopwatch_and_buttons.pivot_offset = Vector2(
+		_vbc_stopwatch_and_buttons.size.x * .5,
+		_vbc_stopwatch_and_buttons.size.y * .5 + _stopwatch.get_theme_constant("separation")
+	)
+
 	# Set up copy menu tray
 	var pop_up := _copy_menu_button.get_popup()
 	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
@@ -743,7 +748,10 @@ func _set_entry_tray_visibility() -> bool:
 		)
 	else:
 		_entry_tray_tween.tween_method(
-			animation, _vbc_entry_tray.modulate.a, 0.0, TRAY_DISAPPEAR_DUR * _vbc_entry_tray.modulate.a,
+			animation,
+			_vbc_entry_tray.modulate.a,
+			0.0,
+			TRAY_DISAPPEAR_DUR * _vbc_entry_tray.modulate.a,
 		)
 
 		_entry_tray_tween.tween_callback(func() -> void:

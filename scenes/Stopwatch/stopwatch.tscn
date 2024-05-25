@@ -9,17 +9,13 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1.0
 offset_right = -1.0
-offset_bottom = 122.0
+offset_bottom = 125.0
 grow_horizontal = 2
 pivot_offset = Vector2(255, 0)
 mouse_filter = 2
-theme_override_constants/separation = -16
+theme_override_constants/separation = -18
 script = ExtResource("1_s5has")
 _l_time = NodePath("l_time")
-
-[node name="HSeparator" type="HSeparator" parent="."]
-layout_mode = 2
-mouse_filter = 2
 
 [node name="l_time" type="RichTextLabel" parent="."]
 layout_mode = 2
