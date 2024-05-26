@@ -134,7 +134,6 @@ func _ready() -> void:
 		_entry_tray_heading_height
 		+ _entry_height
 		+ _entry_tray_separation
-		+ _vbc_stopwatch_and_buttons.size.y
 		+ (parent_height - size.y) # Title bar size
 	)
 
@@ -744,9 +743,13 @@ func _set_entry_tray_visibility() -> bool:
 	var is_vis := (
 		not _stopwatch_tray_entries_ui.is_empty()
 		and GLOBAL.window.size.x > _width_for_min_h_separation
-		and GLOBAL.window.size.y > _window_height_to_disappear_tray * (
+		and GLOBAL.window.size.y > (
+			_window_height_to_disappear_tray
+			+_stopwatch_upper_position() * .5
+			+ _vbc_stopwatch_and_buttons.size.y * .5 * (
 			_vbc_stopwatch_and_buttons.scale.y + _b_start.scale.y
-		) * .5
+			)
+		)
 	)
 	if is_vis == _is_entry_tray_visible:
 		return is_vis
