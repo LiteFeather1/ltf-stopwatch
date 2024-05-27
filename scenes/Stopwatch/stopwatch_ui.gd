@@ -60,7 +60,6 @@ var _stopwatch_and_buttons_separation: int
 
 var _entry_tray_separation: int
 var _entry_tray_heading_height: float
-var _entry_height: float
 var _window_height_to_disappear_tray: float
 
 var _is_entry_tray_visible: bool
@@ -113,7 +112,6 @@ func _ready() -> void:
 	)
 
 	var temp_entry := _scene_stopwatch_entry_ui.instantiate()
-	_entry_height = temp_entry.size.y
 	_p_hover_entry.size.y = temp_entry.size.y
 	temp_entry.free()
 
@@ -135,7 +133,7 @@ func _ready() -> void:
 
 	_window_height_to_disappear_tray = (
 		_entry_tray_heading_height
-		+ _entry_height
+		+ _p_hover_entry.size.y
 		+ _entry_tray_separation
 		+ (parent_height - size.y) # Title bar size
 	)
