@@ -701,6 +701,9 @@ func _set_entry_tray_size_and_position_x() -> void:
 	_vbc_entry_tray.size.x = size.x * .9
 	_vbc_entry_tray.position.x = (size.x - _vbc_entry_tray.size.x) * .5
 
+	_p_hover_entry.size.x = _vbc_entry_tray.size.x
+	_p_hover_entry.position.x = _vbc_entry_tray.position.x
+
 
 func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
 	return (
