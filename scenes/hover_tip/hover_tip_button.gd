@@ -92,7 +92,7 @@ func hide_hover_tip() -> void:
 		_tween.kill()
 	
 	_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	_tween.tween_property(self, "scale", Vector2(.5, .5), _animation_duration)
+	_tween.tween_property(self, ^"scale", Vector2(.5, .5), _animation_duration)
 	_tween.tween_callback(func() -> void:
 		visible = false
 	)
@@ -103,4 +103,4 @@ func _show() -> void:
 	scale = Vector2(.75, .75)
 	
 	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_tween.tween_property(self, "scale", Vector2(1.0, 1.0), _animation_duration)
+	_tween.tween_property(self, ^"scale", Vector2(1.0, 1.0), _animation_duration)

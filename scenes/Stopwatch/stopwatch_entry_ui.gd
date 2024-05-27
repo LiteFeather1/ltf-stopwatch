@@ -66,7 +66,6 @@ func _on_gui_input(event: InputEvent) -> void:
 		and _is_mouse_inside
 	):
 		deleted.emit(self)
-
 		delete_routine()
 
 
@@ -110,12 +109,12 @@ func delete_routine() -> void:
 	var offset := randf_range(48.0, 64.0) * dir
 	var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.tween_property(
-		self, "position:x",
+		self, ^"position:x",
 		position.x + offset,
 		randf_range(.15, .2),
 	)
 	tween.tween_property(
-		self, "position:x",
+		self, ^"position:x",
 		position.x -offset + size.x * -dir,
 		randf_range(.175, .25),
 	)
@@ -131,4 +130,4 @@ func modulate_animation(colour: Color, duration: float = .4, interval = .33) -> 
 	
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_interval(interval)
-	_tween.tween_property(_hbc, "modulate", colour, duration)
+	_tween.tween_property(_hbc, ^"modulate", colour, duration)
