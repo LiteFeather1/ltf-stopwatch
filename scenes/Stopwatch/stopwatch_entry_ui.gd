@@ -1,10 +1,11 @@
-class_name StopwatchEntryUI extends HBoxContainer
+class_name StopwatchEntryUI extends Panel
 
 
 signal hovered(instance: StopwatchEntryUI)
 signal deleted(instance: StopwatchEntryUI)
 
 
+@export var _hbc: HBoxContainer
 @export var _l_pause_span: Label
 @export var _l_pause_time: Label
 @export var _l_resume_time: Label
@@ -21,7 +22,6 @@ func init(
 	pause_time: String,
 	hover_message: String,
 	on_hovered: Callable,
-	on_mouse_exited: Callable,
 	on_deleted: Callable,
 	separation: int,
 ) -> void:
@@ -29,9 +29,8 @@ func init(
 	_l_pause_time.text = pause_time
 	_hover_message = hover_message
 	hovered.connect(on_hovered)
-	mouse_exited.connect(on_mouse_exited)
 	deleted.connect(on_deleted)
-	add_theme_constant_override("separation", separation)
+	_hbc.add_theme_constant_override("separation", separation)
 
 
 func _ready() -> void:
@@ -41,16 +40,18 @@ func _ready() -> void:
 
 
 func _on_mouse_entered() -> void:
+	self_modulate.a = 1.0
 	_is_mouse_inside = true
 	HOVER_TIP_FOLLOW.show_hover_tip(_hover_message)
 	hovered.emit(self)
 
 
 func _on_mouse_exited() -> void:
+	self_modulate.a = 0.0
 	_is_mouse_inside = false
 	HOVER_TIP_FOLLOW.hide_hover_tip()
 
-	if modulate == Color.WHITE:
+	if _hbc.modulate == Color.WHITE:
 		_tween.kill()
 	else:
 		modulate_animation(Color.WHITE, .25, .0)
@@ -67,6 +68,10 @@ func _on_gui_input(event: InputEvent) -> void:
 		deleted.emit(self)
 
 		delete_routine()
+
+
+func set_separation(separation: int) -> void:
+	_hbc.add_theme_constant_override("separation", separation)
 
 
 func set_pause_span(text: String) -> void:
@@ -126,4 +131,4 @@ func modulate_animation(colour: Color, duration: float = .4, interval = .33) -> 
 	
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_interval(interval)
-	_tween.tween_property(self, "modulate", colour, duration)
+	_tween.tween_property(_hbc, "modulate", colour, duration)

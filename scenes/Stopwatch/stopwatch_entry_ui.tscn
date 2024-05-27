@@ -1,31 +1,51 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckdwpgw2ltoie"]
+[gd_scene load_steps=3 format=3 uid="uid://ckdwpgw2ltoie"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_entry_ui.gd" id="1_qcgm0"]
 
-[node name="pause_tray_entry_ui" type="HBoxContainer" node_paths=PackedStringArray("_l_pause_span", "_l_pause_time", "_l_resume_time")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uvta"]
+bg_color = Color(0.309804, 0.309804, 0.309804, 0.498039)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="pause_tray_entry_ui" type="Panel" node_paths=PackedStringArray("_hbc", "_l_pause_span", "_l_pause_time", "_l_resume_time")]
+self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 24)
 offset_right = 420.0
-offset_bottom = 17.0
-theme_override_constants/separation = 60
-alignment = 1
+offset_bottom = 24.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_3uvta")
 script = ExtResource("1_qcgm0")
-_l_pause_span = NodePath("l_pause_span")
-_l_pause_time = NodePath("l_pause_time")
-_l_resume_time = NodePath("l_resume_time")
+_hbc = NodePath("HBoxContainer")
+_l_pause_span = NodePath("HBoxContainer/l_pause_span")
+_l_pause_time = NodePath("HBoxContainer/l_pause_time")
+_l_resume_time = NodePath("HBoxContainer/l_resume_time")
 
-[node name="l_pause_span" type="Label" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -8.5
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 60
+
+[node name="l_pause_span" type="Label" parent="HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
-text = "1 Shortest"
+text = " 1 Shortest"
 
-[node name="l_pause_time" type="Label" parent="."]
+[node name="l_pause_time" type="Label" parent="HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "00:00:00"
 
-[node name="l_resume_time" type="Label" parent="."]
+[node name="l_resume_time" type="Label" parent="HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
