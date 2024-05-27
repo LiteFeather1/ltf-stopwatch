@@ -112,7 +112,7 @@ func _ready() -> void:
 	)
 
 	var temp_entry := _scene_stopwatch_entry_ui.instantiate()
-	_p_hover_entry.size.y = temp_entry.size.y
+	_p_hover_entry.set_deferred(&"pos", temp_entry.size.y)
 	temp_entry.free()
 
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
