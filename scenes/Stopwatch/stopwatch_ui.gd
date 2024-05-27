@@ -9,8 +9,8 @@ enum CopyMenuFlags {
 
 const NAME := &"StopwatchUI"
 
-const TEMPLATE_LONGEST_ENTRY := &"#%d Longest"
-const TEMPLATE_SHORTEST_ENTRY := &"#%d Shortest"
+const TEMPLATE_LONGEST_ENTRY := &" #%d Longest"
+const TEMPLATE_SHORTEST_ENTRY := &" #%d Shortest"
 
 const PAUSES := &"Pauses"
 const PAUSE_TIME := &"Pause Time"
@@ -832,7 +832,7 @@ func _instantiate_stopwatch_entry_ui(
 
 	var time_state := _stopwatch.get_time_state()
 	new_entry.init(
-		"#%d" % (insert_at + 1),
+		" #%d" % (insert_at + 1),
 		Time.get_time_string_from_unix_time(time_state.get_paused_time(insert_at)),
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
