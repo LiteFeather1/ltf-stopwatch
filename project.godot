@@ -12,12 +12,13 @@ config_version=5
 
 config/name="LTF Stopwatch"
 config/description="A simple Stopwatch made with Godot"
-config/version="0.9.5"
+config/version="1.0.0"
 run/main_scene="res://main.tscn"
 config/auto_accept_quit=false
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.2", "GL Compatibility")
 run/max_fps=144
+run/low_processor_mode=true
 run/delta_smoothing=false
 boot_splash/bg_color=Color(0.211765, 0.239216, 0.321569, 1)
 boot_splash/image="res://assets/icons/boot_splash.png"
