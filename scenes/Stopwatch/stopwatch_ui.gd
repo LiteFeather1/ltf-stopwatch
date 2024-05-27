@@ -43,7 +43,6 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _scene_stopwatch_entry_ui: PackedScene
 @export var _vbc_entry_tray: VBoxContainer
 @export var _vbc_entry_container: VBoxContainer
-@export var _p_hover_entry: Panel
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
@@ -112,7 +111,7 @@ func _ready() -> void:
 	)
 
 	var temp_entry := _scene_stopwatch_entry_ui.instantiate()
-	_p_hover_entry.set_deferred(&"pos", temp_entry.size.y)
+	var entry_height: float = temp_entry.size.y
 	temp_entry.free()
 
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)
@@ -133,7 +132,7 @@ func _ready() -> void:
 
 	_window_height_to_disappear_tray = (
 		_entry_tray_heading_height
-		+ _p_hover_entry.size.y
+		+ entry_height
 		+ _entry_tray_separation
 		+ (parent_height - size.y) # Title bar size
 	)
@@ -657,7 +656,7 @@ func _on_window_size_changed() -> void:
 	var h_separation := _get_h_separation_entry_tray()
 	_hbc_tray_heading.add_theme_constant_override("separation", h_separation)
 	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
-		entry.add_theme_constant_override("separation", h_separation)
+		entry.set_separation(h_separation)
 
 	if _entry_tray_tween.is_running():
 		return
@@ -674,12 +673,6 @@ func _on_window_size_changed() -> void:
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
 	entry.modulate_animation(_hover_entry_colour)
-	_p_hover_entry.global_position.y = entry.global_position.y + (entry.size.y - _p_hover_entry.size.y) * .5
-	_p_hover_entry.visible = true
-
-
-func _on_stopwatch_mouse_exited() -> void:
-	_p_hover_entry.visible = false
 
 
 func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
@@ -700,9 +693,6 @@ func _stopwatch_upper_position() -> float:
 func _set_entry_tray_size_and_position_x() -> void:
 	_vbc_entry_tray.size.x = size.x * .9
 	_vbc_entry_tray.position.x = (size.x - _vbc_entry_tray.size.x) * .5
-
-	_p_hover_entry.size.x = _vbc_entry_tray.size.x
-	_p_hover_entry.position.x = _vbc_entry_tray.position.x
 
 
 func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
@@ -846,7 +836,6 @@ func _instantiate_stopwatch_entry_ui(
 		Time.get_time_string_from_unix_time(time_state.get_paused_time(insert_at)),
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
-		_on_stopwatch_mouse_exited,
 		_on_stopwatch_entry_deleted,
 		separation,
 	)
