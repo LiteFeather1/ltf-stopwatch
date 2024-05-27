@@ -43,6 +43,7 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _scene_stopwatch_entry_ui: PackedScene
 @export var _vbc_entry_tray: VBoxContainer
 @export var _vbc_entry_container: VBoxContainer
+@export var _p_hover_entry: Panel
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
@@ -673,6 +674,8 @@ func _on_window_size_changed() -> void:
 
 func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
 	entry.modulate_animation(_hover_entry_colour)
+	_p_hover_entry.global_position.y = entry.global_position.y + (entry.size.y - _p_hover_entry.size.y) * .5
+	_p_hover_entry.visible = true
 
 
 func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
@@ -747,7 +750,7 @@ func _set_entry_tray_visibility() -> bool:
 			_window_height_to_disappear_tray
 			+_stopwatch_upper_position() * .5
 			+ _vbc_stopwatch_and_buttons.size.y * .5 * (
-			_vbc_stopwatch_and_buttons.scale.y + _b_start.scale.y
+				_vbc_stopwatch_and_buttons.scale.y + _b_start.scale.y
 			)
 		)
 	)
@@ -759,9 +762,9 @@ func _set_entry_tray_visibility() -> bool:
 	if _entry_tray_tween:
 		_entry_tray_tween.kill()
 
-	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	var animation := _tray_disappear_folded_animation if _is_entry_tray_folded\
 		else _tray_disappear_unfolded_animation
+	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	if is_vis:
 		_vbc_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
@@ -927,7 +930,7 @@ func _find_longest_shortest_times() -> void:
 	var resumed_size := time_state.resumed_times_size()
 	if resumed_size < 2:
 		return
-	
+
 	var longest_pause_span := -Global.FLOAT_MAX
 	_longest_entry_index = 0
 	var shortest_pause_span := Global.FLOAT_MAX
@@ -942,6 +945,6 @@ func _find_longest_shortest_times() -> void:
 		if pause_span < shortest_pause_span:
 			shortest_pause_span = pause_span
 			_shortest_entry_index = i
-	
+
 	_set_entry_span(_longest_entry_index, TEMPLATE_LONGEST_ENTRY)
 	_set_entry_span(_shortest_entry_index, TEMPLATE_SHORTEST_ENTRY)

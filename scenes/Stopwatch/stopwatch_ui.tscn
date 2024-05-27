@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene load_steps=32 format=3 uid="uid://c4glodl21jgi2"]
 
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
@@ -27,6 +27,13 @@
 [ext_resource type="Shortcut" uid="uid://fsc6dr5lfjcp" path="res://resources/shortcuts/stopwatch_ui/stopwatch_toggle_tray.tres" id="24_7isgv"]
 [ext_resource type="Texture2D" uid="uid://dckkc0ig18fnj" path="res://assets/sprites/buttons_stopwatch/s_button_toggle_tray.svg" id="24_wc2h0"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b760k"]
+bg_color = Color(0.309804, 0.309804, 0.309804, 0.498039)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os5fx"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
@@ -45,7 +52,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_p_hover_entry", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_pop_up", "_l_copied_time")]
 clip_contents = true
 layout_mode = 3
 anchors_preset = 15
@@ -68,6 +75,7 @@ _sprite_pause = ExtResource("3_fs0r6")
 _scene_stopwatch_entry_ui = ExtResource("4_ta478")
 _vbc_entry_tray = NodePath("stopwatch_tray_ui")
 _vbc_entry_container = NodePath("stopwatch_tray_ui/ScrollContainer/vbc_entry_container")
+_p_hover_entry = NodePath("p_hovering_entry")
 _copy_menu_button = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray")
 _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
 _hbc_tray_heading = NodePath("stopwatch_tray_ui/hbc_tray_heading")
@@ -176,6 +184,24 @@ icon = ExtResource("11_1p55s")
 icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "copy to cliboard"
+
+[node name="p_hovering_entry" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -12.0
+offset_right = -26.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0, 12)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b760k")
 
 [node name="stopwatch_tray_ui" type="VBoxContainer" parent="."]
 visible = false
