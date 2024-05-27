@@ -101,11 +101,10 @@ func _ready() -> void:
 
 	_stopwatch_and_buttons_separation = _vbc_stopwatch_and_buttons.get_theme_constant("separation")
 
-	_entry_tray_separation = _vbc_entry_container.get_theme_constant("separation")
+	_entry_tray_separation = _vbc_entry_tray.get_theme_constant("separation")
 
 	_entry_tray_heading_height = (
-		_vbc_entry_tray.get_theme_constant("separation")
-		+ _entry_tray_separation
+		+ _entry_tray_separation * 2
 		+ _hbc_tray_heading.size.y * 2.0
 		+ _vbc_entry_tray.get_child(1).size.y # HSeparator
 	)
@@ -198,7 +197,7 @@ func _ready() -> void:
 
 	if _is_entry_tray_folded:
 		create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE).set_parallel()\
-			.tween_property(_c_icon_fold_tray, "rotation", 0.0, TRAY_DISAPPEAR_DUR)
+			.tween_property(_c_icon_fold_tray, ^"rotation", 0.0, TRAY_DISAPPEAR_DUR)
 
 
 func restore_last_time_state() -> void:
@@ -307,11 +306,11 @@ func pause_stopwatch_if_running() -> void:
 func fix_stopwatch_tray_positioning() -> void:
 	if not _vbc_entry_tray.visible or _entry_tray_tween.is_running():
 		return
-	
-	_set_entry_tray_size_and_position_x.call_deferred()
-	
+
 	await GLOBAL.tree.create_timer(.000001).timeout
-	
+
+	_set_entry_tray_size_and_position_x()
+
 	if _is_entry_tray_folded:
 		_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
 		return
@@ -421,7 +420,7 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 	_copied_pop_up.visible = true
 
 	_pop_up_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_pop_up_tween.tween_property(_copied_pop_up, "scale:y", _pop_up_scale, .25)
+	_pop_up_tween.tween_property(_copied_pop_up, ^"scale:y", _pop_up_scale, .25)
 	_pop_up_tween.tween_callback(func() -> void:
 		_copied_pop_up.visible = false
 	).set_delay(.66)
@@ -859,7 +858,7 @@ func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> vo
 
 
 func _delete_stopwatch_entry_ui(index: int) -> void:
-	_stopwatch_tray_entries_ui[index].modulate = _hover_entry_colour
+	_stopwatch_tray_entries_ui[index].set_colour(_hover_entry_colour)
 	_stopwatch_tray_entries_ui.remove_at(index)
 
 	var time_state := _stopwatch.get_time_state()

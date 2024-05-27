@@ -65,6 +65,7 @@ func _on_gui_input(event: InputEvent) -> void:
 		and mb_event.is_released()
 		and _is_mouse_inside
 	):
+		self_modulate.a = 0.0
 		deleted.emit(self)
 		delete_routine()
 
@@ -131,3 +132,7 @@ func modulate_animation(colour: Color, duration: float = .4, interval = .33) -> 
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_interval(interval)
 	_tween.tween_property(_hbc, ^"modulate", colour, duration)
+
+
+func set_colour(colour: Color) -> void:
+	_hbc.modulate = colour
