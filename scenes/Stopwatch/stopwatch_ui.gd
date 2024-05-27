@@ -106,13 +106,15 @@ func _ready() -> void:
 	_entry_tray_separation = _vbc_entry_container.get_theme_constant("separation")
 
 	_entry_tray_heading_height = (
-		_vbc_entry_tray.get_theme_constant("separation") * 2.0
+		_vbc_entry_tray.get_theme_constant("separation")
+		+ _entry_tray_separation
 		+ _hbc_tray_heading.size.y * 2.0
 		+ _vbc_entry_tray.get_child(1).size.y # HSeparator
 	)
 
 	var temp_entry := _scene_stopwatch_entry_ui.instantiate()
 	_entry_height = temp_entry.size.y
+	_p_hover_entry.size.y = temp_entry.size.y
 	temp_entry.free()
 
 	var label_pause_time: Label = _hbc_tray_heading.get_child(1)

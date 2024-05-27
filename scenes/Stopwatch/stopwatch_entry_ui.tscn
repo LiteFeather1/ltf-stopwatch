@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_entry_ui.gd" id="1_qcgm0"]
 
 [node name="pause_tray_entry_ui" type="HBoxContainer" node_paths=PackedStringArray("_l_pause_span", "_l_pause_time", "_l_resume_time")]
+custom_minimum_size = Vector2(0, 24)
 offset_right = 420.0
 offset_bottom = 17.0
 theme_override_constants/separation = 60

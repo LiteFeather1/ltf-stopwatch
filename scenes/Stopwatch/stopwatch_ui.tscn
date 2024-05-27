@@ -339,7 +339,7 @@ horizontal_scroll_mode = 0
 [node name="vbc_entry_container" type="VBoxContainer" parent="stopwatch_tray_ui/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 0
 
 [node name="l_copied_pop_up" type="Panel" parent="."]
 visible = false
