@@ -678,6 +678,10 @@ func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
 	_p_hover_entry.visible = true
 
 
+func _on_stopwatch_mouse_exited() -> void:
+	_p_hover_entry.visible = false
+
+
 func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
 	_delete_stopwatch_entry_ui(_stopwatch_tray_entries_ui.find(entry))
 
@@ -839,6 +843,7 @@ func _instantiate_stopwatch_entry_ui(
 		Time.get_time_string_from_unix_time(time_state.get_paused_time(insert_at)),
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
+		_on_stopwatch_mouse_exited,
 		_on_stopwatch_entry_deleted,
 		separation,
 	)

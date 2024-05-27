@@ -187,7 +187,6 @@ _tip_name = "copy to cliboard"
 
 [node name="p_hovering_entry" type="Panel" parent="."]
 visible = false
-custom_minimum_size = Vector2(0, 24)
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5

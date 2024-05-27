@@ -21,6 +21,7 @@ func init(
 	pause_time: String,
 	hover_message: String,
 	on_hovered: Callable,
+	on_mouse_exited: Callable,
 	on_deleted: Callable,
 	separation: int,
 ) -> void:
@@ -28,6 +29,7 @@ func init(
 	_l_pause_time.text = pause_time
 	_hover_message = hover_message
 	hovered.connect(on_hovered)
+	mouse_exited.connect(on_mouse_exited)
 	deleted.connect(on_deleted)
 	add_theme_constant_override("separation", separation)
 
