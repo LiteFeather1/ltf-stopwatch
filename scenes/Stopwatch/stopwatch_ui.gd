@@ -9,8 +9,9 @@ enum CopyMenuFlags {
 
 const NAME := &"StopwatchUI"
 
-const TEMPLATE_LONGEST_ENTRY := &" #%d Longest"
-const TEMPLATE_SHORTEST_ENTRY := &" #%d Shortest"
+const TEMPLATE_NUM_ENTRY := &" #%d"
+const TEMPLATE_LONGEST_ENTRY := &"%s Longest" % TEMPLATE_NUM_ENTRY
+const TEMPLATE_SHORTEST_ENTRY := &"%s Shortest" % TEMPLATE_NUM_ENTRY
 
 const PAUSES := &"Pauses"
 const PAUSE_TIME := &"Pause Time"
@@ -275,7 +276,7 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 		)
 
 	for i: int in range(index + 1, _stopwatch_tray_entries_ui.size()):
-		_stopwatch_tray_entries_ui[i].set_pause_span("#%d" % (i + 1))
+		_stopwatch_tray_entries_ui[i].set_pause_span(TEMPLATE_NUM_ENTRY % (i + 1))
 
 	if resumed_size < 2:
 		return
@@ -480,16 +481,16 @@ func _copy_menu_tray_entries(
 			Time.get_time_string_from_unix_time(time_state.get_resumed_time(i)),
 			(template_pause_span % Global.seconds_to_time(time_state.pause_span(i)))
 				if show_pause_span else "",
-			(template_longest_shortest % "#%d" % pause_span_indexes[i])
+			(template_longest_shortest % TEMPLATE_NUM_ENTRY % pause_span_indexes[i])
 				if show_longest_shortest else ""
 		]
 	
 	if show_longest_shortest:
 		entries_text[base_size + _longest_entry_index] = entries_text[base_size + _longest_entry_index].replace(
-			template_longest_shortest % "#%d" % (resumed_size - 1), template_longest_shortest % "Longest"
+			template_longest_shortest % TEMPLATE_NUM_ENTRY % (resumed_size - 1), template_longest_shortest % "Longest"
 		)
 		entries_text[base_size + _shortest_entry_index] = entries_text[base_size + _shortest_entry_index].replace(
-			template_longest_shortest % "#%d" % 0, template_longest_shortest % "Shortest"
+			template_longest_shortest % TEMPLATE_NUM_ENTRY % 0, template_longest_shortest % "Shortest"
 		)
 
 	_set_clipboard("\n".join(entries_text), message)
@@ -831,7 +832,7 @@ func _instantiate_stopwatch_entry_ui(
 
 	var time_state := _stopwatch.get_time_state()
 	new_entry.init(
-		" #%d" % (insert_at + 1),
+		TEMPLATE_NUM_ENTRY % (insert_at + 1),
 		Time.get_time_string_from_unix_time(time_state.get_paused_time(insert_at)),
 		Global.seconds_to_time(time_state.get_elapsed_time(insert_at)),
 		_on_stopwatch_entry_hovered,
@@ -867,7 +868,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 	_set_entry_tray_visibility()
 
 	for i: int in range(index, _stopwatch_tray_entries_ui.size()):
-		_stopwatch_tray_entries_ui[i].replace_pause_num("#%d" % (i + 2), str(i + 1))
+		_stopwatch_tray_entries_ui[i].replace_pause_num(TEMPLATE_NUM_ENTRY % (i + 2), str(i + 1))
 
 	var was_longest := index == _longest_entry_index
 	var was_shortest := index == _shortest_entry_index
@@ -914,7 +915,7 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 
 
 func _clear_entry_suffix(index: int) -> void:
-	_stopwatch_tray_entries_ui[index].set_pause_span("#%d" % (index + 1))
+	_stopwatch_tray_entries_ui[index].set_pause_span(TEMPLATE_NUM_ENTRY % (index + 1))
 
 
 func _set_entry_span(index: int, template: StringName) -> void:
