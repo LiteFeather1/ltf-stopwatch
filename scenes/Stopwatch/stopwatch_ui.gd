@@ -644,19 +644,12 @@ func _on_window_size_changed() -> void:
 	_b_reset.scale = b_scale
 	_b_clipboard.scale = b_scale
 
-	if _stopwatch_tray_entries_ui.is_empty():
+	if _stopwatch_tray_entries_ui.is_empty() or not _set_entry_tray_visibility():
 		return
+
+	_set_entry_tray_separation()
 
 	_set_entry_tray_size_and_position_x()
-
-	if not _set_entry_tray_visibility():
-		return
-
-	# Set tray separation
-	var h_separation := _get_h_separation_entry_tray()
-	_hbc_tray_heading.add_theme_constant_override("separation", h_separation)
-	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
-		entry.set_separation(h_separation)
 
 	if _entry_tray_tween.is_running():
 		return
@@ -691,8 +684,15 @@ func _stopwatch_upper_position() -> float:
 
 
 func _set_entry_tray_size_and_position_x() -> void:
-	_vbc_entry_tray.size.x = size.x * .9
+	_vbc_entry_tray.size.x = GLOBAL.window.size.x * .9
 	_vbc_entry_tray.position.x = (size.x - _vbc_entry_tray.size.x) * .5
+
+
+func _set_entry_tray_separation() -> void:
+	var h_separation = _get_h_separation_entry_tray()
+	_hbc_tray_heading.add_theme_constant_override("separation", h_separation)
+	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
+		entry.set_separation(h_separation)
 
 
 func _entry_tray_y_position(stopwatch_y_pos: float) -> float:
@@ -763,6 +763,9 @@ func _set_entry_tray_visibility() -> bool:
 		else _tray_disappear_unfolded_animation
 	_entry_tray_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	if is_vis:
+		_set_entry_tray_separation()
+		_set_entry_tray_size_and_position_x()
+
 		_vbc_entry_tray.visible = true
 		_entry_tray_tween.tween_method(
 			animation,
