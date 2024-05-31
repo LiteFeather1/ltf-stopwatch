@@ -103,9 +103,14 @@ func _input(event: InputEvent) -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
-	if mb_event and mb_event.button_index == MOUSE_BUTTON_LEFT:
+	if not mb_event:
+		return
+
+	if mb_event.button_index == MOUSE_BUTTON_LEFT:
 		set_process_input(not is_processing_input())
 		_start_drag_pos = mb_event.position
+	elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
+		GLOBAL.window.mode = Window.MODE_MINIMIZED
 
 
 func load(save_dict: Dictionary) -> void:
