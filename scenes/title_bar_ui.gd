@@ -43,6 +43,8 @@ var _window_size: Vector2i
 var _window_pinned_position: Vector2i
 var _window_pinned_size: Vector2i
 
+var _is_mouse_in: bool = false
+
 
 func _enter_tree() -> void:
 	add_to_group(Main.SAVEABLE)
@@ -56,6 +58,9 @@ func _ready() -> void:
 	_b_minimise.pressed.connect(_minimise_window)
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
+
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 	_b_minimise.add_theme_stylebox_override(
 		HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate()
@@ -111,6 +116,7 @@ func _gui_input(event: InputEvent) -> void:
 		_start_drag_pos = mb_event.position
 	elif (
 		mb_event.button_index == MOUSE_BUTTON_RIGHT
+		and _is_mouse_in
 		and mb_event.is_released()
 	):
 		GLOBAL.window.mode = Window.MODE_MINIMIZED
@@ -184,6 +190,14 @@ func _on_window_size_changed() -> void:
 		_l_title.visible_ratio = _mid_title_length / _long_title_length
 	else:
 		_l_title.visible_ratio = 1.0
+
+
+func _on_mouse_entered() -> void:
+	_is_mouse_in = true
+
+
+func _on_mouse_exited() -> void:
+	_is_mouse_in = false
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
