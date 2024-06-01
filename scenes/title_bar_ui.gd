@@ -109,7 +109,10 @@ func _gui_input(event: InputEvent) -> void:
 	if mb_event.button_index == MOUSE_BUTTON_LEFT:
 		set_process_input(not is_processing_input())
 		_start_drag_pos = mb_event.position
-	elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
+	elif (
+		mb_event.button_index == MOUSE_BUTTON_RIGHT
+		and mb_event.is_released()
+	):
 		GLOBAL.window.mode = Window.MODE_MINIMIZED
 
 
