@@ -112,8 +112,14 @@ func _gui_input(event: InputEvent) -> void:
 		return
 
 	if mb_event.button_index == MOUSE_BUTTON_LEFT:
-		set_process_input(not is_processing_input())
-		_start_drag_pos = mb_event.position
+		if (
+			(mb_event.alt_pressed or mb_event.is_command_or_control_pressed())
+			and mb_event.is_released()
+		):
+			_b_pin.button_pressed = not _b_pin.button_pressed
+		else:
+			set_process_input(not is_processing_input())
+			_start_drag_pos = mb_event.position
 	elif (
 		mb_event.button_index == MOUSE_BUTTON_RIGHT
 		and _is_mouse_in
