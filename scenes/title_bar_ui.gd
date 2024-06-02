@@ -125,6 +125,8 @@ func _gui_input(event: InputEvent) -> void:
 				GLOBAL.window.size = GLOBAL.window.max_size
 			else:
 				GLOBAL.window.size = GLOBAL.window.min_size
+
+			_delay_window_size_changed()
 	elif (
 		mb_event.button_index == MOUSE_BUTTON_RIGHT
 		and _is_mouse_in
@@ -185,9 +187,7 @@ func _toggle_pin_window(pinning: bool) -> void:
 
 	pin_toggled.emit(pinning)
 
-	# We await a small delay cuz the ui sizing takes time to update
-	await GLOBAL.tree.create_timer(.000001).timeout
-	_on_window_size_changed()
+	_delay_window_size_changed()
 
 
 func _minimise_window() -> void:
@@ -214,3 +214,9 @@ func _on_mouse_exited() -> void:
 func _set_minimise_corner_radius(radius: int) -> void:
 	_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_right = radius
 	_b_minimise.get_theme_stylebox(PRESSED).corner_radius_top_right = radius
+
+
+# We await a small delay cuz the ui sizing takes time to update
+func _delay_window_size_changed() -> void:
+	await GLOBAL.tree.create_timer(.000001).timeout
+	_on_window_size_changed()
