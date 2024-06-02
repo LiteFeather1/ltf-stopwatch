@@ -101,7 +101,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	var m_event := event as InputEventMouse
+	var m_event := event as InputEventMouseMotion
 	if m_event:
 		GLOBAL.window.position += Vector2i(m_event.position - _start_drag_pos)
 
