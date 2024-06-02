@@ -88,6 +88,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	# Connect to signals
 	_stopwatch.started.connect(_on_stopwatch_started)
 	_stopwatch.paused.connect(_stopwatch_paused)
 	_stopwatch.resumed.connect(_stopwatch_resumed)
@@ -100,6 +101,7 @@ func _ready() -> void:
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
+	# Set sizes
 	_stopwatch_and_buttons_separation = _vbc_stopwatch_and_buttons.get_theme_constant("separation")
 
 	_entry_tray_separation = _vbc_entry_tray.get_theme_constant("separation")
@@ -107,7 +109,7 @@ func _ready() -> void:
 	_entry_tray_heading_height = (
 		+ _entry_tray_separation * 2
 		+ _hbc_tray_heading.size.y * 2.0
-		+ _vbc_entry_tray.get_child(1).size.y # HSeparator
+		+ _vbc_entry_tray.get_child(1).size.y
 	)
 
 	var temp_entry := _scene_stopwatch_entry_ui.instantiate()
@@ -119,7 +121,7 @@ func _ready() -> void:
 		"%s%s%s" % [
 			TEMPLATE_SHORTEST_ENTRY % 69,
 			label_pause_time.text,
-			_hbc_tray_heading.get_child(2).text, # Resumed Label
+			_hbc_tray_heading.get_child(2).text,
 		],
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1,
@@ -234,7 +236,7 @@ func restore_last_time_state() -> void:
 
 		_instantiate_stopwatch_entries_ui(resumed_size - tray_size, tray_size)
 	
-	# Set existing matched entries
+	# Fix existing matched entries
 	for i: int in to_set_in_tray:
 		_stopwatch_tray_entries_ui[i].set_times(
 			Time.get_time_string_from_unix_time(time_state.get_paused_time(i)),
@@ -363,12 +365,10 @@ func _stopwatch_resumed() -> void:
 	if index < 1:
 		return
 
-	# Two entries. None has longest nor shortest
 	if index == 1:
 		_find_longest_shortest_times()
 	else:
 		var pause_span := time_state.pause_span(index)
-		# Check if new entry is new longest or shortest
 		if pause_span >= time_state.pause_span(_longest_entry_index):
 			_clear_entry_suffix(_longest_entry_index)
 			_longest_entry_index = index

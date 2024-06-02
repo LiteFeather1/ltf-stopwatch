@@ -216,7 +216,7 @@ func _set_minimise_corner_radius(radius: int) -> void:
 	_b_minimise.get_theme_stylebox(PRESSED).corner_radius_top_right = radius
 
 
-# We await a small delay cuz the ui sizing takes time to update
+# We await a small delay cuz the ui sizes takes time to update
 func _delay_window_size_changed() -> void:
 	await GLOBAL.tree.create_timer(.000001).timeout
 	_on_window_size_changed()

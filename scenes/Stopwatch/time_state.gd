@@ -175,7 +175,7 @@ func save() -> Dictionary:
 func _clear_redo() -> void:
 		_redo_deleted_indexes.clear()
 
-# We could use a command pattern instead of this
+# We could use a command pattern or instead of this 
 class DeletedEntry extends Object:
 	var index: int
 	var paused_time: int

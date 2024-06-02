@@ -59,8 +59,6 @@ func show_hover_tip(c: Control, text: String, shortcut_text := "") -> void:
 	var right := new_x + size.x
 	var out_x := 0.0
 
-	# This is only checkign right side. Checking left wouldn't be too difficult
-	# but it's not necessary due to the current layout of buttons
 	if GLOBAL.window.size.x <= right:
 		out_x = GLOBAL.window.size.x - right - _label_padding.x
 		new_x += out_x
