@@ -146,7 +146,7 @@ func _ready() -> void:
 
 	# Set up copy menu tray
 	var pop_up := _copy_menu_button.get_popup()
-	pop_up.id_pressed.connect(_on_copy_menu_id_pressed)
+	pop_up.index_pressed.connect(_on_copy_menu_id_pressed)
 
 	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy MD Table"]
 	var items_calls := [

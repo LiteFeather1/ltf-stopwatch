@@ -278,6 +278,7 @@ grow_horizontal = 0
 grow_vertical = 2
 pivot_offset = Vector2(12, 12)
 focus_mode = 0
+mouse_default_cursor_shape = 2
 shortcut = ExtResource("24_7isgv")
 shortcut_in_tooltip = false
 icon_alignment = 1
