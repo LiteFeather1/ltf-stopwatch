@@ -116,8 +116,9 @@ func _gui_input(event: InputEvent) -> void:
 		_start_drag_pos = mb_event.position
 
 		if (
-			(mb_event.alt_pressed or mb_event.is_command_or_control_pressed())
+			_is_mouse_in
 			and mb_event.is_released()
+			and (mb_event.alt_pressed or mb_event.is_command_or_control_pressed())
 		):
 			_b_pin.button_pressed = not _b_pin.button_pressed
 		elif mb_event.double_click:
@@ -128,9 +129,9 @@ func _gui_input(event: InputEvent) -> void:
 
 			_delay_window_size_changed()
 	elif (
-		mb_event.button_index == MOUSE_BUTTON_RIGHT
-		and _is_mouse_in
+		_is_mouse_in
 		and mb_event.is_released()
+		and mb_event.button_index == MOUSE_BUTTON_RIGHT
 	):
 		GLOBAL.window.mode = Window.MODE_MINIMIZED
 
