@@ -5,6 +5,8 @@ signal hovered(instance: StopwatchEntryUI)
 signal deleted(instance: StopwatchEntryUI)
 
 
+const TEMPLATE := &" %s"
+
 @export var _hbc: HBoxContainer
 @export var _l_pause_span: Label
 @export var _l_pause_time: Label
@@ -26,7 +28,7 @@ func init(
 	separation: int,
 ) -> void:
 	_l_pause_span.text = span
-	_l_pause_time.text = pause_time
+	_l_pause_time.text = TEMPLATE % pause_time
 	_hover_message = hover_message
 	hovered.connect(on_hovered)
 	deleted.connect(on_deleted)
@@ -42,7 +44,7 @@ func _ready() -> void:
 func _on_mouse_entered() -> void:
 	self_modulate.a = 1.0
 	_is_mouse_inside = true
-	HOVER_TIP_FOLLOW.show_hover_tip(_hover_message)
+	HOVER_TIP_FOLLOW.show_hover_tip("time:\n%s" % _hover_message)
 	hovered.emit(self)
 
 
@@ -87,13 +89,13 @@ func set_times(
 	resumed_time: String,
 	hover_message: String,
 ) -> void:
-	_l_pause_time.text = paused_time
-	_l_resume_time.text = resumed_time
+	_l_pause_time.text = TEMPLATE % paused_time
+	_l_resume_time.text = TEMPLATE % resumed_time
 	_hover_message = hover_message
 
 
 func set_resume_time(time: String) -> void:
-	_l_resume_time.text = time
+	_l_resume_time.text = TEMPLATE % time
 
 
 func delete_routine() -> void:

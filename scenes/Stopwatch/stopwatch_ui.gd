@@ -9,7 +9,7 @@ enum CopyMenuFlags {
 
 const NAME := &"StopwatchUI"
 
-const TEMPLATE_NUM_ENTRY := &" #%d"
+const TEMPLATE_NUM_ENTRY := &"#%d"
 const TEMPLATE_LONGEST_ENTRY := &"%s Longest" % TEMPLATE_NUM_ENTRY
 const TEMPLATE_SHORTEST_ENTRY := &"%s Shortest" % TEMPLATE_NUM_ENTRY
 
@@ -871,7 +871,9 @@ func _delete_stopwatch_entry_ui(index: int) -> void:
 	_set_entry_tray_visibility()
 
 	for i: int in range(index, _stopwatch_tray_entries_ui.size()):
-		_stopwatch_tray_entries_ui[i].replace_pause_num(TEMPLATE_NUM_ENTRY % (i + 2), str(i + 1))
+		_stopwatch_tray_entries_ui[i].replace_pause_num(
+			TEMPLATE_NUM_ENTRY % (i + 2), TEMPLATE_NUM_ENTRY % (i + 1)
+		)
 
 	var was_longest := index == _longest_entry_index
 	var was_shortest := index == _shortest_entry_index
