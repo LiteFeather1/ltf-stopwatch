@@ -48,6 +48,9 @@ theme_override_constants/separation = 0
 [node name="title_bar_ui" parent="VBoxContainer" instance=ExtResource("4_uv45h")]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+_window_margin_when_pinning = Vector2i(-32, 32)
+_mid_title_length = 8
+_short_title_length = 5
 
 [node name="stopwatch_ui" parent="VBoxContainer" instance=ExtResource("2_cujrr")]
 layout_mode = 2

@@ -42,6 +42,8 @@ var _long_title_length: float
 var _width_for_mid_title: float
 var _width_for_short_title: float
 
+var _popup_menu_id_to_call: Dictionary
+
 var _start_drag_pos: Vector2
 var _window_position: Vector2i = Vector2i(-1, 1)
 var _window_size: Vector2i
@@ -61,13 +63,15 @@ func _ready() -> void:
 	_tr_icon.gui_input.connect(_on_icon_gui_input)
 
 	_b_close.pressed.connect(_close_window)
-	_b_pin.toggled.connect(_toggle_pin_window)
+	_b_pin.toggled.connect(_on_button_pin_toggled)
 	_b_minimise.pressed.connect(_minimise_window)
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+
+	_popup_menu.id_pressed.connect(_on_popup_menu_id_pressed)
 
 	_b_minimise.add_theme_stylebox_override(
 		HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate()
@@ -91,8 +95,15 @@ func _ready() -> void:
 
 	_popup_menu.transient = false
 
+	var calls := [
+		_toggle_pin_window,
+		_minimise_window,
+		_set_window_max_size,
+		_set_window_min_size,
+	]
 	for i in _popup_menu_items.size():
 		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
+		_popup_menu_id_to_call[i] = calls[i]
 
 	await GLOBAL.tree.process_frame
 
@@ -132,20 +143,18 @@ func _gui_input(event: InputEvent) -> void:
 			and mb_event.is_released()
 			and (mb_event.alt_pressed or mb_event.is_command_or_control_pressed())
 		):
-			_b_pin.button_pressed = not _b_pin.button_pressed
+			_toggle_pin_window()
 		elif mb_event.double_click:
 			if GLOBAL.window.size != GLOBAL.window.max_size:
-				GLOBAL.window.size = GLOBAL.window.max_size
+				_set_window_max_size()
 			else:
-				GLOBAL.window.size = GLOBAL.window.min_size
-
-			_delay_window_size_changed()
+				_set_window_min_size()
 	elif _is_mouse_in and mb_event.is_released():
 		if mb_event.button_index == MOUSE_BUTTON_MIDDLE:
 			GLOBAL.window.mode = Window.MODE_MINIMIZED
 		elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
 			_popup_menu.position = GLOBAL.window.position + Vector2i(mb_event.position)
-			_popup_menu.visible = true
+			_popup_menu.show()
 
 
 func load(save_dict: Dictionary) -> void:
@@ -180,17 +189,17 @@ func _on_icon_gui_input(event: InputEvent) -> void:
 		_popup_menu.position = GLOBAL.window.position + Vector2i(
 			int(_tr_icon.size.x * .5), int(size.y)
 		)
-		_popup_menu.visible = true
+		_popup_menu.show()
 	elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
 		_popup_menu.position = GLOBAL.window.position + Vector2i(mb_event.position)
-		_popup_menu.visible = true
+		_popup_menu.show()
 
 
 func _close_window() -> void:
 	close_pressed.emit()
 
 
-func _toggle_pin_window(pinning: bool) -> void:
+func _on_button_pin_toggled(pinning: bool) -> void:
 	_b_close.visible = not pinning
 	GLOBAL.window.always_on_top = pinning
 
@@ -243,6 +252,10 @@ func _on_mouse_exited() -> void:
 	_is_mouse_in = false
 
 
+func _on_popup_menu_id_pressed(id: int) -> void:
+	_popup_menu_id_to_call[id].call()
+
+
 func _set_minimise_corner_radius(radius: int) -> void:
 	_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_right = radius
 	_b_minimise.get_theme_stylebox(PRESSED).corner_radius_top_right = radius
@@ -252,3 +265,17 @@ func _set_minimise_corner_radius(radius: int) -> void:
 func _delay_window_size_changed() -> void:
 	await GLOBAL.tree.create_timer(.000001).timeout
 	_on_window_size_changed()
+
+
+func _toggle_pin_window() -> void:
+	_b_pin.button_pressed = not _b_pin.button_pressed
+
+
+func _set_window_max_size() -> void:
+	GLOBAL.window.size = GLOBAL.window.max_size
+	_delay_window_size_changed()
+
+
+func _set_window_min_size() -> void:
+	GLOBAL.window.size = GLOBAL.window.min_size
+	_delay_window_size_changed()
