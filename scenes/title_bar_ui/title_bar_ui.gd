@@ -275,8 +275,10 @@ func _delay_window_size_changed() -> void:
 func _show_popup_menu() -> void:
 	if _b_pin.button_pressed:
 		_popup_menu.set_item_text(POPUP_INDEX_PIN, UNPIN)
+		_popup_menu.set_item_icon(POPUP_INDEX_PIN, _sprite_unpin)
 	else:
 		_popup_menu.set_item_text(POPUP_INDEX_PIN, PIN)
+		_popup_menu.set_item_icon(POPUP_INDEX_PIN, _sprite_pin)
 
 	_popup_menu.show()
 
