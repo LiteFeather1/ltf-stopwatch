@@ -105,6 +105,9 @@ func _ready() -> void:
 		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
 
 	_popup_menu.add_separator()
+	var shortcut := Shortcut.new()
+	shortcut.events = InputMap.action_get_events("restore_last_time_state")
+	_popup_menu_items[4].set_shortcut(shortcut)
 	_popup_menu_items[4].add_to_popup_menu(_popup_menu, 5)
 
 	_popup_menu.add_separator()
