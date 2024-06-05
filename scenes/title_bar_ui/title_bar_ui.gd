@@ -14,8 +14,13 @@ const SAVE_KEYS: PackedStringArray = [
 	"_window_pinned_size",
 ]
 
+const PIN := &"pin"
+const UNPIN := &"unpin"
+
 const HOVER := &"hover"
 const PRESSED := &"pressed"
+
+const POPUP_INDEX_PIN := 0
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
@@ -154,7 +159,7 @@ func _gui_input(event: InputEvent) -> void:
 			GLOBAL.window.mode = Window.MODE_MINIMIZED
 		elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
 			_popup_menu.position = GLOBAL.window.position + Vector2i(mb_event.position)
-			_popup_menu.show()
+			_show_popup_menu()
 
 
 func load(save_dict: Dictionary) -> void:
@@ -189,10 +194,10 @@ func _on_icon_gui_input(event: InputEvent) -> void:
 		_popup_menu.position = GLOBAL.window.position + Vector2i(
 			int(_tr_icon.size.x * .5), int(size.y)
 		)
-		_popup_menu.show()
+		_show_popup_menu()
 	elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
 		_popup_menu.position = GLOBAL.window.position + Vector2i(mb_event.position)
-		_popup_menu.show()
+		_show_popup_menu()
 
 
 func _close_window() -> void:
@@ -205,7 +210,7 @@ func _on_button_pin_toggled(pinning: bool) -> void:
 
 	if pinning:
 		_b_pin.icon = _sprite_unpin
-		_b_pin.set_tip_name("unpin")
+		_b_pin.set_tip_name(UNPIN)
 
 		_set_minimise_corner_radius(_b_close.get_theme_stylebox(HOVER).corner_radius_top_right)
 
@@ -216,7 +221,7 @@ func _on_button_pin_toggled(pinning: bool) -> void:
 		GLOBAL.window.size = _window_pinned_size
 	else:
 		_b_pin.icon = _sprite_pin
-		_b_pin.set_tip_name("pin")
+		_b_pin.set_tip_name(PIN)
 
 		_set_minimise_corner_radius(_b_minimise.get_theme_stylebox(HOVER).corner_radius_top_left)
 
@@ -265,6 +270,15 @@ func _set_minimise_corner_radius(radius: int) -> void:
 func _delay_window_size_changed() -> void:
 	await GLOBAL.tree.create_timer(.000001).timeout
 	_on_window_size_changed()
+
+
+func _show_popup_menu() -> void:
+	if _b_pin.button_pressed:
+		_popup_menu.set_item_text(POPUP_INDEX_PIN, UNPIN)
+	else:
+		_popup_menu.set_item_text(POPUP_INDEX_PIN, PIN)
+
+	_popup_menu.show()
 
 
 func _toggle_pin_window() -> void:
