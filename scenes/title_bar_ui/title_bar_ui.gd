@@ -138,6 +138,9 @@ func _gui_input(event: InputEvent) -> void:
 	elif _is_mouse_in and mb_event.is_released():
 		if mb_event.button_index == MOUSE_BUTTON_MIDDLE:
 			GLOBAL.window.mode = Window.MODE_MINIMIZED
+		elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
+			_popup_menu.position = GLOBAL.window.position + Vector2i(mb_event.position)
+			_popup_menu.visible = true
 
 
 func load(save_dict: Dictionary) -> void:
