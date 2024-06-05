@@ -86,6 +86,8 @@ func _ready() -> void:
 		_l_title.text.substr(0, _mid_title_length), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
 	).x + 2.0
 
+	_popup_menu.transient = false
+
 	for i in _popup_menu_items.size():
 		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
 

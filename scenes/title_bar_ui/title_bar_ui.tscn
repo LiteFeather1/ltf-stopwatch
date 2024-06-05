@@ -175,3 +175,5 @@ script = ExtResource("3_whgq5")
 _tip_name = "close"
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
+always_on_top = true
+theme_override_font_sizes/font_size = 10
