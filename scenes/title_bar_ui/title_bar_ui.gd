@@ -49,7 +49,13 @@ var _long_title_length: float
 var _width_for_mid_title: float
 var _width_for_short_title: float
 
-var _popup_menu_id_to_call: Dictionary
+var _popup_menu_id_to_call: Dictionary = {
+	0: _toggle_pin_window,
+	1: _minimise_window,
+	2: _set_window_max_size,
+	3: _set_window_min_size,
+	4: _close_window,
+}
 
 var _start_drag_pos: Vector2
 var _window_position: Vector2i = Vector2i(-1, 1)
@@ -102,15 +108,10 @@ func _ready() -> void:
 
 	_popup_menu.transient = false
 
-	var calls := [
-		_toggle_pin_window,
-		_minimise_window,
-		_set_window_max_size,
-		_set_window_min_size,
-	]
-	for i in _popup_menu_items.size():
+
 		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
 		_popup_menu_id_to_call[i] = calls[i]
+
 
 	await GLOBAL.tree.process_frame
 
