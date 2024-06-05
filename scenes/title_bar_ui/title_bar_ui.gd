@@ -22,6 +22,7 @@ const PRESSED := &"pressed"
 
 const POPUP_INDEX_PIN := 0
 const POPUP_INDEX_MAX_SIZE := 2
+const POPUP_INDEX_MIN_SIZE := 3
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
@@ -283,6 +284,10 @@ func _show_popup_menu() -> void:
 
 	_popup_menu.set_item_disabled(
 		POPUP_INDEX_MAX_SIZE, GLOBAL.window.size == GLOBAL.window.max_size
+	)
+
+	_popup_menu.set_item_disabled(
+		POPUP_INDEX_MIN_SIZE, GLOBAL.window.size == GLOBAL.window.min_size
 	)
 
 	_popup_menu.show()
