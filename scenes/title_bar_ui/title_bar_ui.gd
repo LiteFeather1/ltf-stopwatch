@@ -54,7 +54,7 @@ var _popup_menu_id_to_call: Dictionary = {
 	1: _minimise_window,
 	2: _set_window_max_size,
 	3: _set_window_min_size,
-	4: _close_window,
+	6: _close_window,
 }
 
 var _start_drag_pos: Vector2
@@ -108,10 +108,13 @@ func _ready() -> void:
 
 	_popup_menu.transient = false
 
-
+	const FIRST_SET := 4
+	for i in FIRST_SET:
 		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
-		_popup_menu_id_to_call[i] = calls[i]
 
+	_popup_menu.add_separator()
+
+	_popup_menu_items[FIRST_SET].add_to_popup_menu(_popup_menu, FIRST_SET + 1)
 
 	await GLOBAL.tree.process_frame
 
