@@ -33,6 +33,10 @@ const PRESSED := &"pressed"
 @export var _sprite_pin: Texture2D
 @export var _sprite_unpin: Texture2D
 
+@export_category("Popup Menu")
+@export var _popup_menu: PopupMenu
+@export var _popup_menu_items: Array[PopupMenuItem]
+
 var _long_title_length: float
 var _width_for_mid_title: float
 var _width_for_short_title: float
@@ -81,6 +85,9 @@ func _ready() -> void:
 	_width_for_short_title = font.get_string_size(
 		_l_title.text.substr(0, _mid_title_length), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
 	).x + 2.0
+
+	for i in _popup_menu_items.size():
+		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
 
 	await GLOBAL.tree.process_frame
 

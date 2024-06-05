@@ -116,6 +116,7 @@ PopupMenu/colors/font_color = Color(0.968627, 0.968627, 0.992157, 1)
 PopupMenu/colors/font_hover_color = Color(0.968627, 0.968627, 0.968627, 1)
 PopupMenu/colors/font_separator_color = Color(0.875, 0.875, 0.875, 1)
 PopupMenu/constants/h_separation = 8
+PopupMenu/constants/icon_max_width = 16
 PopupMenu/constants/item_end_padding = 4
 PopupMenu/constants/item_start_padding = 8
 PopupMenu/constants/v_separation = 8
