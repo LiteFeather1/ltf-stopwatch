@@ -175,10 +175,14 @@ func _on_icon_gui_input(event: InputEvent) -> void:
 		or not _tr_icon.get_rect().has_point(mb_event.position)
 	):
 		return
+
 	if mb_event.button_index == MOUSE_BUTTON_LEFT:
 		_popup_menu.position = GLOBAL.window.position + Vector2i(
 			int(_tr_icon.size.x * .5), int(size.y)
 		)
+		_popup_menu.visible = true
+	elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
+		_popup_menu.position = GLOBAL.window.position + Vector2i(mb_event.position)
 		_popup_menu.visible = true
 
 
