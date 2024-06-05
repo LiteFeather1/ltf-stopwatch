@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=19 format=3 uid="uid://b2u5b2xehfur0"]
+[gd_resource type="Theme" load_steps=20 format=3 uid="uid://b2u5b2xehfur0"]
 
 [ext_resource type="FontFile" uid="uid://hrmfuoadomq0" path="res://assets/fonts/space_mono/SpaceMono-Regular.ttf" id="1_u3pcg"]
 [ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="2_rjol7"]
@@ -54,6 +54,12 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ulu34"]
+color = Color(1, 1, 1, 0.121569)
+grow_begin = -8.0
+grow_end = -8.0
+thickness = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wklb"]
 bg_color = Color(0.270588, 0.270588, 0.270588, 1)
@@ -131,6 +137,7 @@ PopupMenu/styles/hover = SubResource("StyleBoxFlat_gc8ml")
 PopupMenu/styles/labeled_separator_left = SubResource("StyleBoxLine_o7ans")
 PopupMenu/styles/labeled_separator_right = SubResource("StyleBoxLine_or2gc")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_h1ink")
+PopupMenu/styles/separator = SubResource("StyleBoxLine_ulu34")
 RichTextLabel/fonts/normal_font = ExtResource("1_u3pcg")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_2wklb")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_qhyk2")
