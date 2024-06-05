@@ -21,6 +21,7 @@ const PRESSED := &"pressed"
 
 @export_category("Title")
 @export var _l_title: Label
+@export var _tr_icon: TextureRect
 @export var _mid_title_length: int = 8
 @export var _short_title_length: int = 5
 
@@ -56,6 +57,8 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	set_process_input(false)
+
+	_tr_icon.gui_input.connect(_on_icon_gui_input)
 
 	_b_close.pressed.connect(_close_window)
 	_b_pin.toggled.connect(_toggle_pin_window)
@@ -162,6 +165,18 @@ func save() -> Dictionary:
 	for key: String in SAVE_KEYS:
 		save_dict[key] = var_to_str(self[key])
 	return save_dict
+
+
+func _on_icon_gui_input(event: InputEvent) -> void:
+	var mb_event := event as InputEventMouseButton
+	if not mb_event:
+		return
+
+	if mb_event.is_released() and mb_event.button_index == MOUSE_BUTTON_LEFT:
+		_popup_menu.position = GLOBAL.window.position + Vector2i(
+			int(_tr_icon.size.x * .5), int(size.y)
+		)
+		_popup_menu.visible = true
 
 
 func _close_window() -> void:
