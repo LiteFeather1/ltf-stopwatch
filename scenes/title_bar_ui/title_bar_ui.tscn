@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://c5al7x880yw8t"]
 
-[ext_resource type="Script" path="res://scenes/title_bar_ui.gd" id="1_8lk40"]
+[ext_resource type="Script" path="res://scenes/title_bar_ui/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://dbow7jib5a2st" path="res://assets/sprites/buttons_title_bar/s_pin_button.svg" id="2_b70b5"]
 [ext_resource type="Texture2D" uid="uid://blnni3cgdpn8r" path="res://assets/sprites/buttons_title_bar/s_unpin_button.svg" id="3_1s23j"]
 [ext_resource type="StyleBox" uid="uid://dvjr08r8ak11w" path="res://resources/themes/title_bar_buttons/normal_title_bar_button.tres" id="3_s80vr"]
@@ -149,3 +149,5 @@ icon = ExtResource("13_1ngmv")
 icon_alignment = 1
 script = ExtResource("3_whgq5")
 _tip_name = "close"
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
