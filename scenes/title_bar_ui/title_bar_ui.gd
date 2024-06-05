@@ -169,10 +169,13 @@ func save() -> Dictionary:
 
 func _on_icon_gui_input(event: InputEvent) -> void:
 	var mb_event := event as InputEventMouseButton
-	if not mb_event:
+	if (
+		not mb_event
+		or mb_event.is_pressed()
+		or not _tr_icon.get_rect().has_point(mb_event.position)
+	):
 		return
-
-	if mb_event.is_released() and mb_event.button_index == MOUSE_BUTTON_LEFT:
+	if mb_event.button_index == MOUSE_BUTTON_LEFT:
 		_popup_menu.position = GLOBAL.window.position + Vector2i(
 			int(_tr_icon.size.x * .5), int(size.y)
 		)
