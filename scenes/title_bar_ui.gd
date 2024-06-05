@@ -128,12 +128,9 @@ func _gui_input(event: InputEvent) -> void:
 				GLOBAL.window.size = GLOBAL.window.min_size
 
 			_delay_window_size_changed()
-	elif (
-		_is_mouse_in
-		and mb_event.is_released()
-		and mb_event.button_index == MOUSE_BUTTON_RIGHT
-	):
-		GLOBAL.window.mode = Window.MODE_MINIMIZED
+	elif _is_mouse_in and mb_event.is_released():
+		if mb_event.button_index == MOUSE_BUTTON_MIDDLE:
+			GLOBAL.window.mode = Window.MODE_MINIMIZED
 
 
 func load(save_dict: Dictionary) -> void:
