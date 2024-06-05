@@ -4,6 +4,8 @@ class_name TitleBarUI extends Panel
 signal pin_toggled(state: bool)
 signal close_pressed()
 
+signal last_stopwatch_pressed()
+
 
 const NAME := &"TitleBarUI"
 
@@ -76,8 +78,6 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-	_popup_menu.id_pressed.connect(_on_popup_menu_id_pressed)
-
 	_b_minimise.add_theme_stylebox_override(
 		HOVER, _b_minimise.get_theme_stylebox(HOVER).duplicate()
 	)
@@ -98,15 +98,17 @@ func _ready() -> void:
 		_l_title.text.substr(0, _mid_title_length), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
 	).x + 2.0
 
+	_popup_menu.id_pressed.connect(_on_popup_menu_id_pressed)
 	_popup_menu.transient = false
 
-	const FIRST_SET := 4
-	for i in FIRST_SET:
+	for i in 4:
 		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
 
 	_popup_menu.add_separator()
+	_popup_menu_items[4].add_to_popup_menu(_popup_menu, 5)
 
-	_popup_menu_items[FIRST_SET].add_to_popup_menu(_popup_menu, FIRST_SET + 1)
+	_popup_menu.add_separator()
+	_popup_menu_items[5].add_to_popup_menu(_popup_menu, 7)
 
 	await GLOBAL.tree.process_frame
 
@@ -266,6 +268,8 @@ func _on_popup_menu_id_pressed(id: int) -> void:
 		3:
 			_set_window_min_size()
 		5:
+			last_stopwatch_pressed.emit()
+		7:
 			_close_window()
 
 

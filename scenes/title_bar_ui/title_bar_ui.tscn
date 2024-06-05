@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=26 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/title_bar_ui/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://dbow7jib5a2st" path="res://assets/sprites/buttons_title_bar/s_pin_button.svg" id="2_b70b5"]
@@ -44,6 +44,10 @@ _label = "max size"
 script = ExtResource("8_2akc7")
 _label = "min size"
 
+[sub_resource type="Resource" id="Resource_erq3l"]
+script = ExtResource("5_530k2")
+_label = "last stopwatch"
+
 [sub_resource type="Resource" id="Resource_hc6td"]
 script = ExtResource("5_530k2")
 _shortcut = ExtResource("15_xh8yy")
@@ -69,7 +73,7 @@ _b_pin = NodePath("hbc_title_bar/hbc_buttons/b_pin")
 _sprite_pin = ExtResource("2_b70b5")
 _sprite_unpin = ExtResource("3_1s23j")
 _popup_menu = NodePath("PopupMenu")
-_popup_menu_items = Array[ExtResource("8_2akc7")]([SubResource("Resource_op4bx"), SubResource("Resource_mou00"), SubResource("Resource_o70ey"), SubResource("Resource_h0i42"), SubResource("Resource_hc6td")])
+_popup_menu_items = Array[ExtResource("8_2akc7")]([SubResource("Resource_op4bx"), SubResource("Resource_mou00"), SubResource("Resource_o70ey"), SubResource("Resource_h0i42"), SubResource("Resource_erq3l"), SubResource("Resource_hc6td")])
 
 [node name="hbc_title_bar" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -186,4 +190,5 @@ _tip_name = "close"
 transparent_bg = true
 handle_input_locally = false
 always_on_top = true
+transparent = true
 theme_override_font_sizes/font_size = 11
