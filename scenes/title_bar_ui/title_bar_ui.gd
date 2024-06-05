@@ -49,14 +49,6 @@ var _long_title_length: float
 var _width_for_mid_title: float
 var _width_for_short_title: float
 
-var _popup_menu_id_to_call: Dictionary = {
-	0: _toggle_pin_window,
-	1: _minimise_window,
-	2: _set_window_max_size,
-	3: _set_window_min_size,
-	6: _close_window,
-}
-
 var _start_drag_pos: Vector2
 var _window_position: Vector2i = Vector2i(-1, 1)
 var _window_size: Vector2i
@@ -162,7 +154,7 @@ func _gui_input(event: InputEvent) -> void:
 				_set_window_min_size()
 	elif _is_mouse_in and mb_event.is_released():
 		if mb_event.button_index == MOUSE_BUTTON_MIDDLE:
-			GLOBAL.window.mode = Window.MODE_MINIMIZED
+			_minimise_window()
 		elif mb_event.button_index == MOUSE_BUTTON_RIGHT:
 			_popup_menu.position = GLOBAL.window.position + Vector2i(mb_event.position)
 			_show_popup_menu()
@@ -264,7 +256,17 @@ func _on_mouse_exited() -> void:
 
 
 func _on_popup_menu_id_pressed(id: int) -> void:
-	_popup_menu_id_to_call[id].call()
+	match id:
+		0:
+			_toggle_pin_window()
+		1:
+			_minimise_window()
+		2:
+			_set_window_max_size()
+		3:
+			_set_window_min_size()
+		5:
+			_close_window()
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
