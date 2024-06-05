@@ -21,6 +21,7 @@ const HOVER := &"hover"
 const PRESSED := &"pressed"
 
 const POPUP_INDEX_PIN := 0
+const POPUP_INDEX_MAX_SIZE := 2
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
@@ -279,6 +280,10 @@ func _show_popup_menu() -> void:
 	else:
 		_popup_menu.set_item_text(POPUP_INDEX_PIN, PIN)
 		_popup_menu.set_item_icon(POPUP_INDEX_PIN, _sprite_pin)
+
+	_popup_menu.set_item_disabled(
+		POPUP_INDEX_MAX_SIZE, GLOBAL.window.size == GLOBAL.window.max_size
+	)
 
 	_popup_menu.show()
 
