@@ -145,8 +145,12 @@ func _ready() -> void:
 	)
 
 	# Set up copy menu tray
-	var pop_up := _copy_menu_button.get_popup()
-	pop_up.index_pressed.connect(_on_copy_menu_id_pressed)
+	var popup := _copy_menu_button.get_popup()
+	popup.submenu_popup_delay = .1
+	# This doesn't seem like a very save way to do this but don't know any other way since get_child(0) doen't seem to work
+	popup.get_node(^"@MarginContainer@8/@ScrollContainer@9/@Control@10")\
+		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
+	popup.index_pressed.connect(_on_copy_menu_id_pressed)
 
 	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy MD Table"]
 	var items_calls := [
@@ -158,16 +162,18 @@ func _ready() -> void:
 	var items_size := ITEMS.size()
 	_copy_menu_callables.resize(items_size)
 	for i: int in items_size:
-		pop_up.add_icon_item(_copy_menu_items_icons[i], ITEMS[i], i)
+		popup.add_icon_item(_copy_menu_items_icons[i], ITEMS[i], i)
 		_copy_menu_callables[i] = items_calls[i]
 
 	_options_menu_popup = PopupMenu.new()
 	_options_menu_popup.hide_on_checkable_item_selection = false
+	_options_menu_popup.get_node(^"@MarginContainer@14/@ScrollContainer@15/@Control@16")\
+		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
 	const SUB_MENU_NAME := &"options"
 	_options_menu_popup.name = SUB_MENU_NAME
-	pop_up.add_child(_options_menu_popup)
+	popup.add_child(_options_menu_popup)
 	_options_menu_popup.id_pressed.connect(_on_options_menu_id_pressed)
-	pop_up.add_submenu_item("Options", SUB_MENU_NAME, items_size)
+	popup.add_submenu_item("Options", SUB_MENU_NAME, items_size)
 
 	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
 	var options_calls := [
