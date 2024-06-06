@@ -1,4 +1,4 @@
-class_name ShortcutPopupMenuItem extends PopupMenuItem
+class_name PopupMenuItemShorcut extends PopupMenuItem
 
 
 @export var _shortcut: Shortcut
