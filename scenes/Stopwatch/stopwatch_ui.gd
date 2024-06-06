@@ -82,6 +82,8 @@ var _width_for_min_h_separation: int
 var _pop_up_scale := 1.0
 var _pop_up_tween: Tween
 
+@onready var _copied_initial_y_pos := _copied_pop_up.position.y
+
 
 func _enter_tree() -> void:
 	add_to_group(Main.SAVEABLE)
@@ -423,9 +425,11 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 	if _pop_up_tween:
 		_pop_up_tween.kill()
 
+		_copied_pop_up.modulate.a = .1
+		_copied_pop_up.position.y = _copied_initial_y_pos
+
 	_copied_pop_up.scale.y = .0
 	_copied_pop_up.visible = true
-	_copied_pop_up.modulate.a = .1
 
 	# popup copy appear animation
 	const DUR := .66
@@ -440,7 +444,7 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 	_pop_up_tween.parallel().tween_property(_copied_pop_up, ^"modulate:a", .1, DUR_DISAPPEAR)
 	_pop_up_tween.tween_callback(func() -> void:
 		_copied_pop_up.visible = false
-		_copied_pop_up.position.y -= MOVE_DISTANCE
+		_copied_pop_up.position.y = _copied_initial_y_pos
 	)
 
 
