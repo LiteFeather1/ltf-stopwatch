@@ -423,11 +423,16 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 	if _pop_up_tween:
 		_pop_up_tween.kill()
 
-	_copied_pop_up.scale.y = 0.0
+	_copied_pop_up.scale.y = .0
 	_copied_pop_up.visible = true
+	_copied_pop_up.modulate.a = .1
 
+	# popup copy appear animation
+	const DUR := .66
 	_pop_up_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_pop_up_tween.tween_property(_copied_pop_up, ^"scale:y", _pop_up_scale, .25)
+	_pop_up_tween.tween_property(_copied_pop_up, ^"scale:y", _pop_up_scale, DUR)
+	_pop_up_tween.parallel().tween_property(_copied_pop_up, ^"modulate:a", 1.0, DUR)
+
 	_pop_up_tween.tween_callback(func() -> void:
 		_copied_pop_up.visible = false
 	).set_delay(.66)
