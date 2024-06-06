@@ -433,9 +433,15 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 	_pop_up_tween.tween_property(_copied_pop_up, ^"scale:y", _pop_up_scale, DUR)
 	_pop_up_tween.parallel().tween_property(_copied_pop_up, ^"modulate:a", 1.0, DUR)
 
+	const MOVE_DISTANCE := 32.0
+	const DUR_DISAPPEAR := .2
+	_pop_up_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
+		.tween_property(_copied_pop_up, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
+	_pop_up_tween.parallel().tween_property(_copied_pop_up, ^"modulate:a", .1, DUR_DISAPPEAR)
 	_pop_up_tween.tween_callback(func() -> void:
 		_copied_pop_up.visible = false
-	).set_delay(.66)
+		_copied_pop_up.position.y -= MOVE_DISTANCE
+	)
 
 
 func _copy_elapsed_time_to_clipboard() -> void:
