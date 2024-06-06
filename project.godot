@@ -44,7 +44,6 @@ window/size/window_width_override=512
 window/size/window_height_override=512
 window/subwindows/embed_subwindows=false
 window/per_pixel_transparency/allowed=true
-window/vsync/vsync_mode=0
 
 [filesystem]
 

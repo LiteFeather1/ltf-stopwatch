@@ -173,6 +173,8 @@ func load(save_dict: Dictionary) -> void:
 		OS.low_processor_usage_mode = false
 		Engine.max_fps = 0
 		_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_unchecked)
+	else:
+		Engine.max_fps = int(DisplayServer.screen_get_refresh_rate(GLOBAL.window.current_screen)) -1
 
 
 func save() -> Dictionary:
@@ -282,7 +284,9 @@ func _on_popup_menu_id_pressed(id: int) -> void:
 		7:
 			OS.low_processor_usage_mode = not OS.low_processor_usage_mode
 			if OS.low_processor_usage_mode:
-				Engine.max_fps = 60
+				Engine.max_fps = int(DisplayServer.screen_get_refresh_rate(
+					GLOBAL.window.current_screen
+				)) -1
 				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_checked)
 			else:
 				Engine.max_fps = 0
