@@ -17,7 +17,7 @@ run/main_scene="res://main.tscn"
 config/auto_accept_quit=false
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.2", "GL Compatibility")
-run/max_fps=144
+run/max_fps=60
 run/low_processor_mode=true
 run/delta_smoothing=false
 boot_splash/bg_color=Color(0.211765, 0.239216, 0.321569, 1)
@@ -37,6 +37,7 @@ GLOBAL="*res://scripts/global.gd"
 
 window/size/viewport_width=512
 window/size/viewport_height=512
+window/size/resizable=false
 window/size/borderless=true
 window/size/transparent=true
 window/size/window_width_override=512
