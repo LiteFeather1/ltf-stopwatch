@@ -269,6 +269,13 @@ func _on_popup_menu_id_pressed(id: int) -> void:
 		5:
 			last_stopwatch_pressed.emit()
 		7:
+			if OS.low_processor_usage_mode:
+				OS.low_processor_usage_mode = false
+				Engine.max_fps = 0
+			else:
+				OS.low_processor_usage_mode = true
+				Engine.max_fps = 60
+		9:
 			_close_window()
 
 
