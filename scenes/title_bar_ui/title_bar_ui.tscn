@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=36 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/title_bar_ui/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://dbow7jib5a2st" path="res://assets/sprites/buttons_title_bar/s_pin_button.svg" id="2_b70b5"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://b58ugamqjmaon" path="res://assets/sprites/buttons_title_bar/s_close_button.svg" id="13_1ngmv"]
 [ext_resource type="Texture2D" uid="uid://di411ik4158j6" path="res://assets/sprites/icons_copy_menu/checked.svg" id="13_88p1r"]
 [ext_resource type="Shortcut" uid="uid://drp1v76joiq6v" path="res://resources/shortcuts/title_bar_ui/shortcut_close_window.tres" id="15_xh8yy"]
+[ext_resource type="Texture2D" uid="uid://dmgsoqb5n02a7" path="res://assets/sprites/icons_copy_menu/unchecked.svg" id="16_5cm07"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbryd"]
 bg_color = Color(0, 0, 0, 0.25)
@@ -99,6 +100,8 @@ _sprite_pin = ExtResource("2_b70b5")
 _sprite_unpin = ExtResource("3_1s23j")
 _popup_menu = NodePath("PopupMenu")
 _popup_menu_items = Array[ExtResource("11_rhklr")]([SubResource("Resource_op4bx"), SubResource("Resource_mou00"), SubResource("Resource_o70ey"), SubResource("Resource_h0i42"), SubResource("Resource_02k5d"), SubResource("Resource_erq3l"), SubResource("Resource_iname"), SubResource("Resource_owipf"), SubResource("Resource_ifdjy"), SubResource("Resource_hc6td")])
+_sprite_checked = ExtResource("13_88p1r")
+_sprite_unchecked = ExtResource("16_5cm07")
 
 [node name="hbc_title_bar" type="HBoxContainer" parent="."]
 layout_mode = 1

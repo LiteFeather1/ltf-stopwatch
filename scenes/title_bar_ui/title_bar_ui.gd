@@ -26,6 +26,7 @@ const PRESSED := &"pressed"
 const POPUP_INDEX_PIN := 0
 const POPUP_INDEX_MAX_SIZE := 2
 const POPUP_INDEX_MIN_SIZE := 3
+const POPUP_INDEX_LOW_PROCESSOR := 7
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
@@ -47,6 +48,8 @@ const POPUP_INDEX_MIN_SIZE := 3
 @export_category("Popup Menu")
 @export var _popup_menu: PopupMenu
 @export var _popup_menu_items: Array[PopupMenuItemSeparator]
+@export var _sprite_checked: Texture2D
+@export var _sprite_unchecked: Texture2D
 
 var _long_title_length: float
 var _width_for_mid_title: float
@@ -269,12 +272,13 @@ func _on_popup_menu_id_pressed(id: int) -> void:
 		5:
 			last_stopwatch_pressed.emit()
 		7:
+			OS.low_processor_usage_mode = not OS.low_processor_usage_mode
 			if OS.low_processor_usage_mode:
-				OS.low_processor_usage_mode = false
-				Engine.max_fps = 0
-			else:
-				OS.low_processor_usage_mode = true
 				Engine.max_fps = 60
+				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_checked)
+			else:
+				Engine.max_fps = 0
+				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_unchecked)
 		9:
 			_close_window()
 
