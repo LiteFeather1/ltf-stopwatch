@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=32 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/title_bar_ui/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://dbow7jib5a2st" path="res://assets/sprites/buttons_title_bar/s_pin_button.svg" id="2_b70b5"]
@@ -18,6 +18,7 @@
 [ext_resource type="StyleBox" uid="uid://8c5j35ieiky5" path="res://resources/themes/close_button/pressed_close_button.tres" id="9_w7txe"]
 [ext_resource type="Shortcut" uid="uid://dhlobjgr0rw4g" path="res://resources/shortcuts/title_bar_ui/shortcut_minimise_window.tres" id="10_ma7bv"]
 [ext_resource type="Texture2D" uid="uid://c8owqph7uuqg1" path="res://assets/sprites/buttons_title_bar/s_min_size_button.svg" id="10_mdhhs"]
+[ext_resource type="Script" path="res://scenes/title_bar_ui/popup_menu_item_separator.gd" id="11_rhklr"]
 [ext_resource type="Texture2D" uid="uid://def3jofmisn5q" path="res://assets/sprites/buttons_title_bar/s_last_stopwatch_button.svg" id="11_tm8r3"]
 [ext_resource type="Texture2D" uid="uid://b58ugamqjmaon" path="res://assets/sprites/buttons_title_bar/s_close_button.svg" id="13_1ngmv"]
 [ext_resource type="Shortcut" uid="uid://drp1v76joiq6v" path="res://resources/shortcuts/title_bar_ui/shortcut_close_window.tres" id="15_xh8yy"]
@@ -49,10 +50,18 @@ script = ExtResource("8_2akc7")
 _icon = ExtResource("10_mdhhs")
 _label = "min size"
 
+[sub_resource type="Resource" id="Resource_02k5d"]
+script = ExtResource("11_rhklr")
+_label = " "
+
 [sub_resource type="Resource" id="Resource_erq3l"]
 script = ExtResource("5_530k2")
 _icon = ExtResource("11_tm8r3")
 _label = "last stopwatch"
+
+[sub_resource type="Resource" id="Resource_ifdjy"]
+script = ExtResource("11_rhklr")
+_label = ""
 
 [sub_resource type="Resource" id="Resource_hc6td"]
 script = ExtResource("5_530k2")
@@ -79,7 +88,7 @@ _b_pin = NodePath("hbc_title_bar/hbc_buttons/b_pin")
 _sprite_pin = ExtResource("2_b70b5")
 _sprite_unpin = ExtResource("3_1s23j")
 _popup_menu = NodePath("PopupMenu")
-_popup_menu_items = Array[ExtResource("8_2akc7")]([SubResource("Resource_op4bx"), SubResource("Resource_mou00"), SubResource("Resource_o70ey"), SubResource("Resource_h0i42"), SubResource("Resource_erq3l"), SubResource("Resource_hc6td")])
+_popup_menu_items = Array[ExtResource("11_rhklr")]([SubResource("Resource_op4bx"), SubResource("Resource_mou00"), SubResource("Resource_o70ey"), SubResource("Resource_h0i42"), SubResource("Resource_02k5d"), SubResource("Resource_erq3l"), SubResource("Resource_ifdjy"), SubResource("Resource_hc6td")])
 
 [node name="hbc_title_bar" type="HBoxContainer" parent="."]
 layout_mode = 1

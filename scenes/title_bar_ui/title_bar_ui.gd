@@ -102,17 +102,12 @@ func _ready() -> void:
 	_popup_menu.id_pressed.connect(_on_popup_menu_id_pressed)
 	_popup_menu.transient = false
 
-	for i in 4:
-		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
-
-	_popup_menu.add_separator()
 	var shortcut := Shortcut.new()
 	shortcut.events = InputMap.action_get_events("restore_last_time_state")
-	_popup_menu_items[4].set_shortcut(shortcut)
-	_popup_menu_items[4].add_to_popup_menu(_popup_menu, 5)
+	_popup_menu_items[5].set_shortcut(shortcut)
 
-	_popup_menu.add_separator()
-	_popup_menu_items[5].add_to_popup_menu(_popup_menu, 7)
+	for i in _popup_menu_items.size():
+		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
 
 	await GLOBAL.tree.process_frame
 
