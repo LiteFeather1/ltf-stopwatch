@@ -16,6 +16,7 @@ const SAVE_KEYS: PackedStringArray = [
 	"_window_pinned_position",
 	"_window_pinned_size",
 ]
+const IS_LOW_PROCESSOR := &"is_low_processor"
 
 const PIN := &"pin"
 const UNPIN := &"unpin"
@@ -167,6 +168,11 @@ func _gui_input(event: InputEvent) -> void:
 func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
 		self[key] = str_to_var(save_dict[key])
+	
+	if not save_dict[IS_LOW_PROCESSOR]:
+		OS.low_processor_usage_mode = false
+		Engine.max_fps = 0
+		_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_unchecked)
 
 
 func save() -> Dictionary:
@@ -180,6 +186,8 @@ func save() -> Dictionary:
 	var save_dict := {}
 	for key: String in SAVE_KEYS:
 		save_dict[key] = var_to_str(self[key])
+
+	save_dict[IS_LOW_PROCESSOR] = OS.low_processor_usage_mode
 	return save_dict
 
 
