@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c5al7x880yw8t"]
+[gd_scene load_steps=28 format=3 uid="uid://c5al7x880yw8t"]
 
 [ext_resource type="Script" path="res://scenes/title_bar_ui/title_bar_ui.gd" id="1_8lk40"]
 [ext_resource type="Texture2D" uid="uid://dbow7jib5a2st" path="res://assets/sprites/buttons_title_bar/s_pin_button.svg" id="2_b70b5"]
@@ -13,9 +13,11 @@
 [ext_resource type="Script" path="res://scenes/title_bar_ui/popup_menu_item.gd" id="8_2akc7"]
 [ext_resource type="StyleBox" uid="uid://fyfl1e6mfluc" path="res://resources/themes/close_button/hover_close_button.tres" id="8_a0bhh"]
 [ext_resource type="Shortcut" uid="uid://cgbj6pkt5opdk" path="res://resources/shortcuts/title_bar_ui/shortcut_pin.tres" id="8_f3jyl"]
+[ext_resource type="Texture2D" uid="uid://ca65b1aj7w4jo" path="res://assets/sprites/buttons_title_bar/s_max_size_button.svg" id="8_yk3o8"]
 [ext_resource type="Texture2D" uid="uid://ccw6740nfo80r" path="res://assets/sprites/buttons_title_bar/s_minimise_button.svg" id="9_6idio"]
 [ext_resource type="StyleBox" uid="uid://8c5j35ieiky5" path="res://resources/themes/close_button/pressed_close_button.tres" id="9_w7txe"]
 [ext_resource type="Shortcut" uid="uid://dhlobjgr0rw4g" path="res://resources/shortcuts/title_bar_ui/shortcut_minimise_window.tres" id="10_ma7bv"]
+[ext_resource type="Texture2D" uid="uid://c8owqph7uuqg1" path="res://assets/sprites/buttons_title_bar/s_min_size_button.svg" id="10_mdhhs"]
 [ext_resource type="Texture2D" uid="uid://b58ugamqjmaon" path="res://assets/sprites/buttons_title_bar/s_close_button.svg" id="13_1ngmv"]
 [ext_resource type="Shortcut" uid="uid://drp1v76joiq6v" path="res://resources/shortcuts/title_bar_ui/shortcut_close_window.tres" id="15_xh8yy"]
 
@@ -38,10 +40,12 @@ _label = "minimise"
 
 [sub_resource type="Resource" id="Resource_o70ey"]
 script = ExtResource("8_2akc7")
+_icon = ExtResource("8_yk3o8")
 _label = "max size"
 
 [sub_resource type="Resource" id="Resource_h0i42"]
 script = ExtResource("8_2akc7")
+_icon = ExtResource("10_mdhhs")
 _label = "min size"
 
 [sub_resource type="Resource" id="Resource_erq3l"]
