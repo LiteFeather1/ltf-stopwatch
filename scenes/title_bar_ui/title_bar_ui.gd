@@ -5,6 +5,7 @@ signal pin_toggled(state: bool)
 signal close_pressed()
 
 signal last_stopwatch_pressed()
+signal low_process_pressed()
 
 
 const NAME := &"TitleBarUI"
@@ -45,7 +46,7 @@ const POPUP_INDEX_MIN_SIZE := 3
 
 @export_category("Popup Menu")
 @export var _popup_menu: PopupMenu
-@export var _popup_menu_items: Array[PopupMenuItem]
+@export var _popup_menu_items: Array[PopupMenuItemSeparator]
 
 var _long_title_length: float
 var _width_for_mid_title: float

@@ -1,8 +1,7 @@
-class_name PopupMenuItem extends Resource
+class_name PopupMenuItem extends PopupMenuItemSeparator
 
 
 @export var _icon: Texture2D
-@export var _label: String = "label"
 
 
 func add_to_popup_menu(menu: PopupMenu, id: int) -> void:
