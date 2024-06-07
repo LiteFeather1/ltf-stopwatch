@@ -7,6 +7,14 @@ enum CopyMenuFlags {
 	LONGEST_SHORTEST = 1 << 2,
 }
 
+enum {
+	COPY_MENU_INDEX_SIMPLE,
+	COPY_MENU_INDEX_LONG,
+	COPY_MENU_INDEX_CSV,
+	COPY_MENU_INDEX_MD,
+}
+
+
 const NAME := &"StopwatchUI"
 
 const TEMPLATE_NUM_ENTRY := &"#%d"
@@ -47,7 +55,6 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _copy_menu_button: MenuButton
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
-@export var _copy_menu_items_icons: Array[Texture2D]
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
 @export var _b_toggle_fold_tray: ButtonHoverTip
 @export var _c_icon_fold_tray: Control
@@ -71,8 +78,6 @@ var _longest_entry_index: int
 var _shortest_entry_index: int
 
 var _copy_menu_options_mask: int
-
-var _copy_menu_callables: Array
 
 var _options_menu_popup: PopupMenu
 var _options_menu_callables: Array
@@ -152,20 +157,7 @@ func _ready() -> void:
 	# This doesn't seem like a very save way to do this but don't know any other way since get_child(0) doen't seem to work
 	popup.get_node(^"@MarginContainer@8/@ScrollContainer@9/@Control@10")\
 		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
-	popup.index_pressed.connect(_on_copy_menu_id_pressed)
-
-	const ITEMS := [&"Copy Simple", &"Copy Long", &"Copy CSV", &"Copy MD Table"]
-	var items_calls := [
-		_copy_menu_simple,
-		_copy_menu_long,
-		_copy_menu_csv,
-		_copy_menu_markdown,
-	]
-	var items_size := ITEMS.size()
-	_copy_menu_callables.resize(items_size)
-	for i: int in items_size:
-		popup.add_icon_item(_copy_menu_items_icons[i], ITEMS[i], i)
-		_copy_menu_callables[i] = items_calls[i]
+	popup.index_pressed.connect(_on_copy_menu_index_pressed)
 
 	_options_menu_popup = PopupMenu.new()
 	_options_menu_popup.hide_on_checkable_item_selection = false
@@ -175,7 +167,7 @@ func _ready() -> void:
 	_options_menu_popup.name = SUB_MENU_NAME
 	popup.add_child(_options_menu_popup)
 	_options_menu_popup.id_pressed.connect(_on_options_menu_id_pressed)
-	popup.add_submenu_item("Options", SUB_MENU_NAME, items_size)
+	popup.add_submenu_item("Options", SUB_MENU_NAME)
 
 	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
 	var options_calls := [
@@ -453,8 +445,61 @@ func _copy_elapsed_time_to_clipboard() -> void:
 	_set_clipboard(time, time)
 
 
-func _on_copy_menu_id_pressed(id: int) -> void:
-	_copy_menu_callables[id].call()
+func _on_copy_menu_index_pressed(index: int) -> void:
+	match index:
+		COPY_MENU_INDEX_SIMPLE:
+			_copy_menu_tray_entries(
+				"Simple",
+				PackedStringArray(),
+				"#%s  %s%s  %s%s%s",
+				"%s  ",
+				"  %s",
+				"  %s",
+			)
+		COPY_MENU_INDEX_LONG:
+			_copy_menu_tray_entries(
+				"Long",
+				PackedStringArray(["".join(_build_copy_heading(
+					"%s  |", "  %s  |", "  %s", "  %s  |", "  |  %s", "  |  %s"
+				))]),
+				"#%s          %s|     %s     |     %s%s%s",
+				"|      %s       ",
+				"        |    %s",
+				"     |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "        |  %s",
+			)
+		COPY_MENU_INDEX_CSV:
+			_copy_menu_tray_entries(
+				"CSV",
+				PackedStringArray(["".join(_build_copy_heading(
+					"%s,", "%s,", "%s", "%s,", ",%s", ",%s",
+				))]),
+				"#%s,%s%s,%s%s%s",
+				"%s,",
+				",%s",
+				",%s"
+			)
+		COPY_MENU_INDEX_MD:
+			var heading := _build_copy_heading("|%s", "|%s", "|%s|", "|%s", "%s|", "%s|")
+			var heading_size := heading.size()
+			heading.resize(heading_size * 2 + 1)
+			heading[heading_size] = "\n"
+			heading[heading_size + 1] = "|:-|"
+			for i: int in heading_size - 2:
+				heading[i + heading_size + 2] = ":-:|"
+
+			heading[heading_size * 2] =\
+				":-|" if (_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0) else ":-:|"
+
+			_copy_menu_tray_entries(
+				"MD Table",
+				PackedStringArray(["".join(heading)]),
+				"|#%s%s|%s|%s|%s%s",
+				"|%s",
+				"%s|",
+				"%s|",
+			)
+		_:
+			assert(false, "Invalid copy menu index")
 
 
 func _copy_menu_tray_entries(
@@ -517,17 +562,6 @@ func _copy_menu_tray_entries(
 	_set_clipboard("\n".join(entries_text), message)
 
 
-func _copy_menu_simple() -> void:
-	_copy_menu_tray_entries(
-		"Simple",
-		PackedStringArray(),
-		"#%s  %s%s  %s%s%s",
-		"%s  ",
-		"  %s",
-		"  %s",
-	)
-
-
 func _build_copy_heading(
 	template_pause: String,
 	template_pause_time: String,
@@ -557,64 +591,6 @@ func _build_copy_heading(
 		))
 
 	return heading
-
-
-func _copy_menu_long() -> void:
-	var entries_text := PackedStringArray(["".join(_build_copy_heading(
-		"%s  |",
-		"  %s  |",
-		"  %s",
-		"  %s  |",
-		"  |  %s",
-		"  |  %s"
-	))])
-	_copy_menu_tray_entries("Long", entries_text,
-		"#%s          %s|     %s     |     %s%s%s",
-		"|      %s       ",
-		"        |    %s",
-		"     |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "        |  %s",
-	)
-
-
-func _copy_menu_csv() -> void:
-	var entries_text := PackedStringArray(["".join(_build_copy_heading(
-		"%s,",
-		"%s,",
-		"%s",
-		"%s,",
-		",%s",
-		",%s",
-	))])
-	_copy_menu_tray_entries(
-		"CSV",
-		entries_text,
-		"#%s,%s%s,%s%s%s",
-		"%s,",
-		",%s",
-		",%s"
-	)
-
-
-func _copy_menu_markdown() -> void:
-	var heading := _build_copy_heading("|%s", "|%s", "|%s|", "|%s", "%s|", "%s|")
-	var heading_size := heading.size()
-	heading.resize(heading_size * 2 + 1)
-	heading[heading_size] = "\n"
-	heading[heading_size + 1] = "|:-|"
-	for i: int in heading_size - 2:
-		heading[i + heading_size + 2] = ":-:|"
-	
-	heading[heading_size * 2] =\
-		":-|" if (_copy_menu_options_mask & CopyMenuFlags.LONGEST_SHORTEST != 0) else ":-:|"
-
-	_copy_menu_tray_entries(
-		"MD Table",
-		PackedStringArray(["".join(heading)]),
-		"|#%s%s|%s|%s|%s%s",
-		"|%s",
-		"%s|",
-		"%s|",
-	)
 
 
 func _on_options_menu_id_pressed(id: int) -> void:
