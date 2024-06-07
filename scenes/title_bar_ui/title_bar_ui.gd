@@ -27,7 +27,7 @@ const PRESSED := &"pressed"
 const POPUP_INDEX_PIN := 0
 const POPUP_INDEX_MAX_SIZE := 2
 const POPUP_INDEX_MIN_SIZE := 3
-const POPUP_INDEX_LOW_PROCESSOR := 7
+const POPUP_INDEX_LOW_PROCESS := 7
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
@@ -48,7 +48,6 @@ const POPUP_INDEX_LOW_PROCESSOR := 7
 
 @export_category("Popup Menu")
 @export var _popup_menu: PopupMenu
-@export var _popup_menu_items: Array[PopupMenuItemSeparator]
 @export var _sprite_checked: Texture2D
 @export var _sprite_unchecked: Texture2D
 
@@ -103,15 +102,12 @@ func _ready() -> void:
 		_l_title.text.substr(0, _mid_title_length), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
 	).x + 2.0
 
-	_popup_menu.id_pressed.connect(_on_popup_menu_id_pressed)
+	_popup_menu.index_pressed.connect(_on_popup_menu_index_pressed)
 	_popup_menu.transient = false
 
 	var shortcut := Shortcut.new()
 	shortcut.events = InputMap.action_get_events("restore_last_time_state")
-	_popup_menu_items[5].set_shortcut(shortcut)
-
-	for i in _popup_menu_items.size():
-		_popup_menu_items[i].add_to_popup_menu(_popup_menu, i)
+	_popup_menu.set_item_shortcut(POPUP_INDEX_LAST_STOPWATCH, shortcut)
 
 	await GLOBAL.tree.process_frame
 
@@ -172,7 +168,7 @@ func load(save_dict: Dictionary) -> void:
 	if not save_dict[IS_LOW_PROCESSOR]:
 		OS.low_processor_usage_mode = false
 		Engine.max_fps = 0
-		_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_unchecked)
+		_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESS, _sprite_unchecked)
 	else:
 		Engine.max_fps = int(DisplayServer.screen_get_refresh_rate(GLOBAL.window.current_screen)) -1
 
@@ -269,9 +265,8 @@ func _on_mouse_exited() -> void:
 	_is_mouse_in = false
 
 
-func _on_popup_menu_id_pressed(id: int) -> void:
-	match id:
-		0:
+func _on_popup_menu_index_pressed(index: int) -> void:
+	match index:
 			_toggle_pin_window()
 		1:
 			_minimise_window()
@@ -281,18 +276,19 @@ func _on_popup_menu_id_pressed(id: int) -> void:
 			_set_window_min_size()
 		5:
 			last_stopwatch_pressed.emit()
-		7:
+		POPUP_INDEX_LOW_PROCESS:
 			OS.low_processor_usage_mode = not OS.low_processor_usage_mode
 			if OS.low_processor_usage_mode:
 				Engine.max_fps = int(DisplayServer.screen_get_refresh_rate(
 					GLOBAL.window.current_screen
 				)) -1
-				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_checked)
+				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESS, _sprite_checked)
 			else:
 				Engine.max_fps = 0
-				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESSOR, _sprite_unchecked)
-		9:
+				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESS, _sprite_unchecked)
 			_close_window()
+		_:
+			assert(false, "Invalid titlebar popup menu index")
 
 
 func _set_minimise_corner_radius(radius: int) -> void:
