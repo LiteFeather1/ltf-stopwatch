@@ -2,13 +2,13 @@ class_name Main extends Panel
 
 
 const SAVE_PATH := &"user://ltf_stopwatch.json"
-const PASS := &"744967c4-6e81-4947-a1f4-06626abc615b"
+const PASS := &"6ab067d7-104a-401d-a428-3cbb01354ece"
 
 const VERSION := &"version"
 const SAVEABLE := &"saveable"
 
 @export_category("Window")
-@export var _min_window_size: Vector2i = Vector2i(192, 192)
+@export var _min_window_size: Vector2i = Vector2i(192, 128)
 @export var _max_window_size: Vector2i = Vector2i(512, 512)
 
 @export_category("Colours")

@@ -28,7 +28,6 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gmrt0")
 script = ExtResource("1_fm7if")
-_min_window_size = Vector2i(192, 128)
 _stopwatch_ui = NodePath("VBoxContainer/stopwatch_ui")
 _title_bar_ui = NodePath("VBoxContainer/title_bar_ui")
 
