@@ -45,7 +45,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_popup", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_options_menu_popup", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_popup", "_l_copied_time")]
 process_mode = 3
 clip_contents = true
 layout_mode = 3
@@ -70,9 +70,9 @@ _scene_stopwatch_entry_ui = ExtResource("4_ta478")
 _vbc_entry_tray = NodePath("stopwatch_tray_ui")
 _vbc_entry_container = NodePath("stopwatch_tray_ui/ScrollContainer/vbc_entry_container")
 _copy_menu_button = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray")
+_options_menu_popup = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray/Options")
 _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
 _hbc_tray_heading = NodePath("stopwatch_tray_ui/hbc_tray_heading")
-_copy_menu_items_icons = Array[Texture2D]([ExtResource("5_dyfse"), ExtResource("6_hmfcl"), ExtResource("7_i2gau"), ExtResource("8_teunh")])
 _b_toggle_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray")
 _c_icon_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray/tr_toggle_icons")
 _copied_popup = NodePath("l_copied_pop_up")
@@ -259,6 +259,19 @@ grow_vertical = 2
 texture = ExtResource("20_cto6y")
 expand_mode = 2
 stretch_mode = 4
+
+[node name="Options" type="PopupMenu" parent="stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray"]
+hide_on_checkable_item_selection = false
+item_count = 3
+item_0/text = "Elapsed Time"
+item_0/checkable = 1
+item_0/id = 0
+item_1/text = "Pause span"
+item_1/checkable = 1
+item_1/id = 1
+item_2/text = "Longestest/Shortest"
+item_2/checkable = 1
+item_2/id = 2
 
 [node name="Label2" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
 modulate = Color(0.87451, 0.87451, 0.87451, 1)

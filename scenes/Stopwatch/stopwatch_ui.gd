@@ -14,6 +14,12 @@ enum {
 	COPY_MENU_INDEX_MD,
 }
 
+enum {
+	COPY_MENU_OPTIONS_INDEX_ELAPSED_TIME,
+	COPY_MENU_OPTIONS_INDEX_PAUSE_SPAN,
+	COPY_MENU_OPTIONS_INDEX_LONGEST_SHORTEST,
+}
+
 
 const NAME := &"StopwatchUI"
 
@@ -53,6 +59,7 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _vbc_entry_tray: VBoxContainer
 @export var _vbc_entry_container: VBoxContainer
 @export var _copy_menu_button: MenuButton
+@export var _options_menu_popup: PopupMenu
 @export var _hover_entry_colour := Color("#fc6360")
 @export var _hbc_tray_heading: HBoxContainer
 @export var _tray_h_separation_range := Vector2(60.0, -20.0)
@@ -78,9 +85,6 @@ var _longest_entry_index: int
 var _shortest_entry_index: int
 
 var _copy_menu_options_mask: int
-
-var _options_menu_popup: PopupMenu
-var _options_menu_callables: Array
 
 var _width_for_min_h_separation: int
 
@@ -159,29 +163,17 @@ func _ready() -> void:
 		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
 	popup.index_pressed.connect(_on_copy_menu_index_pressed)
 
-	_options_menu_popup = PopupMenu.new()
-	_options_menu_popup.hide_on_checkable_item_selection = false
+	_options_menu_popup.index_pressed.connect(_on_options_menu_index_pressed)
+
+	_copy_menu_button.remove_child(_options_menu_popup)
+	popup.add_child(_options_menu_popup)
+
 	_options_menu_popup.get_node(^"@MarginContainer@14/@ScrollContainer@15/@Control@16")\
 		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
-	const SUB_MENU_NAME := &"options"
-	_options_menu_popup.name = SUB_MENU_NAME
-	popup.add_child(_options_menu_popup)
-	_options_menu_popup.id_pressed.connect(_on_options_menu_id_pressed)
-	popup.add_submenu_item("Options", SUB_MENU_NAME)
+	popup.add_submenu_item(_options_menu_popup.name, _options_menu_popup.name)
 
-	const OPTIONS := [ELAPSED_TIME, PAUSE_SPAN, &"Longest/Shortest"]
-	var options_calls := [
-		_copy_menu_toggle_elapsed_time,
-		_copy_menu_toggle_pause_time,
-		_copy_menu_toggle_shortest_longest,
-	]
 	var options_flags_values := CopyMenuFlags.values()
-	var options_size := OPTIONS.size()
-	_options_menu_callables.resize(options_size)
-	for i: int in options_size:
-		_options_menu_callables[i] = options_calls[i]
-
-		_options_menu_popup.add_check_item(OPTIONS[i], i)
+	for i: int in options_flags_values.size():
 		if _copy_menu_options_mask & options_flags_values[i] != 0:
 			_options_menu_popup.set_item_checked(i, true)
 
@@ -593,11 +585,17 @@ func _build_copy_heading(
 	return heading
 
 
-func _on_options_menu_id_pressed(id: int) -> void:
-	_options_menu_callables[id].call(id)
+func _on_options_menu_index_pressed(index: int) -> void:
+	match index:
+		COPY_MENU_OPTIONS_INDEX_ELAPSED_TIME:
+			_copy_menu_toggle_option(index, CopyMenuFlags.ELAPSED_TIMES)
+		COPY_MENU_OPTIONS_INDEX_PAUSE_SPAN:
+			_copy_menu_toggle_option(index, CopyMenuFlags.PAUSE_SPANS)
+		COPY_MENU_OPTIONS_INDEX_LONGEST_SHORTEST:
+			_copy_menu_toggle_option(index, CopyMenuFlags.LONGEST_SHORTEST)
 
 
-func _copy_menu_toggle_options(index: int, flag: int) -> void:
+func _copy_menu_toggle_option(index: int, flag: int) -> void:
 	var is_option_checked := _copy_menu_options_mask & flag != 0
 	_options_menu_popup.set_item_checked(index, not is_option_checked)
 
@@ -605,18 +603,6 @@ func _copy_menu_toggle_options(index: int, flag: int) -> void:
 		_copy_menu_options_mask = _copy_menu_options_mask & ~flag
 	else:
 		_copy_menu_options_mask = _copy_menu_options_mask | flag
-
-
-func _copy_menu_toggle_elapsed_time(id: int) -> void:
-	_copy_menu_toggle_options(id, CopyMenuFlags.ELAPSED_TIMES)
-
-
-func _copy_menu_toggle_shortest_longest(id: int) -> void:
-	_copy_menu_toggle_options(id, CopyMenuFlags.LONGEST_SHORTEST)
-
-
-func _copy_menu_toggle_pause_time(id: int) -> void:
-	_copy_menu_toggle_options(id, CopyMenuFlags.PAUSE_SPANS)
 
 
 func _on_window_size_changed() -> void:
