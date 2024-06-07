@@ -51,6 +51,7 @@ const POPUP_INDEX_CLOSE := 9
 
 @export_category("Popup Menu")
 @export var _popup_menu: PopupMenu
+@export var _popup_menu_shortcuts: Dictionary
 @export var _sprite_checked: Texture2D
 @export var _sprite_unchecked: Texture2D
 
@@ -111,6 +112,8 @@ func _ready() -> void:
 	var shortcut := Shortcut.new()
 	shortcut.events = InputMap.action_get_events("restore_last_time_state")
 	_popup_menu.set_item_shortcut(POPUP_INDEX_LAST_STOPWATCH, shortcut)
+	for key in _popup_menu_shortcuts:
+		_popup_menu.set_item_shortcut(key, _popup_menu_shortcuts[key])
 
 	await GLOBAL.tree.process_frame
 
