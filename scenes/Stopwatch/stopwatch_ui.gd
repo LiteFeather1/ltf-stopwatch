@@ -327,16 +327,6 @@ func save() -> Dictionary:
 	return save_dict
 
 
-func _set_button_state(button: Button, state: bool) -> void:
-	button.disabled = state
-	button.mouse_default_cursor_shape = CURSOR_FORBIDDEN if state else CURSOR_POINTING_HAND
-
-
-func _set_buttons_disabled(state: bool) -> void:
-	_set_button_state(_b_reset, state)
-	_set_button_state(_b_clipboard, state)
-
-
 func _on_stopwatch_started() -> void:
 	_set_buttons_disabled(false)
 
@@ -401,37 +391,6 @@ func _on_button_reset_pressed() -> void:
 	_shortest_entry_index = 0
 
 
-func _set_clipboard(to_copy: String, message: String) -> void:
-	DisplayServer.clipboard_set(to_copy)
-
-	_l_copied_time.text = "Copied!\n%s" % message
-
-	if _popup_copied_tween:
-		_popup_copied_tween.kill()
-
-		_copied_popup.modulate.a = .1
-		_copied_popup.position.y = _copied_initial_y_pos
-
-	_copied_popup.scale.y = .0
-	_copied_popup.visible = true
-
-	# popup copy appear animation
-	const DUR := .66
-	_popup_copied_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_popup_copied_tween.tween_property(_copied_popup, ^"scale:y", _popup_scale, DUR)
-	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", 1.0, DUR)
-
-	const MOVE_DISTANCE := 32.0
-	const DUR_DISAPPEAR := .2
-	_popup_copied_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
-		.tween_property(_copied_popup, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
-	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", .1, DUR_DISAPPEAR)
-	_popup_copied_tween.tween_callback(func() -> void:
-		_copied_popup.visible = false
-		_copied_popup.position.y = _copied_initial_y_pos
-	)
-
-
 func _on_button_clipboard_pressed() -> void:
 	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
 	_set_clipboard(time, time)
@@ -492,6 +451,112 @@ func _on_copy_menu_index_pressed(index: int) -> void:
 			)
 		_:
 			assert(false, "Invalid copy menu index")
+
+
+func _on_options_menu_index_pressed(index: int) -> void:
+	match index:
+		COPY_MENU_OPTIONS_INDEX_ELAPSED_TIME:
+			_copy_menu_toggle_option(index, CopyMenuFlags.ELAPSED_TIMES)
+		COPY_MENU_OPTIONS_INDEX_PAUSE_SPAN:
+			_copy_menu_toggle_option(index, CopyMenuFlags.PAUSE_SPANS)
+		COPY_MENU_OPTIONS_INDEX_LONGEST_SHORTEST:
+			_copy_menu_toggle_option(index, CopyMenuFlags.LONGEST_SHORTEST)
+
+
+func _on_window_size_changed() -> void:
+	# Scale text to fit size
+	var scale_x := GLOBAL.window.size.x / float(GLOBAL.window.max_size.x)
+	var win_height := GLOBAL.window.size.y
+	var win_max_height := float(GLOBAL.window.max_size.y)
+	var min_scale_y := (
+		win_height + _vbc_stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation
+	) / win_max_height
+	var s := minf(scale_x, maxf((win_height / win_max_height) * (min_scale_y * 3.0), min_scale_y))
+	_vbc_stopwatch_and_buttons.scale = Vector2(s, s)
+
+	# Slight scale s_copied
+	_popup_scale = clampf(s * 1.025, .7, 1.0)
+	_copied_popup.scale = Vector2(_popup_scale, _popup_scale)
+
+	# Slight scale buttons
+	var b_s := maxf(1.0, 1.75 - s)
+	var b_scale = Vector2(b_s, b_s)
+	_b_start.scale = b_scale
+	_b_reset.scale = b_scale
+	_b_clipboard.scale = b_scale
+
+	if _stopwatch_tray_entries_ui.is_empty() or not _set_entry_tray_visibility():
+		return
+
+	_set_entry_tray_separation()
+
+	_set_entry_tray_size_and_position_x()
+
+	if _entry_tray_tween.is_running():
+		return
+
+	if _is_entry_tray_folded:
+		_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
+		return
+
+	_vbc_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
+	_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
+
+	_vbc_entry_tray.size.y = _max_entry_tray_size_y(_vbc_entry_tray.position.y)
+
+
+func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
+	entry.modulate_animation(_hover_entry_colour)
+
+
+func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
+	_delete_stopwatch_entry_ui(_stopwatch_tray_entries_ui.find(entry))
+
+
+func _set_button_state(button: Button, state: bool) -> void:
+	button.disabled = state
+	button.mouse_default_cursor_shape = CURSOR_FORBIDDEN if state else CURSOR_POINTING_HAND
+
+
+func _set_buttons_disabled(state: bool) -> void:
+	_set_button_state(_b_reset, state)
+	_set_button_state(_b_clipboard, state)
+
+
+func _set_b_start_continue() -> void:
+	_b_start.icon = _sprite_start
+	_b_start.set_tip_name("continue")
+
+
+func _set_clipboard(to_copy: String, message: String) -> void:
+	DisplayServer.clipboard_set(to_copy)
+
+	_l_copied_time.text = "Copied!\n%s" % message
+
+	if _popup_copied_tween:
+		_popup_copied_tween.kill()
+
+		_copied_popup.modulate.a = .1
+		_copied_popup.position.y = _copied_initial_y_pos
+
+	_copied_popup.scale.y = .0
+	_copied_popup.visible = true
+
+	# popup copy appear animation
+	const DUR := .66
+	_popup_copied_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	_popup_copied_tween.tween_property(_copied_popup, ^"scale:y", _popup_scale, DUR)
+	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", 1.0, DUR)
+
+	const MOVE_DISTANCE := 32.0
+	const DUR_DISAPPEAR := .2
+	_popup_copied_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
+		.tween_property(_copied_popup, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
+	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", .1, DUR_DISAPPEAR)
+	_popup_copied_tween.tween_callback(func() -> void:
+		_copied_popup.visible = false
+		_copied_popup.position.y = _copied_initial_y_pos
+	)
 
 
 func _copy_menu_tray_entries(
@@ -585,16 +650,6 @@ func _build_copy_heading(
 	return heading
 
 
-func _on_options_menu_index_pressed(index: int) -> void:
-	match index:
-		COPY_MENU_OPTIONS_INDEX_ELAPSED_TIME:
-			_copy_menu_toggle_option(index, CopyMenuFlags.ELAPSED_TIMES)
-		COPY_MENU_OPTIONS_INDEX_PAUSE_SPAN:
-			_copy_menu_toggle_option(index, CopyMenuFlags.PAUSE_SPANS)
-		COPY_MENU_OPTIONS_INDEX_LONGEST_SHORTEST:
-			_copy_menu_toggle_option(index, CopyMenuFlags.LONGEST_SHORTEST)
-
-
 func _copy_menu_toggle_option(index: int, flag: int) -> void:
 	var is_option_checked := _copy_menu_options_mask & flag != 0
 	_options_menu_popup.set_item_checked(index, not is_option_checked)
@@ -603,61 +658,6 @@ func _copy_menu_toggle_option(index: int, flag: int) -> void:
 		_copy_menu_options_mask = _copy_menu_options_mask & ~flag
 	else:
 		_copy_menu_options_mask = _copy_menu_options_mask | flag
-
-
-func _on_window_size_changed() -> void:
-	# Scale text to fit size
-	var scale_x := GLOBAL.window.size.x / float(GLOBAL.window.max_size.x)
-	var win_height := GLOBAL.window.size.y
-	var win_max_height := float(GLOBAL.window.max_size.y)
-	var min_scale_y := (
-		win_height + _vbc_stopwatch_and_buttons.pivot_offset.y - _stopwatch_and_buttons_separation
-	) / win_max_height
-	var s := minf(scale_x, maxf((win_height / win_max_height) * (min_scale_y * 3.0), min_scale_y))
-	_vbc_stopwatch_and_buttons.scale = Vector2(s, s)
-
-	# Slight scale s_copied
-	_popup_scale = clampf(s * 1.025, .7, 1.0)
-	_copied_popup.scale = Vector2(_popup_scale, _popup_scale)
-
-	# Slight scale buttons
-	var b_s := maxf(1.0, 1.75 - s)
-	var b_scale = Vector2(b_s, b_s)
-	_b_start.scale = b_scale
-	_b_reset.scale = b_scale
-	_b_clipboard.scale = b_scale
-
-	if _stopwatch_tray_entries_ui.is_empty() or not _set_entry_tray_visibility():
-		return
-
-	_set_entry_tray_separation()
-
-	_set_entry_tray_size_and_position_x()
-
-	if _entry_tray_tween.is_running():
-		return
-
-	if _is_entry_tray_folded:
-		_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
-		return
-
-	_vbc_stopwatch_and_buttons.position.y = _stopwatch_upper_position()
-	_vbc_entry_tray.position.y = _entry_tray_y_position(_vbc_stopwatch_and_buttons.position.y)
-
-	_vbc_entry_tray.size.y = _max_entry_tray_size_y(_vbc_entry_tray.position.y)
-
-
-func _on_stopwatch_entry_hovered(entry: StopwatchEntryUI) -> void:
-	entry.modulate_animation(_hover_entry_colour)
-
-
-func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
-	_delete_stopwatch_entry_ui(_stopwatch_tray_entries_ui.find(entry))
-
-
-func _set_b_start_continue() -> void:
-	_b_start.icon = _sprite_start
-	_b_start.set_tip_name("continue")
 
 
 func _stopwatch_upper_position() -> float:

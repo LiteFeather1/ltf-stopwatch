@@ -8,6 +8,17 @@ signal last_stopwatch_pressed()
 signal low_process_pressed()
 
 
+enum {
+	POPUP_INDEX_PIN = 0,
+	POPUP_INDEX_MINIMISE = 1,
+	POPUP_INDEX_MAX_SIZE = 2,
+	POPUP_INDEX_MIN_SIZE = 3,
+	POPUP_INDEX_LAST_STOPWATCH = 5,
+	POPUP_INDEX_LOW_PROCESS = 7,
+	POPUP_INDEX_CLOSE = 9,
+}
+
+
 const NAME := &"TitleBarUI"
 
 const SAVE_KEYS: PackedStringArray = [
@@ -23,14 +34,6 @@ const UNPIN := &"unpin"
 
 const HOVER := &"hover"
 const PRESSED := &"pressed"
-
-const POPUP_INDEX_PIN := 0
-const POPUP_INDEX_MINIMISE :=1
-const POPUP_INDEX_MAX_SIZE := 2
-const POPUP_INDEX_MIN_SIZE := 3
-const POPUP_INDEX_LAST_STOPWATCH := 5
-const POPUP_INDEX_LOW_PROCESS := 7
-const POPUP_INDEX_CLOSE := 9
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
