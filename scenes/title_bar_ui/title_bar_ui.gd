@@ -110,7 +110,7 @@ func _ready() -> void:
 	).x + 2.0
 
 	_popup_menu.index_pressed.connect(_on_popup_menu_index_pressed)
-	_popup_menu.transient = false
+	_popup_menu.exclusive = true
 
 	var shortcut := Shortcut.new()
 	shortcut.events = InputMap.action_get_events("restore_last_time_state")

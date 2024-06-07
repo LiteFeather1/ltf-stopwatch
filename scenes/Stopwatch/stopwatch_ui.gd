@@ -158,19 +158,21 @@ func _ready() -> void:
 	# Set up copy menu tray
 	var popup := _copy_menu_button.get_popup()
 	popup.submenu_popup_delay = .1
-	# This doesn't seem like a very save way to do this but don't know any other way since get_child(0) doen't seem to work
+	popup.exclusive = true
+	popup.index_pressed.connect(_on_copy_menu_index_pressed)
+
+	# This doesn't seem like a very bad way to do this but don't know any other way since get_child(0) doen't seem to work
 	popup.get_node(^"@MarginContainer@8/@ScrollContainer@9/@Control@10")\
 		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
-	popup.index_pressed.connect(_on_copy_menu_index_pressed)
 
 	_options_menu_popup.index_pressed.connect(_on_options_menu_index_pressed)
 
 	_copy_menu_button.remove_child(_options_menu_popup)
 	popup.add_child(_options_menu_popup)
+	popup.add_submenu_item(_options_menu_popup.name, _options_menu_popup.name)
 
 	_options_menu_popup.get_node(^"@MarginContainer@14/@ScrollContainer@15/@Control@16")\
 		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
-	popup.add_submenu_item(_options_menu_popup.name, _options_menu_popup.name)
 
 	var options_flags_values := CopyMenuFlags.values()
 	for i: int in options_flags_values.size():
