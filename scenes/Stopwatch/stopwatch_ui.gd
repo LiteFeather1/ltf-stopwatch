@@ -101,12 +101,12 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	# Connect to signals
 	_stopwatch.started.connect(_on_stopwatch_started)
-	_stopwatch.paused.connect(_stopwatch_paused)
-	_stopwatch.resumed.connect(_stopwatch_resumed)
+	_stopwatch.paused.connect(_on_stopwatch_paused)
+	_stopwatch.resumed.connect(_on_stopwatch_resumed)
 
-	_b_start.toggled.connect(_start_toggled)
-	_b_reset.pressed.connect(_reset_pressed)
-	_b_clipboard.pressed.connect(_copy_elapsed_time_to_clipboard)
+	_b_start.toggled.connect(_on_button_start_toggled)
+	_b_reset.pressed.connect(_on_button_reset_pressed)
+	_b_clipboard.pressed.connect(_on_button_clipboard_pressed)
 
 	_b_toggle_fold_tray.pressed.connect(_toggle_fold_tray)
 
@@ -341,13 +341,13 @@ func _on_stopwatch_started() -> void:
 	_set_buttons_disabled(false)
 
 
-func _stopwatch_paused() -> void:
+func _on_stopwatch_paused() -> void:
 	_instantiate_stopwatch_entry_ui(_stopwatch_tray_entries_ui.size(), 0)
 
 	_set_entry_tray_visibility()
 
 
-func _stopwatch_resumed() -> void:
+func _on_stopwatch_resumed() -> void:
 	var time_state = _stopwatch.get_time_state()
 	var index := time_state.resumed_times_size() - 1
 	_stopwatch_tray_entries_ui.back().set_resume_time(
@@ -371,7 +371,7 @@ func _stopwatch_resumed() -> void:
 			_set_entry_span(_shortest_entry_index, TEMPLATE_SHORTEST_ENTRY)
 
 
-func _start_toggled(state: bool) -> void:
+func _on_button_start_toggled(state: bool) -> void:
 	if state:
 		_b_start.icon = _sprite_pause
 		_b_start.set_tip_name("pause")
@@ -381,7 +381,7 @@ func _start_toggled(state: bool) -> void:
 	_stopwatch.set_state(state)
 
 
-func _reset_pressed() -> void:
+func _on_button_reset_pressed() -> void:
 	_set_buttons_disabled(true)
 
 	_b_start.button_pressed = false
@@ -432,7 +432,7 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 	)
 
 
-func _copy_elapsed_time_to_clipboard() -> void:
+func _on_button_clipboard_pressed() -> void:
 	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
 	_set_clipboard(time, time)
 
