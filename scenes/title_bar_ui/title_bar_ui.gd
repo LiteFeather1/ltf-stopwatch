@@ -25,9 +25,12 @@ const HOVER := &"hover"
 const PRESSED := &"pressed"
 
 const POPUP_INDEX_PIN := 0
+const POPUP_INDEX_MINIMISE :=1
 const POPUP_INDEX_MAX_SIZE := 2
 const POPUP_INDEX_MIN_SIZE := 3
+const POPUP_INDEX_LAST_STOPWATCH := 5
 const POPUP_INDEX_LOW_PROCESS := 7
+const POPUP_INDEX_CLOSE := 9
 
 @export var _window_margin_when_pinning := Vector2i(-32, 32)
 
@@ -267,14 +270,15 @@ func _on_mouse_exited() -> void:
 
 func _on_popup_menu_index_pressed(index: int) -> void:
 	match index:
+		POPUP_INDEX_PIN:
 			_toggle_pin_window()
-		1:
+		POPUP_INDEX_MINIMISE:
 			_minimise_window()
-		2:
+		POPUP_INDEX_MAX_SIZE:
 			_set_window_max_size()
-		3:
+		POPUP_INDEX_MIN_SIZE:
 			_set_window_min_size()
-		5:
+		POPUP_INDEX_MAX_SIZE:
 			last_stopwatch_pressed.emit()
 		POPUP_INDEX_LOW_PROCESS:
 			OS.low_processor_usage_mode = not OS.low_processor_usage_mode
@@ -286,6 +290,7 @@ func _on_popup_menu_index_pressed(index: int) -> void:
 			else:
 				Engine.max_fps = 0
 				_popup_menu.set_item_icon(POPUP_INDEX_LOW_PROCESS, _sprite_unchecked)
+		POPUP_INDEX_CLOSE:
 			_close_window()
 		_:
 			assert(false, "Invalid titlebar popup menu index")
