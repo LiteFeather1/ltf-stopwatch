@@ -2,7 +2,7 @@
 
 [sub_resource type="InputEventKey" id="InputEventKey_1xko1"]
 device = -1
-ctrl_pressed = true
+command_or_control_autoremap = true
 keycode = 82
 
 [resource]

@@ -2,13 +2,13 @@
 
 [sub_resource type="InputEventKey" id="InputEventKey_f1pn7"]
 device = -1
-ctrl_pressed = true
+command_or_control_autoremap = true
 keycode = 32
 unicode = 32
 
 [sub_resource type="InputEventKey" id="InputEventKey_e7n4a"]
 device = -1
-ctrl_pressed = true
+command_or_control_autoremap = true
 keycode = 4194309
 
 [resource]

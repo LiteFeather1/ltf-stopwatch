@@ -2,7 +2,7 @@
 
 [sub_resource type="InputEventKey" id="InputEventKey_limys"]
 device = -1
-ctrl_pressed = true
+command_or_control_autoremap = true
 keycode = 67
 
 [resource]

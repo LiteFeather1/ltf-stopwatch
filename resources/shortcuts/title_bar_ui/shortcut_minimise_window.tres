@@ -2,7 +2,7 @@
 
 [sub_resource type="InputEventKey" id="InputEventKey_wnjlu"]
 device = -1
-ctrl_pressed = true
+command_or_control_autoremap = true
 keycode = 77
 
 [resource]

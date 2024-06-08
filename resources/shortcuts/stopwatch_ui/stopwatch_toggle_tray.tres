@@ -1,9 +1,14 @@
-[gd_resource type="Shortcut" load_steps=2 format=3 uid="uid://fsc6dr5lfjcp"]
+[gd_resource type="Shortcut" load_steps=3 format=3 uid="uid://fsc6dr5lfjcp"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_kh7ep"]
 device = -1
-ctrl_pressed = true
+command_or_control_autoremap = true
 keycode = 70
 
+[sub_resource type="InputEventKey" id="InputEventKey_hs038"]
+device = -1
+command_or_control_autoremap = true
+keycode = 84
+
 [resource]
-events = [SubResource("InputEventKey_kh7ep")]
+events = [SubResource("InputEventKey_kh7ep"), SubResource("InputEventKey_hs038")]
