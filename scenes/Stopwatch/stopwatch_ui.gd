@@ -404,7 +404,7 @@ func _on_copy_menu_index_pressed(index: int) -> void:
 			_copy_menu_tray_entries(
 				"Simple",
 				PackedStringArray(),
-				"#%s  %s%s  %s%s%s",
+				"%s  %s%s  %s%s%s",
 				"%s  ",
 				"  %s",
 				"  %s",
@@ -415,7 +415,7 @@ func _on_copy_menu_index_pressed(index: int) -> void:
 				PackedStringArray(["".join(_build_copy_heading(
 					"%s  |", "  %s  |", "  %s", "  %s  |", "  |  %s", "  |  %s"
 				))]),
-				"#%s          %s|     %s     |     %s%s%s",
+				"%s          %s|     %s     |     %s%s%s",
 				"|      %s       ",
 				"        |    %s",
 				"     |  %s" if _copy_menu_options_mask & CopyMenuFlags.PAUSE_SPANS != 0 else "        |  %s",
@@ -426,7 +426,7 @@ func _on_copy_menu_index_pressed(index: int) -> void:
 				PackedStringArray(["".join(_build_copy_heading(
 					"%s,", "%s,", "%s", "%s,", ",%s", ",%s",
 				))]),
-				"#%s,%s%s,%s%s%s",
+				"%s,%s%s,%s%s%s",
 				"%s,",
 				",%s",
 				",%s"
@@ -446,7 +446,7 @@ func _on_copy_menu_index_pressed(index: int) -> void:
 			_copy_menu_tray_entries(
 				"MD Table",
 				PackedStringArray(["".join(heading)]),
-				"|#%s%s|%s|%s|%s%s",
+				"|%s%s|%s|%s|%s%s",
 				"|%s",
 				"%s|",
 				"%s|",
@@ -585,7 +585,7 @@ func _copy_menu_tray_entries(
 		entries_text.resize(resumed_size + base_size + 1)
 
 		entries_text[resumed_size + base_size] = template % [
-			resumed_size + 1,
+			TEMPLATE_NUM_ENTRY % (resumed_size + 1),
 			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(resumed_size)))
 				if show_elapsed_time else "",
 			Time.get_time_string_from_unix_time(time_state.get_paused_time(resumed_size)),
@@ -599,23 +599,25 @@ func _copy_menu_tray_entries(
 		pause_span_indexes = time_state.pause_span_indexes()
 	for i: int in resumed_size:
 		entries_text[i + base_size] = template % [
-			i + 1,
+			TEMPLATE_NUM_ENTRY % (i + 1),
 			(template_elapsed_time % Global.seconds_to_time(time_state.get_elapsed_time(i)))
 				if show_elapsed_time else "",
 			Time.get_time_string_from_unix_time(time_state.get_paused_time(i)),
 			Time.get_time_string_from_unix_time(time_state.get_resumed_time(i)),
 			(template_pause_span % Global.seconds_to_time(time_state.pause_span(i)))
 				if show_pause_span else "",
-			(template_longest_shortest % TEMPLATE_NUM_ENTRY % pause_span_indexes[i])
+			(template_longest_shortest % ((" %s" % TEMPLATE_NUM_ENTRY) % pause_span_indexes[i]))
 				if show_longest_shortest else ""
 		]
 	
 	if show_longest_shortest:
+		var temp := template_longest_shortest % " %s%s" % ([TEMPLATE_NUM_ENTRY, "%s"])
 		entries_text[base_size + _longest_entry_index] = entries_text[base_size + _longest_entry_index].replace(
-			template_longest_shortest % TEMPLATE_NUM_ENTRY % (resumed_size - 1), template_longest_shortest % "Longest"
+			temp % [resumed_size - 1, ""], temp % [resumed_size - 1, " Longest"],
 		)
+
 		entries_text[base_size + _shortest_entry_index] = entries_text[base_size + _shortest_entry_index].replace(
-			template_longest_shortest % TEMPLATE_NUM_ENTRY % 0, template_longest_shortest % "Shortest"
+			temp % [0, ""], temp % [0, " Shortest"],
 		)
 
 	_set_clipboard("\n".join(entries_text), message)

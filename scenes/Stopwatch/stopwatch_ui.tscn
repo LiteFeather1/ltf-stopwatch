@@ -269,7 +269,7 @@ item_0/id = 0
 item_1/text = "Pause span"
 item_1/checkable = 1
 item_1/id = 1
-item_2/text = "Longestest/Shortest"
+item_2/text = "Longest/Shortest"
 item_2/checkable = 1
 item_2/id = 2
 
