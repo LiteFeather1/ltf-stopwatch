@@ -21,7 +21,7 @@ Resetted the stopwatch by accident? No worries just press Alt + Z to restore the
 ### Stopwatch Pause Entry Tray
    <img src="https://github.com/LiteFeather1/ltf-stopwatch/assets/102820899/96ed1ad2-8418-4780-8502-4a5e7ba51a1f" alt="LTF Stopwatch with pause entry tray " Width="256"/>
 
-- Track your pauses, when they started when they finished.
+- Track your pauses.
 - Hover a entry to check elapsed time of that entry.
 - Left click a entry to delete an entry.
 - Use Ctrl + Z to undo deleted entries. Use Ctrl + Y to redo deleting entries.
