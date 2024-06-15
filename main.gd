@@ -69,6 +69,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_stopwatch_ui.redo_deleted_stopwatch_entry_ui()
 	elif event.is_action_pressed("undo_deleted_pause_entry"):
 		_stopwatch_ui.undo_deleted_stopwatch_entry_ui()
+	elif event.is_action_pressed("paste_in_time"):
+		_stopwatch_ui.paste_in_time()
 
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:
