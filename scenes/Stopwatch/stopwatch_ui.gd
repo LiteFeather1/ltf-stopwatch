@@ -68,9 +68,9 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _b_toggle_fold_tray: ButtonHoverTip
 @export var _c_icon_fold_tray: Control
 
-@export_category("Copied Pop Up")
-@export var _copied_popup: Control
-@export var _l_copied_time: Label
+@export_category("Message Pop Up")
+@export var _message_popup: Control
+@export var _l_message_time: Label
 
 var _stopwatch_and_buttons_separation: int
 
@@ -91,9 +91,9 @@ var _copy_menu_options_mask: int
 var _width_for_min_h_separation: int
 
 var _popup_scale := 1.0
-var _popup_copied_tween: Tween
+var _popup_message_tween: Tween
 
-@onready var _copied_initial_y_pos := _copied_popup.position.y
+@onready var _message_initial_y_pos := _message_popup.position.y
 
 
 func _enter_tree() -> void:
@@ -479,9 +479,9 @@ func _on_window_size_changed() -> void:
 	var s := minf(scale_x, maxf((win_height / win_max_height) * (min_scale_y * 3.0), min_scale_y))
 	_vbc_stopwatch_and_buttons.scale = Vector2(s, s)
 
-	# Slight scale s_copied
+	# Slight scale popup
 	_popup_scale = clampf(s * 1.025, .7, 1.0)
-	_copied_popup.scale = Vector2(_popup_scale, _popup_scale)
+	_message_popup.scale = Vector2(_popup_scale, _popup_scale)
 
 	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)
@@ -556,30 +556,30 @@ func _reset_stopwatch(elapsed_time: float) -> void:
 
 
 func _pop_up_animation(text: String, dur: float) -> void:
-	_l_copied_time.text = text
+	_l_message_time.text = text
 
-	if _popup_copied_tween:
-		_popup_copied_tween.kill()
+	if _popup_message_tween:
+		_popup_message_tween.kill()
 
-		_copied_popup.modulate.a = .1
-		_copied_popup.position.y = _copied_initial_y_pos
+		_message_popup.modulate.a = .1
+		_message_popup.position.y = _message_initial_y_pos
 
-	_copied_popup.scale.y = .0
-	_copied_popup.visible = true
+	_message_popup.scale.y = .0
+	_message_popup.visible = true
 
-	# popup copy appear animation
-	_popup_copied_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_popup_copied_tween.tween_property(_copied_popup, ^"scale:y", _popup_scale, dur)
-	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", 1.0, dur)
+	# popup appear animation
+	_popup_message_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	_popup_message_tween.tween_property(_message_popup, ^"scale:y", _popup_scale, dur)
+	_popup_message_tween.parallel().tween_property(_message_popup, ^"modulate:a", 1.0, dur)
 
 	const MOVE_DISTANCE := 32.0
 	const DUR_DISAPPEAR := .2
-	_popup_copied_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
-		.tween_property(_copied_popup, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
-	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", .1, DUR_DISAPPEAR)
-	_popup_copied_tween.tween_callback(func() -> void:
-		_copied_popup.visible = false
-		_copied_popup.position.y = _copied_initial_y_pos
+	_popup_message_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
+		.tween_property(_message_popup, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
+	_popup_message_tween.parallel().tween_property(_message_popup, ^"modulate:a", .1, DUR_DISAPPEAR)
+	_popup_message_tween.tween_callback(func() -> void:
+		_message_popup.visible = false
+		_message_popup.position.y = _message_initial_y_pos
 	)
 
 

@@ -45,7 +45,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_options_menu_popup", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_copied_popup", "_l_copied_time")]
+[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_options_menu_popup", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_message_popup", "_l_message_time")]
 process_mode = 3
 clip_contents = true
 layout_mode = 3
@@ -75,8 +75,8 @@ _hover_entry_colour = Color(0.986718, 0.386365, 0.376853, 1)
 _hbc_tray_heading = NodePath("stopwatch_tray_ui/hbc_tray_heading")
 _b_toggle_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray")
 _c_icon_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray/tr_toggle_icons")
-_copied_popup = NodePath("l_copied_pop_up")
-_l_copied_time = NodePath("l_copied_pop_up/l_time_copied")
+_message_popup = NodePath("l_message_pop_up")
+_l_message_time = NodePath("l_message_pop_up/l_time_message")
 
 [node name="vbc_stopwatch_and_buttons" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(510, 0)
@@ -344,7 +344,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="l_copied_pop_up" type="Panel" parent="."]
+[node name="l_message_pop_up" type="Panel" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -361,7 +361,7 @@ grow_vertical = 0
 pivot_offset = Vector2(52, 32)
 mouse_filter = 2
 
-[node name="l_time_copied" type="Label" parent="l_copied_pop_up"]
+[node name="l_time_message" type="Label" parent="l_message_pop_up"]
 modulate = Color(0.968627, 0.968627, 0.968627, 1)
 layout_mode = 1
 anchors_preset = 15
