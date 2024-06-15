@@ -322,18 +322,23 @@ func fix_stopwatch_tray_positioning() -> void:
 func paste_in_time() -> void:
 	var text := DisplayServer.clipboard_get().replace(" ", "")
 
+	const DUR := 1.0
 	if text[0] == "+":
 		_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
 		_stopwatch.refresh_text_time()
+		_pop_up_animation("Added!\n%s" % text, DUR)
 	elif text[0] == "-":
 		_stopwatch.get_time_state().elapsed_time -= _convert_text_to_seconds(
 			text.substr(1, text.length())
 		)
 		_stopwatch.refresh_text_time()
+		_pop_up_animation("Subtracted!\n%s" % text, DUR)
 	elif text[0].is_valid_int():
+		# Is this becomes problematic we could have a popup to ask if the user wants to reset the stopwatch
 		_reset_stopwatch(_convert_text_to_seconds(text))
+		_pop_up_animation("Reset!", DUR)
 	else:
-		print("Invalid format to paste in!")
+		_pop_up_animation("Invalid Format to paste in!", DUR)
 
 
 func load(save_dict: Dictionary) -> void:
