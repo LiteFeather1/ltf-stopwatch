@@ -548,10 +548,9 @@ func _set_b_start_continue() -> void:
 
 func _reset_stopwatch(elapsed_time: float) -> void:
 	_b_start.button_pressed = false
+	_set_buttons_disabled(elapsed_time == 0)
 
 	if elapsed_time == 0.0:
-		_set_buttons_disabled(true)
-
 		_b_start.icon = _sprite_start
 		_b_start.set_tip_name("start")
 

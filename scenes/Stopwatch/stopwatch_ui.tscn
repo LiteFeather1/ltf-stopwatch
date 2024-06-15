@@ -345,6 +345,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
 [node name="p_message_popup" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
