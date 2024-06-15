@@ -337,6 +337,10 @@ func paste_in_time() -> void:
 		_set_buttons_disabled(false)
 	elif text[0] == "-":
 		var time_state := _stopwatch.get_time_state()
+		if time_state.elapsed_time == 0.0:
+			_popup_animation("Can't subtract further", DUR)
+			return
+
 		var time_to_sub := minf(
 			time_state.elapsed_time, _convert_text_to_seconds(text.substr(1, text.length()))
 		)
