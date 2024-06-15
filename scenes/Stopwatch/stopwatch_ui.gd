@@ -328,6 +328,10 @@ func paste_in_time() -> void:
 			text.substr(1, text.length())
 		)
 		_stopwatch.refresh_text_time()
+	elif text[0].is_valid_int():
+		_reset_stopwatch(_convert_text_to_seconds(text))
+	else:
+		print("Invalid format to paste in!")
 
 
 func load(save_dict: Dictionary) -> void:
