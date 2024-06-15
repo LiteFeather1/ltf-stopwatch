@@ -69,8 +69,9 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _c_icon_fold_tray: Control
 
 @export_category("Message Pop Up")
-@export var _message_popup: Control
-@export var _l_message_time: Label
+@export var _popup_message: Control
+@export var _l_popup_message: Label
+@export var _popup_message_padding: Vector2 = Vector2(16.0, 8.0)
 
 var _stopwatch_and_buttons_separation: int
 
@@ -90,10 +91,12 @@ var _copy_menu_options_mask: int
 
 var _width_for_min_h_separation: int
 
-var _popup_scale := 1.0
+var _popup_message_scale := 1.0
+var _popup_message_font: Font
+var _popup_message_font_size: int
 var _popup_message_tween: Tween
 
-@onready var _message_initial_y_pos := _message_popup.position.y
+@onready var _message_initial_y_pos := _popup_message.position.y
 
 
 func _enter_tree() -> void:
@@ -140,6 +143,9 @@ func _ready() -> void:
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
 	).x + size.x - _vbc_entry_tray.size.x)
+
+	_popup_message_font = _l_popup_message.get_theme_font("font")
+	_popup_message_font_size = _l_popup_message.get_theme_font_size("font_size")
 
 	var parent_height := get_parent_area_size().y
 
@@ -326,19 +332,21 @@ func paste_in_time() -> void:
 	if text[0] == "+":
 		_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
 		_stopwatch.refresh_text_time()
-		_pop_up_animation("Added!\n%s" % text, DUR)
+		_popup_animation("Added!\n%s" % text, DUR)
 	elif text[0] == "-":
 		_stopwatch.get_time_state().elapsed_time -= _convert_text_to_seconds(
 			text.substr(1, text.length())
 		)
 		_stopwatch.refresh_text_time()
-		_pop_up_animation("Subtracted!\n%s" % text, DUR)
+		_popup_animation("Subtracted!\n%s" % text, DUR)
 	elif text[0].is_valid_int():
-		# Is this becomes problematic we could have a popup to ask if the user wants to reset the stopwatch
+		# If this becomes problematic we could
+		# have a popup to ask if the user wants to reset the stopwatch
+		# or have '=' to reset
 		_reset_stopwatch(_convert_text_to_seconds(text))
-		_pop_up_animation("Reset!", DUR)
+		_popup_animation("Reset!", DUR)
 	else:
-		_pop_up_animation("Invalid Format to paste in!", DUR)
+		_popup_animation("Invalid format to paste in!", DUR)
 
 
 func load(save_dict: Dictionary) -> void:
@@ -485,8 +493,8 @@ func _on_window_size_changed() -> void:
 	_vbc_stopwatch_and_buttons.scale = Vector2(s, s)
 
 	# Slight scale popup
-	_popup_scale = clampf(s * 1.025, .7, 1.0)
-	_message_popup.scale = Vector2(_popup_scale, _popup_scale)
+	_popup_message_scale = clampf(s * 1.025, .7, 1.0)
+	_popup_message.scale = Vector2(_popup_message_scale, _popup_message_scale)
 
 	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)
@@ -560,37 +568,44 @@ func _reset_stopwatch(elapsed_time: float) -> void:
 	_shortest_entry_index = 0
 
 
-func _pop_up_animation(text: String, dur: float) -> void:
-	_l_message_time.text = text
+func _popup_animation(text: String, dur: float) -> void:
+	_l_popup_message.text = text
+
+	var text_size = _popup_message_font.get_multiline_string_size(
+		text, _l_popup_message.horizontal_alignment, -1, _popup_message_font_size
+	)
+
+	_popup_message.size = text_size + _popup_message_padding
+	_popup_message.position.x = (size.x - _popup_message.size.x) * .5
 
 	if _popup_message_tween:
 		_popup_message_tween.kill()
 
-		_message_popup.modulate.a = .1
-		_message_popup.position.y = _message_initial_y_pos
+		_popup_message.modulate.a = .1
+		_popup_message.position.y = _message_initial_y_pos
 
-	_message_popup.scale.y = .0
-	_message_popup.visible = true
+	_popup_message.scale.y = .0
+	_popup_message.visible = true
 
 	# popup appear animation
 	_popup_message_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_popup_message_tween.tween_property(_message_popup, ^"scale:y", _popup_scale, dur)
-	_popup_message_tween.parallel().tween_property(_message_popup, ^"modulate:a", 1.0, dur)
+	_popup_message_tween.tween_property(_popup_message, ^"scale:y", _popup_message_scale, dur)
+	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", 1.0, dur)
 
 	const MOVE_DISTANCE := 32.0
 	const DUR_DISAPPEAR := .2
 	_popup_message_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
-		.tween_property(_message_popup, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
-	_popup_message_tween.parallel().tween_property(_message_popup, ^"modulate:a", .1, DUR_DISAPPEAR)
+		.tween_property(_popup_message, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
+	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", .1, DUR_DISAPPEAR)
 	_popup_message_tween.tween_callback(func() -> void:
-		_message_popup.visible = false
-		_message_popup.position.y = _message_initial_y_pos
+		_popup_message.visible = false
+		_popup_message.position.y = _message_initial_y_pos
 	)
 
 
 func _set_clipboard(to_copy: String, text: String) -> void:
 	DisplayServer.clipboard_set(to_copy)
-	_pop_up_animation(text, .66)
+	_popup_animation(text, .66)
 
 
 func _copy_menu_tray_entries(
