@@ -317,6 +317,17 @@ func fix_stopwatch_tray_positioning() -> void:
 	_vbc_entry_tray.size.y = _max_entry_tray_size_y(_vbc_entry_tray.position.y)
 
 
+func paste_in_time() -> void:
+	var text := DisplayServer.clipboard_get().replace(" ", "")
+
+	if text[0] == "+":
+		_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
+	elif text[0] == "-":
+		_stopwatch.get_time_state().elapsed_time -= _convert_text_to_seconds(
+			text.substr(1, text.length())
+		)
+
+
 func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
 		self[key] = save_dict[key]
@@ -937,3 +948,14 @@ func _find_longest_shortest_times() -> void:
 
 	_set_entry_span(_longest_entry_index, TEMPLATE_LONGEST_ENTRY)
 	_set_entry_span(_shortest_entry_index, TEMPLATE_SHORTEST_ENTRY)
+
+
+func _convert_text_to_seconds(text: String) -> float:
+	var units := text.split_floats(":")
+	var seconds := 0.0
+	var multiplier := 1
+	for i in units.size():
+		seconds += units[-i - 1] * multiplier
+		multiplier *= 60
+
+	return seconds
