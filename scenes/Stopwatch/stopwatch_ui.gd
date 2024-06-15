@@ -27,6 +27,8 @@ const TEMPLATE_NUM_ENTRY := &"#%d"
 const TEMPLATE_LONGEST_ENTRY := &"%s Longest" % TEMPLATE_NUM_ENTRY
 const TEMPLATE_SHORTEST_ENTRY := &"%s Shortest" % TEMPLATE_NUM_ENTRY
 
+const TEMPLATE_POP_UP_COPIED := &"Copied!\n%s"
+
 const PAUSES := &"Pauses"
 const PAUSE_TIME := &"Pause Time"
 const RESUME_TIME := &"Resume Time"
@@ -396,7 +398,7 @@ func _on_button_reset_pressed() -> void:
 
 func _on_button_clipboard_pressed() -> void:
 	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
-	_set_clipboard(time, time)
+	_set_clipboard(time, TEMPLATE_POP_UP_COPIED % time)
 
 
 func _on_copy_menu_index_pressed(index: int) -> void:
@@ -553,10 +555,8 @@ func _reset_stopwatch(elapsed_time: float) -> void:
 	_shortest_entry_index = 0
 
 
-func _set_clipboard(to_copy: String, message: String) -> void:
-	DisplayServer.clipboard_set(to_copy)
-
-	_l_copied_time.text = "Copied!\n%s" % message
+func _pop_up_animation(text: String, dur: float) -> void:
+	_l_copied_time.text = text
 
 	if _popup_copied_tween:
 		_popup_copied_tween.kill()
@@ -568,10 +568,9 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 	_copied_popup.visible = true
 
 	# popup copy appear animation
-	const DUR := .66
 	_popup_copied_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_popup_copied_tween.tween_property(_copied_popup, ^"scale:y", _popup_scale, DUR)
-	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", 1.0, DUR)
+	_popup_copied_tween.tween_property(_copied_popup, ^"scale:y", _popup_scale, dur)
+	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", 1.0, dur)
 
 	const MOVE_DISTANCE := 32.0
 	const DUR_DISAPPEAR := .2
@@ -582,6 +581,11 @@ func _set_clipboard(to_copy: String, message: String) -> void:
 		_copied_popup.visible = false
 		_copied_popup.position.y = _copied_initial_y_pos
 	)
+
+
+func _set_clipboard(to_copy: String, text: String) -> void:
+	DisplayServer.clipboard_set(to_copy)
+	_pop_up_animation(text, .66)
 
 
 func _copy_menu_tray_entries(
@@ -643,7 +647,7 @@ func _copy_menu_tray_entries(
 			temp % [0, ""], temp % [0, " Shortest"],
 		)
 
-	_set_clipboard("\n".join(entries_text), message)
+	_set_clipboard("\n".join(entries_text), TEMPLATE_POP_UP_COPIED % message)
 
 
 func _build_copy_heading(
