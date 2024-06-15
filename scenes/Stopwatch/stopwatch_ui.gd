@@ -334,12 +334,16 @@ func paste_in_time() -> void:
 		_stopwatch.refresh_text_time()
 		
 		_popup_animation("Added!\n%s" % text, DUR)
+		_set_buttons_disabled(false)
 	elif text[0] == "-":
-		_stopwatch.get_time_state().elapsed_time -= _convert_text_to_seconds(
-			text.substr(1, text.length())
+		var time_state := _stopwatch.get_time_state()
+		var time_to_sub := minf(
+			time_state.elapsed_time, _convert_text_to_seconds(text.substr(1, text.length()))
 		)
+		time_state.elapsed_time -= time_to_sub
 		_stopwatch.refresh_text_time()
-		_popup_animation("Subtracted!\n%s" % text, DUR)
+
+		_popup_animation("Subtracted!\n%s" % Global.seconds_to_time(time_to_sub), DUR)
 		_set_buttons_disabled(time_state.elapsed_time == 0)
 	elif text[0].is_valid_int():
 		# If this becomes problematic we could
