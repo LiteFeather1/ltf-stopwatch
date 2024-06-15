@@ -332,6 +332,7 @@ func paste_in_time() -> void:
 	if text[0] == "+":
 		_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
 		_stopwatch.refresh_text_time()
+		
 		_popup_animation("Added!\n%s" % text, DUR)
 	elif text[0] == "-":
 		_stopwatch.get_time_state().elapsed_time -= _convert_text_to_seconds(
@@ -339,6 +340,7 @@ func paste_in_time() -> void:
 		)
 		_stopwatch.refresh_text_time()
 		_popup_animation("Subtracted!\n%s" % text, DUR)
+		_set_buttons_disabled(time_state.elapsed_time == 0)
 	elif text[0].is_valid_int():
 		# If this becomes problematic we could
 		# have a popup to ask if the user wants to reset the stopwatch
