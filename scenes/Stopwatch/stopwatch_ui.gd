@@ -387,23 +387,7 @@ func _on_button_start_toggled(state: bool) -> void:
 
 
 func _on_button_reset_pressed() -> void:
-	_set_buttons_disabled(true)
-
-	_b_start.button_pressed = false
-	_b_start.icon = _sprite_start
-	_b_start.set_tip_name("start")
-
-	_stopwatch.reset(0.0)
-
-	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
-		entry.queue_free()
-	
-	_stopwatch_tray_entries_ui.clear()
-
-	_set_entry_tray_visibility()
-
-	_longest_entry_index = 0
-	_shortest_entry_index = 0
+	_reset_stopwatch(0.0)
 
 
 func _on_button_clipboard_pressed() -> void:
@@ -541,6 +525,28 @@ func _set_buttons_disabled(state: bool) -> void:
 func _set_b_start_continue() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("continue")
+
+
+func _reset_stopwatch(elapsed_time: float) -> void:
+	_b_start.button_pressed = false
+
+	if elapsed_time == 0.0:
+		_set_buttons_disabled(true)
+
+		_b_start.icon = _sprite_start
+		_b_start.set_tip_name("start")
+
+	_stopwatch.reset(elapsed_time)
+
+	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
+		entry.queue_free()
+	
+	_stopwatch_tray_entries_ui.clear()
+
+	_set_entry_tray_visibility()
+
+	_longest_entry_index = 0
+	_shortest_entry_index = 0
 
 
 func _set_clipboard(to_copy: String, message: String) -> void:
@@ -958,6 +964,6 @@ func _convert_text_to_seconds(text: String) -> float:
 	var multiplier := 1
 	for i in units.size():
 		seconds += units[-i - 1] * multiplier
-		multiplier *= 60
+		multiplier *= 60 # This breaks if we try to paste in formats longer than HH:MM:SS
 
 	return seconds
