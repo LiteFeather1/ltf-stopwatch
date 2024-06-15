@@ -22,6 +22,10 @@ var _redo_deleted_indexes: PackedInt32Array
 var _unmatched_paused_index: int = -1
 
 
+func _init(elapsed_time_: float = 0.0) -> void:
+	elapsed_time = elapsed_time_
+
+
 func _to_string() -> String:
 	var text := "Total Elapsed Time: %s\n" % Global.seconds_to_time(elapsed_time)
 

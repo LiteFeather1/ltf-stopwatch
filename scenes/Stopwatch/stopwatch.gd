@@ -80,10 +80,10 @@ func set_state(state: bool) -> void:
 		paused.emit()
 
 
-func reset() -> void:
+func reset(reset_time: float) -> void:
 	_last_time_state.free()
 	_last_time_state = _time_state
-	_time_state = TimeState.new()
+	_time_state = TimeState.new(reset_time)
 	refresh_text_time()
 
 

@@ -393,7 +393,7 @@ func _on_button_reset_pressed() -> void:
 	_b_start.icon = _sprite_start
 	_b_start.set_tip_name("start")
 
-	_stopwatch.reset()
+	_stopwatch.reset(0.0)
 
 	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
 		entry.queue_free()
