@@ -328,7 +328,7 @@ func fix_stopwatch_tray_positioning() -> void:
 func paste_in_time() -> void:
 	var text := DisplayServer.clipboard_get().replace(" ", "")
 
-	const DUR := 1.0
+	const DUR := .5
 	if text[0] == "+":
 		_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
 		_stopwatch.refresh_text_time()
@@ -338,7 +338,7 @@ func paste_in_time() -> void:
 	elif text[0] == "-":
 		var time_state := _stopwatch.get_time_state()
 		if time_state.elapsed_time == 0.0:
-			_popup_animation("Can't subtract further", DUR)
+			_popup_animation("Can't subtract further", DUR * .5)
 			return
 
 		var time_to_sub := minf(
@@ -577,7 +577,7 @@ func _reset_stopwatch(elapsed_time: float) -> void:
 	_shortest_entry_index = 0
 
 
-func _popup_animation(text: String, dur: float) -> void:
+func _popup_animation(text: String, interval: float) -> void:
 	_l_popup_message.text = text
 
 	var text_size = _popup_message_font.get_multiline_string_size(
@@ -597,9 +597,12 @@ func _popup_animation(text: String, dur: float) -> void:
 	_popup_message.visible = true
 
 	# popup appear animation
+	const DUR := .66
 	_popup_message_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_popup_message_tween.tween_property(_popup_message, ^"scale:y", _popup_message_scale, dur)
-	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", 1.0, dur)
+	_popup_message_tween.tween_property(_popup_message, ^"scale:y", _popup_message_scale, DUR)
+	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", 1.0, DUR)
+
+	_popup_message_tween.tween_interval(interval)
 
 	const MOVE_DISTANCE := 32.0
 	const DUR_DISAPPEAR := .2
@@ -614,7 +617,7 @@ func _popup_animation(text: String, dur: float) -> void:
 
 func _set_clipboard(to_copy: String, text: String) -> void:
 	DisplayServer.clipboard_set(to_copy)
-	_popup_animation(text, .66)
+	_popup_animation(text, 0.0)
 
 
 func _copy_menu_tray_entries(
