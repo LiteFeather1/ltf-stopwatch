@@ -322,10 +322,12 @@ func paste_in_time() -> void:
 
 	if text[0] == "+":
 		_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
+		_stopwatch.refresh_text_time()
 	elif text[0] == "-":
 		_stopwatch.get_time_state().elapsed_time -= _convert_text_to_seconds(
 			text.substr(1, text.length())
 		)
+		_stopwatch.refresh_text_time()
 
 
 func load(save_dict: Dictionary) -> void:

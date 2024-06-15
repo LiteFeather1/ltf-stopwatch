@@ -42,8 +42,16 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_time_state.elapsed_time += delta
-	_set_time()
+	refresh_text_time()
 
+
+func refresh_text_time() -> void:
+	_l_time.text = _time_text_template % [
+		_time_state.elapsed_time / 3600.0,
+		fmod(_time_state.elapsed_time, 3600.0) / 60.0,
+		fmod(_time_state.elapsed_time, 60.0),
+		fmod(_time_state.elapsed_time, 1.0) * 100.0,
+	]
 
 func has_started() -> bool:
 	return _time_state.elapsed_time > 0.0
@@ -76,7 +84,7 @@ func reset() -> void:
 	_last_time_state.free()
 	_last_time_state = _time_state
 	_time_state = TimeState.new()
-	_set_time()
+	refresh_text_time()
 
 
 func restore_last_time_state() -> void:
@@ -84,14 +92,14 @@ func restore_last_time_state() -> void:
 	_time_state = _last_time_state
 	_last_time_state = temp
 
-	_set_time()
+	refresh_text_time()
 
 
 func load(save_dict: Dictionary) -> void:
 	for key: String in TIME_STATE_SAVE_KEYS:
 		self[key].load(save_dict[key])
 
-	_set_time()
+	refresh_text_time()
 
 
 func save() -> Dictionary:
@@ -104,12 +112,3 @@ func save() -> Dictionary:
 func _try_init(time_state: TimeState, dict: Dictionary, key: String) -> void:
 	if dict.has(key) and dict[key] is Dictionary:
 		time_state.load(dict[key])
-
-
-func _set_time() -> void:
-	_l_time.text = _time_text_template % [
-		_time_state.elapsed_time / 3600.0,
-		fmod(_time_state.elapsed_time, 3600.0) / 60.0,
-		fmod(_time_state.elapsed_time, 60.0),
-		fmod(_time_state.elapsed_time, 1.0) * 100.0,
-	]
