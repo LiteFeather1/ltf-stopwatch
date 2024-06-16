@@ -63,7 +63,7 @@ var _width_for_mid_title: float
 var _width_for_short_title: float
 
 var _start_drag_pos: Vector2
-var _window_position: Vector2i = Vector2i(-1, 1)
+var _window_position: Vector2i = Vector2i(-1, -1)
 var _window_size: Vector2i
 var _window_pinned_position: Vector2i
 var _window_pinned_size: Vector2i
@@ -121,15 +121,25 @@ func _ready() -> void:
 	await GLOBAL.tree.process_frame
 
 	if _window_position.x != -1:
+		var screens_area := Vector2i.ZERO
+		for i in DisplayServer.get_screen_count():
+			screens_area += DisplayServer.screen_get_size(i)
+
+		if _window_position.x >= screens_area.x:
+			_window_position.x = GLOBAL.window.position.x
+
+		if _window_position.y >= screens_area.y:
+			_window_position.y = GLOBAL.window.position.y
+
 		GLOBAL.window.position = _window_position
 		GLOBAL.window.size = _window_size
 	else:
 		var win_id := GLOBAL.window.current_screen
 		_window_pinned_position = Vector2i((
-				DisplayServer.screen_get_position(win_id).x
-				+ DisplayServer.screen_get_size(win_id).x
-				- GLOBAL.window.min_size.x
-				+ _window_margin_when_pinning.x
+			DisplayServer.screen_get_position(win_id).x
+			+ DisplayServer.screen_get_size(win_id).x
+			- GLOBAL.window.min_size.x
+			+ _window_margin_when_pinning.x
 			),
 			_window_margin_when_pinning.y,
 		)

@@ -349,7 +349,7 @@ func paste_in_time() -> void:
 		_set_buttons_disabled(time_state.elapsed_time == 0)
 	elif text[0].is_valid_int():
 		# If this becomes problematic we could
-		# have a popup to ask if the user wants to reset the stopwatch
+			# have a accept dialog to ask if the user wants to reset the stopwatch
 		# or have '=' to reset
 		_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text)))
 		_popup_animation("Reset!", DUR)
