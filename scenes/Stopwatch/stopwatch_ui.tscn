@@ -358,7 +358,8 @@ offset_right = 48.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
+mouse_force_pass_scroll_events = false
+mouse_default_cursor_shape = 2
 
 [node name="l_time_message" type="Label" parent="p_message_popup"]
 modulate = Color(0.968627, 0.968627, 0.968627, 1)

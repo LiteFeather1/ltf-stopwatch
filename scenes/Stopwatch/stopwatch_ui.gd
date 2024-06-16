@@ -115,6 +115,8 @@ func _ready() -> void:
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
 
+	_popup_message.gui_input.connect(_on_popup_message_gui_input)
+
 	# Set sizes
 	_stopwatch_and_buttons_separation = _vbc_stopwatch_and_buttons.get_theme_constant("separation")
 
@@ -543,6 +545,16 @@ func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
 	_delete_stopwatch_entry_ui(_stopwatch_tray_entries_ui.find(entry))
 
 
+func _on_popup_message_gui_input(input: InputEvent) -> void:
+	if input is InputEventMouseButton:
+
+		if _popup_message_tween:
+			_popup_message_tween.kill()
+
+		_popup_message_tween = create_tween()
+		_popup_animation_disappear()
+
+
 func _set_button_state(button: Button, state: bool) -> void:
 	button.disabled = state
 	button.mouse_default_cursor_shape = CURSOR_FORBIDDEN if state else CURSOR_POINTING_HAND
@@ -579,6 +591,16 @@ func _reset_stopwatch(elapsed_time: float) -> void:
 	_shortest_entry_index = 0
 
 
+func _popup_animation_disappear() -> void:
+	const DISAPPEAR_DUR := .2
+	_popup_message_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
+		.tween_property(_popup_message, ^"position:y", 32.0, DISAPPEAR_DUR).as_relative()
+	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", .1, DISAPPEAR_DUR)
+	_popup_message_tween.tween_callback(func() -> void:
+		_popup_message.visible = false
+	)
+
+
 func _popup_animation(text: String, interval: float) -> void:
 	if _popup_message_tween:
 		_popup_message_tween.kill()
@@ -606,14 +628,7 @@ func _popup_animation(text: String, interval: float) -> void:
 
 	_popup_message_tween.tween_interval(interval)
 
-	const MOVE_DISTANCE := 32.0
-	const DUR_DISAPPEAR := .2
-	_popup_message_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
-		.tween_property(_popup_message, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
-	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", .1, DUR_DISAPPEAR)
-	_popup_message_tween.tween_callback(func() -> void:
-		_popup_message.visible = false
-	)
+	_popup_animation_disappear()
 
 
 func _set_clipboard(to_copy: String, text: String) -> void:
