@@ -71,7 +71,7 @@ const SAVE_KEYS: PackedStringArray = [
 @export_category("Message Pop Up")
 @export var _popup_message: Control
 @export var _l_popup_message: Label
-@export var _popup_message_padding: Vector2 = Vector2(16.0, 8.0)
+@export var _popup_message_padding: Vector2 = Vector2(24.0, 8.0)
 
 var _stopwatch_and_buttons_separation: int
 
@@ -95,8 +95,6 @@ var _popup_message_scale := 1.0
 var _popup_message_font: Font
 var _popup_message_font_size: int
 var _popup_message_tween: Tween
-
-@onready var _message_initial_y_pos := _popup_message.position.y
 
 
 func _enter_tree() -> void:
@@ -578,21 +576,21 @@ func _reset_stopwatch(elapsed_time: float) -> void:
 
 
 func _popup_animation(text: String, interval: float) -> void:
-	_l_popup_message.text = text
-
-	var text_size = _popup_message_font.get_multiline_string_size(
-		text, _l_popup_message.horizontal_alignment, -1, _popup_message_font_size
-	)
-
-	_popup_message.size = text_size + _popup_message_padding
-	_popup_message.position.x = (size.x - _popup_message.size.x) * .5
-
 	if _popup_message_tween:
 		_popup_message_tween.kill()
 
 		_popup_message.modulate.a = .1
-		_popup_message.position.y = _message_initial_y_pos
 
+	_l_popup_message.text = text
+
+	_popup_message.size = _popup_message_padding + _popup_message_font.get_multiline_string_size(
+		text, _l_popup_message.horizontal_alignment, -1, _popup_message_font_size
+	)
+
+	_popup_message.position = Vector2(
+		(size.x - _popup_message.size.x) * .5,
+		size.y - (_popup_message.size.y * _popup_message.scale.y) - (_popup_message_padding.y * 2.0)
+	)
 	_popup_message.scale.y = .0
 	_popup_message.visible = true
 
@@ -611,7 +609,6 @@ func _popup_animation(text: String, interval: float) -> void:
 	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", .1, DUR_DISAPPEAR)
 	_popup_message_tween.tween_callback(func() -> void:
 		_popup_message.visible = false
-		_popup_message.position.y = _message_initial_y_pos
 	)
 
 
