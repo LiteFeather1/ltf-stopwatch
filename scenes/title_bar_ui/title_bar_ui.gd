@@ -102,11 +102,11 @@ func _ready() -> void:
 	var font_size := _l_title.get_theme_font_size("font_size")
 
 	_width_for_mid_title = font.get_string_size(
-		_l_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size,
+		_l_title.text, _l_title.horizontal_alignment, -1, font_size,
 	).x + 2.0
 
 	_width_for_short_title = font.get_string_size(
-		_l_title.text.substr(0, _mid_title_length), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size
+		_l_title.text.substr(0, _mid_title_length), _l_title.horizontal_alignment, -1, font_size
 	).x + 2.0
 
 	_popup_menu.index_pressed.connect(_on_popup_menu_index_pressed)

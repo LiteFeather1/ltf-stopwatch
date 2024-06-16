@@ -137,7 +137,7 @@ func _ready() -> void:
 			label_pause_time.text,
 			_hbc_tray_heading.get_child(2).text,
 		],
-		HORIZONTAL_ALIGNMENT_LEFT,
+		label_pause_time.horizontal_alignment,
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
 	).x + size.x - _vbc_entry_tray.size.x)
