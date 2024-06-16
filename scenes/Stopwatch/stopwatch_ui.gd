@@ -999,8 +999,8 @@ func _convert_text_to_seconds(text: String) -> float:
 	var units := text.split_floats(":")
 	var seconds := 0.0
 	var multiplier := 1
-	for i in units.size():
+	for i in minf(units.size(), 3):
 		seconds += units[-i - 1] * multiplier
-		multiplier *= 60 # This breaks if we try to paste in formats longer than HH:MM:SS
+		multiplier *= 60
 
 	return seconds
