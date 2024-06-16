@@ -351,7 +351,7 @@ func paste_in_time() -> void:
 		# If this becomes problematic we could
 		# have a popup to ask if the user wants to reset the stopwatch
 		# or have '=' to reset
-		_reset_stopwatch(_convert_text_to_seconds(text))
+		_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text)))
 		_popup_animation("Reset!", DUR)
 	else:
 		_popup_animation("Invalid format to paste in!", DUR)
