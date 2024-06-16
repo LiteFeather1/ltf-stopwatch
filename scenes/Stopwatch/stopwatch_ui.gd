@@ -327,34 +327,38 @@ func paste_in_time() -> void:
 	var text := DisplayServer.clipboard_get().replace(" ", "")
 
 	const DUR := .5
-	if text[0] == "+":
-		_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
-		_stopwatch.refresh_text_time()
-		
-		_popup_animation("Added!\n%s" % text, DUR)
-		_set_buttons_disabled(false)
-	elif text[0] == "-":
-		var time_state := _stopwatch.get_time_state()
-		if time_state.elapsed_time == 0.0:
-			_popup_animation("Can't subtract further", DUR * .5)
-			return
-
-		var time_to_sub := minf(
-			time_state.elapsed_time, _convert_text_to_seconds(text.substr(1, text.length()))
-		)
-		time_state.elapsed_time -= time_to_sub
-		_stopwatch.refresh_text_time()
-
-		_popup_animation("Subtracted!\n%s" % Global.seconds_to_time(time_to_sub), DUR)
-		_set_buttons_disabled(time_state.elapsed_time == 0)
-	elif text[0].is_valid_int():
-		# If this becomes problematic we could
+	match text[0]:
+		"=":
+			# If this becomes problematic we could
 			# have a accept dialog to ask if the user wants to reset the stopwatch
-		# or have '=' to reset
-		_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text)))
-		_popup_animation("Reset!", DUR)
-	else:
-		_popup_animation("Invalid format to paste in!", DUR)
+			# or have '=' to reset
+			_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text)))
+			_popup_animation("Reset!", DUR)
+		"+":
+			_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
+			_stopwatch.refresh_text_time()
+
+			_popup_animation("Added!\n%s" % text, DUR)
+			_set_buttons_disabled(false)
+		"-":
+			var time_state := _stopwatch.get_time_state()
+			if time_state.elapsed_time == 0.0:
+				_popup_animation("Can't subtract further", DUR * .5)
+				return
+
+			var time_to_sub := minf(
+				time_state.elapsed_time, _convert_text_to_seconds(text.substr(1, text.length()))
+			)
+			time_state.elapsed_time -= time_to_sub
+			_stopwatch.refresh_text_time()
+
+			_popup_animation("Subtracted!\n%s" % Global.seconds_to_time(time_to_sub), DUR)
+			_set_buttons_disabled(time_state.elapsed_time == 0)
+		_:
+			_popup_animation(
+				"Invalid format to paste in!\nPrefix with \"=\" \"+\" \"-\"\nto modifiy the stopwatch",
+				1
+			)
 
 
 func load(save_dict: Dictionary) -> void:
@@ -588,7 +592,7 @@ func _popup_animation(text: String, interval: float) -> void:
 	)
 
 	_popup_message.position = Vector2(
-		(size.x - _popup_message.size.x) * .5,
+		(size.x - (_popup_message.size.x * _popup_message.scale.x)) * .5,
 		size.y - (_popup_message.size.y * _popup_message.scale.y) - (_popup_message_padding.y * 2.0)
 	)
 	_popup_message.scale.y = .0

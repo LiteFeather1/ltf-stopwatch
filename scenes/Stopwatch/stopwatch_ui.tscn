@@ -358,7 +358,6 @@ offset_right = 48.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
-pivot_offset = Vector2(48, 16)
 mouse_filter = 2
 
 [node name="l_time_message" type="Label" parent="p_message_popup"]
