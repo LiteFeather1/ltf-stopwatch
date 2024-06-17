@@ -331,10 +331,7 @@ func paste_in_time() -> void:
 	const DUR := .5
 	match text[0]:
 		"=":
-			# If this becomes problematic we could
-			# have a accept dialog to ask if the user wants to reset the stopwatch
-			# or have '=' to reset
-			_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text)))
+			_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text.substr(1, text.length()))))
 			_popup_animation("Reset!", DUR)
 		"+":
 			_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
