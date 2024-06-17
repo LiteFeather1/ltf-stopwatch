@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1jherok1lutb"]
+[gd_scene load_steps=3 format=3 uid="uid://d1jherok1lutb"]
 
 [ext_resource type="Script" path="res://scenes/hover_tip/hover_tip_follow.gd" id="1_hg4h4"]
+[ext_resource type="FontFile" uid="uid://do81yj5stffi5" path="res://assets/fonts/space_mono/SpaceMono-Bold.ttf" id="2_nispc"]
 
 [node name="hover_tip_follow" type="Panel" node_paths=PackedStringArray("_l_text", "_delay_to_appear")]
 visible = false
@@ -26,6 +27,7 @@ offset_right = 0.5
 offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_nispc")
 theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
 vertical_alignment = 1

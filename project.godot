@@ -51,6 +51,7 @@ import/blender/enabled=false
 [gui]
 
 theme/custom="res://resources/base_theme.tres"
+theme/custom_font="res://assets/fonts/space_mono/SpaceMono-Regular.ttf"
 
 [input]
 
