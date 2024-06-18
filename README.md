@@ -17,9 +17,9 @@ Press the Copy Button or Ctrl + C to copy to clipboard the elapsed time. Formatt
 
 ### Paste-In Time
 Press Ctrl + V to paste-in a time to modify the Stopwatch elapsed time. Formatted as HH:MM:SS Modifiers examples:
- - "=" = Resets the stopwatch to the specified time, e.g. "=1.25" resets the Stopwatch to 00:00:01.25.
- - "+" = Adds to the elapsed time, e.g. "+1:10" adds 1 minute and 10 seconds to the elapsed time.
- - "-" = Substracts the elapsed time, e.g. "-1:3:5" subtracts 1 hour, 3 minutes and 5 seconds of elapsed the time.
+ - "=" - Resets the stopwatch to the specified time, e.g. "=1.25" resets the Stopwatch to 00:00:01.25.
+ - "+" - Adds to the elapsed time, e.g. "+1:10" adds 1 minute and 10 seconds to the elapsed time.
+ - "-" - Substracts the elapsed time, e.g. "-1:3:5" subtracts 1 hour, 3 minutes and 5 seconds of elapsed the time.
 
 Note: the elapsed time cannot be a negative number.
 
@@ -58,10 +58,11 @@ __Drag & Resize__ - Drag and resize the stopwatch like a regular window.
 
 ### Hotkeys
 |Task|Set 1| Set 2|
-|:-|:-|:-
+|:-|:-|:-|
 |Start/Pause/Continue Stopwatch|Ctrl + Space |Ctrl + Enter|
 |Reset Stopwatch|Ctrl + R||
-|Copy Current Time to Clipboard|Ctrl + C||
+|Copy Current Time to Clipboard|Ctrl + C|Ctrl + Insert|
+|Paste-In Time|Ctrl + V|Shift + Insert|
 |Undo deleted Entry|Ctrl + Z||
 |Redo deleted Entry|Ctrl + Y|Ctrl + Shift + Z|
 |Fold/Unfold Entry Tray|Ctrl + F|Ctrl + T|
