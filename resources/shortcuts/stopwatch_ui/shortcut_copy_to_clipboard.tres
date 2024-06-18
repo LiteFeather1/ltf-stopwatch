@@ -1,9 +1,14 @@
-[gd_resource type="Shortcut" load_steps=2 format=3 uid="uid://bwb4wndtu1kmc"]
+[gd_resource type="Shortcut" load_steps=3 format=3 uid="uid://bwb4wndtu1kmc"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_limys"]
 device = -1
 command_or_control_autoremap = true
 keycode = 67
 
+[sub_resource type="InputEventKey" id="InputEventKey_5seji"]
+device = -1
+command_or_control_autoremap = true
+keycode = 4194311
+
 [resource]
-events = [SubResource("InputEventKey_limys")]
+events = [SubResource("InputEventKey_limys"), SubResource("InputEventKey_5seji")]

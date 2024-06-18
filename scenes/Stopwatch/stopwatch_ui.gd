@@ -27,6 +27,8 @@ const TEMPLATE_NUM_ENTRY := &"#%d"
 const TEMPLATE_LONGEST_ENTRY := &"%s Longest" % TEMPLATE_NUM_ENTRY
 const TEMPLATE_SHORTEST_ENTRY := &"%s Shortest" % TEMPLATE_NUM_ENTRY
 
+const TEMPLATE_POP_UP_COPIED := &"Copied!\n%s"
+
 const PAUSES := &"Pauses"
 const PAUSE_TIME := &"Pause Time"
 const RESUME_TIME := &"Resume Time"
@@ -66,9 +68,10 @@ const SAVE_KEYS: PackedStringArray = [
 @export var _b_toggle_fold_tray: ButtonHoverTip
 @export var _c_icon_fold_tray: Control
 
-@export_category("Copied Pop Up")
-@export var _copied_popup: Control
-@export var _l_copied_time: Label
+@export_category("Message Pop Up")
+@export var _popup_message: Control
+@export var _l_popup_message: Label
+@export var _popup_message_padding: Vector2 = Vector2(24.0, 8.0)
 
 var _stopwatch_and_buttons_separation: int
 
@@ -88,10 +91,10 @@ var _copy_menu_options_mask: int
 
 var _width_for_min_h_separation: int
 
-var _popup_scale := 1.0
-var _popup_copied_tween: Tween
-
-@onready var _copied_initial_y_pos := _copied_popup.position.y
+var _popup_message_scale := 1.0
+var _popup_message_font: Font
+var _popup_message_font_size: int
+var _popup_message_tween: Tween
 
 
 func _enter_tree() -> void:
@@ -111,6 +114,8 @@ func _ready() -> void:
 	_b_toggle_fold_tray.pressed.connect(_toggle_fold_tray)
 
 	GLOBAL.window.size_changed.connect(_on_window_size_changed)
+
+	_popup_message.gui_input.connect(_on_popup_message_gui_input)
 
 	# Set sizes
 	_stopwatch_and_buttons_separation = _vbc_stopwatch_and_buttons.get_theme_constant("separation")
@@ -134,10 +139,13 @@ func _ready() -> void:
 			label_pause_time.text,
 			_hbc_tray_heading.get_child(2).text,
 		],
-		HORIZONTAL_ALIGNMENT_LEFT,
+		label_pause_time.horizontal_alignment,
 		-1,
 		label_pause_time.get_theme_font_size("font_size"),
 	).x + size.x - _vbc_entry_tray.size.x)
+
+	_popup_message_font = _l_popup_message.get_theme_font("font")
+	_popup_message_font_size = _l_popup_message.get_theme_font_size("font_size")
 
 	var parent_height := get_parent_area_size().y
 
@@ -317,6 +325,41 @@ func fix_stopwatch_tray_positioning() -> void:
 	_vbc_entry_tray.size.y = _max_entry_tray_size_y(_vbc_entry_tray.position.y)
 
 
+func paste_in_time() -> void:
+	var text := DisplayServer.clipboard_get().replace(" ", "")
+
+	const DUR := .5
+	match text[0]:
+		"=":
+			_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text.substr(1, text.length()))))
+			_popup_animation("Reset!", DUR)
+		"+":
+			_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
+			_stopwatch.refresh_text_time()
+
+			_popup_animation("Added!\n%s" % text, DUR)
+			_set_buttons_disabled(false)
+		"-":
+			var time_state := _stopwatch.get_time_state()
+			if time_state.elapsed_time == 0.0:
+				_popup_animation("Can't subtract further", DUR * .5)
+				return
+
+			var time_to_sub := minf(
+				time_state.elapsed_time, _convert_text_to_seconds(text.substr(1, text.length()))
+			)
+			time_state.elapsed_time -= time_to_sub
+			_stopwatch.refresh_text_time()
+
+			_popup_animation("Subtracted!\n%s" % Global.seconds_to_time(time_to_sub), DUR)
+			_set_buttons_disabled(time_state.elapsed_time == 0)
+		_:
+			_popup_animation(
+				"Invalid format to paste in!\nPrefix with \"=\" \"+\" \"-\"\nto modifiy the stopwatch",
+				1
+			)
+
+
 func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
 		self[key] = save_dict[key]
@@ -374,28 +417,12 @@ func _on_button_start_toggled(state: bool) -> void:
 
 
 func _on_button_reset_pressed() -> void:
-	_set_buttons_disabled(true)
-
-	_b_start.button_pressed = false
-	_b_start.icon = _sprite_start
-	_b_start.set_tip_name("start")
-
-	_stopwatch.reset()
-
-	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
-		entry.queue_free()
-	
-	_stopwatch_tray_entries_ui.clear()
-
-	_set_entry_tray_visibility()
-
-	_longest_entry_index = 0
-	_shortest_entry_index = 0
+	_reset_stopwatch(0.0)
 
 
 func _on_button_clipboard_pressed() -> void:
 	var time := Global.seconds_to_time(_stopwatch.get_time_state().elapsed_time)
-	_set_clipboard(time, time)
+	_set_clipboard(time, TEMPLATE_POP_UP_COPIED % time)
 
 
 func _on_copy_menu_index_pressed(index: int) -> void:
@@ -476,9 +503,9 @@ func _on_window_size_changed() -> void:
 	var s := minf(scale_x, maxf((win_height / win_max_height) * (min_scale_y * 3.0), min_scale_y))
 	_vbc_stopwatch_and_buttons.scale = Vector2(s, s)
 
-	# Slight scale s_copied
-	_popup_scale = clampf(s * 1.025, .7, 1.0)
-	_copied_popup.scale = Vector2(_popup_scale, _popup_scale)
+	# Slight scale popup
+	_popup_message_scale = clampf(s * 1.025, .7, 1.0)
+	_popup_message.scale = Vector2(_popup_message_scale, _popup_message_scale)
 
 	# Slight scale buttons
 	var b_s := maxf(1.0, 1.75 - s)
@@ -515,6 +542,16 @@ func _on_stopwatch_entry_deleted(entry: StopwatchEntryUI) -> void:
 	_delete_stopwatch_entry_ui(_stopwatch_tray_entries_ui.find(entry))
 
 
+func _on_popup_message_gui_input(input: InputEvent) -> void:
+	if input is InputEventMouseButton:
+
+		if _popup_message_tween:
+			_popup_message_tween.kill()
+
+		_popup_message_tween = create_tween()
+		_popup_animation_disappear()
+
+
 func _set_button_state(button: Button, state: bool) -> void:
 	button.disabled = state
 	button.mouse_default_cursor_shape = CURSOR_FORBIDDEN if state else CURSOR_POINTING_HAND
@@ -530,35 +567,70 @@ func _set_b_start_continue() -> void:
 	_b_start.set_tip_name("continue")
 
 
-func _set_clipboard(to_copy: String, message: String) -> void:
-	DisplayServer.clipboard_set(to_copy)
+func _reset_stopwatch(elapsed_time: float) -> void:
+	_b_start.button_pressed = false
+	_set_buttons_disabled(elapsed_time == 0)
 
-	_l_copied_time.text = "Copied!\n%s" % message
+	if elapsed_time == 0.0:
+		_b_start.icon = _sprite_start
+		_b_start.set_tip_name("start")
 
-	if _popup_copied_tween:
-		_popup_copied_tween.kill()
+	_stopwatch.reset(elapsed_time)
 
-		_copied_popup.modulate.a = .1
-		_copied_popup.position.y = _copied_initial_y_pos
+	for entry: StopwatchEntryUI in _stopwatch_tray_entries_ui:
+		entry.queue_free()
+	
+	_stopwatch_tray_entries_ui.clear()
 
-	_copied_popup.scale.y = .0
-	_copied_popup.visible = true
+	_set_entry_tray_visibility()
 
-	# popup copy appear animation
-	const DUR := .66
-	_popup_copied_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	_popup_copied_tween.tween_property(_copied_popup, ^"scale:y", _popup_scale, DUR)
-	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", 1.0, DUR)
+	_longest_entry_index = 0
+	_shortest_entry_index = 0
 
-	const MOVE_DISTANCE := 32.0
-	const DUR_DISAPPEAR := .2
-	_popup_copied_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
-		.tween_property(_copied_popup, ^"position:y", MOVE_DISTANCE, DUR_DISAPPEAR).as_relative()
-	_popup_copied_tween.parallel().tween_property(_copied_popup, ^"modulate:a", .1, DUR_DISAPPEAR)
-	_popup_copied_tween.tween_callback(func() -> void:
-		_copied_popup.visible = false
-		_copied_popup.position.y = _copied_initial_y_pos
+
+func _popup_animation_disappear() -> void:
+	const DISAPPEAR_DUR := .2
+	_popup_message_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
+		.tween_property(_popup_message, ^"position:y", 32.0, DISAPPEAR_DUR).as_relative()
+	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", .1, DISAPPEAR_DUR)
+	_popup_message_tween.tween_callback(func() -> void:
+		_popup_message.visible = false
 	)
+
+
+func _popup_animation(text: String, interval: float) -> void:
+	if _popup_message_tween:
+		_popup_message_tween.kill()
+
+		_popup_message.modulate.a = .1
+
+	_l_popup_message.text = text
+
+	_popup_message.size = _popup_message_padding + _popup_message_font.get_multiline_string_size(
+		text, _l_popup_message.horizontal_alignment, -1, _popup_message_font_size
+	)
+
+	_popup_message.position = Vector2(
+		(size.x - (_popup_message.size.x * _popup_message.scale.x)) * .5,
+		size.y - (_popup_message.size.y * _popup_message.scale.y) - (_popup_message_padding.y * 2.0)
+	)
+	_popup_message.scale.y = .0
+	_popup_message.visible = true
+
+	# popup appear animation
+	const DUR := .66
+	_popup_message_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	_popup_message_tween.tween_property(_popup_message, ^"scale:y", _popup_message_scale, DUR)
+	_popup_message_tween.parallel().tween_property(_popup_message, ^"modulate:a", 1.0, DUR)
+
+	_popup_message_tween.tween_interval(interval)
+
+	_popup_animation_disappear()
+
+
+func _set_clipboard(to_copy: String, text: String) -> void:
+	DisplayServer.clipboard_set(to_copy)
+	_popup_animation(text, 0.0)
 
 
 func _copy_menu_tray_entries(
@@ -620,7 +692,7 @@ func _copy_menu_tray_entries(
 			temp % [0, ""], temp % [0, " Shortest"],
 		)
 
-	_set_clipboard("\n".join(entries_text), message)
+	_set_clipboard("\n".join(entries_text), TEMPLATE_POP_UP_COPIED % message)
 
 
 func _build_copy_heading(
@@ -937,3 +1009,14 @@ func _find_longest_shortest_times() -> void:
 
 	_set_entry_span(_longest_entry_index, TEMPLATE_LONGEST_ENTRY)
 	_set_entry_span(_shortest_entry_index, TEMPLATE_SHORTEST_ENTRY)
+
+
+func _convert_text_to_seconds(text: String) -> float:
+	var units := text.split_floats(":")
+	var seconds := 0.0
+	var multiplier := 1
+	for i in minf(units.size(), 3):
+		seconds += units[-i - 1] * multiplier
+		multiplier *= 60
+
+	return seconds
