@@ -334,8 +334,7 @@ func paste_in_time() -> void:
 			_reset_stopwatch(maxf(0.0, _convert_text_to_seconds(text.substr(1, text.length()))))
 			_popup_animation("Reset!", DUR)
 		"+":
-			_stopwatch.get_time_state().elapsed_time += _convert_text_to_seconds(text)
-			_stopwatch.refresh_text_time()
+			_stopwatch.modify_time(_convert_text_to_seconds(text))
 
 			_popup_animation("Added!\n%s" % text, DUR)
 			_set_buttons_disabled(false)
@@ -348,8 +347,7 @@ func paste_in_time() -> void:
 			var time_to_sub := minf(
 				time_state.elapsed_time, _convert_text_to_seconds(text.substr(1, text.length()))
 			)
-			time_state.elapsed_time -= time_to_sub
-			_stopwatch.refresh_text_time()
+			_stopwatch.modify_time(time_to_sub)
 
 			_popup_animation("Subtracted!\n%s" % Global.seconds_to_time(time_to_sub), DUR)
 			_set_buttons_disabled(time_state.elapsed_time == 0)
