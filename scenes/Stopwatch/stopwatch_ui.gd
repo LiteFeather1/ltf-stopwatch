@@ -97,6 +97,10 @@ var _popup_message_font_size: int
 var _popup_message_tween: Tween
 
 
+func get_stopwatch() -> Stopwatch:
+	return _stopwatch
+
+
 func _enter_tree() -> void:
 	add_to_group(Main.SAVEABLE)
 

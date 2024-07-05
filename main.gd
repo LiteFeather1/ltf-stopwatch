@@ -73,6 +73,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_stopwatch_ui.paste_in_time()
 	elif event.is_action_pressed("open_title_bar_popup_menu"):
 		_title_bar_ui.show_popup_menu_shortcut()
+	elif event.is_action_pressed("increment_time_by_one"):
+		_stopwatch_ui.get_stopwatch().modify_time(1)
+	elif event.is_action_pressed("decrement_time_by_one"):
+		_stopwatch_ui.get_stopwatch().modify_time(-1)
 
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:
