@@ -181,7 +181,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func show_popup_menu_shortcut() -> void:
-	_popup_menu.position = GLOBAL.window.position + Vector2i(4, int(size.y))
+	_popup_menu.position = GLOBAL.window.position + Vector2i(0, int(size.y))
 	_show_popup_menu()
 
 
