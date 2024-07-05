@@ -351,7 +351,7 @@ func paste_in_time() -> void:
 			var time_to_sub := minf(
 				time_state.elapsed_time, _convert_text_to_seconds(text.substr(1, text.length()))
 			)
-			_stopwatch.modify_time(time_to_sub)
+			_stopwatch.modify_time(-time_to_sub)
 
 			_popup_animation("Subtracted!\n%s" % Global.seconds_to_time(time_to_sub), DUR)
 			_set_buttons_disabled(time_state.elapsed_time == 0)
