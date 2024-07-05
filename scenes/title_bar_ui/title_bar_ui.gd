@@ -180,6 +180,11 @@ func _gui_input(event: InputEvent) -> void:
 			_show_popup_menu()
 
 
+func show_popup_menu_shortcut() -> void:
+	_popup_menu.position = GLOBAL.window.position + Vector2i(4, int(size.y))
+	_show_popup_menu()
+
+
 func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
 		self[key] = str_to_var(save_dict[key])
