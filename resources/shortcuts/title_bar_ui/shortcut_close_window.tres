@@ -1,9 +1,4 @@
-[gd_resource type="Shortcut" load_steps=3 format=3 uid="uid://drp1v76joiq6v"]
-
-[sub_resource type="InputEventKey" id="InputEventKey_oapi6"]
-device = -1
-command_or_control_autoremap = true
-keycode = 87
+[gd_resource type="Shortcut" load_steps=2 format=3 uid="uid://drp1v76joiq6v"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_j4peu"]
 device = -1
@@ -11,4 +6,4 @@ command_or_control_autoremap = true
 keycode = 4194335
 
 [resource]
-events = [SubResource("InputEventKey_oapi6"), SubResource("InputEventKey_j4peu")]
+events = [SubResource("InputEventKey_j4peu")]
