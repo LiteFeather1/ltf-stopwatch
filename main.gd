@@ -77,6 +77,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_stopwatch_ui.get_stopwatch().modify_time(1)
 	elif event.is_action_pressed("decrement_time_by_one"):
 		_stopwatch_ui.get_stopwatch().modify_time(-1)
+	elif event.is_action_pressed("increment_time_by_five"):
+		_stopwatch_ui.get_stopwatch().modify_time(5)
+	elif event.is_action_pressed("decrement_time_by_five"):
+		_stopwatch_ui.get_stopwatch().modify_time(-5)
 
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:
