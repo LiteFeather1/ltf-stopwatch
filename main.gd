@@ -83,6 +83,22 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("decrement_time_by_five"):
 		var stopwatch = _stopwatch_ui.get_stopwatch()
 		stopwatch.modify_time(-minf(5, stopwatch.get_time_state().elapsed_time))
+	else:
+		if event.is_echo() or event.is_released():
+			return
+
+		var event_key := event as InputEventKey
+		if not event_key:
+			return
+
+		if Input.is_key_pressed(KEY_DELETE):
+			for i in 11:
+				if (
+					(event_key.keycode == KEY_0 + i or event_key.keycode == KEY_KP_0 + i)
+					and i <= _stopwatch_ui.get_stopwatch_tray_entries_ui_size()
+				):
+					_stopwatch_ui.delete_stopwatch_entry_ui((i + 9) % 10)
+
 
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:

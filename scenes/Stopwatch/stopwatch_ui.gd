@@ -101,6 +101,9 @@ func get_stopwatch() -> Stopwatch:
 	return _stopwatch
 
 
+func get_stopwatch_tray_entries_ui_size() -> int:
+	return _stopwatch_tray_entries_ui.size()
+
 func _enter_tree() -> void:
 	add_to_group(Main.SAVEABLE)
 
