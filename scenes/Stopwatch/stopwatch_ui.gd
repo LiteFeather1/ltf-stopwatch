@@ -302,8 +302,6 @@ func redo_deleted_stopwatch_entry_ui() -> void:
 	
 	var index := time_state.redo_deleted_entry()
 
-	_stopwatch_tray_entries_ui[index].delete_routine()
-
 	_delete_stopwatch_entry_ui(index)
 
 
@@ -924,6 +922,7 @@ func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> vo
 
 func _delete_stopwatch_entry_ui(index: int) -> void:
 	_stopwatch_tray_entries_ui[index].set_colour(_hover_entry_colour)
+	_stopwatch_tray_entries_ui[index].delete_routine()
 	_stopwatch_tray_entries_ui.remove_at(index)
 
 	var time_state := _stopwatch.get_time_state()
