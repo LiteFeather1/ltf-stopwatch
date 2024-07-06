@@ -270,13 +270,13 @@ func undo_deleted_stopwatch_entry_ui() -> void:
 	if not time_state.can_undo():
 		return
 	
-	_set_entry_tray_visibility()
-	
 	var index := time_state.undo_deleted_entry()
 	var new_entry := _instantiate_stopwatch_entry_ui(
 		index, _stopwatch_tray_entries_ui.size() - index
 	)
 	
+	_set_entry_tray_visibility()
+
 	var resumed_size := time_state.resumed_times_size()
 	if index < resumed_size:
 		new_entry.set_resume_time(
