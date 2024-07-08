@@ -36,6 +36,13 @@ func move_window_bottom_right() -> void:
 		- window.size
 	)
 
+
+func move_window_centre_left() -> void:
+	window.position = DisplayServer.screen_get_position(window.current_screen) + Vector2i(
+		MOVE_WINDOW_PADDING,
+		-MOVE_WINDOW_PADDING + int(
+			(DisplayServer.screen_get_usable_rect(window.current_screen).size.y - window.size.y) * .5
+		)
 	)
 
 
