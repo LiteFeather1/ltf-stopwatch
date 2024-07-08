@@ -102,6 +102,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			match event_key.keycode:
 				KEY_KP_1, KEY_1:
 					GLOBAL.move_window_bottom_left()
+				KEY_KP_2, KEY_2:
+					GLOBAL.move_window_bottom_center()
 
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:
