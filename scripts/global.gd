@@ -26,3 +26,12 @@ func move_window_bottom_center() -> void:
 		int((screen_size.x - window.size.x) * .5),
 		screen_size.y - window.size.y - MOVE_WINDOW_PADDING
 	)
+
+
+func move_window_bottom_right() -> void:
+	window.position = (
+		DisplayServer.screen_get_position(window.current_screen)
+		+ DisplayServer.screen_get_usable_rect(window.current_screen).size
+		- Vector2i(MOVE_WINDOW_PADDING, MOVE_WINDOW_PADDING)
+		- window.size
+	)
