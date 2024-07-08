@@ -73,3 +73,9 @@ func move_window_top_centre() -> void:
 		int((DisplayServer.screen_get_usable_rect(window.current_screen).size.x - window.size.x) * .5),
 		MOVE_WINDOW_PADDING
 	)
+
+func move_window_top_right() -> void:
+	window.position = DisplayServer.screen_get_position(window.current_screen) + Vector2i(
+		DisplayServer.screen_get_usable_rect(window.current_screen).size.x - window.size.x - MOVE_WINDOW_PADDING,
+		MOVE_WINDOW_PADDING
+	)
