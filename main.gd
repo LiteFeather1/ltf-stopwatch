@@ -98,7 +98,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 					and i <= _stopwatch_ui.get_stopwatch_tray_entries_ui_size()
 				):
 					_stopwatch_ui.delete_stopwatch_entry_ui((i + 9) % 10)
-
+		elif event_key.ctrl_pressed or event_key.alt_pressed:
+			match event_key.keycode:
+				KEY_KP_1, KEY_1:
+					GLOBAL.move_window_bottom_left()
 
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:
