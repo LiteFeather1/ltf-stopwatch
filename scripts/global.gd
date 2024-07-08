@@ -3,7 +3,7 @@ class_name Global extends Node
 
 const FLOAT_MAX := 1.79769e308
 
-const MOVE_WINDOW_PADDING := 4
+const MOVE_WINDOW_PADDING := 16
 
 @onready var tree := get_tree()
 @onready var window := get_window()

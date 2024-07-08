@@ -98,25 +98,45 @@ func _unhandled_key_input(event: InputEvent) -> void:
 					and i <= _stopwatch_ui.get_stopwatch_tray_entries_ui_size()
 				):
 					_stopwatch_ui.delete_stopwatch_entry_ui((i + 9) % 10)
-		elif event_key.ctrl_pressed or event_key.alt_pressed:
+		elif event_key.ctrl_pressed:
 			match event_key.keycode:
-				KEY_KP_1, KEY_1:
+				KEY_KP_1:
 					GLOBAL.move_window_bottom_left()
-				KEY_KP_2, KEY_2:
+				KEY_KP_2:
 					GLOBAL.move_window_bottom_centre()
-				KEY_KP_3, KEY_3:
+				KEY_KP_3:
 					GLOBAL.move_window_bottom_right()
-				KEY_KP_4, KEY_4:
+				KEY_KP_4:
 					GLOBAL.move_window_centre_left()
-				KEY_KP_5, KEY_5:
+				KEY_KP_5:
 					GLOBAL.move_window_centre()
-				KEY_KP_6, KEY_6:
+				KEY_KP_6:
 					GLOBAL.move_window_centre_right()
-				KEY_KP_7, KEY_7:
+				KEY_KP_7:
 					GLOBAL.move_window_top_left()
-				KEY_KP_8, KEY_8:
+				KEY_KP_8:
 					GLOBAL.move_window_top_centre()
-				KEY_KP_9, KEY_9:
+				KEY_KP_9:
+					GLOBAL.move_window_top_right()
+		elif event_key.alt_pressed:
+			match event_key.keycode:
+				KEY_1:
+					GLOBAL.move_window_bottom_left()
+				KEY_2:
+					GLOBAL.move_window_bottom_centre()
+				KEY_3:
+					GLOBAL.move_window_bottom_right()
+				KEY_4:
+					GLOBAL.move_window_centre_left()
+				KEY_5:
+					GLOBAL.move_window_centre()
+				KEY_6:
+					GLOBAL.move_window_centre_right()
+				KEY_7:
+					GLOBAL.move_window_top_left()
+				KEY_8:
+					GLOBAL.move_window_top_centre()
+				KEY_9:
 					GLOBAL.move_window_top_right()
 
 
