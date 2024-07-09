@@ -122,6 +122,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 					break
 		elif event_key.ctrl_pressed:
 			match event_key.keycode:
+				KEY_LEFT:
+					GLOBAL.move_window_left()
+				KEY_RIGHT:
+					GLOBAL.move_window_right()
+				KEY_UP:
+					GLOBAL.move_window_up()
+				KEY_DOWN:
+					GLOBAL.move_window_down()
 				KEY_KP_1:
 					GLOBAL.move_window_bottom_left()
 				KEY_KP_2:
