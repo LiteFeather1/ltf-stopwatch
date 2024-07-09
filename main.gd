@@ -20,6 +20,8 @@ const SAVEABLE := &"saveable"
 
 var _normal_colour: Color
 
+var _windows_key_pressed: bool = false
+
 
 func _ready() -> void:
 	_title_bar_ui.pin_toggled.connect(_on_title_bar_ui_pin_toggled)
@@ -84,12 +86,31 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		var stopwatch = _stopwatch_ui.get_stopwatch()
 		stopwatch.modify_time(-minf(5, stopwatch.get_time_state().elapsed_time))
 	else:
-		if event.is_echo() or event.is_released():
-			return
-
 		var event_key := event as InputEventKey
 		if not event_key:
 			return
+
+		if _windows_key_pressed:
+			if event.is_action_released("windows_key"):
+				_windows_key_pressed = false
+				return
+
+			# I have no idea why this only works with key released, maybe Windows is just eating the inputs
+			match event_key.keycode:
+				KEY_LEFT:
+					print("move left")
+				KEY_UP:
+					print("move up")
+				KEY_RIGHT:
+					print("move right")
+				KEY_DOWN:
+					print("Move down")
+
+			return
+		elif event.is_echo() or event.is_released():
+			return
+
+		_windows_key_pressed = event.is_action_pressed("windows_key")
 
 		if Input.is_key_pressed(KEY_DELETE):
 			for i in 11:
@@ -98,6 +119,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 					and i <= _stopwatch_ui.get_stopwatch_tray_entries_ui_size()
 				):
 					_stopwatch_ui.delete_stopwatch_entry_ui((i + 9) % 10)
+					break
 		elif event_key.ctrl_pressed:
 			match event_key.keycode:
 				KEY_KP_1:
