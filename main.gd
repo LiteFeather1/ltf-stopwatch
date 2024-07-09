@@ -34,6 +34,7 @@ func _ready() -> void:
 	)
 	GLOBAL.window.focus_exited.connect(func() -> void:
 		GLOBAL.tree.paused = true
+		_windows_key_pressed = false
 	)
 
 	GLOBAL.window.min_size = _min_window_size
