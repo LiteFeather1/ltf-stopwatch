@@ -98,11 +98,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			# I have no idea why this only works with key released, maybe Windows is just eating the inputs
 			match event_key.keycode:
 				KEY_LEFT:
-					print("move left")
-				KEY_UP:
-					print("move up")
+					GLOBAL.move_window_left()
 				KEY_RIGHT:
 					print("move right")
+				KEY_UP:
+					print("move up")
 				KEY_DOWN:
 					print("Move down")
 
