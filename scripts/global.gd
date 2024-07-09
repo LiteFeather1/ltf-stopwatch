@@ -27,6 +27,13 @@ func move_window_right() -> void:
 		- MOVE_WINDOW_PADDING
 	)
 
+
+func move_window_up() -> void:
+	window.position.y = (
+		DisplayServer.screen_get_position(window.current_screen).y + MOVE_WINDOW_PADDING
+	)
+
+
 func move_window_bottom_left() -> void:
 	window.position = DisplayServer.screen_get_position(window.current_screen) + Vector2i(
 		MOVE_WINDOW_PADDING,
