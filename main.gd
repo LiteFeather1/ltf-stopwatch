@@ -104,7 +104,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				KEY_UP:
 					GLOBAL.move_window_up()
 				KEY_DOWN:
-					print("Move down")
+					GLOBAL.move_window_down()
 
 			return
 		elif event.is_echo() or event.is_released():
