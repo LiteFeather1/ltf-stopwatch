@@ -14,10 +14,18 @@ static func seconds_to_time(seconds: float) -> String:
 
 
 func move_window_left() -> void:
-	GLOBAL.window.position.x = (
+	window.position.x = (
 		DisplayServer.screen_get_position(window.current_screen).x + MOVE_WINDOW_PADDING
 	)
 
+
+func move_window_right() -> void:
+	window.position.x = (
+		DisplayServer.screen_get_usable_rect(window.current_screen).size.x
+		+ DisplayServer.screen_get_position(window.current_screen).x
+		- window.size.x
+		- MOVE_WINDOW_PADDING
+	)
 
 func move_window_bottom_left() -> void:
 	window.position = DisplayServer.screen_get_position(window.current_screen) + Vector2i(

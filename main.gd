@@ -100,7 +100,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				KEY_LEFT:
 					GLOBAL.move_window_left()
 				KEY_RIGHT:
-					print("move right")
+					GLOBAL.move_window_right()
 				KEY_UP:
 					print("move up")
 				KEY_DOWN:
