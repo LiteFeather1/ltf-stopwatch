@@ -23,7 +23,13 @@ func move_window_left() -> void:
 
 
 func move_window_right() -> void:
-	window.position.x = window_right_pos()
+	var x := window_right_pos()
+	if window.position.x == x:
+		var size_diff := window.size.x - window.min_size.x
+		window.size.x = window.min_size.x
+		window.position.x += size_diff
+	else:
+		window.position.x = x
 
 
 func move_window_up() -> void:
