@@ -14,10 +14,13 @@ static func seconds_to_time(seconds: float) -> String:
 
 
 func move_window_left() -> void:
-	window.position.x = window_left_pos()
 	var x := window_left_pos()
 	if window.position.x == x:
 		window.size.x = window.min_size.x
+	elif window.position.x == window_right_pos() and window.size.x == window.min_size.x:
+		var size_diff := window.max_size.x - window.size.x
+		window.size.x = window.max_size.x
+		window.position.x -= size_diff
 	else:
 		window.position.x = x
 
