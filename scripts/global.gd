@@ -15,6 +15,11 @@ static func seconds_to_time(seconds: float) -> String:
 
 func move_window_left() -> void:
 	window.position.x = window_left_pos()
+	var x := window_left_pos()
+	if window.position.x == x:
+		window.size.x = window.min_size.x
+	else:
+		window.position.x = x
 
 
 func move_window_right() -> void:
