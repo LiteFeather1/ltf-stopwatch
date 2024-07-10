@@ -22,18 +22,11 @@ func move_window_right() -> void:
 
 
 func move_window_up() -> void:
-	window.position.y = (
-		DisplayServer.screen_get_position(window.current_screen).y + MOVE_WINDOW_PADDING
-	)
+	window.position.y = window_up_pos()
 
 
 func move_window_down() -> void:
-	window.position.y = (
-		DisplayServer.screen_get_position(window.current_screen).y
-		+ DisplayServer.screen_get_usable_rect(window.current_screen).size.y
-		- window.size.y
-		- MOVE_WINDOW_PADDING
-	)
+	window.position.y = window_down_pos()
 
 
 func move_window_bottom_left() -> void:
@@ -105,9 +98,7 @@ func move_window_top_right() -> void:
 
 
 func window_left_pos() -> int:
-	return (
-		DisplayServer.screen_get_position(window.current_screen).x + MOVE_WINDOW_PADDING
-	)
+	return DisplayServer.screen_get_position(window.current_screen).x + MOVE_WINDOW_PADDING
 
 
 func window_right_pos() -> int:
@@ -115,5 +106,18 @@ func window_right_pos() -> int:
 		DisplayServer.screen_get_position(window.current_screen).x
 		+ DisplayServer.screen_get_usable_rect(window.current_screen).size.x
 		- window.size.x
+		- MOVE_WINDOW_PADDING
+	)
+
+
+func window_up_pos() -> int:
+	return DisplayServer.screen_get_position(window.current_screen).y + MOVE_WINDOW_PADDING
+
+
+func window_down_pos() -> int:
+	return (
+		DisplayServer.screen_get_position(window.current_screen).y
+		+ DisplayServer.screen_get_usable_rect(window.current_screen).size.y
+		- window.size.y
 		- MOVE_WINDOW_PADDING
 	)
