@@ -17,7 +17,7 @@ func move_window_left() -> void:
 	var x := window_left_pos()
 	if window.position.x == x:
 		window.size.x = window.min_size.x
-	elif window.position.x == window_right_pos() and window.size.x == window.min_size.x:
+	elif window.size.x == window.min_size.x and window.position.x == window_right_pos():
 		var size_diff := window.max_size.x - window.size.x
 		window.size.x = window.max_size.x
 		window.position.x -= size_diff
@@ -31,6 +31,8 @@ func move_window_right() -> void:
 		var size_diff := window.size.x - window.min_size.x
 		window.size.x = window.min_size.x
 		window.position.x += size_diff
+	elif window.size.x == window.min_size.x and window.position.x == window_left_pos():
+		window.size.x = window.max_size.x
 	else:
 		window.position.x = x
 
