@@ -22,9 +22,8 @@ func move_window_left() -> void:
 		_prev_window_size_x = window.size.x
 		window.size.x = window.min_size.x
 	elif window.size.x == window.min_size.x and window.position.x == window_right_pos():
-		var size_diff := _prev_window_size_x - window.size.x
 		window.size.x = _prev_window_size_x
-		window.position.x -= size_diff
+		window.position.x -= _prev_window_size_x - window.min_size.x
 	else:
 		window.position.x = left
 
@@ -33,9 +32,8 @@ func move_window_right() -> void:
 	var right := window_right_pos()
 	if window.position.x == right:
 		_prev_window_size_x = window.size.x
-		var size_diff := window.size.x - window.min_size.x
 		window.size.x = window.min_size.x
-		window.position.x += size_diff
+		window.position.x += _prev_window_size_x - window.min_size.x
 	elif window.size.x == window.min_size.x and window.position.x == window_left_pos():
 		window.size.x = _prev_window_size_x
 	else:
@@ -58,9 +56,8 @@ func move_window_down() -> void:
 	var down := window_down_pos()
 	if window.position.y == down:
 		_prev_window_size_y = window.size.y
-		var size_diff := window.size.y - window.min_size.y
 		window.size.y = window.min_size.y
-		window.position.y += size_diff
+		window.position.y += _prev_window_size_y - window.min_size.y
 	elif window.size.y == window.min_size.y and window.position.y == window_up_pos():
 		window.size.y = _prev_window_size_y
 	else:
@@ -127,6 +124,7 @@ func move_window_top_centre() -> void:
 		int((DisplayServer.screen_get_usable_rect(window.current_screen).size.x - window.size.x) * .5),
 		MOVE_WINDOW_PADDING
 	)
+
 
 func move_window_top_right() -> void:
 	window.position = DisplayServer.screen_get_position(window.current_screen) + Vector2i(
