@@ -96,7 +96,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				_windows_key_pressed = false
 				return
 
-			# TODO Return if shift is pressed
+			if event_key.shift_pressed:
+				return
 
 			# I have no idea why this only works with key released, maybe Windows is just eating the inputs
 			match event_key.keycode:
