@@ -47,6 +47,9 @@ func move_window_up() -> void:
 	if window.position.y == up:
 		_prev_window_size_y = window.size.y
 		window.size.y = window.min_size.y
+	elif window.size.y == window.min_size.y and window.position.y == window_down_pos():
+		window.size.y = _prev_window_size_y
+		window.position.y -= _prev_window_size_y - window.min_size.y
 	else:
 		window.position.y = up
 
