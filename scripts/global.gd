@@ -6,6 +6,7 @@ const FLOAT_MAX := 1.79769e308
 const MOVE_WINDOW_PADDING := 16
 
 var _prev_window_size_x: int
+var _prev_window_size_y: int
 
 @onready var tree := get_tree()
 @onready var window := get_window()
@@ -16,8 +17,8 @@ static func seconds_to_time(seconds: float) -> String:
 
 
 func move_window_left() -> void:
-	var x := window_left_pos()
-	if window.position.x == x:
+	var left := window_left_pos()
+	if window.position.x == left:
 		_prev_window_size_x = window.size.x
 		window.size.x = window.min_size.x
 	elif window.size.x == window.min_size.x and window.position.x == window_right_pos():
@@ -25,12 +26,12 @@ func move_window_left() -> void:
 		window.size.x = _prev_window_size_x
 		window.position.x -= size_diff
 	else:
-		window.position.x = x
+		window.position.x = left
 
 
 func move_window_right() -> void:
-	var x := window_right_pos()
-	if window.position.x == x:
+	var right := window_right_pos()
+	if window.position.x == right:
 		_prev_window_size_x = window.size.x
 		var size_diff := window.size.x - window.min_size.x
 		window.size.x = window.min_size.x
@@ -38,11 +39,16 @@ func move_window_right() -> void:
 	elif window.size.x == window.min_size.x and window.position.x == window_left_pos():
 		window.size.x = _prev_window_size_x
 	else:
-		window.position.x = x
+		window.position.x = right
 
 
 func move_window_up() -> void:
-	window.position.y = window_up_pos()
+	var up := window_up_pos()
+	if window.position.y == up:
+		_prev_window_size_y = window.size.y
+		window.size.y = window.min_size.y
+	else:
+		window.position.y = up
 
 
 func move_window_down() -> void:
