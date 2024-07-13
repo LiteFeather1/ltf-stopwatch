@@ -27,7 +27,9 @@ func _ready() -> void:
 	_title_bar_ui.pin_toggled.connect(_on_title_bar_ui_pin_toggled)
 	_title_bar_ui.close_pressed.connect(_quit_app)
 	_title_bar_ui.last_stopwatch_pressed.connect(_stopwatch_ui.restore_last_time_state)
-	
+
+	GLOBAL.changed_window_size_x.connect(_title_bar_ui.delay_window_size_changed)
+
 	GLOBAL.window.close_requested.connect(_quit_app)
 	GLOBAL.window.focus_entered.connect(func() -> void:
 		GLOBAL.tree.paused = false

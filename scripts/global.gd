@@ -1,6 +1,9 @@
 class_name Global extends Node
 
 
+signal changed_window_size_x()
+
+
 const FLOAT_MAX := 1.79769e308
 
 const MOVE_WINDOW_PADDING := 16
@@ -23,9 +26,11 @@ func move_window_left() -> void:
 	elif window.position.x == left:
 		_prev_window_size_x = window.size.x
 		window.size.x = window.min_size.x
+		changed_window_size_x.emit()
 	elif window.size.x == window.min_size.x and window.position.x == window_right_pos():
 		window.size.x = _prev_window_size_x
 		window.position.x -= _prev_window_size_x - window.min_size.x
+		changed_window_size_x.emit()
 	else:
 		window.position.x = left
 
@@ -38,8 +43,10 @@ func move_window_right() -> void:
 		_prev_window_size_x = window.size.x
 		window.size.x = window.min_size.x
 		window.position.x += _prev_window_size_x - window.min_size.x
+		changed_window_size_x.emit()
 	elif window.size.x == window.min_size.x and window.position.x == window_left_pos():
 		window.size.x = _prev_window_size_x
+		changed_window_size_x.emit()
 	else:
 		window.position.x = right
 
