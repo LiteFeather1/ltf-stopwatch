@@ -61,6 +61,8 @@ func move_window_down() -> void:
 		var size_diff := window.size.y - window.min_size.y
 		window.size.y = window.min_size.y
 		window.position.y += size_diff
+	elif window.size.y == window.min_size.y and window.position.y == window_up_pos():
+		window.size.y = _prev_window_size_y
 	else:
 		window.position.y = window_down_pos()
 
