@@ -52,7 +52,14 @@ func move_window_up() -> void:
 
 
 func move_window_down() -> void:
-	window.position.y = window_down_pos()
+	var down := window_down_pos()
+	if window.position.y == down:
+		_prev_window_size_y = window.size.y
+		var size_diff := window.size.y - window.min_size.y
+		window.size.y = window.min_size.y
+		window.position.y += size_diff
+	else:
+		window.position.y = window_down_pos()
 
 
 func move_window_bottom_left() -> void:
