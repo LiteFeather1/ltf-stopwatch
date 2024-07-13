@@ -18,7 +18,9 @@ static func seconds_to_time(seconds: float) -> String:
 
 func move_window_left() -> void:
 	var left := window_left_pos()
-	if window.position.x == left:
+	if window.always_on_top:
+		window.position.x = left
+	elif window.position.x == left:
 		_prev_window_size_x = window.size.x
 		window.size.x = window.min_size.x
 	elif window.size.x == window.min_size.x and window.position.x == window_right_pos():
@@ -30,7 +32,9 @@ func move_window_left() -> void:
 
 func move_window_right() -> void:
 	var right := window_right_pos()
-	if window.position.x == right:
+	if window.always_on_top:
+		window.position.x = right
+	elif window.position.x == right:
 		_prev_window_size_x = window.size.x
 		window.size.x = window.min_size.x
 		window.position.x += _prev_window_size_x - window.min_size.x
@@ -42,7 +46,9 @@ func move_window_right() -> void:
 
 func move_window_up() -> void:
 	var up := window_up_pos()
-	if window.position.y == up:
+	if window.always_on_top:
+		window.position.y = up
+	elif window.position.y == up:
 		_prev_window_size_y = window.size.y
 		window.size.y = window.min_size.y
 	elif window.size.y == window.min_size.y and window.position.y == window_down_pos():
@@ -54,7 +60,9 @@ func move_window_up() -> void:
 
 func move_window_down() -> void:
 	var down := window_down_pos()
-	if window.position.y == down:
+	if window.always_on_top:
+		window.position.y = down
+	elif window.position.y == down:
 		_prev_window_size_y = window.size.y
 		window.size.y = window.min_size.y
 		window.position.y += _prev_window_size_y - window.min_size.y
