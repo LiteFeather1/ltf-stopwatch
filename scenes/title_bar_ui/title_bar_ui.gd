@@ -27,6 +27,7 @@ const SAVE_KEYS: PackedStringArray = [
 	"_window_pinned_position",
 	"_window_pinned_size",
 ]
+
 const IS_LOW_PROCESSOR := &"is_low_processor"
 
 const PIN := &"pin"
