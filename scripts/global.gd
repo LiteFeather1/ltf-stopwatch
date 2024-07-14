@@ -60,10 +60,14 @@ func move_window_right() -> void:
 		window.size.x = window.min_size.x
 		window.position.x += _prev_window_size_x - window.min_size.x
 		changed_window_size_x.emit()
-	elif window.size.x == window.min_size.x and window.position.x == _window_left_pos():
-		window.size.x = _prev_window_size_x
-		changed_window_size_x.emit()
+	elif window.position.x == _window_left_pos():
+		if window.size.x == window.min_size.x:
+			window.size.x = _prev_window_size_x
+			changed_window_size_x.emit()
+		else:
+			window.position.x = _prev_window_pos_x
 	else:
+		_prev_window_pos_x = window.position.x
 		window.position.x = right
 
 
