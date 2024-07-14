@@ -98,9 +98,13 @@ func move_window_down() -> void:
 		_prev_window_size_y = window.size.y
 		window.size.y = window.min_size.y
 		window.position.y += _prev_window_size_y - window.min_size.y
-	elif window.size.y == window.min_size.y and window.position.y == _window_up_pos():
-		window.size.y = _prev_window_size_y
+	elif window.position.y == _window_up_pos():
+		if window.size.y == window.min_size.y:
+			window.size.y = _prev_window_size_y
+		else:
+			window.position.y = _prev_window_pos_y
 	else:
+		_prev_window_pos_y = window.position.y
 		window.position.y = down
 
 
