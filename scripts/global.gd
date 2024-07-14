@@ -4,6 +4,13 @@ class_name Global extends Node
 signal changed_window_size_x()
 
 
+const NAME := &"Global"
+
+const SAVE_KEYS: PackedStringArray = [
+	"_prev_window_size_x",
+	"_prev_window_size_y",
+]
+
 const FLOAT_MAX := 1.79769e308
 
 const MOVE_WINDOW_PADDING := 16
@@ -13,6 +20,10 @@ var _prev_window_size_y: int
 
 @onready var tree := get_tree()
 @onready var window := get_window()
+
+
+func _enter_tree() -> void:
+	add_to_group(Main.SAVEABLE)
 
 
 static func seconds_to_time(seconds: float) -> String:
@@ -172,3 +183,11 @@ func _window_down_pos() -> int:
 		- window.size.y
 		- MOVE_WINDOW_PADDING
 	)
+
+
+func save() -> Dictionary:
+	var save_dict := {}
+	for key: String in SAVE_KEYS:
+		save_dict[key] = self[key]
+
+	return save_dict
