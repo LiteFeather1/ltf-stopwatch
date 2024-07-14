@@ -185,6 +185,11 @@ func _window_down_pos() -> int:
 	)
 
 
+func load(save_dict: Dictionary) -> void:
+	for key: String in SAVE_KEYS:
+		self[key] = save_dict[key]
+
+
 func save() -> Dictionary:
 	var save_dict := {}
 	for key: String in SAVE_KEYS:
