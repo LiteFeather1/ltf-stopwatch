@@ -18,6 +18,7 @@ const MOVE_WINDOW_PADDING := 16
 var _prev_window_size_x: int
 var _prev_window_size_y: int
 var _prev_window_pos_x: int
+var _prev_window_pos_y: int
 
 @onready var tree := get_tree()
 @onready var window := get_window()
@@ -78,10 +79,14 @@ func move_window_up() -> void:
 	elif window.position.y == up:
 		_prev_window_size_y = window.size.y
 		window.size.y = window.min_size.y
-	elif window.size.y == window.min_size.y and window.position.y == _window_down_pos():
-		window.size.y = _prev_window_size_y
-		window.position.y -= _prev_window_size_y - window.min_size.y
+	elif window.position.y == _window_down_pos():
+		if window.size.y == window.min_size.y:
+			window.size.y = _prev_window_size_y
+			window.position.y -= _prev_window_size_y - window.min_size.y
+		else:
+			window.position.y = _prev_window_pos_y
 	else:
+		_prev_window_pos_y = window.position.y
 		window.position.y = up
 
 
