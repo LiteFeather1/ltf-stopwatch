@@ -7,20 +7,16 @@ signal changed_window_size_x()
 const NAME := &"Global"
 
 const SAVE_KEYS: PackedStringArray = [
-	"_prev_window_size_x",
-	"_prev_window_size_y",
-	"_prev_window_pos_x",
-	"_prev_window_pos_y",
+	"_prev_window_size",
+	"_prev_window_pos",
 ]
 
 const FLOAT_MAX := 1.79769e308
 
 const MOVE_WINDOW_PADDING := 16
 
-var _prev_window_size_x: int
-var _prev_window_size_y: int
-var _prev_window_pos_x: int
-var _prev_window_pos_y: int
+var _prev_window_size: Vector2i
+var _prev_window_pos: Vector2i
 
 @onready var tree := get_tree()
 @onready var window := get_window()
@@ -39,18 +35,18 @@ func move_window_left() -> void:
 	if window.always_on_top:
 		window.position.x = left
 	elif window.position.x == left:
-		_prev_window_size_x = window.size.x
+		_prev_window_size.x = window.size.x
 		window.size.x = window.min_size.x
 		changed_window_size_x.emit()
 	elif window.position.x == _window_right_pos():
 		if window.size.x == window.min_size.x:
-			window.size.x = _prev_window_size_x
-			window.position.x -= _prev_window_size_x - window.min_size.x
+			window.size.x = _prev_window_size.x
+			window.position.x -= _prev_window_size.x - window.min_size.x
 			changed_window_size_x.emit()
 		else:
-			window.position.x = _prev_window_pos_x
+			window.position.x = _prev_window_pos.x
 	else:
-		_prev_window_pos_x = window.position.x
+		_prev_window_pos.x = window.position.x
 		window.position.x = left
 
 
@@ -59,18 +55,18 @@ func move_window_right() -> void:
 	if window.always_on_top:
 		window.position.x = right
 	elif window.position.x == right:
-		_prev_window_size_x = window.size.x
+		_prev_window_size.x = window.size.x
 		window.size.x = window.min_size.x
-		window.position.x += _prev_window_size_x - window.min_size.x
+		window.position.x += _prev_window_size.x - window.min_size.x
 		changed_window_size_x.emit()
 	elif window.position.x == _window_left_pos():
 		if window.size.x == window.min_size.x:
-			window.size.x = _prev_window_size_x
+			window.size.x = _prev_window_size.x
 			changed_window_size_x.emit()
 		else:
-			window.position.x = _prev_window_pos_x
+			window.position.x = _prev_window_pos.x
 	else:
-		_prev_window_pos_x = window.position.x
+		_prev_window_pos.x = window.position.x
 		window.position.x = right
 
 
@@ -79,16 +75,16 @@ func move_window_up() -> void:
 	if window.always_on_top:
 		window.position.y = up
 	elif window.position.y == up:
-		_prev_window_size_y = window.size.y
+		_prev_window_size.y = window.size.y
 		window.size.y = window.min_size.y
 	elif window.position.y == _window_down_pos():
 		if window.size.y == window.min_size.y:
-			window.size.y = _prev_window_size_y
-			window.position.y -= _prev_window_size_y - window.min_size.y
+			window.size.y = _prev_window_size.y
+			window.position.y -= _prev_window_size.y - window.min_size.y
 		else:
-			window.position.y = _prev_window_pos_y
+			window.position.y = _prev_window_pos.y
 	else:
-		_prev_window_pos_y = window.position.y
+		_prev_window_pos.y = window.position.y
 		window.position.y = up
 
 
@@ -97,16 +93,16 @@ func move_window_down() -> void:
 	if window.always_on_top:
 		window.position.y = down
 	elif window.position.y == down:
-		_prev_window_size_y = window.size.y
+		_prev_window_size.y = window.size.y
 		window.size.y = window.min_size.y
-		window.position.y += _prev_window_size_y - window.min_size.y
+		window.position.y += _prev_window_size.y - window.min_size.y
 	elif window.position.y == _window_up_pos():
 		if window.size.y == window.min_size.y:
-			window.size.y = _prev_window_size_y
+			window.size.y = _prev_window_size.y
 		else:
-			window.position.y = _prev_window_pos_y
+			window.position.y = _prev_window_pos.y
 	else:
-		_prev_window_pos_y = window.position.y
+		_prev_window_pos.y = window.position.y
 		window.position.y = down
 
 
@@ -207,12 +203,12 @@ func _window_down_pos() -> int:
 
 func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
-		self[key] = save_dict[key]
+		self[key] = str_to_var(save_dict[key])
 
 
 func save() -> Dictionary:
 	var save_dict := {}
 	for key: String in SAVE_KEYS:
-		save_dict[key] = self[key]
+		save_dict[key] = var_to_str(self[key])
 
 	return save_dict
