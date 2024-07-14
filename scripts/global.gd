@@ -9,6 +9,8 @@ const NAME := &"Global"
 const SAVE_KEYS: PackedStringArray = [
 	"_prev_window_size_x",
 	"_prev_window_size_y",
+	"_prev_window_pos_x",
+	"_prev_window_pos_y",
 ]
 
 const FLOAT_MAX := 1.79769e308
