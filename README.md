@@ -65,7 +65,10 @@ __Drag & Resize__ - Drag and resize the stopwatch like a regular window.
 |||
 |Copy Current Time to Clipboard|Ctrl + C|Ctrl + Insert|
 |Paste-In Time|Ctrl + V|Shift + Insert|
-|Increase Time by One|
+|Increase Time by One|Ctrl + Up Arrow|Ctrl + "+"|
+|Decrease Time by One|Ctrl + Down Arrow|Ctrl + "-"|
+|Increase Time by Five|Alt + Up Arrow|Alt + "-"|
+|Decrease Time by Five|Alt + Down Arrow|Alt + "-"|
 |||
 |Undo deleted Entry|Ctrl + Z||
 |Redo deleted Entry|Ctrl + Y|Ctrl + Shift + Z|
