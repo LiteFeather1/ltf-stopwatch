@@ -57,18 +57,39 @@ __Pin__ - Press the Pin Button to keep the stopwatch on top of everything. By de
 __Drag & Resize__ - Drag and resize the stopwatch like a regular window.
 
 ### Hotkeys
-|Task|Set 1| Set 2|
+|Task|Set 1|Set 2|
 |:-|:-|:-|
 |Start/Pause/Continue Stopwatch|Ctrl + Space |Ctrl + Enter|
 |Reset Stopwatch|Ctrl + R||
+|Restore Last Stopwatch|Alt + Z||
+|||
 |Copy Current Time to Clipboard|Ctrl + C|Ctrl + Insert|
 |Paste-In Time|Ctrl + V|Shift + Insert|
+|Increase Time by One|
+|||
 |Undo deleted Entry|Ctrl + Z||
 |Redo deleted Entry|Ctrl + Y|Ctrl + Shift + Z|
+|Delete Entry|Delete Key + NUM Key|
 |Fold/Unfold Entry Tray|Ctrl + F|Ctrl + T|
+|||
 |Pin Window|Ctrl + P||
 |Minimise Window|Ctrl + M||
 |Close Window|Ctrl + W|Ctrl + F4|
+|||
+|Move Window Left|Ctrl + Left Arrow||
+|Move Window Right|Ctrl + Right Arrow||
+|Move Window Up|Ctrl + Up Arrow||
+|Move Window Down|Ctrl + Down Arrow||
+|||
+|Place Window Bottom Left|Ctrl + Keypad 1|Alt + 1|
+|Place Window Bottom Center|Ctrl + Keypad 2|Alt + 2|
+|Place Window Bottom Right|Ctrl + Keypad 3|Alt + 3|
+|Place Window Center Left|Ctrl + Keypad 4|Alt + 4|
+|Place Window Center|Ctrl + Keypad 5|Alt + 5|
+|Place Window Center Right|Ctrl + Keypad 6|Alt + 6|
+|Place Window Top Left|Ctrl + Keypad 7|Alt + 7|
+|Place Window Top Center|Ctrl + Keypad 8|Alt + 8|
+|Place Window Top Right|Ctrl + Keypad 9|Alt + 9|
 
 #### Title bar
 Mouse clicks events on the title bar

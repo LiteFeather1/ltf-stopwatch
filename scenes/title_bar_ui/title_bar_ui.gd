@@ -27,6 +27,7 @@ const SAVE_KEYS: PackedStringArray = [
 	"_window_pinned_position",
 	"_window_pinned_size",
 ]
+
 const IS_LOW_PROCESSOR := &"is_low_processor"
 
 const PIN := &"pin"
@@ -180,6 +181,17 @@ func _gui_input(event: InputEvent) -> void:
 			_show_popup_menu()
 
 
+func show_popup_menu_shortcut() -> void:
+	_popup_menu.position = GLOBAL.window.position + Vector2i(0, int(size.y))
+	_show_popup_menu()
+
+
+# We await a small delay cuz the ui sizes takes time to update
+func delay_window_size_changed() -> void:
+	await GLOBAL.tree.create_timer(.000001).timeout
+	_on_window_size_changed()
+
+
 func load(save_dict: Dictionary) -> void:
 	for key: String in SAVE_KEYS:
 		self[key] = str_to_var(save_dict[key])
@@ -260,7 +272,7 @@ func _on_button_pin_toggled(pinning: bool) -> void:
 
 	pin_toggled.emit(pinning)
 
-	_delay_window_size_changed()
+	delay_window_size_changed()
 
 
 func _minimise_window() -> void:
@@ -317,12 +329,6 @@ func _set_minimise_corner_radius(radius: int) -> void:
 	_b_minimise.get_theme_stylebox(PRESSED).corner_radius_top_right = radius
 
 
-# We await a small delay cuz the ui sizes takes time to update
-func _delay_window_size_changed() -> void:
-	await GLOBAL.tree.create_timer(.000001).timeout
-	_on_window_size_changed()
-
-
 func _show_popup_menu() -> void:
 	if _b_pin.button_pressed:
 		_popup_menu.set_item_text(POPUP_INDEX_PIN, UNPIN)
@@ -348,9 +354,9 @@ func _toggle_pin_window() -> void:
 
 func _set_window_max_size() -> void:
 	GLOBAL.window.size = GLOBAL.window.max_size
-	_delay_window_size_changed()
+	delay_window_size_changed()
 
 
 func _set_window_min_size() -> void:
 	GLOBAL.window.size = GLOBAL.window.min_size
-	_delay_window_size_changed()
+	delay_window_size_changed()

@@ -20,18 +20,23 @@ const SAVEABLE := &"saveable"
 
 var _normal_colour: Color
 
+var _windows_key_pressed: bool = false
+
 
 func _ready() -> void:
 	_title_bar_ui.pin_toggled.connect(_on_title_bar_ui_pin_toggled)
 	_title_bar_ui.close_pressed.connect(_quit_app)
 	_title_bar_ui.last_stopwatch_pressed.connect(_stopwatch_ui.restore_last_time_state)
-	
+
+	GLOBAL.changed_window_size_x.connect(_title_bar_ui.delay_window_size_changed)
+
 	GLOBAL.window.close_requested.connect(_quit_app)
 	GLOBAL.window.focus_entered.connect(func() -> void:
 		GLOBAL.tree.paused = false
 	)
 	GLOBAL.window.focus_exited.connect(func() -> void:
 		GLOBAL.tree.paused = true
+		_windows_key_pressed = false
 	)
 
 	GLOBAL.window.min_size = _min_window_size
@@ -71,6 +76,104 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_stopwatch_ui.undo_deleted_stopwatch_entry_ui()
 	elif event.is_action_pressed("paste_in_time"):
 		_stopwatch_ui.paste_in_time()
+	elif event.is_action_pressed("open_title_bar_popup_menu"):
+		_title_bar_ui.show_popup_menu_shortcut()
+	elif event.is_action_pressed("increment_time_by_one"):
+		_stopwatch_ui.get_stopwatch().modify_time(1)
+	elif event.is_action_pressed("decrement_time_by_one"):
+		var stopwatch := _stopwatch_ui.get_stopwatch()
+		stopwatch.modify_time(-minf(1, stopwatch.get_time_state().elapsed_time))
+	elif event.is_action_pressed("increment_time_by_five"):
+		_stopwatch_ui.get_stopwatch().modify_time(5)
+	elif event.is_action_pressed("decrement_time_by_five"):
+		var stopwatch = _stopwatch_ui.get_stopwatch()
+		stopwatch.modify_time(-minf(5, stopwatch.get_time_state().elapsed_time))
+	else:
+		var event_key := event as InputEventKey
+		if not event_key:
+			return
+
+		if _windows_key_pressed:
+			if event.is_action_released("windows_key"):
+				_windows_key_pressed = false
+				return
+
+			if event_key.shift_pressed:
+				return
+
+			# I have no idea why this only works with key released, maybe Windows is just eating the inputs
+			match event_key.keycode:
+				KEY_LEFT:
+					GLOBAL.move_window_left()
+				KEY_RIGHT:
+					GLOBAL.move_window_right()
+				KEY_UP:
+					GLOBAL.move_window_up()
+				KEY_DOWN:
+					GLOBAL.move_window_down()
+
+			return
+		elif event.is_echo() or event.is_released():
+			return
+
+		_windows_key_pressed = event.is_action_pressed("windows_key")
+
+		if Input.is_key_pressed(KEY_DELETE):
+			for i in 11:
+				if (
+					(event_key.keycode == KEY_0 + i or event_key.keycode == KEY_KP_0 + i)
+					and i <= _stopwatch_ui.get_stopwatch_tray_entries_ui_size()
+				):
+					_stopwatch_ui.delete_stopwatch_entry_ui((i + 9) % 10)
+					break
+		elif event_key.ctrl_pressed:
+			match event_key.keycode:
+				KEY_LEFT:
+					GLOBAL.move_window_left()
+				KEY_RIGHT:
+					GLOBAL.move_window_right()
+				KEY_UP:
+					GLOBAL.move_window_up()
+				KEY_DOWN:
+					GLOBAL.move_window_down()
+				KEY_KP_1:
+					GLOBAL.move_window_bottom_left()
+				KEY_KP_2:
+					GLOBAL.move_window_bottom_centre()
+				KEY_KP_3:
+					GLOBAL.move_window_bottom_right()
+				KEY_KP_4:
+					GLOBAL.move_window_centre_left()
+				KEY_KP_5:
+					GLOBAL.move_window_centre()
+				KEY_KP_6:
+					GLOBAL.move_window_centre_right()
+				KEY_KP_7:
+					GLOBAL.move_window_top_left()
+				KEY_KP_8:
+					GLOBAL.move_window_top_centre()
+				KEY_KP_9:
+					GLOBAL.move_window_top_right()
+		elif event_key.alt_pressed:
+			match event_key.keycode:
+				KEY_1:
+					GLOBAL.move_window_bottom_left()
+				KEY_2:
+					GLOBAL.move_window_bottom_centre()
+				KEY_3:
+					GLOBAL.move_window_bottom_right()
+				KEY_4:
+					GLOBAL.move_window_centre_left()
+				KEY_5:
+					GLOBAL.move_window_centre()
+				KEY_6:
+					GLOBAL.move_window_centre_right()
+				KEY_7:
+					GLOBAL.move_window_top_left()
+				KEY_8:
+					GLOBAL.move_window_top_centre()
+				KEY_9:
+					GLOBAL.move_window_top_right()
 
 
 func _on_title_bar_ui_pin_toggled(pinning: bool) -> void:

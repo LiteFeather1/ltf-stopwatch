@@ -69,7 +69,6 @@ func _on_gui_input(event: InputEvent) -> void:
 	):
 		self_modulate.a = 0.0
 		deleted.emit(self)
-		delete_routine()
 
 
 func set_separation(separation: int) -> void:

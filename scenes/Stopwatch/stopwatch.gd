@@ -53,6 +53,12 @@ func refresh_text_time() -> void:
 		fmod(_time_state.elapsed_time, 1.0) * 100.0,
 	]
 
+
+func modify_time(seconds: float) -> void:
+	_time_state.elapsed_time += seconds
+	refresh_text_time()
+
+
 func has_started() -> bool:
 	return _time_state.elapsed_time > 0.0
 
