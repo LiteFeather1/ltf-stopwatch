@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://my33i1beqcn2"]
+[gd_scene format=3 uid="uid://my33i1beqcn2"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_fm7if"]
-[ext_resource type="Script" path="res://scripts/resize_handler.gd" id="2_3yg2l"]
+[ext_resource type="Script" uid="uid://bvx6k7lktupmn" path="res://main.gd" id="1_fm7if"]
+[ext_resource type="Script" uid="uid://d3c30unbfc7bi" path="res://scripts/resize_handler.gd" id="2_3yg2l"]
 [ext_resource type="PackedScene" uid="uid://c4glodl21jgi2" path="res://scenes/Stopwatch/stopwatch_ui.tscn" id="2_cujrr"]
 [ext_resource type="PackedScene" uid="uid://c5al7x880yw8t" path="res://scenes/title_bar_ui/title_bar_ui.tscn" id="4_uv45h"]
 
@@ -19,7 +19,7 @@ corner_radius_bottom_left = 8
 corner_detail = 20
 anti_aliasing_size = 2.0
 
-[node name="Main" type="Panel" node_paths=PackedStringArray("_stopwatch_ui", "_title_bar_ui")]
+[node name="Main" type="Panel" unique_id=1730853306 node_paths=PackedStringArray("_stopwatch_ui", "_title_bar_ui")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,7 +31,7 @@ script = ExtResource("1_fm7if")
 _stopwatch_ui = NodePath("VBoxContainer/stopwatch_ui")
 _title_bar_ui = NodePath("VBoxContainer/title_bar_ui")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=90747579]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,15 +44,15 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="title_bar_ui" parent="VBoxContainer" instance=ExtResource("4_uv45h")]
+[node name="title_bar_ui" parent="VBoxContainer" unique_id=180537796 instance=ExtResource("4_uv45h")]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 
-[node name="stopwatch_ui" parent="VBoxContainer" instance=ExtResource("2_cujrr")]
+[node name="stopwatch_ui" parent="VBoxContainer" unique_id=849971848 instance=ExtResource("2_cujrr")]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="c_resize_handlers" type="Control" parent="."]
+[node name="c_resize_handlers" type="Control" parent="." unique_id=1347026960]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,7 +61,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="handler_left" type="Control" parent="c_resize_handlers"]
+[node name="handler_left" type="Control" parent="c_resize_handlers" unique_id=733996449]
 custom_minimum_size = Vector2(4, 4)
 layout_mode = 1
 anchors_preset = 9
@@ -73,7 +73,7 @@ grow_vertical = 2
 mouse_default_cursor_shape = 10
 script = ExtResource("2_3yg2l")
 
-[node name="handler_right" type="Control" parent="c_resize_handlers"]
+[node name="handler_right" type="Control" parent="c_resize_handlers" unique_id=2035702116]
 custom_minimum_size = Vector2(4, 4)
 layout_mode = 1
 anchors_preset = 11
@@ -88,7 +88,7 @@ grow_vertical = 2
 mouse_default_cursor_shape = 10
 script = ExtResource("2_3yg2l")
 
-[node name="handler_top" type="Control" parent="c_resize_handlers"]
+[node name="handler_top" type="Control" parent="c_resize_handlers" unique_id=1544023236]
 custom_minimum_size = Vector2(4, 4)
 layout_mode = 1
 anchors_preset = 10
@@ -100,7 +100,7 @@ grow_horizontal = 2
 mouse_default_cursor_shape = 9
 script = ExtResource("2_3yg2l")
 
-[node name="handler_bot" type="Control" parent="c_resize_handlers"]
+[node name="handler_bot" type="Control" parent="c_resize_handlers" unique_id=1798078514]
 custom_minimum_size = Vector2(4, 4)
 layout_mode = 1
 anchors_preset = 12
@@ -115,7 +115,7 @@ grow_vertical = 0
 mouse_default_cursor_shape = 9
 script = ExtResource("2_3yg2l")
 
-[node name="handler_left_top" type="Control" parent="c_resize_handlers"]
+[node name="handler_left_top" type="Control" parent="c_resize_handlers" unique_id=1448534962]
 modulate = Color(0.521569, 0.533333, 1, 1)
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 1
@@ -125,7 +125,7 @@ offset_bottom = 4.0
 mouse_default_cursor_shape = 12
 script = ExtResource("2_3yg2l")
 
-[node name="handler_right_top" type="Control" parent="c_resize_handlers"]
+[node name="handler_right_top" type="Control" parent="c_resize_handlers" unique_id=1466455685]
 modulate = Color(0.521569, 0.533333, 1, 1)
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 1
@@ -138,7 +138,7 @@ grow_horizontal = 0
 mouse_default_cursor_shape = 11
 script = ExtResource("2_3yg2l")
 
-[node name="handler_left_bot" type="Control" parent="c_resize_handlers"]
+[node name="handler_left_bot" type="Control" parent="c_resize_handlers" unique_id=1031739914]
 modulate = Color(0.521569, 0.533333, 1, 1)
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 1
@@ -151,7 +151,7 @@ grow_vertical = 0
 mouse_default_cursor_shape = 11
 script = ExtResource("2_3yg2l")
 
-[node name="handler_right_bot" type="Control" parent="c_resize_handlers"]
+[node name="handler_right_bot" type="Control" parent="c_resize_handlers" unique_id=1236474390]
 modulate = Color(0.521569, 0.533333, 1, 1)
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 1

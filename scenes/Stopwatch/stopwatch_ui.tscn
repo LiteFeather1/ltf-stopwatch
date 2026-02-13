@@ -1,10 +1,10 @@
-[gd_scene load_steps=31 format=3 uid="uid://c4glodl21jgi2"]
+[gd_scene format=3 uid="uid://c4glodl21jgi2"]
 
-[ext_resource type="Script" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
+[ext_resource type="Script" uid="uid://bdp0vkka8murt" path="res://scenes/Stopwatch/stopwatch_ui.gd" id="1_t7xu2"]
 [ext_resource type="PackedScene" uid="uid://ck0u55igveb4s" path="res://scenes/Stopwatch/stopwatch.tscn" id="2_m0v6e"]
 [ext_resource type="Texture2D" uid="uid://blu7k5mxd8do4" path="res://assets/sprites/buttons_stopwatch/s_stop_button.svg" id="3_fs0r6"]
 [ext_resource type="StyleBox" uid="uid://bh6lrlr4iknrc" path="res://resources/themes/start_button/normal_start_button.tres" id="3_mhuhl"]
-[ext_resource type="Script" path="res://scripts/button_hover_tip.gd" id="3_wkdtx"]
+[ext_resource type="Script" uid="uid://bsnngcy0yckvq" path="res://scripts/button_hover_tip.gd" id="3_wkdtx"]
 [ext_resource type="StyleBox" uid="uid://304vsl0vl4f7" path="res://resources/themes/start_button/hover_start_button.tres" id="4_45roa"]
 [ext_resource type="PackedScene" uid="uid://ckdwpgw2ltoie" path="res://scenes/Stopwatch/stopwatch_entry_ui.tscn" id="4_ta478"]
 [ext_resource type="StyleBox" uid="uid://c6qgu7uipl4b8" path="res://resources/themes/start_button/pressed_start_button.tres" id="5_6sw6k"]
@@ -45,7 +45,7 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="stopwatch_ui" type="Control" node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_options_menu_popup", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_popup_message", "_l_popup_message")]
+[node name="stopwatch_ui" type="Control" unique_id=999869955 node_paths=PackedStringArray("_vbc_stopwatch_and_buttons", "_stopwatch", "_b_reset", "_b_clipboard", "_b_start", "_vbc_entry_tray", "_vbc_entry_container", "_copy_menu_button", "_options_menu_popup", "_hbc_tray_heading", "_b_toggle_fold_tray", "_c_icon_fold_tray", "_popup_message", "_l_popup_message")]
 process_mode = 3
 clip_contents = true
 layout_mode = 3
@@ -78,7 +78,7 @@ _c_icon_fold_tray = NodePath("stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle
 _popup_message = NodePath("p_message_popup")
 _l_popup_message = NodePath("p_message_popup/l_time_message")
 
-[node name="vbc_stopwatch_and_buttons" type="VBoxContainer" parent="."]
+[node name="vbc_stopwatch_and_buttons" type="VBoxContainer" parent="." unique_id=1030498807]
 custom_minimum_size = Vector2(510, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -96,15 +96,15 @@ pivot_offset = Vector2(256, 80)
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="stopwatch" parent="vbc_stopwatch_and_buttons" instance=ExtResource("2_m0v6e")]
+[node name="stopwatch" parent="vbc_stopwatch_and_buttons" unique_id=299258623 instance=ExtResource("2_m0v6e")]
 layout_mode = 2
 
-[node name="buttons" type="Control" parent="vbc_stopwatch_and_buttons"]
+[node name="buttons" type="Control" parent="vbc_stopwatch_and_buttons" unique_id=842570725]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="b_start" type="Button" parent="vbc_stopwatch_and_buttons/buttons"]
+[node name="b_start" type="Button" parent="vbc_stopwatch_and_buttons/buttons" unique_id=961237637]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 95.5
@@ -120,8 +120,8 @@ theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
 theme_override_constants/icon_max_width = 32
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = ExtResource("3_mhuhl")
-theme_override_styles/hover = ExtResource("4_45roa")
 theme_override_styles/pressed = ExtResource("5_6sw6k")
+theme_override_styles/hover = ExtResource("4_45roa")
 toggle_mode = true
 shortcut = ExtResource("13_d6phs")
 shortcut_in_tooltip = false
@@ -130,7 +130,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "start"
 
-[node name="b_reset" type="Button" parent="vbc_stopwatch_and_buttons/buttons"]
+[node name="b_reset" type="Button" parent="vbc_stopwatch_and_buttons/buttons" unique_id=2063971281]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 223.5
@@ -142,8 +142,8 @@ mouse_default_cursor_shape = 8
 theme_override_constants/icon_max_width = 32
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = ExtResource("7_ib2lm")
-theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/pressed = ExtResource("9_gkr5i")
+theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
 shortcut = ExtResource("19_8k2wm")
@@ -153,7 +153,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "reset"
 
-[node name="b_clipboard" type="Button" parent="vbc_stopwatch_and_buttons/buttons"]
+[node name="b_clipboard" type="Button" parent="vbc_stopwatch_and_buttons/buttons" unique_id=910971414]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 offset_left = 351.5
@@ -165,8 +165,8 @@ mouse_default_cursor_shape = 8
 theme_override_constants/icon_max_width = 42
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = ExtResource("7_ib2lm")
-theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/pressed = ExtResource("9_gkr5i")
+theme_override_styles/hover = ExtResource("8_mdogp")
 theme_override_styles/disabled = ExtResource("10_y3bwx")
 disabled = true
 shortcut = ExtResource("21_wmplc")
@@ -178,7 +178,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "copy to cliboard"
 
-[node name="stopwatch_tray_ui" type="VBoxContainer" parent="."]
+[node name="stopwatch_tray_ui" type="VBoxContainer" parent="." unique_id=1341273142]
 visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
@@ -196,13 +196,13 @@ pivot_offset = Vector2(210, 0)
 mouse_filter = 2
 theme_override_constants/separation = 8
 
-[node name="hbc_tray_heading" type="HBoxContainer" parent="stopwatch_tray_ui"]
+[node name="hbc_tray_heading" type="HBoxContainer" parent="stopwatch_tray_ui" unique_id=456872800]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 60
 alignment = 1
 
-[node name="Label" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+[node name="Label" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading" unique_id=1935965215]
 modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -210,7 +210,7 @@ theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "  Pauses"
 
-[node name="menu_button_copy_tray" type="MenuButton" parent="stopwatch_tray_ui/hbc_tray_heading/Label"]
+[node name="menu_button_copy_tray" type="MenuButton" parent="stopwatch_tray_ui/hbc_tray_heading/Label" unique_id=728309874]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -243,7 +243,7 @@ popup/item_3/id = 3
 script = ExtResource("3_wkdtx")
 _tip_name = "Copy Menu"
 
-[node name="TextureRect" type="TextureRect" parent="stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray"]
+[node name="TextureRect" type="TextureRect" parent="stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray" unique_id=1135533467]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -260,7 +260,9 @@ texture = ExtResource("20_cto6y")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="Options" type="PopupMenu" parent="stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray"]
+[node name="Options" type="PopupMenu" parent="stopwatch_tray_ui/hbc_tray_heading/Label/menu_button_copy_tray" unique_id=1993897223]
+oversampling_override = 1.0
+size = Vector2i(170, 100)
 hide_on_checkable_item_selection = false
 item_count = 3
 item_0/text = "Elapsed Time"
@@ -273,7 +275,7 @@ item_2/text = "Longest/Shortest"
 item_2/checkable = 1
 item_2/id = 2
 
-[node name="Label2" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+[node name="Label2" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading" unique_id=595418660]
 modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -281,7 +283,7 @@ theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "Pause Time"
 
-[node name="Label3" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading"]
+[node name="Label3" type="Label" parent="stopwatch_tray_ui/hbc_tray_heading" unique_id=1526747249]
 modulate = Color(0.87451, 0.87451, 0.87451, 1)
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -289,7 +291,7 @@ theme_override_fonts/font = ExtResource("23_i6ndx")
 theme_override_font_sizes/font_size = 11
 text = "Resume Time"
 
-[node name="b_toggle_entry_tray" type="Button" parent="stopwatch_tray_ui/hbc_tray_heading/Label3"]
+[node name="b_toggle_entry_tray" type="Button" parent="stopwatch_tray_ui/hbc_tray_heading/Label3" unique_id=1694094824]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -310,7 +312,7 @@ icon_alignment = 1
 script = ExtResource("3_wkdtx")
 _tip_name = "fold tray"
 
-[node name="tr_toggle_icons" type="TextureRect" parent="stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray"]
+[node name="tr_toggle_icons" type="TextureRect" parent="stopwatch_tray_ui/hbc_tray_heading/Label3/b_toggle_entry_tray" unique_id=661108515]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 1
 anchors_preset = 8
@@ -330,21 +332,21 @@ mouse_filter = 2
 texture = ExtResource("24_wc2h0")
 expand_mode = 1
 
-[node name="HSeparator" type="HSeparator" parent="stopwatch_tray_ui"]
+[node name="HSeparator" type="HSeparator" parent="stopwatch_tray_ui" unique_id=581832874]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_ugxop")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="stopwatch_tray_ui"]
+[node name="ScrollContainer" type="ScrollContainer" parent="stopwatch_tray_ui" unique_id=1934844533]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="vbc_entry_container" type="VBoxContainer" parent="stopwatch_tray_ui/ScrollContainer"]
+[node name="vbc_entry_container" type="VBoxContainer" parent="stopwatch_tray_ui/ScrollContainer" unique_id=1709766413]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="p_message_popup" type="Panel" parent="."]
+[node name="p_message_popup" type="Panel" parent="." unique_id=788993075]
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -361,7 +363,7 @@ grow_vertical = 0
 mouse_force_pass_scroll_events = false
 mouse_default_cursor_shape = 2
 
-[node name="l_time_message" type="Label" parent="p_message_popup"]
+[node name="l_time_message" type="Label" parent="p_message_popup" unique_id=315549166]
 modulate = Color(0.968627, 0.968627, 0.968627, 1)
 layout_mode = 1
 anchors_preset = 15
