@@ -5,7 +5,6 @@ signal pin_toggled(state: bool)
 signal close_pressed()
 
 signal last_stopwatch_pressed()
-signal low_process_pressed()
 
 
 enum {

@@ -176,9 +176,10 @@ func _ready() -> void:
 	popup.exclusive = true
 	popup.index_pressed.connect(_on_copy_menu_index_pressed)
 
-	# This doesn't seem like a very bad way to do this but don't know any other way since get_child(0) doen't seem to work
-	popup.get_node(^"@MarginContainer@8/@ScrollContainer@9/@Control@10")\
-		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
+	# This doesn't seem like a very good way to do this but don't know any other way since get_child(0) doen't seem to work
+	# UPDATE: Yup this broke on updating godot version from 4.2 to 4.6. There should be a better way to get the control of a popup
+	popup.get_node(^"@PanelContainer@11/@ScrollContainer@14/@Control@15")\
+		.mouse_default_cursor_shape = CursorShape.CURSOR_POINTING_HAND
 
 	_options_menu_popup.index_pressed.connect(_on_options_menu_index_pressed)
 
@@ -186,7 +187,7 @@ func _ready() -> void:
 	popup.add_child(_options_menu_popup)
 	popup.add_submenu_item(_options_menu_popup.name, _options_menu_popup.name)
 
-	_options_menu_popup.get_node(^"@MarginContainer@14/@ScrollContainer@15/@Control@16")\
+	_options_menu_popup.get_node(^"@PanelContainer@19/@ScrollContainer@22/@Control@23")\
 		.mouse_default_cursor_shape = CURSOR_POINTING_HAND
 
 	var options_flags_values := CopyMenuFlags.values()
