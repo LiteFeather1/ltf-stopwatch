@@ -68,9 +68,9 @@ func set_state(state: bool) -> void:
 
 	var unix_time := int(
 		Time.get_unix_time_from_system()
-		+ 3600.0 if Time.get_datetime_dict_from_system()["dst"] else 0.0
+		+ (3600.0 if Time.get_datetime_dict_from_system()["dst"] else 0.0)
 	)
-	
+
 	if state:
 		modulate = _ticking_colour
 		

@@ -954,7 +954,6 @@ func _instantiate_stopwatch_entry_ui(
 ) -> StopwatchEntryUI:
 	var new_entry: StopwatchEntryUI = _scene_stopwatch_entry_ui.instantiate()
 	_stopwatch_tray_entries_ui.insert(insert_at, new_entry)
-
 	var time_state := _stopwatch.get_time_state()
 	new_entry.init(
 		TEMPLATE_NUM_ENTRY % (insert_at + 1),
@@ -978,7 +977,7 @@ func _instantiate_stopwatch_entries_ui(amount: int, index_offset: int = 0) -> vo
 		var index := index_offset + i
 		_instantiate_stopwatch_entry_ui(i + index_offset, 0, separation)\
 			.set_resume_time(Time.get_time_string_from_unix_time(time_state.get_resumed_time(index)))
-	
+
 	if (amount + index_offset) < time_state.paused_times_size():
 		_instantiate_stopwatch_entry_ui(amount + index_offset, 0, separation)
 
